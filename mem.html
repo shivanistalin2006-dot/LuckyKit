@@ -4,96 +4,71 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>LuckyKit - Memory Match</title>
-
     <link rel="stylesheet" href="mem.css">
-
     <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700&display=swap" rel="stylesheet">
 </head>
 <body>
+    <div class="background-animation"></div>
+    <div class="stars"></div>
+    <div class="floating-shapes"></div>
 
     <div class="container">
-
         <!-- Header -->
         <header>
-
             <h1>🧠🎴 Memory Match</h1>
-
             <p>
                 Match all cards as fast as possible!
             </p>
-
         </header>
 
         <!-- Stats -->
-
         <section class="stats">
-
             <div class="stat-card">
                 <h3>⏱️ Time</h3>
                 <p id="timer">0s</p>
             </div>
-
             <div class="stat-card">
                 <h3>🎯 Moves</h3>
                 <p id="moves">0</p>
             </div>
-
             <div class="stat-card">
                 <h3>✅ Matches</h3>
                 <p id="matches">0</p>
             </div>
-
         </section>
 
         <!-- Result Text -->
-
         <section class="result-section">
-
             <h2 id="resultText">
                 Find all matching pairs!
             </h2>
-
         </section>
 
         <!-- Game Board -->
-
         <section class="board-section">
-
             <div id="gameBoard" class="game-board">
-
                 <!-- JS creates cards here -->
-
             </div>
-
         </section>
 
         <!-- Controls -->
-
         <section class="controls">
-
             <button id="restartBtn">
                 🔄 Restart Game
             </button>
-
             <button id="homeBtn">
                 🏠 Home
             </button>
-
         </section>
 
         <!-- Footer -->
-
         <footer>
-
             <p>
                 ✨ Created by Shivani Stalin & Vaishnavi M ✨
             </p>
-
         </footer>
-
     </div>
 
     <script src="mem.js"></script>
-
 </body>
 </html>

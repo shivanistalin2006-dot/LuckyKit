@@ -1,7 +1,3 @@
-/* =========================
-   GLOBAL
-========================= */
-
 *{
     margin:0;
     padding:0;
@@ -11,32 +7,199 @@
 
 body{
     min-height:100vh;
-
-    background:linear-gradient(
-        135deg,
-        #FFF0D9,
-        #FFD8A8,
-        #FFC78A
-    );
-
+    background:#FFF0D9;
     display:flex;
     justify-content:center;
     align-items:center;
-
     padding:20px;
-
     overflow-x:hidden;
+    position:relative;
+}
+
+/* Magical Animated Background */
+.background-animation {
+    position:fixed;
+    top:0;
+    left:0;
+    width:100%;
+    height:100%;
+    z-index:-2;
+    background:linear-gradient(
+        125deg,
+        #FFF0D9 0%,
+        #FFD8A8 20%,
+        #FFC78A 40%,
+        #FFE0B2 60%,
+        #FFF0D9 100%
+    );
+    background-size:500% 500%;
+    animation:magicalGradient 10s ease infinite;
+}
+
+@keyframes magicalGradient {
+    0% {
+        background-position:0% 50%;
+    }
+    25% {
+        background-position:50% 100%;
+    }
+    50% {
+        background-position:100% 50%;
+    }
+    75% {
+        background-position:50% 0%;
+    }
+    100% {
+        background-position:0% 50%;
+    }
+}
+
+/* Floating Stars */
+.stars {
+    position:fixed;
+    top:0;
+    left:0;
+    width:100%;
+    height:100%;
+    z-index:-1;
+    pointer-events:none;
+}
+
+.star {
+    position:absolute;
+    width:8px;
+    height:8px;
+    background:#FFB869;
+    border-radius:50%;
+    opacity:0.6;
+    animation:twinkle 3s ease-in-out infinite;
+}
+
+.star:nth-child(1) { left:5%; top:10%; animation-delay:0s; }
+.star:nth-child(2) { left:15%; top:25%; animation-delay:0.5s; }
+.star:nth-child(3) { left:25%; top:15%; animation-delay:1s; }
+.star:nth-child(4) { left:35%; top:35%; animation-delay:1.5s; }
+.star:nth-child(5) { left:45%; top:20%; animation-delay:2s; }
+.star:nth-child(6) { left:55%; top:40%; animation-delay:0.3s; }
+.star:nth-child(7) { left:65%; top:15%; animation-delay:0.8s; }
+.star:nth-child(8) { left:75%; top:30%; animation-delay:1.2s; }
+.star:nth-child(9) { left:85%; top:25%; animation-delay:1.7s; }
+.star:nth-child(10) { left:90%; top:10%; animation-delay:2.2s; }
+.star:nth-child(11) { left:10%; top:50%; animation-delay:0.7s; }
+.star:nth-child(12) { left:30%; top:60%; animation-delay:1.3s; }
+.star:nth-child(13) { left:50%; top:55%; animation-delay:1.9s; }
+.star:nth-child(14) { left:70%; top:65%; animation-delay:0.4s; }
+.star:nth-child(15) { left:80%; top:50%; animation-delay:2.5s; }
+
+@keyframes twinkle {
+    0%, 100% {
+        opacity:0.3;
+        transform:scale(0.8);
+    }
+    50% {
+        opacity:1;
+        transform:scale(1.2);
+    }
+}
+
+/* Floating Magical Shapes */
+.floating-shapes {
+    position:fixed;
+    top:0;
+    left:0;
+    width:100%;
+    height:100%;
+    z-index:-1;
+    pointer-events:none;
+}
+
+.shape {
+    position:absolute;
+    background:rgba(255, 184, 105, 0.2);
+    border-radius:50%;
+    animation:floating 20s linear infinite;
+}
+
+.shape:nth-child(1) {
+    width:60px;
+    height:60px;
+    left:5%;
+    bottom:-60px;
+    animation-duration:18s;
+    animation-delay:0s;
+}
+
+.shape:nth-child(2) {
+    width:40px;
+    height:40px;
+    left:20%;
+    bottom:-40px;
+    animation-duration:22s;
+    animation-delay:2s;
+}
+
+.shape:nth-child(3) {
+    width:80px;
+    height:80px;
+    left:40%;
+    bottom:-80px;
+    animation-duration:25s;
+    animation-delay:1s;
+}
+
+.shape:nth-child(4) {
+    width:50px;
+    height:50px;
+    left:60%;
+    bottom:-50px;
+    animation-duration:20s;
+    animation-delay:3s;
+}
+
+.shape:nth-child(5) {
+    width:70px;
+    height:70px;
+    left:75%;
+    bottom:-70px;
+    animation-duration:23s;
+    animation-delay:0.5s;
+}
+
+.shape:nth-child(6) {
+    width:45px;
+    height:45px;
+    left:90%;
+    bottom:-45px;
+    animation-duration:19s;
+    animation-delay:1.5s;
+}
+
+@keyframes floating {
+    0% {
+        bottom:-100px;
+        transform:translateX(0) rotate(0deg);
+        opacity:0;
+    }
+    10% {
+        opacity:0.4;
+    }
+    90% {
+        opacity:0.4;
+    }
+    100% {
+        bottom:110%;
+        transform:translateX(60px) rotate(360deg);
+        opacity:0;
+    }
 }
 
 .container{
     width:100%;
     max-width:1200px;
     text-align:center;
+    position:relative;
+    z-index:1;
 }
-
-/* =========================
-   HEADER
-========================= */
 
 header{
     margin-bottom:30px;
@@ -46,6 +209,17 @@ header h1{
     font-size:3rem;
     color:#8A4B00;
     margin-bottom:10px;
+    text-shadow:2px 2px 4px rgba(255,255,255,0.5);
+    animation:titleGlow 2s ease-in-out infinite;
+}
+
+@keyframes titleGlow {
+    0%, 100% {
+        text-shadow:2px 2px 4px rgba(255,255,255,0.5);
+    }
+    50% {
+        text-shadow:2px 2px 8px rgba(255, 184, 105, 0.8);
+    }
 }
 
 header p{
@@ -53,31 +227,26 @@ header p{
     font-size:1.1rem;
 }
 
-/* =========================
-   STATS
-========================= */
-
 .stats{
     display:flex;
     justify-content:center;
     gap:20px;
     flex-wrap:wrap;
-
     margin-bottom:25px;
 }
 
 .stat-card{
-
     width:180px;
-
     background:white;
-
     padding:20px;
-
     border-radius:20px;
+    box-shadow:0 8px 18px rgba(0,0,0,0.12);
+    transition:transform 0.3s, box-shadow 0.3s;
+}
 
-    box-shadow:
-    0 8px 18px rgba(0,0,0,0.12);
+.stat-card:hover {
+    transform:translateY(-5px);
+    box-shadow:0 12px 25px rgba(0,0,0,0.18);
 }
 
 .stat-card h3{
@@ -91,21 +260,15 @@ header p{
     color:#8A4B00;
 }
 
-/* =========================
-   RESULT
-========================= */
-
 .result-section{
     margin-bottom:25px;
 }
 
 #resultText{
     color:#8A4B00;
+    font-size:1.3rem;
+    font-weight:600;
 }
-
-/* =========================
-   BOARD
-========================= */
 
 .board-section{
     display:flex;
@@ -113,65 +276,102 @@ header p{
 }
 
 .game-board{
-
     display:grid;
-
-    grid-template-columns:
-    repeat(4,120px);
-
+    grid-template-columns:repeat(4,120px);
     gap:15px;
-
     margin-bottom:30px;
 }
 
-/* =========================
-   CARD
-========================= */
-
 .card{
-
     width:120px;
     height:120px;
-
     background:white;
-
     border-radius:18px;
-
     display:flex;
     justify-content:center;
     align-items:center;
-
     font-size:3rem;
-
     cursor:pointer;
-
     user-select:none;
-
-    box-shadow:
-    0 8px 18px rgba(0,0,0,0.12);
-
+    box-shadow:0 8px 18px rgba(0,0,0,0.12);
     transition:0.3s;
+    position:relative;
 }
 
 .card:hover{
     transform:translateY(-4px);
+    box-shadow:0 12px 25px rgba(0,0,0,0.18);
 }
 
 .card.flipped{
     background:#FFB869;
+    animation:cardFlip 0.4s ease;
+}
+
+@keyframes cardFlip {
+    0% {
+        transform:rotateY(0deg);
+    }
+    50% {
+        transform:rotateY(90deg);
+    }
+    100% {
+        transform:rotateY(0deg);
+    }
 }
 
 .card.matched{
     background:#90EE90;
     cursor:default;
+    animation:matchBounce 0.6s ease;
 }
 
-/* =========================
-   BUTTONS
-========================= */
+@keyframes matchBounce {
+    0%, 100% {
+        transform:scale(1);
+    }
+    25% {
+        transform:scale(1.1);
+    }
+    50% {
+        transform:scale(0.95);
+    }
+    75% {
+        transform:scale(1.05);
+    }
+}
+
+/* Match Burst Effect */
+.burst {
+    position:absolute;
+    top:50%;
+    left:50%;
+    transform:translate(-50%, -50%);
+    z-index:10;
+    pointer-events:none;
+}
+
+.burst-particle {
+    position:absolute;
+    width:10px;
+    height:10px;
+    background:#FFB869;
+    border-radius:50%;
+    animation:burstExplosion 0.8s ease-out forwards;
+}
+
+@keyframes burstExplosion {
+    0% {
+        transform:translate(0, 0) scale(1);
+        opacity:1;
+    }
+    100% {
+        transform:translate(var(--tx), var(--ty)) scale(0);
+        opacity:0;
+    }
+}
 
 .controls{
-
     display:flex;
     justify-content:center;
     gap:15px;
@@ -179,36 +379,21 @@ header p{
 }
 
 .controls button{
-
     border:none;
-
     padding:12px 25px;
-
     border-radius:12px;
-
     background:white;
-
     color:#8A4B00;
-
     font-size:1rem;
     font-weight:600;
-
     cursor:pointer;
-
     transition:0.3s;
 }
 
 .controls button:hover{
-
     transform:translateY(-3px);
-
-    box-shadow:
-    0 8px 15px rgba(0,0,0,0.15);
+    box-shadow:0 8px 15px rgba(0,0,0,0.15);
 }
-
-/* =========================
-   FOOTER
-========================= */
 
 footer{
     margin-top:25px;
@@ -219,68 +404,43 @@ footer p{
     font-weight:600;
 }
 
-/* =========================
-   RESPONSIVE
-========================= */
-
 @media(max-width:768px){
-
     header h1{
         font-size:2.2rem;
     }
-
     .game-board{
-
-        grid-template-columns:
-        repeat(4,80px);
-
+        grid-template-columns:repeat(4,80px);
         gap:10px;
     }
-
     .card{
-
         width:80px;
         height:80px;
-
         font-size:2rem;
     }
-
     .stat-card{
         width:150px;
     }
-
 }
 
 @media(max-width:480px){
-
     .game-board{
-
-        grid-template-columns:
-        repeat(4,70px);
-
+        grid-template-columns:repeat(4,70px);
         gap:8px;
     }
-
     .card{
-
         width:70px;
         height:70px;
-        transition:0.3s;
         font-size:1.7rem;
     }
-
     .stat-card{
         width:100%;
         max-width:250px;
     }
-
     .controls button{
         width:100%;
         max-width:280px;
     }
-
     header h1{
         font-size:1.8rem;
     }
-
 }

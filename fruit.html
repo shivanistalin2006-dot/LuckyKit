@@ -4,109 +4,80 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Fruit Ninja - LuckyKit</title>
-
     <link rel="stylesheet" href="fruit.css">
-
     <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700&display=swap" rel="stylesheet">
 </head>
 <body>
 
-    <div class="container">
+<!-- Animated Background Canvas -->
+<canvas id="bgCanvas"></canvas>
 
-        <!-- Header -->
-        <header>
+<div class="container">
+    <!-- Header -->
+    <header>
+        <h1>🍉 Fruit Ninja</h1>
+        <p>Slice fruits • Avoid bombs • Beat your high score</p>
+    </header>
 
-            <h1>🍉 Fruit Ninja</h1>
-
-            <p>
-                Slice fruits • Avoid bombs • Beat your high score
-            </p>
-
-        </header>
-
-        <!-- Top HUD -->
-        <div class="hud">
-
-            <div class="hud-box">
-                <span>⭐ Score</span>
-                <h2 id="score">0</h2>
-            </div>
-
-            <div class="hud-box">
-                <span>❤️ Lives</span>
-                <h2 id="lives">3</h2>
-            </div>
-
-            <div class="hud-box">
-                <span>🏆 High Score</span>
-                <h2 id="highScore">0</h2>
-            </div>
-
+    <!-- Top HUD -->
+    <div class="hud">
+        <div class="hud-box">
+            <span>⭐ Score</span>
+            <h2 id="score">0</h2>
         </div>
-
-        <!-- Controls -->
-        <div class="controls">
-
-            <button id="startBtn">
-                ▶ Start Game
-            </button>
-
-            <button onclick="window.location.href='index.html'">
-                ⬅ Back To LuckyKit
-            </button>
-
+        <div class="hud-box">
+            <span>❤️ Lives</span>
+            <h2 id="lives">3</h2>
         </div>
-
-        <!-- Game Area -->
-        <div class="game-wrapper">
-
-            <canvas id="gameCanvas"></canvas>
-
-            <!-- Start Overlay -->
-            <div id="startScreen" class="overlay">
-
-                <h2>🍉 Ready Ninja?</h2>
-
-                <p>
-                    Slice fruits with your mouse or finger.
-                </p>
-
-                <p>
-                    Avoid bombs 💣
-                </p>
-
-            </div>
-
-            <!-- Game Over -->
-            <div id="gameOverScreen" class="overlay hidden">
-
-                <h2>💀 Game Over</h2>
-
-                <h3>
-                    Final Score:
-                    <span id="finalScore">0</span>
-                </h3>
-
-                <button id="restartBtn">
-                    🔄 Play Again
-                </button>
-
-            </div>
-
+        <div class="hud-box">
+            <span>🏆 High Score</span>
+            <h2 id="highScore">0</h2>
         </div>
-
-        <!-- Footer -->
-        <footer>
-
-            <p class="creator">
-                ✨ Created by Shivani Stalin & Vaishnavi M ✨
-            </p>
-
-        </footer>
-
     </div>
 
-    <script src="fruit.js"></script>
+    <!-- Controls -->
+    <div class="controls">
+        <button id="startBtn">
+            ▶ Start Game
+        </button>
+        <button onclick="window.location.href='index.html'">
+            ⬅ Back To LuckyKit
+        </button>
+    </div>
 
+    <!-- Game Area -->
+    <div class="game-wrapper">
+        <canvas id="gameCanvas"></canvas>
+
+        <!-- Start Overlay -->
+        <div id="startScreen" class="overlay">
+            <h2>🍉 Ready Ninja?</h2>
+            <p>Slice fruits with your mouse or finger.</p>
+            <p>Avoid bombs 💣</p>
+        </div>
+
+        <!-- Game Over -->
+        <div id="gameOverScreen" class="overlay hidden">
+            <h2>💀 Game Over</h2>
+            <h3>
+                Final Score:
+                <span id="finalScore">0</span>
+            </h3>
+            <button id="restartBtn">
+                🔄 Play Again
+            </button>
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <footer>
+        <p class="creator">
+            ✨ Created by Shivani Stalin & Vaishnavi M ✨
+        </p>
+    </footer>
+</div>
+
+<!-- Only ONE script file now -->
+<script src="fruit.js"></script>
 </body>
 </html>
