@@ -1,0 +1,183 @@
+body{
+    margin:0;
+    font-family:Arial;
+    background: radial-gradient(circle at top, #fff7d6, #ffd97d, #3a2d00);
+    overflow:hidden;
+    text-align:center;
+}
+
+/* casino moving lights */
+body::before{
+    content:"";
+    position:fixed;
+    inset:0;
+    background: repeating-linear-gradient(
+        45deg,
+        rgba(255,215,0,0.05),
+        rgba(255,215,0,0.05) 10px,
+        transparent 10px,
+        transparent 20px
+    );
+    animation:moveLights 6s linear infinite;
+    pointer-events:none;
+}
+
+@keyframes moveLights{
+    from{transform:translateX(0);}
+    to{transform:translateX(200px);}
+}
+
+.game{
+    padding:20px;
+    position:relative;
+    z-index:2;
+}
+
+h1{
+    color:#3a2d00;
+    text-shadow:0 0 10px gold;
+    animation:glowText 2s infinite alternate;
+}
+
+@keyframes glowText{
+    from{ text-shadow:0 0 10px gold; }
+    to{ text-shadow:0 0 25px orange; }
+}
+
+.hud{
+    display:flex;
+    justify-content:center;
+    gap:20px;
+    margin:20px;
+    font-size:18px;
+    font-weight:bold;
+    color:#3a2d00;
+}
+
+.box-container{
+    display:grid;
+    grid-template-columns:repeat(4,110px);
+    gap:18px;
+    justify-content:center;
+    margin-top:40px;
+}
+
+.box{
+    width:110px;
+    height:110px;
+    background:linear-gradient(145deg,#f5deb3,#fff1c2);
+    border-radius:15px;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    font-size:30px;
+    cursor:pointer;
+    box-shadow:0 0 15px rgba(255,215,0,0.4);
+    transition:0.2s;
+    position:relative;
+}
+
+.box:hover{
+    transform:scale(1.1);
+    box-shadow:0 0 25px gold;
+}
+
+.open{
+    animation:pop 0.3s ease;
+}
+
+@keyframes pop{
+    from{transform:scale(0.4) rotate(-10deg);}
+    to{transform:scale(1) rotate(0);}
+}
+
+/* jackpot glow */
+.jackpot{
+    animation:jackpotGlow 0.5s infinite alternate;
+}
+
+@keyframes jackpotGlow{
+    from{box-shadow:0 0 10px gold;}
+    to{box-shadow:0 0 35px yellow, 0 0 60px orange;}
+}
+
+/* screen shake */
+.shake{
+    animation:shake 0.3s;
+}
+
+@keyframes shake{
+    0%{transform:translate(0,0);}
+    25%{transform:translate(5px,5px);}
+    50%{transform:translate(-5px,5px);}
+    75%{transform:translate(5px,-5px);}
+    100%{transform:translate(0,0);}
+}
+
+.timer{
+    font-size:20px;
+    font-weight:bold;
+    color:#3a2d00;
+    margin-bottom:10px;
+}
+
+/* jackpot burst */
+.burst{
+    position:fixed;
+    top:50%;
+    left:50%;
+    transform:translate(-50%,-50%);
+    font-size:80px;
+    animation:burst 1s ease forwards;
+    pointer-events:none;
+}
+
+@keyframes burst{
+    0%{transform:translate(-50%,-50%) scale(0);}
+    50%{transform:translate(-50%,-50%) scale(1.5);}
+    100%{transform:translate(-50%,-50%) scale(0); opacity:0;}
+}
+.actions{
+    margin-top:20px;
+}
+
+.actions button{
+    margin:5px;
+}
+
+#cashOutBtn{
+    background:#16a34a;
+    color:white;
+}
+.burst{
+    position:fixed;
+    top:50%;
+    left:50%;
+    transform:translate(-50%,-50%);
+    font-size:70px;
+    font-weight:bold;
+    color:gold;
+    z-index:9999;
+    pointer-events:none;
+
+    animation:burstAnim 1.5s ease forwards;
+}
+
+@keyframes burstAnim{
+
+    0%{
+        opacity:0;
+        transform:translate(-50%,-50%) scale(.5);
+    }
+
+    40%{
+        opacity:1;
+        transform:translate(-50%,-50%) scale(1.4);
+    }
+
+    100%{
+        opacity:0;
+        transform:translate(-50%,-150%) scale(2);
+    }
+
+}

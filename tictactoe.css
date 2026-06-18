@@ -1,0 +1,427 @@
+/* =========================
+   GLOBAL
+========================= */
+
+*{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+    font-family:'Outfit', sans-serif;
+}
+
+body{
+    min-height:100vh;
+    padding:20px;
+
+    background:linear-gradient(
+        135deg,
+        #dff1ff,
+        #c7e6ff,
+        #b4dcff
+    );
+
+    display:flex;
+    justify-content:center;
+    align-items:center;
+
+    overflow-x:hidden;
+}
+
+.container{
+    width:100%;
+    max-width:1100px;
+    text-align:center;
+}
+
+/* =========================
+   HEADER
+========================= */
+
+header{
+    margin-bottom:30px;
+}
+
+header h1{
+    font-size:3rem;
+    color:#0f3d66;
+    margin-bottom:10px;
+}
+
+header p{
+    color:#336699;
+    font-size:1.1rem;
+}
+
+/* =========================
+   MODE SELECTION
+========================= */
+
+.mode-selection{
+    margin-bottom:30px;
+}
+
+.mode-selection h2{
+    color:#124d7d;
+    margin-bottom:15px;
+}
+
+.mode-buttons{
+    display:flex;
+    justify-content:center;
+    gap:15px;
+    flex-wrap:wrap;
+}
+
+.mode-buttons button{
+    border:none;
+    padding:12px 25px;
+    border-radius:15px;
+
+    background:white;
+    color:#124d7d;
+
+    font-size:1rem;
+    font-weight:600;
+
+    cursor:pointer;
+    transition:0.3s;
+}
+
+.mode-buttons button:hover{
+    transform:translateY(-3px);
+    box-shadow:0 10px 20px rgba(0,0,0,0.15);
+}
+
+/* =========================
+   PLAYER SETUP
+========================= */
+
+.setup-area{
+    background:rgba(255,255,255,0.45);
+
+    padding:25px;
+    border-radius:20px;
+
+    backdrop-filter:blur(10px);
+
+    margin-bottom:30px;
+}
+
+.setup-area h2{
+    margin-bottom:20px;
+    color:#124d7d;
+}
+
+.input-group{
+    display:flex;
+    gap:15px;
+    justify-content:center;
+    flex-wrap:wrap;
+}
+
+.input-group input{
+    width:250px;
+
+    padding:12px;
+    border:none;
+    border-radius:12px;
+
+    font-size:1rem;
+}
+
+#startGameBtn{
+    margin-top:20px;
+
+    border:none;
+
+    padding:12px 25px;
+
+    border-radius:12px;
+
+    background:#0f7bff;
+    color:white;
+
+    font-weight:600;
+    cursor:pointer;
+
+    transition:0.3s;
+}
+
+#startGameBtn:hover{
+    transform:scale(1.05);
+}
+
+/* =========================
+   SCOREBOARD
+========================= */
+
+.scoreboard{
+    margin-bottom:30px;
+}
+
+.scoreboard h2{
+    color:#124d7d;
+    margin-bottom:20px;
+}
+
+.scores{
+    display:flex;
+    justify-content:center;
+    gap:20px;
+    flex-wrap:wrap;
+}
+
+.score-card{
+    width:200px;
+
+    background:white;
+
+    padding:20px;
+
+    border-radius:20px;
+
+    box-shadow:0 8px 20px rgba(0,0,0,0.12);
+}
+
+.score-card h3{
+    color:#124d7d;
+    margin-bottom:10px;
+}
+
+.score-card p{
+    font-size:2rem;
+    font-weight:bold;
+    color:#0f7bff;
+}
+
+/* =========================
+   TURN AREA
+========================= */
+
+.turn-area{
+    margin-bottom:25px;
+}
+
+#turnText{
+    color:#124d7d;
+}
+
+/* =========================
+   GAME BOARD
+========================= */
+
+.board-section{
+    display:flex;
+    justify-content:center;
+    margin-bottom:30px;
+}
+
+.board{
+    display:grid;
+
+    grid-template-columns:
+    repeat(3,110px);
+
+    grid-template-rows:
+    repeat(3,110px);
+
+    gap:10px;
+}
+
+.cell{
+    background:white;
+
+    border-radius:15px;
+
+    display:flex;
+    justify-content:center;
+    align-items:center;
+
+    font-size:3rem;
+    font-weight:bold;
+
+    cursor:pointer;
+
+    transition:0.3s;
+
+    box-shadow:0 5px 15px rgba(0,0,0,0.1);
+}
+
+.cell:hover{
+    transform:scale(1.05);
+}
+
+.cell.x{
+    color:#0077ff;
+}
+
+.cell.o{
+    color:#ff4d6d;
+}
+
+/* =========================
+   CONTROLS
+========================= */
+
+.controls{
+    display:flex;
+    justify-content:center;
+    gap:15px;
+    flex-wrap:wrap;
+
+    margin-bottom:30px;
+}
+
+.controls button{
+    border:none;
+
+    padding:12px 25px;
+
+    border-radius:12px;
+
+    background:white;
+
+    font-size:1rem;
+    font-weight:600;
+
+    cursor:pointer;
+
+    transition:0.3s;
+}
+
+.controls button:hover{
+    transform:translateY(-3px);
+}
+
+/* =========================
+   POPUP
+========================= */
+
+.popup{
+    position:fixed;
+
+    top:0;
+    left:0;
+
+    width:100%;
+    height:100%;
+
+    background:rgba(0,0,0,0.45);
+
+    display:flex;
+    justify-content:center;
+    align-items:center;
+}
+
+.hidden{
+    display:none;
+}
+
+.popup-content{
+    background:white;
+
+    padding:35px;
+
+    border-radius:20px;
+
+    min-width:300px;
+
+    text-align:center;
+
+    animation:popupShow 0.3s ease;
+}
+
+.popup-content h2{
+    margin-bottom:20px;
+    color:#124d7d;
+}
+
+.popup-content button{
+    border:none;
+
+    padding:12px 20px;
+
+    border-radius:12px;
+
+    background:#0f7bff;
+    color:white;
+
+    cursor:pointer;
+}
+
+@keyframes popupShow{
+    from{
+        opacity:0;
+        transform:scale(0.8);
+    }
+
+    to{
+        opacity:1;
+        transform:scale(1);
+    }
+}
+
+/* =========================
+   FOOTER
+========================= */
+
+footer{
+    margin-top:20px;
+}
+
+footer p{
+    color:#124d7d;
+    font-weight:600;
+}
+
+/* =========================
+   RESPONSIVE
+========================= */
+
+@media(max-width:768px){
+
+    header h1{
+        font-size:2.2rem;
+    }
+
+    .board{
+        grid-template-columns:
+        repeat(3,90px);
+
+        grid-template-rows:
+        repeat(3,90px);
+    }
+
+    .cell{
+        font-size:2.5rem;
+    }
+
+    .score-card{
+        width:160px;
+    }
+}
+
+@media(max-width:480px){
+
+    .board{
+        grid-template-columns:
+        repeat(3,80px);
+
+        grid-template-rows:
+        repeat(3,80px);
+    }
+
+    .cell{
+        font-size:2rem;
+    }
+
+    .input-group input{
+        width:100%;
+    }
+
+    .score-card{
+        width:100%;
+        max-width:280px;
+    }
+
+}

@@ -1,0 +1,159 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ultimate Truck Racer - Black Gold Edition</title>
+   <link rel="stylesheet" href="truck.css">
+</head>
+<body>
+    <div id="game-container">
+        <!-- Start Screen -->
+        <div id="start-screen" class="menu-screen">
+            <div class="menu-content">
+                <h1 class="game-title">ULTIMATE TRUCK RACER</h1>
+                <h2 class="game-subtitle">BLACK GOLD EDITION</h2>
+                <div class="title-glow"></div>
+                <button id="start-btn" class="game-btn start-btn">START RACING</button>
+                <button id="garage-btn" class="game-btn garage-btn">GARAGE</button>
+                <button id="shop-btn" class="game-btn shop-btn">SHOP</button>
+                <div class="controls-info">
+                    <p>🎮 <strong>Controls:</strong> Left/Right Arrow to move</p>
+                    <p>⚡ <strong>Nitro:</strong> Shift key</p>
+                    <p>📱 <strong>Mobile:</strong> Touch buttons</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Pause Menu -->
+        <div id="pause-menu" class="menu-screen hidden">
+            <div class="menu-content">
+                <h2 class="pause-title">PAUSED</h2>
+                <button id="resume-btn" class="game-btn resume-btn">RESUME</button>
+                <button id="restart-btn" class="game-btn restart-btn">RESTART</button>
+                <button id="quit-btn" class="game-btn quit-btn">QUIT TO MENU</button>
+            </div>
+        </div>
+
+        <!-- Game Over Screen -->
+        <div id="game-over-screen" class="menu-screen hidden">
+            <div class="menu-content">
+                <h2 class="game-over-title">GAME OVER</h2>
+                <div class="stats-container">
+                    <div class="stat-item">
+                        <span class="stat-label">Score:</span>
+                        <span id="final-score" class="stat-value">0</span>
+                    </div>
+                    <div class="stat-item">
+                        <span class="stat-label">High Score:</span>
+                        <span id="final-highscore" class="stat-value">0</span>
+                    </div>
+                    <div class="stat-item">
+                        <span class="stat-label">Coins:</span>
+                        <span id="final-coins" class="stat-value">0</span>
+                    </div>
+                    <div class="stat-item">
+                        <span class="stat-label">Level:</span>
+                        <span id="final-level" class="stat-value">1</span>
+                    </div>
+                    <div class="stat-item">
+                        <span class="stat-label">Distance:</span>
+                        <span id="final-distance" class="stat-value">0m</span>
+                    </div>
+                    <div class="stat-item">
+                        <span class="stat-label">XP:</span>
+                        <span id="final-xp" class="stat-value">0</span>
+                    </div>
+                </div>
+                <button id="game-over-restart" class="game-btn restart-btn">RESTART</button>
+                <button id="game-over-menu" class="game-btn quit-btn">MAIN MENU</button>
+            </div>
+        </div>
+
+        <!-- Garage Screen -->
+        <div id="garage-screen" class="menu-screen hidden">
+            <div class="menu-content">
+                <h2 class="garage-title">TRUCK GARAGE</h2>
+                <div id="truck-display" class="truck-display">
+                    <canvas id="truck-preview" width="300" height="200"></canvas>
+                </div>
+                <div id="truck-list" class="truck-list"></div>
+                <button id="garage-back" class="game-btn back-btn">BACK</button>
+            </div>
+        </div>
+
+        <!-- Shop Screen -->
+        <div id="shop-screen" class="menu-screen hidden">
+            <div class="menu-content">
+                <h2 class="shop-title">ITEM SHOP</h2>
+                <div class="coins-display">
+                    <span class="coins-label">Your Coins:</span>
+                    <span id="shop-coins" class="coins-value">0</span>
+                </div>
+                <div id="shop-items" class="shop-items"></div>
+                <button id="shop-back" class="game-btn back-btn">BACK</button>
+            </div>
+        </div>
+
+        <!-- HUD -->
+        <div id="hud" class="hud hidden">
+            <div class="hud-top">
+                <div class="hud-item">
+                    <span class="hud-label">SCORE</span>
+                    <span id="score" class="hud-value">0</span>
+                </div>
+                <div class="hud-item">
+                    <span class="hud-label">HIGH</span>
+                    <span id="high-score" class="hud-value">0</span>
+                </div>
+                <div class="hud-item">
+                    <span class="hud-label">COINS</span>
+                    <span id="coins" class="hud-value">0</span>
+                </div>
+            </div>
+            <div class="hud-middle">
+                <div class="hud-item">
+                    <span class="hud-label">LEVEL</span>
+                    <span id="level" class="hud-value">1</span>
+                </div>
+                <div class="hud-item">
+                    <span class="hud-label">XP</span>
+                    <span id="xp" class="hud-value">0</span>
+                </div>
+                <div class="hud-item">
+                    <span class="hud-label">DISTANCE</span>
+                    <span id="distance" class="hud-value">0m</span>
+                </div>
+            </div>
+            <div class="hud-bottom">
+                <div class="fuel-container">
+                    <span class="hud-label">FUEL</span>
+                    <div class="fuel-bar">
+                        <div id="fuel-fill" class="fuel-fill"></div>
+                    </div>
+                    <span id="fuel-value" class="fuel-text">100%</span>
+                </div>
+                <div class="hud-item">
+                    <button id="pause-btn" class="pause-btn">⏸</button>
+                </div>
+            </div>
+        </div>
+
+       <!-- Mobile Controls -->
+<div id="mobile-controls" class="mobile-controls hidden">
+    <button id="mobile-left" class="mobile-btn left-btn">← LEFT</button>
+    <button id="mobile-nitro" class="mobile-btn nitro-btn">⚡ NITRO</button>
+    <button id="mobile-right" class="mobile-btn right-btn">RIGHT →</button>
+</div>
+
+<!-- Game Canvas -->
+<canvas id="gameCanvas"></canvas>
+
+<footer class="truck-footer">
+    <p>✨ Created by Shivani Stalin & Vaishnavi M ✨</p>
+</footer>
+
+<script src="truck.js"></script>
+
+</body>
+</html>

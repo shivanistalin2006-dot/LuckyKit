@@ -1,0 +1,178 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>LuckyKit - Tic Tac Toe</title>
+
+    <link rel="stylesheet" href="tictactoe.css">
+
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+</head>
+
+<body>
+
+    <div class="container">
+
+        <!-- Header -->
+        <header>
+            <h1>❌⭕ Tic Tac Toe</h1>
+            <p>LuckyKit</p>
+        </header>
+
+        <!-- Mode Selection -->
+        <section class="mode-selection">
+
+            <h2>Select Game Mode</h2>
+
+            <div class="mode-buttons">
+
+                <button id="aiModeBtn">
+                    🤖 Play With AI
+                </button>
+
+                <button id="twoPlayerBtn">
+                    👥 Two Players
+                </button>
+
+            </div>
+
+        </section>
+
+        <!-- Setup Area -->
+        <section class="setup-area" id="setupArea">
+
+            <h2>Player Setup</h2>
+
+            <div class="input-group">
+
+                <input
+    type="text"
+    id="player1"
+    placeholder="Player 1 Name"
+    maxlength="12"
+>
+
+<input
+    type="text"
+    id="player2"
+    placeholder="Player 2 Name"
+    maxlength="12"
+>
+
+            </div>
+
+            <button id="startGameBtn">
+                Start Game
+            </button>
+
+        </section>
+
+        <!-- Scoreboard -->
+        <section class="scoreboard" id="scoreboard">
+
+            <h2>🏆 Scoreboard</h2>
+
+            <div class="scores">
+
+                <div class="score-card">
+                    <h3 id="name1">
+                        Player 1
+                    </h3>
+
+                    <p id="score1">
+                        0
+                    </p>
+                </div>
+
+                <div class="score-card">
+                    <h3 id="name2">
+                        Player 2
+                    </h3>
+
+                    <p id="score2">
+                        0
+                    </p>
+                </div>
+
+            </div>
+
+        </section>
+
+        <!-- Turn Indicator -->
+        <section class="turn-area">
+
+            <h2 id="turnText">
+                Select Mode To Start
+            </h2>
+
+        </section>
+
+        <!-- Game Board -->
+        <section class="board-section">
+
+            <div class="board" id="board">
+
+                <div class="cell" data-index="0"></div>
+                <div class="cell" data-index="1"></div>
+                <div class="cell" data-index="2"></div>
+
+                <div class="cell" data-index="3"></div>
+                <div class="cell" data-index="4"></div>
+                <div class="cell" data-index="5"></div>
+
+                <div class="cell" data-index="6"></div>
+                <div class="cell" data-index="7"></div>
+                <div class="cell" data-index="8"></div>
+
+            </div>
+
+        </section>
+
+        <!-- Controls -->
+        <section class="controls">
+
+            <button id="replayBtn">
+                🔄 Replay
+            </button>
+
+            <button id="endGameBtn">
+                ❌ End Game
+            </button>
+
+            <button id="homeBtn">
+                🏠 Home
+            </button>
+
+        </section>
+
+        <!-- Winner Popup -->
+        <div class="popup hidden" id="popup">
+
+            <div class="popup-content">
+
+                <h2 id="winnerMessage">
+                    Winner
+                </h2>
+
+                <button id="closePopupBtn">
+                    Close
+                </button>
+
+            </div>
+
+        </div>
+
+        <!-- Footer -->
+        <footer>
+
+            <p>✨ Created by Shivani Stalin & Vaishnavi M ✨</p>
+
+        </footer>
+
+    </div>
+
+    <script src="tictactoe.js"></script>
+
+</body>
+</html>

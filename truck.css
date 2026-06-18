@@ -1,0 +1,788 @@
+/* ========================================
+   ULTIMATE TRUCK RACER - BLACK GOLD EDITION
+   Premium Black & Gold Theme CSS
+   ======================================== */
+
+/* Reset and Base Styles */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    background: #0a0a0a;
+    color: #fff;
+    overflow: hidden;
+    user-select: none;
+}
+
+/* Game Container */
+#game-container {
+    width: 100vw;
+    height: 100vh;
+    position: relative;
+    background: linear-gradient(180deg, #0f0f0f 0%, #1a1a1a 100%);
+}
+
+/* Canvas */
+#gameCanvas {
+    width: 100%;
+    height: 100%;
+    display: block;
+}
+
+/* ========================================
+   MENU SCREENS
+   ======================================== */
+
+.menu-screen {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background: linear-gradient(135deg, #0a0a0a 0%, #1a1a1a 50%, #0f0f0f 100%);
+    z-index: 100;
+}
+
+.menu-screen.hidden {
+    display: none;
+}
+
+.menu-content {
+    text-align: center;
+    padding: 40px;
+    background: linear-gradient(180deg, #1a1a1a 0%, #0a0a0a 100%);
+    border: 2px solid #d4af37;
+    border-radius: 20px;
+    box-shadow: 
+        0 0 50px #d4af37,
+        0 0 100px #d4af37,
+        inset 0 0 30px #0a0a0a;
+    max-width: 600px;
+    width: 90%;
+}
+
+/* Game Title */
+.game-title {
+    font-size: 48px;
+    font-weight: 900;
+    color: #d4af37;
+    text-transform: uppercase;
+    letter-spacing: 4px;
+    margin-bottom: 10px;
+    text-shadow: 
+        0 0 20px #d4af37,
+        0 0 40px #d4af37,
+        0 0 60px #d4af37;
+    animation: titleGlow 2s ease-in-out infinite;
+}
+
+.game-subtitle {
+    font-size: 28px;
+    font-weight: 700;
+    color: #fff;
+    text-transform: uppercase;
+    letter-spacing: 8px;
+    margin-bottom: 40px;
+    text-shadow: 
+        0 0 10px #d4af37,
+        0 0 20px #d4af37;
+}
+
+.title-glow {
+    width: 200px;
+    height: 4px;
+    background: linear-gradient(90deg, transparent, #d4af37, transparent);
+    margin: 20px auto;
+    animation: glowPulse 2s ease-in-out infinite;
+}
+
+/* Button Styles */
+.game-btn {
+    padding: 18px 50px;
+    font-size: 20px;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 3px;
+    border: 2px solid #d4af37;
+    border-radius: 10px;
+    cursor: pointer;
+    margin: 10px;
+    transition: all 0.3s ease;
+    background: linear-gradient(180deg, #2a2a2a 0%, #1a1a1a 100%);
+    color: #d4af37;
+    box-shadow: 
+        0 0 20px #d4af37,
+        0 5px 15px #0a0a0a;
+}
+
+.game-btn:hover {
+    background: linear-gradient(180deg, #d4af37 0%, #b8860b 100%);
+    color: #0a0a0a;
+    box-shadow: 
+        0 0 40px #d4af37,
+        0 0 80px #d4af37,
+        0 10px 30px #0a0a0a;
+    transform: translateY(-3px);
+}
+
+.game-btn:active {
+    transform: translateY(0);
+    box-shadow: 
+        0 0 20px #d4af37,
+        0 2px 10px #0a0a0a;
+}
+
+.start-btn {
+    font-size: 24px;
+    padding: 22px 70px;
+}
+
+.garage-btn {
+    border-color: #fff;
+    color: #fff;
+}
+
+.garage-btn:hover {
+    background: linear-gradient(180deg, #fff 0%, #ccc 100%);
+    color: #0a0a0a;
+    box-shadow: 
+        0 0 40px #fff,
+        0 0 80px #fff;
+}
+
+.shop-btn {
+    border-color: #ff6b00;
+    color: #ff6b00;
+}
+
+.shop-btn:hover {
+    background: linear-gradient(180deg, #ff6b00 0%, #cc5500 100%);
+    color: #fff;
+    box-shadow: 
+        0 0 40px #ff6b00,
+        0 0 80px #ff6b00;
+}
+
+.resume-btn {
+    border-color: #00ff88;
+    color: #00ff88;
+}
+
+.resume-btn:hover {
+    background: linear-gradient(180deg, #00ff88 0%, #00cc66 100%);
+    color: #0a0a0a;
+}
+
+.restart-btn {
+    border-color: #ff4444;
+    color: #ff4444;
+}
+
+.restart-btn:hover {
+    background: linear-gradient(180deg, #ff4444 0%, #cc3333 100%);
+    color: #fff;
+}
+
+.quit-btn {
+    border-color: #888;
+    color: #888;
+}
+
+.quit-btn:hover {
+    background: linear-gradient(180deg, #888 0%, #666 100%);
+    color: #fff;
+}
+
+.back-btn {
+    border-color: #d4af37;
+    color: #d4af37;
+    margin-top: 20px;
+}
+
+/* Menu Text */
+.controls-info {
+    margin-top: 40px;
+    padding: 20px;
+    background: rgba(212, 175, 55, 0.1);
+    border-radius: 10px;
+    border: 1px solid #d4af37;
+}
+
+.controls-info p {
+    font-size: 16px;
+    margin: 10px 0;
+    color: #ccc;
+}
+
+.controls-info strong {
+    color: #d4af37;
+}
+
+/* Pause Title */
+.pause-title {
+    font-size: 60px;
+    color: #fff;
+    text-shadow: 0 0 30px #d4af37;
+    margin-bottom: 40px;
+}
+
+/* Game Over Title */
+.game-over-title {
+    font-size: 50px;
+    color: #ff4444;
+    text-shadow: 0 0 30px #ff4444;
+    margin-bottom: 30px;
+}
+
+/* Garage Title */
+.garage-title {
+    font-size: 40px;
+    color: #d4af37;
+    text-shadow: 0 0 20px #d4af37;
+    margin-bottom: 30px;
+}
+
+/* Shop Title */
+.shop-title {
+    font-size: 40px;
+    color: #ff6b00;
+    text-shadow: 0 0 20px #ff6b00;
+    margin-bottom: 20px;
+}
+
+/* Stats Container */
+.stats-container {
+    background: rgba(212, 175, 55, 0.1);
+    border: 1px solid #d4af37;
+    border-radius: 10px;
+    padding: 25px;
+    margin: 20px 0;
+}
+
+.stat-item {
+    display: flex;
+    justify-content: space-between;
+    padding: 15px 20px;
+    margin: 5px 0;
+    background: rgba(0, 0, 0, 0.3);
+    border-radius: 8px;
+}
+
+.stat-label {
+    color: #d4af37;
+    font-size: 18px;
+    font-weight: 600;
+}
+
+.stat-value {
+    color: #fff;
+    font-size: 22px;
+    font-weight: 700;
+}
+
+/* Truck Display */
+.truck-display {
+    width: 100%;
+    height: 220px;
+    background: linear-gradient(180deg, #1a1a1a 0%, #0a0a0a 100%);
+    border: 2px solid #d4af37;
+    border-radius: 10px;
+    margin: 20px 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+#truck-preview {
+    max-width: 100%;
+    max-height: 100%;
+}
+
+/* Truck List */
+.truck-list {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 15px;
+    margin: 20px 0;
+}
+
+.truck-item {
+    padding: 15px;
+    background: rgba(212, 175, 55, 0.1);
+    border: 2px solid #d4af37;
+    border-radius: 10px;
+    text-align: center;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.truck-item:hover {
+    background: rgba(212, 175, 55, 0.3);
+    transform: translateY(-3px);
+    box-shadow: 0 0 20px #d4af37;
+}
+
+.truck-item.selected {
+    background: rgba(212, 175, 55, 0.4);
+    border-color: #fff;
+    box-shadow: 0 0 30px #d4af37;
+}
+
+.truck-item.locked {
+    opacity: 0.6;
+    cursor: not-allowed;
+}
+
+.truck-name {
+    font-size: 16px;
+    color: #d4af37;
+    font-weight: 700;
+    margin-bottom: 5px;
+}
+
+.truck-status {
+    font-size: 12px;
+    color: #888;
+}
+
+.truck-item.locked .truck-status {
+    color: #ff4444;
+}
+
+/* Shop Items */
+.coins-display {
+    font-size: 24px;
+    margin: 20px 0;
+    background: rgba(212, 175, 55, 0.1);
+    padding: 15px;
+    border-radius: 10px;
+    border: 1px solid #d4af37;
+}
+
+.coins-label {
+    color: #ccc;
+}
+
+.coins-value {
+    color: #d4af37;
+    font-weight: 700;
+    font-size: 28px;
+}
+
+.shop-items {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 15px;
+    margin: 20px 0;
+}
+
+.shop-item {
+    padding: 20px;
+    background: rgba(0, 0, 0, 0.3);
+    border: 2px solid #d4af37;
+    border-radius: 10px;
+    text-align: center;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.shop-item:hover {
+    background: rgba(212, 175, 55, 0.2);
+    transform: translateY(-3px);
+    box-shadow: 0 0 20px #d4af37;
+}
+
+.shop-item.purchased {
+    opacity: 0.6;
+    cursor: not-allowed;
+    border-color: #888;
+}
+
+.shop-name {
+    font-size: 18px;
+    color: #d4af37;
+    font-weight: 700;
+    margin-bottom: 10px;
+}
+
+.shop-price {
+    font-size: 20px;
+    color: #ff6b00;
+    font-weight: 700;
+}
+
+.shop-desc {
+    font-size: 12px;
+    color: #888;
+    margin-top: 8px;
+}
+
+/* ========================================
+   HUD (Heads Up Display)
+   ======================================== */
+
+.hud {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: 50;
+    pointer-events: none;
+}
+
+.hud.hidden {
+    display: none;
+}
+
+.hud-top,
+.hud-middle,
+.hud-bottom {
+    position: absolute;
+    width: 100%;
+    display: flex;
+    justify-content: space-around;
+    padding: 15px;
+    background: rgba(0, 0, 0, 0.5);
+    pointer-events: auto;
+}
+
+.hud-top {
+    top: 0;
+    border-bottom: 2px solid #d4af37;
+}
+
+.hud-middle {
+    top: 60px;
+}
+
+.hud-bottom {
+    bottom: 0;
+    border-top: 2px solid #d4af37;
+    align-items: center;
+}
+
+.hud-item {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.hud-label {
+    font-size: 12px;
+    color: #d4af37;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+    margin-bottom: 5px;
+}
+
+.hud-value {
+    font-size: 28px;
+    color: #fff;
+    font-weight: 700;
+    text-shadow: 0 0 10px #d4af37;
+}
+
+/* Fuel Bar */
+.fuel-container {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+    pointer-events: auto;
+}
+
+.fuel-bar {
+    width: 200px;
+    height: 30px;
+    background: rgba(0, 0, 0, 0.7);
+    border: 2px solid #d4af37;
+    border-radius: 5px;
+    overflow: hidden;
+}
+
+.fuel-fill {
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(90deg, #ff4444 0%, #ff8800 50%, #00ff88 100%);
+    transition: width 0.3s ease;
+    box-shadow: 0 0 10px #d4af37;
+}
+
+.fuel-text {
+    font-size: 20px;
+    color: #fff;
+    font-weight: 700;
+}
+
+/* Pause Button */
+.pause-btn {
+    width: 50px;
+    height: 50px;
+    font-size: 24px;
+    background: linear-gradient(180deg, #2a2a2a 0%, #1a1a1a 100%);
+    border: 2px solid #d4af37;
+    border-radius: 10px;
+    color: #d4af37;
+    cursor: pointer;
+    pointer-events: auto;
+    transition: all 0.3s ease;
+}
+
+.pause-btn:hover {
+    background: linear-gradient(180deg, #d4af37 0%, #b8860b 100%);
+    color: #0a0a0a;
+    box-shadow: 0 0 20px #d4af37;
+}
+
+/* ========================================
+   Mobile Controls
+   ======================================== */
+
+.mobile-controls {
+    position: absolute;
+    bottom: 80px;
+    left: 0;
+    width: 100%;
+    display: flex;
+    justify-content: space-around;
+    padding: 20px;
+    z-index: 50;
+    pointer-events: auto;
+}
+
+.mobile-controls.hidden {
+    display: none;
+}
+
+.mobile-btn {
+    padding: 20px 40px;
+    font-size: 18px;
+    font-weight: 700;
+    border: 3px solid #d4af37;
+    border-radius: 15px;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    background: linear-gradient(180deg, #2a2a2a 0%, #1a1a1a 100%);
+    color: #d4af37;
+    box-shadow: 0 0 15px #d4af37;
+    user-select: none;
+}
+
+.mobile-btn:active {
+    background: linear-gradient(180deg, #d4af37 0%, #b8860b 100%);
+    color: #0a0a0a;
+    transform: scale(0.95);
+}
+
+.left-btn {
+    border-color: #00ff88;
+    color: #00ff88;
+}
+
+.left-btn:active {
+    background: linear-gradient(180deg, #00ff88 0%, #00cc66 100%);
+    color: #0a0a0a;
+}
+
+.right-btn {
+    border-color: #00ff88;
+    color: #00ff88;
+}
+
+.right-btn:active {
+    background: linear-gradient(180deg, #00ff88 0%, #00cc66 100%);
+    color: #0a0a0a;
+}
+
+.nitro-btn {
+    border-color: #ff6b00;
+    color: #ff6b00;
+}
+
+.nitro-btn:active {
+    background: linear-gradient(180deg, #ff6b00 0%, #cc5500 100%);
+    color: #fff;
+    box-shadow: 0 0 30px #ff6b00;
+}
+
+/* ========================================
+   Animations
+   ======================================== */
+
+@keyframes titleGlow {
+    0%, 100% {
+        text-shadow: 0 0 20px #d4af37, 0 0 40px #d4af37, 0 0 60px #d4af37;
+    }
+    50% {
+        text-shadow: 0 0 30px #d4af37, 0 0 60px #d4af37, 0 0 90px #d4af37;
+    }
+}
+
+@keyframes glowPulse {
+    0%, 100% {
+        opacity: 1;
+        transform: scaleX(1);
+    }
+    50% {
+        opacity: 0.7;
+        transform: scaleX(1.2);
+    }
+}
+
+/* ========================================
+   Responsive Design
+   ======================================== */
+
+@media (max-width: 768px) {
+    .game-title {
+        font-size: 32px;
+    }
+    
+    .game-subtitle {
+        font-size: 18px;
+    }
+    
+    .menu-content {
+        padding: 25px;
+        max-width: 95%;
+    }
+    
+    .game-btn {
+        padding: 15px 35px;
+        font-size: 16px;
+    }
+    
+    .start-btn {
+        font-size: 18px;
+        padding: 18px 50px;
+    }
+    
+    .hud-value {
+        font-size: 22px;
+    }
+    
+    .hud-label {
+        font-size: 10px;
+    }
+    
+    .fuel-bar {
+        width: 120px;
+        height: 25px;
+    }
+    
+    .fuel-text {
+        font-size: 16px;
+    }
+    
+    .truck-list {
+        grid-template-columns: 1fr;
+    }
+    
+    .shop-items {
+        grid-template-columns: 1fr;
+    }
+}
+
+@media (max-width: 480px) {
+    .game-title {
+        font-size: 24px;
+    }
+    
+    .game-subtitle {
+        font-size: 14px;
+    }
+    
+    .pause-title {
+        font-size: 40px;
+    }
+    
+    .game-over-title {
+        font-size: 35px;
+    }
+    
+    .stat-item {
+        padding: 10px 15px;
+    }
+    
+    .stat-label {
+        font-size: 14px;
+    }
+    
+    .stat-value {
+        font-size: 18px;
+    }
+}
+
+/* ========================================
+   Screen Shake Effect
+   ======================================== */
+
+.shake {
+    animation: shake 0.5s ease-in-out;
+}
+
+@keyframes shake {
+    0%, 100% { transform: translateX(0); }
+    25% { transform: translateX(-10px); }
+    50% { transform: translateX(10px); }
+    75% { transform: translateX(-5px); }
+}
+
+/* ========================================
+   Nitro Glow Effect
+   ======================================== */
+
+.nitro-active {
+    animation: nitroGlow 0.3s ease-in-out infinite;
+}
+
+@keyframes nitroGlow {
+    0%, 100% {
+        box-shadow: 0 0 20px #ff6b00, 0 0 40px #ff6b00;
+    }
+    50% {
+        box-shadow: 0 0 40px #ff6b00, 0 0 80px #ff6b00;
+    }
+}/* ========================================
+   Game Cards (Garage & Shop)
+   ======================================== */
+.truck-footer{
+    position: fixed;
+    bottom: 8px;
+    width: 100%;
+    text-align: center;
+
+    color: #cccccc;
+    font-size: 12px;
+    font-weight: 400;
+
+    text-shadow: none;
+    opacity: 0.7;
+
+    z-index: 100;
+}
+
+.truck-footer p{
+    margin: 2px 0;
+}
+/* "professional footer style for truck game, with subtle colors and clean design" 
+.truck-footer{
+    position: fixed;
+    bottom: 10px;
+    width: 100%;
+    text-align: center;
+
+    color: #999;
+    font-size: 11px;
+    font-weight: 300;
+
+    text-shadow: none;
+}*/

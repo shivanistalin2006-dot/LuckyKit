@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Whack A Mole - LuckyKit</title>
+
+    <link rel="stylesheet" href="whack.css">
+
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+</head>
+<body>
+
+    <div class="container">
+
+        <header>
+            <h1>🔨 Whack A Mole</h1>
+            <p>Hit the mole before it disappears!</p>
+        </header>
+
+        <div class="game-info">
+
+            <div class="info-box">
+                <h2>Score</h2>
+                <span id="score">0</span>
+            </div>
+
+            <div class="info-box">
+                <h2>Time</h2>
+                <span id="time">30</span>
+            </div>
+
+        </div>
+
+        <div class="grid">
+
+            <div class="hole"></div>
+            <div class="hole"></div>
+            <div class="hole"></div>
+
+            <div class="hole"></div>
+            <div class="hole"></div>
+            <div class="hole"></div>
+
+            <div class="hole"></div>
+            <div class="hole"></div>
+            <div class="hole"></div>
+
+        </div>
+
+        <div class="buttons">
+
+            <button id="startBtn">
+                ▶ Start Game
+            </button>
+
+            <button onclick="window.location.href='index.html'">
+                ⬅ Back To LuckyKit
+            </button>
+
+        </div>
+
+        <div id="gameOver" class="game-over hidden">
+
+            <h2>🎉 Game Over!</h2>
+
+            <p>
+                Final Score:
+                <span id="finalScore">0</span>
+            </p>
+
+            <button id="playAgainBtn">
+    🔄 Play Again
+</button>
+
+        </div>
+
+        <footer>
+            <p class="creator">
+                ✨ Created by Shivani Stalin & Vaishnavi M ✨
+            </p>
+        </footer>
+
+    </div>
+
+    <script src="whack.js"></script>
+
+</body>
+</html>

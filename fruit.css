@@ -1,0 +1,270 @@
+/* =========================
+   RESET
+========================= */
+
+*{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+    font-family:'Outfit',sans-serif;
+}
+
+body{
+    min-height:100vh;
+    background:linear-gradient(135deg,#0f172a,#1e293b,#334155);
+    color:white;
+    text-align:center;
+    padding:20px;
+}
+
+/* =========================
+   CONTAINER
+========================= */
+
+.container{
+    width:100%;
+    max-width:1400px;
+    margin:auto;
+}
+
+/* =========================
+   HEADER
+========================= */
+
+header h1{
+    font-size:3rem;
+    margin-bottom:10px;
+}
+
+header p{
+    color:#cbd5e1;
+    margin-bottom:25px;
+}
+
+/* =========================
+   HUD
+========================= */
+
+.hud{
+    display:flex;
+    justify-content:center;
+    gap:20px;
+    flex-wrap:wrap;
+    margin-bottom:20px;
+}
+
+.hud-box{
+    background:rgba(255,255,255,0.1);
+    backdrop-filter:blur(10px);
+    padding:15px 25px;
+    border-radius:15px;
+    min-width:160px;
+    box-shadow:0 5px 20px rgba(0,0,0,0.3);
+}
+
+.hud-box span{
+    display:block;
+    font-size:0.9rem;
+    color:#ddd;
+}
+
+.hud-box h2{
+    margin-top:5px;
+    color:#facc15;
+}
+
+/* =========================
+   BUTTONS
+========================= */
+
+.controls{
+    margin-bottom:20px;
+}
+
+.controls button{
+    border:none;
+    padding:12px 25px;
+    margin:5px;
+    border-radius:12px;
+    cursor:pointer;
+    font-size:1rem;
+    font-weight:600;
+    transition:0.3s;
+}
+
+#startBtn{
+    background:#22c55e;
+    color:white;
+}
+
+#startBtn:hover{
+    transform:scale(1.05);
+}
+
+.controls button:last-child{
+    background:#3b82f6;
+    color:white;
+}
+
+.controls button:last-child:hover{
+    transform:scale(1.05);
+}
+
+/* =========================
+   GAME AREA
+========================= */
+
+.game-wrapper{
+    position:relative;
+    width:100%;
+    max-width:1000px;
+    margin:auto;
+}
+
+#gameCanvas{
+    width:100%;
+    height:600px;
+    background:
+    linear-gradient(
+        to bottom,
+        #0f172a,
+        #1e293b,
+        #334155
+    );
+    border-radius:20px;
+    border:3px solid #facc15;
+    box-shadow:0 10px 30px rgba(0,0,0,0.5);
+}
+
+/* =========================
+   OVERLAYS
+========================= */
+
+.overlay{
+    position:absolute;
+    inset:0;
+
+    display:flex;
+    flex-direction:column;
+    justify-content:center;
+    align-items:center;
+
+    background:rgba(0,0,0,0.75);
+
+    border-radius:20px;
+}
+
+.overlay h2{
+    font-size:3rem;
+    margin-bottom:15px;
+}
+
+.overlay p{
+    margin:8px 0;
+    font-size:1.1rem;
+}
+
+.hidden{
+    display:none;
+}
+
+/* =========================
+   GAME OVER BUTTON
+========================= */
+
+#restartBtn{
+    margin-top:20px;
+    border:none;
+    padding:12px 25px;
+    border-radius:12px;
+    background:#ef4444;
+    color:white;
+    cursor:pointer;
+    font-size:1rem;
+    font-weight:600;
+}
+
+#restartBtn:hover{
+    transform:scale(1.05);
+}
+
+/* =========================
+   FOOTER
+========================= */
+
+footer{
+    margin-top:25px;
+}
+
+footer p{
+    color:#ddd;
+}
+
+.creator{
+    margin-top:5px;
+    color:#facc15;
+    font-weight:600;
+}
+
+/* =========================
+   ANIMATION
+========================= */
+
+@keyframes pop{
+    from{
+        transform:scale(0.8);
+        opacity:0;
+    }
+    to{
+        transform:scale(1);
+        opacity:1;
+    }
+}
+
+.overlay h2{
+    animation:pop .4s ease;
+}
+
+/* =========================
+   MOBILE
+========================= */
+
+@media(max-width:768px){
+
+    header h1{
+        font-size:2.2rem;
+    }
+
+    .hud{
+        gap:10px;
+    }
+
+    .hud-box{
+        min-width:120px;
+        padding:12px;
+    }
+
+    #gameCanvas{
+        height:500px;
+    }
+
+    .overlay h2{
+        font-size:2rem;
+    }
+}
+
+@media(max-width:480px){
+
+    #gameCanvas{
+        height:450px;
+    }
+
+    .hud-box{
+        width:100%;
+        max-width:250px;
+    }
+
+    .controls button{
+        width:100%;
+    }
+}

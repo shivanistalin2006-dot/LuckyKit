@@ -1,0 +1,286 @@
+/* =========================
+   GLOBAL
+========================= */
+
+*{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+    font-family:'Outfit',sans-serif;
+}
+
+body{
+    min-height:100vh;
+
+    background:linear-gradient(
+        135deg,
+        #FFF0D9,
+        #FFD8A8,
+        #FFC78A
+    );
+
+    display:flex;
+    justify-content:center;
+    align-items:center;
+
+    padding:20px;
+
+    overflow-x:hidden;
+}
+
+.container{
+    width:100%;
+    max-width:1200px;
+    text-align:center;
+}
+
+/* =========================
+   HEADER
+========================= */
+
+header{
+    margin-bottom:30px;
+}
+
+header h1{
+    font-size:3rem;
+    color:#8A4B00;
+    margin-bottom:10px;
+}
+
+header p{
+    color:#A65C00;
+    font-size:1.1rem;
+}
+
+/* =========================
+   STATS
+========================= */
+
+.stats{
+    display:flex;
+    justify-content:center;
+    gap:20px;
+    flex-wrap:wrap;
+
+    margin-bottom:25px;
+}
+
+.stat-card{
+
+    width:180px;
+
+    background:white;
+
+    padding:20px;
+
+    border-radius:20px;
+
+    box-shadow:
+    0 8px 18px rgba(0,0,0,0.12);
+}
+
+.stat-card h3{
+    color:#A65C00;
+    margin-bottom:10px;
+}
+
+.stat-card p{
+    font-size:1.8rem;
+    font-weight:bold;
+    color:#8A4B00;
+}
+
+/* =========================
+   RESULT
+========================= */
+
+.result-section{
+    margin-bottom:25px;
+}
+
+#resultText{
+    color:#8A4B00;
+}
+
+/* =========================
+   BOARD
+========================= */
+
+.board-section{
+    display:flex;
+    justify-content:center;
+}
+
+.game-board{
+
+    display:grid;
+
+    grid-template-columns:
+    repeat(4,120px);
+
+    gap:15px;
+
+    margin-bottom:30px;
+}
+
+/* =========================
+   CARD
+========================= */
+
+.card{
+
+    width:120px;
+    height:120px;
+
+    background:white;
+
+    border-radius:18px;
+
+    display:flex;
+    justify-content:center;
+    align-items:center;
+
+    font-size:3rem;
+
+    cursor:pointer;
+
+    user-select:none;
+
+    box-shadow:
+    0 8px 18px rgba(0,0,0,0.12);
+
+    transition:0.3s;
+}
+
+.card:hover{
+    transform:translateY(-4px);
+}
+
+.card.flipped{
+    background:#FFB869;
+}
+
+.card.matched{
+    background:#90EE90;
+    cursor:default;
+}
+
+/* =========================
+   BUTTONS
+========================= */
+
+.controls{
+
+    display:flex;
+    justify-content:center;
+    gap:15px;
+    flex-wrap:wrap;
+}
+
+.controls button{
+
+    border:none;
+
+    padding:12px 25px;
+
+    border-radius:12px;
+
+    background:white;
+
+    color:#8A4B00;
+
+    font-size:1rem;
+    font-weight:600;
+
+    cursor:pointer;
+
+    transition:0.3s;
+}
+
+.controls button:hover{
+
+    transform:translateY(-3px);
+
+    box-shadow:
+    0 8px 15px rgba(0,0,0,0.15);
+}
+
+/* =========================
+   FOOTER
+========================= */
+
+footer{
+    margin-top:25px;
+}
+
+footer p{
+    color:#8A4B00;
+    font-weight:600;
+}
+
+/* =========================
+   RESPONSIVE
+========================= */
+
+@media(max-width:768px){
+
+    header h1{
+        font-size:2.2rem;
+    }
+
+    .game-board{
+
+        grid-template-columns:
+        repeat(4,80px);
+
+        gap:10px;
+    }
+
+    .card{
+
+        width:80px;
+        height:80px;
+
+        font-size:2rem;
+    }
+
+    .stat-card{
+        width:150px;
+    }
+
+}
+
+@media(max-width:480px){
+
+    .game-board{
+
+        grid-template-columns:
+        repeat(4,70px);
+
+        gap:8px;
+    }
+
+    .card{
+
+        width:70px;
+        height:70px;
+        transition:0.3s;
+        font-size:1.7rem;
+    }
+
+    .stat-card{
+        width:100%;
+        max-width:250px;
+    }
+
+    .controls button{
+        width:100%;
+        max-width:280px;
+    }
+
+    header h1{
+        font-size:1.8rem;
+    }
+
+}

@@ -1,0 +1,293 @@
+/* =========================
+   RESET
+========================= */
+
+*{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+    font-family:'Outfit',sans-serif;
+}
+
+html{
+    scroll-behavior:smooth;
+}
+
+body{
+    min-height:100vh;
+    overflow-x:hidden;
+
+    background:linear-gradient(135deg,#FFF7D6,#FFE9A8,#FFD97D);
+
+    display:flex;
+    justify-content:center;
+    align-items:center;
+
+    padding:30px;
+}
+
+/* selection */
+::selection{
+    background:#3A2D00;
+    color:#fff;
+}
+
+/* =========================
+   CONTAINER
+========================= */
+
+.container{
+    width:100%;
+    max-width:1400px;
+    text-align:center;
+}
+
+/* =========================
+   HEADER
+========================= */
+
+header{
+    animation:fadeDown 0.8s ease;
+}
+
+header h1{
+    font-size:4rem;
+    color:#3A2D00;
+    margin-bottom:10px;
+}
+
+header p{
+    font-size:1.2rem;
+    color:#5C4A00;
+    margin-bottom:25px;
+}
+
+/* =========================
+   VERSION TAG (optional)
+========================= */
+
+.version{
+    display:inline-block;
+    background:white;
+    padding:6px 14px;
+    border-radius:20px;
+    font-size:13px;
+    font-weight:600;
+    color:#3A2D00;
+    margin-bottom:40px;
+}
+
+/* =========================
+   GAME CARDS AREA
+========================= */
+
+.games{
+    display:flex;
+    justify-content:center;
+    flex-wrap:wrap;
+    gap:25px;
+}
+
+/* =========================
+   GAME CARD
+========================= */
+
+.game-card{
+    width:320px;
+    padding:30px;
+
+    border-radius:25px;
+
+    background:white;
+
+    box-shadow:0 10px 30px rgba(0,0,0,0.12);
+
+    cursor:pointer;
+
+    transition:0.3s ease;
+
+    animation:fadeUp 0.8s ease;
+
+    position:relative;
+    z-index:1;
+}
+
+.game-card:hover{
+    transform:translateY(-10px) scale(1.03);
+}
+.whack-card{
+    background:#FFE4B5;
+}
+
+.whack-card:hover{
+    box-shadow:0 20px 40px rgba(255,180,80,.35);
+}/* =========================
+   COLORS (FIXED + CLEAN)
+========================= */
+
+.tic-card{background:#CFE8FF;}
+.luck-card{background:#E8D7FF;}
+.rps-card{background:#FFD6D6;}
+.memory-card{background:#FFC78A;}
+.snake-card{background:#CFFFE5;}
+.chess-card{background:#E8E8E8;}
+.truck-card{background:#e47a7a;}
+.whack-card{background:#9ed0f1d0;}
+.fruit-card{
+    background:#d1ed69;
+}
+.box-card{
+    background: linear-gradient(135deg,#fff3c4,#ffe8a1);
+}
+
+/* hover glow */
+.tic-card:hover{box-shadow:0 20px 40px rgba(80,160,255,.35);}
+.luck-card:hover{box-shadow:0 20px 40px rgba(180,120,255,.35);}
+.rps-card:hover{box-shadow:0 20px 40px rgba(255,120,120,.35);}
+.memory-card:hover{box-shadow:0 20px 40px rgba(120,220,120,.35);}
+.snake-card:hover{box-shadow:0 20px 40px rgba(120,255,180,.35);}
+.chess-card:hover{box-shadow:0 20px 40px rgba(120,120,120,.35);}
+.truck-card:hover{box-shadow:0 20px 40px rgba(255,165,0,.35);}
+.whack-card:hover{box-shadow:0 20px 40px rgba(255,180,80,.35);}
+.fruit-card:hover{
+    box-shadow:0 20px 40px rgba(255,105,180,.35);
+}
+
+.box-card:hover{
+    box-shadow:0 20px 40px rgba(255,200,0,0.4);
+}
+
+/* =========================
+   ICON
+========================= */
+
+.icon{
+    font-size:4rem;
+    margin-bottom:15px;
+}
+
+/* =========================
+   TITLE
+========================= */
+
+.game-card h2{
+    font-size:1.8rem;
+    color:#222;
+    margin-bottom:10px;
+}
+
+/* =========================
+   DESCRIPTION
+========================= */
+
+.game-card p{
+    color:#444;
+    line-height:1.5;
+    margin-bottom:20px;
+}
+
+/* =========================
+   BUTTON
+========================= */
+
+.game-card button{
+    border:none;
+    padding:12px 28px;
+    border-radius:12px;
+
+    background:#fff;
+    color:#222;
+
+    font-weight:600;
+
+    cursor:pointer;
+
+    transition:0.3s ease;
+}
+
+.game-card button:hover{
+    background:#222;
+    color:#fff;
+    transform:scale(1.05);
+}
+
+/* =========================
+   FOOTER
+========================= */
+
+footer{
+    margin-top:50px;
+}
+
+footer p{
+    color:#3A2D00;
+    font-weight:500;
+}
+
+.creator{
+    margin-top:6px;
+    font-size:0.95rem;
+}
+
+/* =========================
+   ANIMATION FIX
+========================= */
+
+@keyframes fadeDown{
+    from{opacity:0;transform:translateY(-20px);}
+    to{opacity:1;transform:translateY(0);}
+}
+
+@keyframes fadeUp{
+    from{opacity:0;transform:translateY(20px);}
+    to{opacity:1;transform:translateY(0);}
+}
+
+/* =========================
+   RESPONSIVE FIX (IMPORTANT)
+========================= */
+
+@media(max-width:1024px){
+    header h1{font-size:3rem;}
+    .game-card{width:280px;}
+}
+
+@media(max-width:768px){
+
+    body{
+        padding:20px;
+    }
+
+    header h1{
+        font-size:2.5rem;
+    }
+
+    .games{
+        flex-direction:column;
+        align-items:center;
+    }
+
+    .game-card{
+        width:100%;
+        max-width:350px;
+    }
+}
+
+@media(max-width:480px){
+
+    header h1{
+        font-size:2rem;
+    }
+
+    .icon{
+        font-size:3rem;
+    }
+
+    .game-card{
+        padding:20px;
+    }
+
+    .game-card button{
+        width:100%;
+    }
+}

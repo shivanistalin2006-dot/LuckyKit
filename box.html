@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Luck Box Challenge</title>
+
+    <link rel="stylesheet" href="box.css">
+</head>
+<body>
+
+<div class="game">
+
+    <h1>🎁 Luck Box Challenge</h1>
+    <p>Pick a box... but choose carefully 💥</p>
+
+    <div class="hud">
+
+    <div>
+        ⭐ Score:
+        <span id="score">0</span>
+    </div>
+
+    <div>
+        ❤️ Lives:
+        <span id="lives">3</span>
+    </div>
+
+    <div>
+        🔥 Multiplier:
+        <span id="multi">x1</span>
+    </div>
+
+    <div>
+        ⏱ Time:
+        <span id="timer">30</span>
+    </div>
+
+    <div>
+        🏆 High Score:
+        <span id="highScore">0</span>
+    </div>
+
+</div>
+
+    <div class="box-container" id="boxContainer"></div>
+
+    <div class="actions">
+
+    <button id="cashOutBtn">
+        💰 Cash Out
+    </button>
+
+    <button onclick="startGame()">
+        🔄 Restart
+    </button>
+
+</div>
+
+</div>
+ <!-- Footer -->
+        <footer>
+            <p class="creator">✨ Created by Shivani Stalin & Vaishnavi M ✨</p>
+        </footer>
+<script src="box.js"></script>
+</body>
+</html>

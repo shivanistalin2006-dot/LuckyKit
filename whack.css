@@ -1,0 +1,300 @@
+/* =========================
+   RESET
+========================= */
+
+*{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+    font-family:'Outfit',sans-serif;
+}
+
+body{
+    min-height:100vh;
+
+    background:linear-gradient(
+        135deg,
+        #FFF7D6,
+        #FFE9A8,
+        #FFD97D
+    );
+
+    display:flex;
+    justify-content:center;
+    align-items:center;
+
+    padding:20px;
+}
+
+/* =========================
+   CONTAINER
+========================= */
+
+.container{
+    width:100%;
+    max-width:900px;
+    text-align:center;
+}
+
+/* =========================
+   HEADER
+========================= */
+
+header h1{
+    font-size:3rem;
+    color:#3A2D00;
+    margin-bottom:10px;
+}
+
+header p{
+    color:#5C4A00;
+    font-size:1.1rem;
+    margin-bottom:30px;
+}
+
+/* =========================
+   SCORE & TIMER
+========================= */
+
+.game-info{
+    display:flex;
+    justify-content:center;
+    gap:20px;
+    margin-bottom:30px;
+}
+
+.info-box{
+    background:white;
+    padding:15px 30px;
+
+    border-radius:15px;
+
+    box-shadow:0 8px 20px rgba(0,0,0,0.1);
+}
+
+.info-box h2{
+    color:#444;
+    font-size:1rem;
+    margin-bottom:5px;
+}
+
+.info-box span{
+    font-size:2rem;
+    font-weight:700;
+    color:#3A2D00;
+}
+
+/* =========================
+   GAME GRID
+========================= */
+
+.grid{
+    width:100%;
+    max-width:500px;
+
+    margin:auto;
+
+    display:grid;
+    grid-template-columns:repeat(3,1fr);
+
+    gap:20px;
+}
+
+/* =========================
+   HOLES
+========================= */
+
+.hole{
+    width:140px;
+    height:140px;
+
+    background:#7A4A1D;
+
+    border-radius:50%;
+
+    margin:auto;
+
+    cursor:pointer;
+
+    position:relative;
+
+    overflow:hidden;
+
+    box-shadow:
+        inset 0 6px 12px rgba(0,0,0,0.4),
+        0 6px 12px rgba(0,0,0,0.2);
+
+    transition:0.2s;
+}
+
+.hole:hover{
+    transform:scale(1.05);
+}
+
+/* =========================
+   MOLE
+========================= */
+
+.hole.mole::before{
+    content:"🐹";
+
+    position:absolute;
+
+    font-size:4rem;
+
+    left:50%;
+    top:50%;
+
+    transform:translate(-50%,-50%);
+
+    animation:popUp 0.2s ease;
+}
+
+@keyframes popUp{
+    from{
+        transform:
+        translate(-50%,20%);
+        opacity:0;
+    }
+
+    to{
+        transform:
+        translate(-50%,-50%);
+        opacity:1;
+    }
+}
+
+/* =========================
+   BUTTONS
+========================= */
+
+.buttons{
+    margin-top:30px;
+
+    display:flex;
+    justify-content:center;
+    gap:15px;
+
+    flex-wrap:wrap;
+}
+
+button{
+    border:none;
+
+    padding:12px 25px;
+
+    border-radius:12px;
+
+    background:white;
+
+    font-weight:600;
+
+    cursor:pointer;
+
+    transition:0.3s;
+
+    box-shadow:0 4px 12px rgba(0,0,0,0.1);
+}
+
+button:hover{
+    background:#222;
+    color:white;
+
+    transform:scale(1.05);
+}
+
+/* =========================
+   GAME OVER
+========================= */
+
+.game-over{
+    margin-top:30px;
+
+    background:white;
+
+    padding:25px;
+
+    border-radius:20px;
+
+    box-shadow:0 10px 25px rgba(0,0,0,0.12);
+}
+
+.game-over h2{
+    color:#3A2D00;
+    margin-bottom:10px;
+}
+
+.game-over p{
+    font-size:1.2rem;
+    margin-bottom:15px;
+}
+
+.hidden{
+    display:none;
+}
+
+/* =========================
+   FOOTER
+========================= */
+
+footer{
+    margin-top:40px;
+}
+
+footer p{
+    color:#3A2D00;
+}
+
+.creator{
+    margin-top:5px;
+    font-size:0.9rem;
+}
+
+/* =========================
+   RESPONSIVE
+========================= */
+
+@media(max-width:768px){
+
+    header h1{
+        font-size:2.3rem;
+    }
+
+    .grid{
+        gap:12px;
+    }
+
+    .hole{
+        width:100px;
+        height:100px;
+    }
+
+    .hole.mole::before{
+        font-size:3rem;
+    }
+
+    .info-box{
+        padding:12px 20px;
+    }
+}
+
+@media(max-width:480px){
+
+    .game-info{
+        flex-direction:column;
+        align-items:center;
+    }
+
+    .grid{
+        max-width:320px;
+    }
+
+    .hole{
+        width:90px;
+        height:90px;
+    }
+
+    .hole.mole::before{
+        font-size:2.5rem;
+    }
+}

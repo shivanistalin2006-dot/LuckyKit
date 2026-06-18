@@ -1,0 +1,169 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>LuckyKit - Rock Paper Scissors</title>
+
+    <link rel="stylesheet" href="rps.css">
+
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+</head>
+
+<body>
+
+    <div class="container">
+
+        <!-- Header -->
+        <header>
+
+            <h1>✊✋✌️ Rock Paper Scissors</h1>
+
+            <p>
+                Play with 2 to 6 Players
+            </p>
+
+        </header>
+
+        <!-- Player Count Setup -->
+
+        <section class="setup-section">
+
+            <h2>Number Of Players</h2>
+
+            <select id="playerCount">
+
+                <option value="">Select</option>
+
+                <option value="2">2 Players</option>
+                <option value="3">3 Players</option>
+                <option value="4">4 Players</option>
+                <option value="5">5 Players</option>
+                <option value="6">6 Players</option>
+
+            </select>
+
+            <button id="generatePlayersBtn">
+                Generate Players
+            </button>
+
+        </section>
+
+        <!-- Player Names -->
+
+        <section id="playerInputsSection">
+
+            <h2>Enter Player Names</h2>
+
+            <div id="playerInputs"></div>
+
+            <button id="startGameBtn">
+                Start Game
+            </button>
+
+        </section>
+
+        <!-- Scoreboard -->
+
+        <section class="scoreboard">
+
+            <h2>🏆 Scoreboard</h2>
+
+            <div id="scoreboardContainer">
+
+            </div>
+
+        </section>
+
+        <!-- Current Turn -->
+
+        <section class="turn-section">
+
+            <h2 id="turnText">
+                Setup Players To Start
+            </h2>
+
+        </section>
+
+        <!-- Move Selection -->
+
+        <section class="move-section">
+
+            <h2>Choose Move</h2>
+
+            <div class="move-buttons">
+
+                <button class="moveBtn" data-move="Rock">
+                    ✊ Rock
+                </button>
+
+                <button class="moveBtn" data-move="Paper">
+                    ✋ Paper
+                </button>
+
+                <button class="moveBtn" data-move="Scissors">
+                    ✌️ Scissors
+                </button>
+
+            </div>
+
+        </section>
+
+        <!-- Lock Move -->
+
+        <section class="lock-section">
+
+            <button id="lockMoveBtn">
+                🔒 Lock Move
+            </button>
+
+        </section>
+
+        <!-- Results -->
+
+        <section class="results-section">
+
+            <h2>Round Results</h2>
+
+            <div id="resultsContainer">
+
+                Results Will Appear Here
+
+            </div>
+
+        </section>
+
+        <!-- Controls -->
+
+        <section class="controls">
+
+            <button id="replayBtn">
+                🔄 Replay Round
+            </button>
+
+            <button id="endGameBtn">
+                ❌ End Game
+            </button>
+
+            <button id="homeBtn">
+                🏠 Home
+            </button>
+
+        </section>
+
+        <!-- Footer -->
+
+        <footer>
+
+            <p>
+                ✨ Created by Shivani Stalin & Vaishnavi M ✨
+            </p>
+
+        </footer>
+
+    </div>
+
+    <script src="rps.js"></script>
+
+</body>
+</html>

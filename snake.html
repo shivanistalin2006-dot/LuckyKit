@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>LuckyKit - Snake Game</title>
+
+    <link rel="stylesheet" href="snake.css">
+
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+
+</head>
+
+<body>
+
+<div class="container">
+
+    <!-- HEADER -->
+    <header>
+        <h1>🐍 Snake Game</h1>
+        <p>Eat food, grow longer, don’t hit the wall!</p>
+    </header>
+
+    <!-- SCORE -->
+    <section class="score-section">
+        <div class="score-card">
+            <h2>Score</h2>
+            <p id="score">0</p>
+        </div>
+
+        <div class="score-card">
+            <h2>High Score</h2>
+            <p id="highScore">0</p>
+        </div>
+    </section>
+
+    <!-- GAME BOARD -->
+    <section class="game-section">
+        <canvas id="gameBoard" width="400" height="400"></canvas>
+    </section>
+
+    <!-- CONTROLS -->
+    <section class="controls">
+
+        <button id="startBtn">Start</button>
+        <button id="restartBtn">Restart</button>
+        <button id="homeBtn">Home</button>
+
+    </section>
+
+    <!-- GAME STATUS -->
+    <section class="status-section">
+        <div class="status-card">
+            <p id="statusText">Press Start to Play</p>
+        </div>
+    </section>
+
+    <!-- FOOTER -->
+    <footer>
+        <p class="creator">✨ Created by Shivani Stalin & Vaishnavi M ✨</p>
+    </footer>
+
+</div>
+
+<script src="snake.js"></script>
+
+</body>
+</html>

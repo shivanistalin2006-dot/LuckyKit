@@ -1,0 +1,325 @@
+/* =========================
+   GLOBAL
+========================= */
+
+*{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+    font-family:'Outfit', sans-serif;
+}
+
+body{
+    min-height:100vh;
+    padding:20px;
+
+    background:linear-gradient(
+        135deg,
+        #f4e8ff,
+        #e8d7ff,
+        #d8c0ff
+    );
+
+    display:flex;
+    justify-content:center;
+    align-items:center;
+
+    overflow-x:hidden;
+}
+
+.container{
+    width:100%;
+    max-width:1000px;
+    text-align:center;
+}
+
+/* =========================
+   HEADER
+========================= */
+
+header{
+    margin-bottom:30px;
+}
+
+header h1{
+    font-size:3rem;
+    color:#5b2c83;
+    margin-bottom:10px;
+}
+
+header p{
+    color:#764ba2;
+    font-size:1.1rem;
+}
+
+/* =========================
+   SCOREBOARD
+========================= */
+
+.scoreboard{
+    display:flex;
+    justify-content:center;
+    gap:20px;
+    flex-wrap:wrap;
+
+    margin-bottom:30px;
+}
+
+.score-card{
+    width:180px;
+
+    background:white;
+
+    padding:20px;
+
+    border-radius:20px;
+
+    box-shadow:0 8px 20px rgba(0,0,0,0.12);
+}
+
+.score-card h2{
+    color:#764ba2;
+    margin-bottom:10px;
+}
+
+.score-card p{
+    font-size:2rem;
+    font-weight:bold;
+    color:#5b2c83;
+}
+
+/* =========================
+   COIN
+========================= */
+
+.coin-section{
+    margin-bottom:30px;
+}
+
+.coin{
+    width:150px;
+    height:150px;
+
+    margin:auto;
+
+    background:white;
+
+    border-radius:50%;
+
+    display:flex;
+    justify-content:center;
+    align-items:center;
+
+    font-size:5rem;
+
+    box-shadow:0 10px 25px rgba(0,0,0,0.15);
+
+    transition:0.5s;
+}
+
+/* Coin Animation */
+
+.flip{
+    animation:flipCoin 1s ease;
+}
+
+@keyframes flipCoin{
+
+    0%{
+        transform:rotateY(0deg);
+    }
+
+    100%{
+        transform:rotateY(1080deg);
+    }
+}
+
+/* =========================
+   CHOICES
+========================= */
+
+.choice-section{
+    margin-bottom:25px;
+}
+
+.choice-section h2{
+    color:#5b2c83;
+    margin-bottom:15px;
+}
+
+.choices{
+    display:flex;
+    justify-content:center;
+    gap:15px;
+    flex-wrap:wrap;
+}
+
+.choices button{
+    border:none;
+
+    padding:12px 25px;
+
+    border-radius:15px;
+
+    background:white;
+
+    color:#5b2c83;
+
+    font-size:1rem;
+    font-weight:600;
+
+    cursor:pointer;
+
+    transition:0.3s;
+}
+
+.choices button:hover{
+    transform:translateY(-3px);
+
+    box-shadow:0 8px 15px rgba(0,0,0,0.15);
+}
+
+.selected{
+    background:#764ba2 !important;
+    color:white !important;
+}
+
+/* =========================
+   TOSS BUTTON
+========================= */
+
+.action-section{
+    margin-bottom:25px;
+}
+
+#tossBtn{
+    border:none;
+
+    padding:14px 30px;
+
+    border-radius:15px;
+
+    background:#764ba2;
+    color:white;
+
+    font-size:1rem;
+    font-weight:600;
+
+    cursor:pointer;
+
+    transition:0.3s;
+}
+
+#tossBtn:hover{
+    transform:scale(1.05);
+}
+
+/* =========================
+   RESULT
+========================= */
+
+.result-section{
+    margin-bottom:25px;
+}
+
+#resultText{
+    color:#5b2c83;
+    min-height:40px;
+}
+
+/* =========================
+   CONTROLS
+========================= */
+
+.controls{
+    display:flex;
+    justify-content:center;
+    gap:15px;
+    flex-wrap:wrap;
+
+    margin-bottom:25px;
+}
+
+.controls button{
+    border:none;
+
+    padding:12px 25px;
+
+    border-radius:12px;
+
+    background:white;
+
+    color:#5b2c83;
+
+    font-size:1rem;
+    font-weight:600;
+
+    cursor:pointer;
+
+    transition:0.3s;
+}
+
+.controls button:hover{
+    transform:translateY(-3px);
+}
+
+/* =========================
+   FOOTER
+========================= */
+
+footer{
+    margin-top:20px;
+}
+
+footer p{
+    color:#5b2c83;
+    font-weight:600;
+}
+
+/* =========================
+   RESPONSIVE
+========================= */
+
+@media(max-width:768px){
+
+    header h1{
+        font-size:2.3rem;
+    }
+
+    .coin{
+        width:120px;
+        height:120px;
+        font-size:4rem;
+    }
+
+    .score-card{
+        width:150px;
+    }
+
+}
+
+@media(max-width:480px){
+
+    .coin{
+        width:100px;
+        height:100px;
+        font-size:3rem;
+    }
+
+    header h1{
+        font-size:2rem;
+    }
+
+    .score-card{
+        width:100%;
+        max-width:250px;
+    }
+
+    .choices button,
+    .controls button,
+    #tossBtn{
+        width:100%;
+        max-width:280px;
+    }
+
+}

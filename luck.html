@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>LuckyKit - Test Your Luck</title>
+
+    <link rel="stylesheet" href="luck.css">
+
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+</head>
+<body>
+
+    <div class="container">
+
+        <!-- Header -->
+        <header>
+            <h1>🪙 Test Your Luck</h1>
+            <p>Choose Head or Tail and Test Your Luck!</p>
+        </header>
+
+        <!-- Scoreboard -->
+        <section class="scoreboard">
+
+            <div class="score-card">
+                <h2>Wins</h2>
+                <p id="winCount">0</p>
+            </div>
+
+            <div class="score-card">
+                <h2>Losses</h2>
+                <p id="loseCount">0</p>
+            </div>
+
+        </section>
+
+        <!-- Coin Area -->
+        <section class="coin-section">
+
+           <div class="coin" id="coin">
+    🪙
+</div>
+
+<h3 id="coinLabel">
+    Lucky Coin
+</h3>
+        </section>
+
+        <!-- Choice Buttons -->
+        <section class="choice-section">
+
+            <h2>Select Your Choice</h2>
+
+            <div class="choices">
+
+                <button id="headBtn">
+                    Head
+                </button>
+
+                <button id="tailBtn">
+                    Tail
+                </button>
+
+            </div>
+
+        </section>
+
+        <!-- Toss Button -->
+        <section class="action-section">
+
+            <button id="tossBtn">
+                Toss Coin
+            </button>
+
+        </section>
+
+        <!-- Result -->
+        <section class="result-section">
+
+            <h2 id="resultText">
+                Make Your Choice
+            </h2>
+
+        </section>
+
+        <!-- Controls -->
+        <section class="controls">
+
+            <button id="replayBtn">
+                🔄 Replay
+            </button>
+
+            <button id="homeBtn">
+                🏠 Home
+            </button>
+
+        </section>
+
+        <!-- Footer -->
+        <footer>
+            <p>✨ Created by Shivani Stalin & Vaishnavi M ✨</p>
+        </footer>
+
+    </div>
+
+    <script src="luck.js"></script>
+
+</body>
+</html>

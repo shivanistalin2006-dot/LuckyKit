@@ -1,0 +1,293 @@
+/* =========================
+   GLOBAL
+========================= */
+
+*{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+    font-family:'Outfit',sans-serif;
+}
+
+body{
+    min-height:100vh;
+    padding:20px;
+
+    background:linear-gradient(
+        135deg,
+        #ffe5e5,
+        #ffd6d6,
+        #ffc6c6
+    );
+
+    display:flex;
+    justify-content:center;
+    align-items:center;
+
+    overflow-x:hidden;
+}
+
+.container{
+    width:100%;
+    max-width:1200px;
+    text-align:center;
+}
+
+/* =========================
+   HEADER
+========================= */
+
+header{
+    margin-bottom:30px;
+}
+
+header h1{
+    font-size:3rem;
+    color:#8b1e1e;
+    margin-bottom:10px;
+}
+
+header p{
+    color:#a33;
+    font-size:1.1rem;
+}
+
+/* =========================
+   SECTIONS
+========================= */
+
+section{
+    margin-bottom:25px;
+}
+
+/* =========================
+   SETUP
+========================= */
+
+.setup-section,
+#playerInputsSection{
+    background:rgba(255,255,255,0.6);
+
+    padding:25px;
+
+    border-radius:20px;
+
+    backdrop-filter:blur(10px);
+}
+
+select,
+input{
+    padding:12px;
+
+    border:none;
+
+    border-radius:12px;
+
+    width:250px;
+
+    font-size:1rem;
+
+    margin:10px;
+}
+
+#playerInputs{
+    display:flex;
+    flex-direction:column;
+    align-items:center;
+    gap:10px;
+
+    margin:20px 0;
+}
+
+/* =========================
+   BUTTONS
+========================= */
+
+button{
+    border:none;
+
+    padding:12px 25px;
+
+    border-radius:12px;
+
+    background:white;
+
+    color:#8b1e1e;
+
+    font-weight:600;
+
+    cursor:pointer;
+
+    transition:0.3s;
+}
+
+button:hover{
+    transform:translateY(-3px);
+
+    box-shadow:0 10px 20px rgba(0,0,0,0.15);
+}
+
+/* =========================
+   SCOREBOARD
+========================= */
+
+.scoreboard h2{
+    margin-bottom:20px;
+    color:#8b1e1e;
+}
+
+#scoreboardContainer{
+    display:flex;
+    justify-content:center;
+    gap:15px;
+    flex-wrap:wrap;
+}
+
+.score-card{
+    width:180px;
+
+    background:white;
+
+    border-radius:18px;
+
+    padding:20px;
+
+    box-shadow:0 8px 18px rgba(0,0,0,0.12);
+}
+
+.score-card h3{
+    color:#8b1e1e;
+    margin-bottom:10px;
+}
+
+.score-card p{
+    font-size:2rem;
+    font-weight:bold;
+    color:#d62828;
+}
+
+/* =========================
+   TURN
+========================= */
+
+#turnText{
+    color:#8b1e1e;
+}
+
+/* =========================
+   MOVE BUTTONS
+========================= */
+
+.move-buttons{
+    display:flex;
+    justify-content:center;
+    gap:15px;
+    flex-wrap:wrap;
+}
+
+.moveBtn{
+    min-width:150px;
+}
+
+.selected-move{
+    background:#d62828 !important;
+    color:white !important;
+}
+
+/* =========================
+   LOCK BUTTON
+========================= */
+
+#lockMoveBtn{
+    background:#d62828;
+    color:white;
+}
+
+/* =========================
+   RESULTS
+========================= */
+
+.results-section{
+    background:white;
+
+    padding:20px;
+
+    border-radius:20px;
+
+    box-shadow:0 8px 18px rgba(0,0,0,0.1);
+}
+
+.results-section h2{
+    color:#8b1e1e;
+    margin-bottom:15px;
+}
+
+#resultsContainer{
+    color:#333;
+    line-height:1.8;
+}
+
+/* =========================
+   CONTROLS
+========================= */
+
+.controls{
+    display:flex;
+    justify-content:center;
+    gap:15px;
+    flex-wrap:wrap;
+}
+
+/* =========================
+   FOOTER
+========================= */
+
+footer{
+    margin-top:20px;
+}
+
+footer p{
+    color:#8b1e1e;
+    font-weight:600;
+}
+
+/* =========================
+   RESPONSIVE
+========================= */
+
+@media(max-width:768px){
+
+    header h1{
+        font-size:2.2rem;
+    }
+
+    .score-card{
+        width:160px;
+    }
+
+    select,
+    input{
+        width:100%;
+        max-width:320px;
+    }
+
+}
+
+@media(max-width:480px){
+
+    header h1{
+        font-size:1.8rem;
+    }
+
+    .moveBtn,
+    button{
+        width:100%;
+        max-width:300px;
+    }
+
+    .score-card{
+        width:100%;
+        max-width:280px;
+    }
+
+}
