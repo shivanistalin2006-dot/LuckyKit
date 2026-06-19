@@ -63,3 +63,6 @@ function openTruckGame() {
 function openWhackGame() {
     window.location.href = "whack.html";
 }
+function openMemoryLinkGame(){
+    window.location.href = "ml.html";
+}

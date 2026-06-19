@@ -121,42 +121,82 @@ header p{
 
 .whack-card:hover{
     box-shadow:0 20px 40px rgba(255,180,80,.35);
-}/* =========================
+}
+.memorylink-card{
+    background:#B8F3FF;
+}
+/* =========================
    COLORS (FIXED + CLEAN)
-========================= */
+   ========================== */
+.tic-card{
+    background: linear-gradient(135deg,rgb(120, 8, 248),gold);
+}
 
-.tic-card{background:#CFE8FF;}
-.luck-card{background:#E8D7FF;}
-.rps-card{background:#FFD6D6;}
-.memory-card{background:#FFC78A;}
-.snake-card{background:#CFFFE5;}
-.chess-card{background:#E8E8E8;}
-.truck-card{background:#e47a7a;}
-.whack-card{background:#9ed0f1d0;}
+.luck-card{
+    background: linear-gradient(135deg,#ff95d3,gold);
+}
+
+.rps-card{
+    background: linear-gradient(135deg,#09e8e8,gold);
+}
+
+.memory-card{
+    background: linear-gradient(135deg,#ff8e04,gold);
+}
+
+.memorylink-card{
+    background: linear-gradient(135deg,rgb(218, 19, 19),rgb(255, 225, 106));
+}
+
+.snake-card{
+    background: linear-gradient(135deg,darkgreen,gold);
+}
+.whack-card{
+    background: linear-gradient(135deg,#affa00,gold);
+}
+
 .fruit-card{
-    background:#d1ed69;
-}
-.box-card{
-    background: linear-gradient(135deg,#fff3c4,#ffe8a1);
+    background: linear-gradient(135deg,#fc009f,gold);
 }
 
-/* hover glow */
-.tic-card:hover{box-shadow:0 20px 40px rgba(80,160,255,.35);}
+.box-card{
+    background: linear-gradient(135deg, rgb(30, 10, 206),gold);
+}
+
+.chess-card{
+    background: linear-gradient(35deg,#4a4848,#ece8e8);
+}
+.truck-card{
+    background: linear-gradient(
+        135deg,
+        #000000 0%,
+        #1a1a1a 25%,
+        #FFD700 50%,
+        #B8860B 75%,
+        #000000 100%
+    );
+    
+    color: white;
+}
+
+
+/* hover glow */.tic-card:hover{box-shadow:0 20px 40px rgba(80,160,255,.35);}
 .luck-card:hover{box-shadow:0 20px 40px rgba(180,120,255,.35);}
 .rps-card:hover{box-shadow:0 20px 40px rgba(255,120,120,.35);}
 .memory-card:hover{box-shadow:0 20px 40px rgba(120,220,120,.35);}
+.memorylink-card:hover{box-shadow:0 20px 40px rgba(0,180,255,.35);}
 .snake-card:hover{box-shadow:0 20px 40px rgba(120,255,180,.35);}
 .chess-card:hover{box-shadow:0 20px 40px rgba(120,120,120,.35);}
 .truck-card:hover{box-shadow:0 20px 40px rgba(255,165,0,.35);}
 .whack-card:hover{box-shadow:0 20px 40px rgba(255,180,80,.35);}
+
 .fruit-card:hover{
     box-shadow:0 20px 40px rgba(255,105,180,.35);
 }
 
 .box-card:hover{
-    box-shadow:0 20px 40px rgba(255,200,0,0.4);
+    box-shadow:0 20px 40px rgba(255,200,0,.4);
 }
-
 /* =========================
    ICON
 ========================= */

@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>MIND LINK</title>
+  <link rel="stylesheet" href="ml.css" />
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700;800&display=swap" rel="stylesheet">
+</head>
+<body>
+  <div class="bg">
+    <div class="sky"></div>
+    <div class="sun"></div>
+    <div class="sun-glow"></div>
+    <div class="horizon"></div>
+    <div class="mountains">
+      <div class="m m1"></div>
+      <div class="m m2"></div>
+      <div class="m m3"></div>
+    </div>
+    <div class="cloud c1"></div>
+    <div class="cloud c2"></div>
+    <div class="cloud c3"></div>
+    <div class="particles" id="particles"></div>
+    <div class="sparkles" id="sparkles"></div>
+    <div class="dust" id="dust"></div>
+  </div>
+
+  <main class="app">
+    <section class="screen active" id="homeScreen">
+      <div class="card hero">
+        <h1 class="title"><span>MIND</span><span class="gold">LINK</span></h1>
+        <p class="subtitle">Train Your Brain</p>
+        <div class="highscore">High Score: <strong id="homeHighScore">0</strong></div>
+        <div class="actions">
+          <button class="btn primary" id="startBtn" type="button">START GAME</button>
+          <button class="btn secondary" id="howToBtn" type="button">HOW TO PLAY</button>
+        </div>
+      </div>
+    </section>
+
+    <section class="screen" id="howToScreen">
+      <div class="card panel">
+        <div class="panel-head">
+          <h2>How To Play</h2>
+          <button class="btn small" id="backFromHowTo" type="button">← Back</button>
+        </div>
+        <div class="how-grid">
+          <div class="how-step">1. Watch the sequence.</div>
+          <div class="how-step">2. Memorize the order.</div>
+          <div class="how-step">3. Click the correct options below.</div>
+          <div class="how-step">4. Each level gets longer.</div>
+        </div>
+      </div>
+    </section>
+
+    <section class="screen" id="gameScreen">
+      <div class="card game-card">
+        <div class="hud">
+          <div><span>LEVEL</span><strong id="levelText">1</strong></div>
+          <div><span>SCORE</span><strong id="scoreText">0</strong></div>
+          <div><span>COMBO</span><strong id="comboText">x1</strong></div>
+          <div><span>LIVES</span><strong id="livesText">❤️❤️❤️</strong></div>
+          <div><span>STREAK</span><strong id="streakText">0</strong></div>
+          <div><span>ACC</span><strong id="accuracyText">100%</strong></div>
+        </div>
+
+        <div class="status" id="statusText">Press START GAME</div>
+
+        <div class="sequence-box">
+          <div class="sequence-label">Sequence</div>
+          <div class="items" id="sequenceItems"></div>
+        </div>
+
+        <div class="input-box">
+          <div class="sequence-label">Choose the correct order</div>
+          <div class="items" id="inputItems"></div>
+          <div class="your-seq">Your Sequence: <span id="yourSeq"></span></div>
+        </div>
+
+        <div class="controls">
+          <button class="btn small" id="homeBtn" type="button">🏠 Home</button>
+          <button class="btn small" id="pauseBtn" type="button">⏸ Pause</button>
+        </div>
+      </div>
+    </section>
+
+    <section class="screen" id="pauseScreen">
+      <div class="card panel">
+        <h2>Game Paused</h2>
+        <p id="pauseInfo">Level 1</p>
+        <div class="actions">
+          <button class="btn primary" id="resumeBtn" type="button">RESUME</button>
+          <button class="btn secondary" id="quitBtn" type="button">QUIT</button>
+        </div>
+      </div>
+    </section>
+
+    <section class="screen" id="gameOverScreen">
+      <div class="card panel">
+        <h2>Game Over</h2>
+        <div class="final">
+          <p>Final Score: <strong id="finalScore">0</strong></p>
+          <p>Level Reached: <strong id="finalLevel">1</strong></p>
+          <p>Accuracy: <strong id="finalAccuracy">100%</strong></p>
+          <p>Max Streak: <strong id="finalStreak">0</strong></p>
+        </div>
+        <p class="new-high" id="newHigh" hidden>🏆 NEW HIGH SCORE!</p>
+        <div class="actions">
+          <button class="btn primary" id="retryBtn" type="button">TRY AGAIN</button>
+          <button class="btn secondary" id="homeFromGoBtn" type="button">HOME</button>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <script src="ml.js"></script>
+</body>
+</html>

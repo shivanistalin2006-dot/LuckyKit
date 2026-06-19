@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Chess Game</title>
+    <link rel="stylesheet" href="chess.css">
+</head>
+<body>
+    <div class="container">
+        <div class="board-wrapper">
+            <div class="board" id="board"></div>
+        </div>
+        
+        <div class="sidebar">
+            <h1>♚ Chess</h1>
+            <div class="info">
+                <p>Turn: <span id="turn">White</span></p>
+                <p>Moves: <span id="moves">0</span></p>
+                <p>Status: <span id="status">Playing</span></p>
+            </div>
+            
+            <div class="timers">
+                <div>White: <span id="whiteTime">5:00</span></div>
+                <div>Black: <span id="blackTime">5:00</span></div>
+            </div>
+            
+            <div class="controls">
+                <select id="mode">
+                    <option value="pvp">Player vs Player</option>
+                    <option value="ai">Player vs AI</option>
+                </select>
+                <select id="difficulty">
+                    <option value="easy">Easy</option>
+                    <option value="medium" selected>Medium</option>
+                    <option value="hard">Hard</option>
+                </select>
+                <button onclick="newGame()">New Game</button>
+                <button onclick="flipBoard()">Flip</button>
+            </div>
+        </div>
+    </div>
+    <script src="chess.js"></script>
+</body>
+</html>
