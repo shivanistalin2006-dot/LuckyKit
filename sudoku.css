@@ -1,0 +1,113 @@
+/* Logic Grid (Sudoku) Premium Theme */
+:root {
+    --theme-color: #8b5cf6;
+    --theme-glow: rgba(139, 92, 246, 0.2);
+}
+
+.text-theme { color: var(--theme-color) !important; text-shadow: 0 0 10px var(--theme-glow); }
+.bg-theme { background-color: var(--theme-color) !important; }
+
+.premium-bg-sudoku {
+    background-color: #0b0f19;
+    position: relative;
+    overflow-x: hidden;
+}
+
+.glass-panel {
+    background: rgba(20, 25, 40, 0.7);
+    backdrop-filter: blur(15px);
+    border: 1px solid rgba(255,255,255,0.1);
+    box-shadow: 0 8px 32px rgba(0,0,0,0.5), inset 0 0 20px var(--theme-glow);
+}
+
+/* Sudoku Board */
+.sudoku-board {
+    display: grid;
+    grid-template-columns: repeat(9, 1fr);
+    grid-template-rows: repeat(9, 1fr);
+    width: 100%;
+    max-width: 500px;
+    aspect-ratio: 1 / 1;
+    background-color: #334155;
+    border: 3px solid #cbd5e1;
+    gap: 1px;
+}
+
+.sudoku-cell {
+    background-color: #1e293b;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 1.5rem;
+    font-weight: 600;
+    color: #f8fafc;
+    cursor: pointer;
+    transition: background-color 0.2s;
+    user-select: none;
+}
+
+/* Sub-grid thick borders */
+.sudoku-cell:nth-child(3n) { border-right: 2px solid #cbd5e1; }
+.sudoku-cell:nth-child(9n) { border-right: none; } /* Reset right edge */
+.sudoku-cell:nth-child(n+19):nth-child(-n+27),
+.sudoku-cell:nth-child(n+46):nth-child(-n+54) {
+    border-bottom: 2px solid #cbd5e1;
+}
+
+/* Cell States */
+.sudoku-cell.fixed {
+    color: #94a3b8;
+    background-color: #0f172a;
+    cursor: not-allowed;
+}
+
+.sudoku-cell.selected {
+    background-color: rgba(139, 92, 246, 0.4);
+    box-shadow: inset 0 0 10px var(--theme-color);
+}
+
+.sudoku-cell.error {
+    color: #ef4444;
+    background-color: rgba(239, 68, 68, 0.2);
+}
+
+/* Numpad */
+.numpad {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 10px;
+    width: 100%;
+    max-width: 300px;
+}
+
+.num-btn {
+    aspect-ratio: 1 / 1;
+    border-radius: 12px;
+    background: rgba(255,255,255,0.05);
+    border: 1px solid rgba(255,255,255,0.1);
+    color: white;
+    font-size: 1.5rem;
+    font-weight: bold;
+    cursor: pointer;
+    transition: all 0.2s;
+}
+
+.num-btn:hover {
+    background: var(--theme-color);
+    box-shadow: 0 0 15px var(--theme-color);
+    transform: scale(1.05);
+}
+
+.num-btn:active {
+    transform: scale(0.95);
+}
+
+.action-btn {
+    grid-column: span 3;
+    aspect-ratio: auto;
+    padding: 15px;
+}
+
+@media (max-width: 576px) {
+    .sudoku-cell { font-size: 1.2rem; }
+}

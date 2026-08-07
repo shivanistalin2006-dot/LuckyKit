@@ -1,0 +1,338 @@
+/* =========================
+   RESET
+========================= */
+
+*{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+    font-family:'Outfit',sans-serif;
+}
+
+body{
+    min-height:100vh;
+
+    background:linear-gradient(
+        135deg,
+        #FFF7D6,
+        #FFE9A8,
+        #FFD97D
+    );
+
+    display:flex;
+    justify-content:center;
+    align-items:center;
+
+    padding:20px;
+}
+
+/* =========================
+   CONTAINER
+========================= */
+
+.container{
+    width:100%;
+    max-width:900px;
+    text-align:center;
+    cursor: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='40' height='40' style='font-size:32px;'><text y='32'>🔨</text></svg>"), auto;
+}
+.container:active {
+    cursor: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='40' height='40' style='font-size:32px;'><text y='32' transform='rotate(-45 20 20)'>🔨</text></svg>"), auto;
+}
+
+/* =========================
+   HEADER
+========================= */
+
+header h1{
+    font-size:3rem;
+    color:#3A2D00;
+    margin-bottom:10px;
+}
+
+header p{
+    color:#5C4A00;
+    font-size:1.1rem;
+    margin-bottom:30px;
+}
+
+/* =========================
+   SCORE & TIMER
+========================= */
+
+.game-info{
+    display:flex;
+    justify-content:center;
+    gap:20px;
+    margin-bottom:30px;
+}
+
+.info-box{
+    background:white;
+    padding:15px 30px;
+
+    border-radius:15px;
+
+    box-shadow:0 8px 20px rgba(0,0,0,0.1);
+}
+
+.info-box h2{
+    color:#444;
+    font-size:1rem;
+    margin-bottom:5px;
+}
+
+.info-box span{
+    font-size:2rem;
+    font-weight:700;
+    color:#3A2D00;
+}
+
+/* =========================
+   GAME GRID
+========================= */
+
+.grid{
+    width:100%;
+    max-width:500px;
+
+    margin:auto;
+
+    display:grid;
+    grid-template-columns:repeat(3,1fr);
+
+    gap:20px;
+}
+
+/* =========================
+   HOLES
+========================= */
+
+.hole{
+    width:140px;
+    height:140px;
+
+    background:#7A4A1D;
+
+    border-radius:50%;
+
+    margin:auto;
+
+    cursor: inherit;
+
+    position:relative;
+
+    overflow:hidden;
+
+    box-shadow:
+        inset 0 6px 12px rgba(0,0,0,0.4),
+        0 6px 12px rgba(0,0,0,0.2);
+
+    transition:0.2s;
+}
+
+.hole:hover{
+    transform:scale(1.05);
+}
+
+/* =========================
+   MOLE
+========================= */
+
+.hole.mole::before{
+    content:"🐹";
+
+    position:absolute;
+
+    font-size:4rem;
+
+    left:50%;
+    top:50%;
+
+    transform:translate(-50%,-50%);
+
+    animation:popUp 0.2s ease;
+}
+
+@keyframes popUp{
+    from{
+        transform:
+        translate(-50%,20%);
+        opacity:0;
+    }
+
+    to{
+        transform:
+        translate(-50%,-50%);
+        opacity:1;
+    }
+}
+
+/* =========================
+   BUTTONS
+========================= */
+
+.buttons{
+    margin-top:30px;
+
+    display:flex;
+    justify-content:center;
+    gap:15px;
+
+    flex-wrap:wrap;
+}
+
+button{
+    border:none;
+
+    padding:12px 25px;
+
+    border-radius:12px;
+
+    background:white;
+
+    font-weight:600;
+
+    cursor:pointer;
+
+    transition:0.3s;
+
+    box-shadow:0 4px 12px rgba(0,0,0,0.1);
+}
+
+button:hover{
+    background:#222;
+    color:white;
+
+    transform:scale(1.05);
+}
+
+/* =========================
+   GAME OVER
+========================= */
+
+.game-over {
+    position: fixed;
+    top: 0; left: 0; width: 100%; height: 100%;
+    background: rgba(0,0,0,0.85);
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    z-index: 1000;
+    backdrop-filter: blur(5px);
+    margin: 0;
+    border-radius: 0;
+    box-shadow: none;
+}
+.game-over-content {
+    background: rgba(245, 158, 11, 0.2);
+    border: 1px solid rgba(255,255,255,0.2);
+    padding: 40px;
+    border-radius: 20px;
+    text-align: center;
+    color: white;
+    box-shadow: 0 0 30px rgba(245,158,11,0.3);
+}
+
+.game-over h2{
+    color:#fde68a;
+    font-size: 2.5rem;
+    margin-bottom:10px;
+}
+
+.game-over p{
+    font-size:1.5rem;
+    margin-bottom:20px;
+    color: #fff;
+}
+
+.hidden{
+    display:none;
+}
+
+/* =========================
+   FOOTER
+========================= */
+
+footer{
+    margin-top:40px;
+}
+
+footer p{
+    color:#3A2D00;
+}
+
+.creator{
+    margin-top:5px;
+    font-size:0.9rem;
+}
+
+/* =========================
+   RESPONSIVE
+========================= */
+
+@media(max-width:768px){
+
+    header h1{
+        font-size:2.3rem;
+    }
+
+    .grid{
+        gap:12px;
+    }
+
+    .hole{
+        width:100px;
+        height:100px;
+    }
+
+    .hole.mole::before{
+        font-size:3rem;
+    }
+
+    .info-box{
+        padding:12px 20px;
+    }
+}
+
+@media(max-width:480px){
+
+    .game-info{
+        flex-direction:column;
+        align-items:center;
+    }
+
+    .grid{
+        max-width:320px;
+    }
+
+    .hole{
+        width:90px;
+        height:90px;
+    }
+
+    .hole.mole::before{
+        font-size:2.5rem;
+    }
+}
+
+/* Premium Dynamic Background Injected */
+body {
+    background: radial-gradient(circle, #78350f, #27272a) !important;
+    position: relative;
+}
+body::before {
+    content: '';
+    position: fixed;
+    top: 0; left: 0; width: 100vw; height: 100vh;
+    background: radial-gradient(circle at 50% 50%, rgba(245,158,11,0.15) 0%, transparent 70%);
+    z-index: -1;
+    animation: pulseBg 6s infinite alternate;
+}
+@keyframes pulseBg {
+    0% { transform: scale(1); opacity: 0.3; }
+    100% { transform: scale(1.3); opacity: 0.7; }
+}
+header h1 { text-shadow: 0 0 15px #f59e0b !important; }
+button { box-shadow: 0 4px 10px rgba(245,158,11,0.15); }

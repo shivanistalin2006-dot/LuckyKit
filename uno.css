@@ -1,0 +1,192 @@
+/* Cosmic Cards (UNO) Premium Theme */
+:root {
+    --theme-color: #f43f5e;
+    --theme-glow: rgba(244, 63, 94, 0.2);
+    
+    --uno-red: #ef4444;
+    --uno-green: #22c55e;
+    --uno-blue: #3b82f6;
+    --uno-yellow: #eab308;
+    --uno-dark: #1f2937;
+}
+
+.text-theme { color: var(--theme-color) !important; text-shadow: 0 0 10px var(--theme-glow); }
+.bg-theme { background-color: var(--theme-color) !important; }
+
+.premium-bg-uno {
+    background-color: #0a0a0f;
+    position: relative;
+    overflow-x: hidden;
+}
+
+.glass-panel {
+    background: rgba(15, 15, 25, 0.7);
+    backdrop-filter: blur(15px);
+    border: 1px solid rgba(255,255,255,0.1);
+    box-shadow: 0 8px 32px rgba(0,0,0,0.5), inset 0 0 20px var(--theme-glow);
+}
+
+/* Card Styling */
+.card-hand {
+    display: flex;
+    justify-content: center;
+    gap: -30px; /* Overlap cards */
+    padding: 20px 0;
+    min-height: 140px;
+    position: relative;
+}
+
+.card-hand.ai-hand {
+    transform: scale(0.7);
+    min-height: 100px;
+}
+
+.card-hand.vertical {
+    flex-direction: column;
+    min-height: 300px;
+}
+
+.uno-card {
+    width: 80px;
+    height: 120px;
+    border-radius: 10px;
+    background: white;
+    border: 4px solid white;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 2.5rem;
+    font-weight: 900;
+    color: white;
+    text-shadow: 2px 2px 0px rgba(0,0,0,0.3);
+    position: relative;
+    box-shadow: -5px 0 15px rgba(0,0,0,0.5);
+    margin-left: -40px; /* Overlap logic */
+    transition: transform 0.2s ease, margin 0.2s ease, box-shadow 0.2s ease;
+    cursor: pointer;
+    user-select: none;
+}
+
+.card-hand.vertical .uno-card {
+    margin-left: 0;
+    margin-top: -80px;
+    box-shadow: 0 -5px 15px rgba(0,0,0,0.5);
+}
+
+/* Remove negative margin for first card */
+.uno-card:first-child { margin-left: 0; margin-top: 0; }
+
+.player-hand .uno-card:hover {
+    transform: translateY(-20px) scale(1.1);
+    margin-right: 20px;
+    z-index: 100 !important;
+    box-shadow: 0 15px 30px rgba(0,0,0,0.6);
+}
+
+.uno-card.valid-move {
+    box-shadow: 0 0 20px var(--uno-green), -5px 0 15px rgba(0,0,0,0.5);
+    border-color: var(--uno-green);
+}
+
+.uno-card.red { background: var(--uno-red); }
+.uno-card.green { background: var(--uno-green); }
+.uno-card.blue { background: var(--uno-blue); }
+.uno-card.yellow { background: var(--uno-yellow); }
+.uno-card.wild { background: conic-gradient(var(--uno-red) 25%, var(--uno-blue) 0 50%, var(--uno-yellow) 0 75%, var(--uno-green) 0); color: white; text-shadow: 2px 2px 4px black;}
+.uno-card.back {
+    background: #111;
+    border-color: #333;
+    color: var(--theme-color);
+    font-size: 1.5rem;
+    background-image: repeating-linear-gradient(45deg, rgba(255,255,255,0.05) 0 5px, transparent 5px 10px);
+}
+
+/* Inner ellipse detail */
+.uno-card::before {
+    content: '';
+    position: absolute;
+    width: 80%;
+    height: 90%;
+    border-radius: 50%;
+    background: rgba(255,255,255,0.2);
+    transform: rotate(-20deg);
+    z-index: 0;
+}
+.uno-card.back::before { display: none; }
+.uno-card span { position: relative; z-index: 1; }
+
+.card-slot {
+    width: 90px;
+    height: 130px;
+    border: 2px dashed rgba(255,255,255,0.2);
+    border-radius: 12px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    position: relative;
+}
+
+.draw-pile .uno-card {
+    margin: 0;
+    box-shadow: 2px 2px 5px rgba(0,0,0,0.5);
+}
+.draw-pile .uno-card:hover {
+    transform: scale(1.05);
+}
+
+.direction-indicator {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    font-size: 8rem;
+    color: rgba(255,255,255,0.05);
+    z-index: -1;
+    pointer-events: none;
+    transition: transform 0.5s ease;
+}
+
+.direction-indicator.reverse {
+    transform: translate(-50%, -50%) scaleX(-1);
+}
+
+.color-btn {
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+    border: 3px solid white;
+    cursor: pointer;
+    transition: transform 0.2s;
+}
+.color-btn:hover { transform: scale(1.2); }
+
+.overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.9);
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    z-index: 1000;
+}
+.hidden { display: none !important; }
+
+/* Responsive Adjustments */
+@media (max-width: 992px) {
+    .card-hand.vertical {
+        flex-direction: row;
+        min-height: 100px;
+        transform: scale(0.6);
+    }
+    .card-hand.vertical .uno-card {
+        margin-left: -40px;
+        margin-top: 0;
+    }
+    .play-area {
+        flex-direction: column;
+    }
+}

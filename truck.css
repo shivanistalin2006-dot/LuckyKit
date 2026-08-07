@@ -1,0 +1,80 @@
+/* Midnight Runner Premium Theme */
+:root {
+    --theme-color: #0ea5e9; /* sky blue */
+    --theme-glow: rgba(14, 165, 233, 0.2);
+}
+
+.text-theme { color: var(--theme-color) !important; text-shadow: 0 0 10px var(--theme-glow); }
+.bg-theme { background-color: var(--theme-color) !important; }
+
+.premium-bg-runner {
+    background-color: #020617; /* Slate 950 */
+    position: relative;
+    overflow-x: hidden;
+}
+
+.glass-panel {
+    background: rgba(15, 23, 42, 0.8);
+    backdrop-filter: blur(10px);
+    border: 1px solid rgba(255,255,255,0.05);
+    box-shadow: 0 8px 32px rgba(0,0,0,0.5), inset 0 0 15px var(--theme-glow);
+}
+
+/* Parallax Backgrounds */
+.runner-container {
+    cursor: pointer;
+    -webkit-tap-highlight-color: transparent;
+}
+
+.bg-layer {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 200%; /* Double width for seamless scrolling */
+    height: 100%;
+    background-size: 50% 100%; /* Half of 200% = 100% of container */
+    background-repeat: repeat-x;
+    will-change: transform;
+}
+
+.bg-sky {
+    background: linear-gradient(to bottom, #1e1b4b 0%, #312e81 50%, #4c1d95 100%);
+    z-index: 1;
+}
+
+/* Simple CSS geometric cityscapes generated via linear-gradients for a cyberpunk feel without external images */
+.bg-city-back {
+    z-index: 2;
+    background-image: 
+        linear-gradient(0deg, #1e293b 0%, #1e293b 30%, transparent 30%),
+        linear-gradient(0deg, #334155 0%, #334155 40%, transparent 40%),
+        linear-gradient(0deg, #0f172a 0%, #0f172a 50%, transparent 50%);
+    background-size: 150px 100%, 250px 100%, 100px 100%;
+    background-position: 0 0, 50px 0, 120px 0;
+    opacity: 0.5;
+}
+
+.bg-city-front {
+    z-index: 3;
+    background-image: 
+        linear-gradient(0deg, #020617 0%, #020617 20%, transparent 20%),
+        linear-gradient(0deg, #1e1b4b 0%, #1e1b4b 35%, transparent 35%);
+    background-size: 200px 100%, 300px 100%;
+    background-position: 0 0, 100px 0;
+    border-bottom: 2px solid #0ea5e9;
+    box-shadow: 0 0 20px #0ea5e9;
+}
+
+.bg-road {
+    z-index: 4;
+    top: auto;
+    bottom: 0;
+    height: 20%;
+    background: #020617;
+    border-top: 4px solid var(--theme-color);
+    box-shadow: inset 0 0 20px var(--theme-glow), 0 -5px 20px var(--theme-glow);
+    background-image: linear-gradient(90deg, transparent 0%, transparent 50%, #38bdf8 50%, #38bdf8 100%);
+    background-size: 100px 4px;
+    background-position: 0 center;
+    background-repeat: repeat-x;
+}

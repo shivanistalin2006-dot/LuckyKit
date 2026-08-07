@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Luck Box Challenge</title>
+    <link rel="stylesheet" href="box.css">
+
+    
+    <!-- LuckyKit Arcade Premium Injections -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="arcade-shell.css">
+    <script type="module" src="core/app.js"></script>
+        <script src="legacy/arcade-shell.js" defer></script>
+</head>
+<body>
+
+<!-- Animated Background Canvas (BEHIND everything) -->
+<canvas id="bgCanvas"></canvas>
+
+<div class="game">
+    <h1>🎁 Luck Box Challenge</h1>
+    <p>Pick a box... but choose carefully 💥</p>
+
+    <div class="hud">
+
+        <div>
+            ⭐ Score:
+            <span id="score">0</span>
+        </div>
+        <div>
+            ❤️ Lives:
+            <span id="lives">3</span>
+        </div>
+        <div>
+            🔥 Multiplier:
+            <span id="multi">x1</span>
+        </div>
+        <div>
+            ⏱ Time:
+            <span id="timer">30</span>
+        </div>
+        <div>
+            🏆 High Score:
+            <span id="highScore">0</span>
+        </div>
+    </div>
+
+    <div class="box-container" id="boxContainer"></div>
+
+    <div class="actions">
+        <button id="cashOutBtn">
+            💰 Cash Out
+        </button>
+        <button onclick="startGame()">
+            🔄 Restart
+        </button>
+    </div>
+</div>
+
+<!-- Overlay -->
+<div id="gameOverlay" class="overlay">
+    <div class="overlay-content">
+        <h2 id="overlayTitle">🎁 Luck Box Challenge</h2>
+        <p id="overlayMessage">Pick a box, avoid the bomb, and cash out before it's too late!</p>
+        <button id="overlayBtn">Start Game</button>
+    </div>
+</div>
+
+
+
+<footer>
+    <p class="creator">✨ Created by Shivani Stalin & Vaishnavi M ✨</p>
+</footer>
+
+<script type="module" src="box.js"></script>
+
+    
+
+</body>
+</html>

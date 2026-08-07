@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>LuckyKit - Neon Arena</title>
+    
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="arcade-shell.css">
+    <link rel="stylesheet" href="arena.css">
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;600;800;900&display=swap" rel="stylesheet">
+    
+    <script type="module" src="core/app.js"></script>
+    <script src="legacy/arcade-shell.js" defer></script>
+    <script type="module" src="arena.js" defer></script>
+</head>
+<body class="bg-dark text-white premium-bg-arena">
+
+    <div class="bg-overlay"></div>
+    <div class="particle-container" id="particles"></div>
+
+    <div class="container-fluid py-4 position-relative" style="z-index: 10;">
+        
+        <!-- Header -->
+        <header class="d-flex justify-content-between align-items-center mb-4 p-3 mx-auto rounded glass-panel" style="max-width: 1200px;">
+            <div class="d-flex align-items-center gap-3">
+                <span class="fs-1">⚔️</span>
+                <div>
+                    <h1 class="m-0 fw-bold text-theme">Neon Arena</h1>
+                    <span class="text-white-50">Flagship Battle Royale</span>
+                </div>
+            </div>
+            <div>
+                <button class="btn btn-outline-light d-none" id="restartBtn">NEW MATCH</button>
+            </div>
+        </header>
+
+        <!-- Game Interface -->
+        <div class="row g-4 justify-content-center mx-auto" style="max-width: 1200px;">
+            
+            <!-- Game Canvas / Play Area -->
+            <div class="col-12 col-xl-9 d-flex justify-content-center position-relative">
+                <div class="glass-panel p-2 p-md-4 rounded w-100 d-flex justify-content-center align-items-center" id="gameContainer">
+                    <canvas id="arenaCanvas" class="shadow-lg rounded" style="background: #050505; border: 2px solid #334155; width: 100%; max-width: 800px; aspect-ratio: 16/9;"></canvas>
+                    
+                    <!-- HUD Overlay -->
+                    <div class="hud-overlay" id="hudOverlay" style="display: none;">
+                        <div class="hud-top d-flex justify-content-between p-3 w-100 position-absolute top-0 start-0">
+                            <div class="hud-health d-flex align-items-center gap-2">
+                                <span class="fs-4 text-danger">❤</span>
+                                <div class="progress" style="width: 150px; height: 12px; background: rgba(0,0,0,0.5);">
+                                    <div class="progress-bar bg-danger" id="healthBar" style="width: 100%"></div>
+                                </div>
+                            </div>
+                            <div class="hud-alive badge bg-dark border border-secondary fs-6">
+                                Alive: <span id="aliveCount">10</span>
+                            </div>
+                            <div class="hud-ammo d-flex align-items-center gap-2">
+                                <span class="fs-4 text-info">🔫</span>
+                                <span class="fw-bold fs-5 text-info" id="ammoCount">30</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Mobile Joysticks -->
+                    <div class="mobile-controls w-100 position-absolute bottom-0 start-0 p-4 d-flex justify-content-between d-xl-none" id="mobileControls" style="display: none !important;">
+                        <div class="joystick-zone" id="moveZone"></div>
+                        <div class="joystick-zone" id="aimZone"></div>
+                    </div>
+
+                    <!-- Start Overlay -->
+                    <div class="start-overlay position-absolute w-100 h-100 d-flex flex-column justify-content-center align-items-center bg-dark bg-opacity-75 rounded" id="startOverlay">
+                        <h2 class="display-5 fw-bold text-theme mb-4">NEON ARENA</h2>
+                        <button class="btn btn-lg btn-theme px-5 py-3 fw-bold fs-4 shadow-lg pulse-btn" id="startBtn">ENTER MATCH</button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Stats & Mini Map Sidebar -->
+            <div class="col-12 col-xl-3">
+                <div class="glass-panel p-4 rounded h-100 d-flex flex-column gap-3">
+                    <h4 class="text-theme border-bottom border-secondary pb-2">Status</h4>
+                    
+                    <div class="d-flex justify-content-between align-items-center">
+                        <span class="text-white-50">Eliminations</span>
+                        <h3 class="m-0 fw-bold text-danger" id="killsDisplay">0</h3>
+                    </div>
+                    
+                    <div class="mt-4">
+                        <h5 class="text-white-50 text-center mb-3">Mini-Map</h5>
+                        <canvas id="minimapCanvas" width="200" height="200" class="w-100 rounded border border-secondary bg-dark shadow-sm"></canvas>
+                    </div>
+                    
+                    <div class="mt-auto pt-3 border-top border-secondary text-center">
+                        <p class="small text-white-50 mb-1">WASD to Move | Mouse to Aim & Shoot</p>
+                        <p class="small text-white-50 mb-0">Powered by LuckyKit Core Engine</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/nipplejs/0.10.1/nipplejs.min.js"></script>
+</body>
+</html>

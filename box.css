@@ -1,0 +1,361 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: 'Arial', sans-serif;
+    overflow-x: hidden;
+    overflow-y: auto;
+    text-align: center;
+    min-height: 100vh;
+    position: relative;
+}
+
+/* Animated Background Canvas - BEHIND EVERYTHING */
+#bgCanvas {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: -1;  /* FIXED: Changed from 0 to -1 */
+    pointer-events: none;
+}
+
+.game {
+    padding: 30px 20px;
+    position: relative;
+    z-index: 1;
+    min-height: 100vh;
+}
+
+h1 {
+    color: #ffd700;
+    font-size: 42px;
+    text-shadow: 
+        0 0 10px #ffd700,
+        0 0 20px #ff8c00,
+        0 0 30px #ff4500,
+        0 0 40px #ff0000;
+    animation: glowText 2s infinite alternate;
+    margin-bottom: 10px;
+}
+
+@keyframes glowText {
+    from { 
+        text-shadow: 
+            0 0 10px #ffd700,
+            0 0 20px #ff8c00,
+            0 0 30px #ff4500;
+    }
+    to { 
+        text-shadow: 
+            0 0 20px #ffd700,
+            0 0 40px #ff8c00,
+            0 0 60px #ff4500,
+            0 0 80px #ff0000;
+    }
+}
+
+p {
+    color: #ff8c00;
+    font-size: 18px;
+    margin-bottom: 20px;
+    text-shadow: 0 0 5px #ff8c00;
+}
+
+.hud {
+    display: flex;
+    justify-content: center;
+    gap: 25px;
+    margin: 25px 0;
+    font-size: 18px;
+    font-weight: bold;
+    color: #ffd700;
+    flex-wrap: wrap;
+    background: rgba(0, 0, 0, 0.8);
+    padding: 20px;
+    border-radius: 15px;
+    border: 2px solid rgba(255, 215, 0, 0.5);
+    box-shadow: 0 0 20px rgba(255, 215, 0, 0.3);
+}
+
+.hud div {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.hud span {
+    color: #fff;
+    font-size: 22px;
+    text-shadow: 0 0 10px #ffd700;
+}
+
+.box-container {
+    display: grid;
+    grid-template-columns: repeat(4, 110px);
+    gap: 18px;
+    justify-content: center;
+    margin-top: 40px;
+    padding: 20px;
+    background: rgba(0, 0, 0, 0.6);
+    border-radius: 20px;
+    border: 2px solid rgba(255, 215, 0, 0.5);
+}
+
+.box {
+    width: 110px;
+    height: 110px;
+    background: linear-gradient(145deg, #f5deb3, #fff1c2, #ffd700);
+    border-radius: 15px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 45px;
+    cursor: pointer;
+    box-shadow: 
+        0 5px 15px rgba(0, 0, 0, 0.8),
+        0 0 25px rgba(255, 215, 0, 0.8);
+    transition: all 0.3s ease;
+    position: relative;
+    border: 5px solid #ffd700;
+    font-weight: bold;
+    color: #333;
+}
+
+.box:hover {
+    transform: scale(1.15) translateY(-5px);
+    box-shadow: 
+        0 10px 30px rgba(0, 0, 0, 0.9),
+        0 0 40px gold,
+        0 0 60px orange;
+    border: 5px solid #ffcc00;
+}
+
+.box:active {
+    transform: scale(1.05);
+}
+
+.open {
+    animation: pop 0.4s ease;
+}
+
+@keyframes pop {
+    from { transform: scale(0.4) rotate(-15deg); opacity: 0.5; }
+    50% { transform: scale(1.2) rotate(5deg); }
+    to { transform: scale(1) rotate(0); opacity: 1; }
+}
+
+.jackpot {
+    animation: jackpotGlow 0.6s infinite alternate;
+}
+
+@keyframes jackpotGlow {
+    from { 
+        box-shadow: 
+            0 0 20px gold,
+            0 0 40px yellow;
+        border: 5px solid gold;
+    }
+    to { 
+        box-shadow: 
+            0 0 50px yellow,
+            0 0 80px orange,
+            0 0 100px red;
+        border: 5px solid orange;
+    }
+}
+
+.shake {
+    animation: shake 0.4s;
+}
+
+@keyframes shake {
+    0%, 100% { transform: translate(0, 0); }
+    20% { transform: translate(-10px, 10px); }
+    40% { transform: translate(10px, -10px); }
+    60% { transform: translate(-10px, -10px); }
+    80% { transform: translate(10px, 10px); }
+}
+
+.actions {
+    margin-top: 30px;
+    display: flex;
+    justify-content: center;
+    gap: 15px;
+}
+
+.actions button {
+    margin: 5px;
+    padding: 15px 30px;
+    font-size: 18px;
+    font-weight: bold;
+    border: none;
+    border-radius: 12px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+}
+
+.actions button:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.4);
+}
+
+#cashOutBtn {
+    background: linear-gradient(145deg, #16a34a, #22c55e);
+    color: white;
+    border: 2px solid #4ade80;
+}
+
+#cashOutBtn:hover {
+    background: linear-gradient(145deg, #22c55e, #4ade80);
+    box-shadow: 0 0 20px #4ade80;
+}
+
+.burst-effect {
+    position: fixed;
+    font-size: 80px;
+    font-weight: bold;
+    color: gold;
+    text-shadow: 
+        0 0 20px gold,
+        0 0 40px yellow,
+        0 0 60px orange;
+    animation: burstAnim 1.8s ease forwards;
+    pointer-events: none;
+    z-index: 10000;
+}
+
+.combo-text {
+    position: fixed;
+    font-size: 50px;
+    font-weight: bold;
+    color: #22c55e;
+    text-shadow: 
+        0 0 10px #22c55e,
+        0 0 20px #4ade80;
+    animation: comboAnim 1.5s ease forwards;
+    pointer-events: none;
+    z-index: 10000;
+}
+
+@keyframes burstAnim {
+    0% { opacity: 0; transform: translate(-50%, -50%) scale(0.3); }
+    30% { opacity: 1; transform: translate(-50%, -50%) scale(1.5); }
+    50% { transform: translate(-50%, -50%) scale(1.8); }
+    100% { opacity: 0; transform: translate(-50%, -150%) scale(2.5); }
+}
+
+@keyframes comboAnim {
+    0% { opacity: 0; transform: translate(-50%, -50%) scale(0.5); }
+    20% { opacity: 1; transform: translate(-50%, -50%) scale(1.3); }
+    100% { opacity: 0; transform: translate(-50%, -100%) scale(1.5); }
+}
+
+footer {
+    position: relative;
+    z-index: 1;
+    margin-top: 40px;
+    padding: 20px;
+    background: rgba(0, 0, 0, 0.7);
+}
+
+.creator {
+    color: #ffd700;
+    font-size: 16px;
+    text-shadow: 0 0 10px #ffd700;
+    animation: glowText 3s infinite alternate;
+}
+
+@media (max-width: 600px) {
+    h1 { font-size: 32px; }
+    
+    .box-container {
+        grid-template-columns: repeat(3, 90px);
+        gap: 12px;
+        padding: 15px;
+    }
+    
+    .box {
+        width: 90px;
+        height: 90px;
+        font-size: 35px;
+    }
+    
+    .hud {
+        gap: 15px;
+        font-size: 14px;
+        padding: 15px;
+    }
+    
+    .actions button {
+        padding: 12px 20px;
+        font-size: 16px;
+    }
+}#homeBtn{
+    padding:18px 30px;
+    border:none;
+    border-radius:16px;
+    background:linear-gradient(135deg,#3b82f6,#1d4ed8);
+    color:white;
+    font-size:1.2rem;
+    font-weight:700;
+    cursor:pointer;
+}
+
+#homeBtn:hover{
+    transform:translateY(-3px);
+}
+
+/* Premium Dynamic Background Injected */
+body {
+    background: linear-gradient(to bottom, #3b0764, #170529) !important;
+    position: relative;
+}
+body::before {
+    content: '';
+    position: fixed;
+    top: 0; left: 0; width: 100vw; height: 100vh;
+    background: radial-gradient(circle at 50% 50%, rgba(168,85,247,0.15) 0%, transparent 70%);
+    z-index: -1;
+    animation: pulseBg 6s infinite alternate;
+}
+@keyframes pulseBg {
+    0% { transform: scale(1); opacity: 0.3; }
+    100% { transform: scale(1.3); opacity: 0.7; }
+}
+header h1 { text-shadow: 0 0 15px #a855f7 !important; }
+button { box-shadow: 0 4px 10px rgba(168,85,247,0.15); }
+
+/* Overlay styles */
+.overlay {
+    position: fixed;
+    top: 0; left: 0; width: 100%; height: 100%;
+    background: rgba(0,0,0,0.85);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 1000;
+    backdrop-filter: blur(5px);
+}
+.overlay.hidden { display: none; }
+.overlay-content {
+    background: rgba(245, 158, 11, 0.2);
+    border: 1px solid rgba(255,255,255,0.2);
+    padding: 40px;
+    border-radius: 20px;
+    text-align: center;
+    color: white;
+    box-shadow: 0 0 30px rgba(245,158,11,0.3);
+}
+.overlay-content h2 { font-size: 2.5rem; margin-bottom: 10px; color: #fde68a; }
+.overlay-content button {
+    margin-top: 20px; background: #f59e0b; color: white;
+    border: none; padding: 12px 30px; font-size: 1.2rem;
+    border-radius: 12px; cursor: pointer; transition: 0.3s;
+}
+.overlay-content button:hover { transform: scale(1.05); }

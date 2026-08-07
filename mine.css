@@ -1,0 +1,82 @@
+/* Grid Sweeper Premium Theme */
+:root {
+    --theme-color: #fca5a5;
+    --theme-glow: rgba(252, 165, 165, 0.2);
+}
+
+.text-theme { color: var(--theme-color) !important; text-shadow: 0 0 10px var(--theme-glow); }
+.bg-theme { background-color: var(--theme-color) !important; }
+
+.premium-bg-mine {
+    background-color: #1e1b4b; /* Deep purple/blue */
+    background-image: radial-gradient(circle at center, #312e81 0%, #1e1b4b 100%);
+    position: relative;
+    overflow-x: hidden;
+}
+
+.glass-panel {
+    background: rgba(30, 27, 75, 0.8);
+    backdrop-filter: blur(10px);
+    border: 1px solid rgba(255,255,255,0.05);
+    box-shadow: 0 8px 32px rgba(0,0,0,0.5), inset 0 0 15px var(--theme-glow);
+}
+
+/* Board Grid */
+.mine-board {
+    display: grid;
+    gap: 2px;
+    background-color: #374151; /* Grid gap color */
+    border: 2px solid #4b5563;
+    border-radius: 8px;
+    overflow: hidden;
+    user-select: none;
+    -webkit-user-select: none;
+}
+
+.mine-cell {
+    background: linear-gradient(145deg, #1f2937, #111827);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: clamp(12px, 4vw, 24px);
+    font-weight: 900;
+    cursor: pointer;
+    box-shadow: inset 2px 2px 5px rgba(255,255,255,0.1), inset -2px -2px 5px rgba(0,0,0,0.5);
+    transition: background 0.2s, box-shadow 0.2s;
+}
+
+.mine-cell:hover:not(.revealed) {
+    background: #374151;
+}
+
+.mine-cell.revealed {
+    background: #0f172a;
+    box-shadow: inset 1px 1px 3px rgba(0,0,0,0.8);
+    cursor: default;
+}
+
+.mine-cell.mine {
+    background: #ef4444 !important;
+    box-shadow: 0 0 15px #ef4444 !important;
+    animation: explode 0.5s ease-out;
+}
+
+.mine-cell.flagged {
+    /* Keep unrevealed look but add flag */
+}
+
+/* Colors for numbers 1-8 */
+.cell-1 { color: #60a5fa; }
+.cell-2 { color: #34d399; }
+.cell-3 { color: #f87171; }
+.cell-4 { color: #818cf8; }
+.cell-5 { color: #fbbf24; }
+.cell-6 { color: #2dd4bf; }
+.cell-7 { color: #e879f9; }
+.cell-8 { color: #94a3b8; }
+
+@keyframes explode {
+    0% { transform: scale(1); background: #ef4444; }
+    50% { transform: scale(1.2); background: #fff; box-shadow: 0 0 30px #fff; }
+    100% { transform: scale(1); background: #ef4444; }
+}

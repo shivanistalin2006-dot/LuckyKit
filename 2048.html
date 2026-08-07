@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Quantum Merge (2048) - LuckyKit</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="arcade-shell.css">
+    <link rel="stylesheet" href="2048.css">
+    <script type="module" src="core/app.js"></script>
+        <script src="legacy/arcade-shell.js" defer></script>
+</head>
+<body>
+    <div class="container py-4 main-wrapper d-flex flex-column align-items-center">
+        <!-- Header HUD -->
+        <div class="game-header text-center mb-3">
+            <h1 class="game-title fw-black">🧩 Quantum Merge <span>2048</span></h1>
+            <p class="text-white-50 small">Use Arrow Keys, WASD, or Swipe to merge matching quantum tiles!</p>
+        </div>
+
+        <div class="stats-bar d-flex justify-content-between align-items-center w-100 max-w-400 mb-3 gap-2">
+            <div class="score-card text-center flex-fill p-2 rounded glass-box">
+                <span class="text-white-50 text-uppercase small fw-bold">Score</span>
+                <h3 class="m-0 fw-black text-warning" id="score">0</h3>
+            </div>
+            <div class="score-card text-center flex-fill p-2 rounded glass-box">
+                <span class="text-white-50 text-uppercase small fw-bold">Best</span>
+                <h3 class="m-0 fw-black text-info" id="bestScore">0</h3>
+            </div>
+            <button class="btn btn-warning fw-bold px-3 py-2 text-uppercase shadow-btn" id="restartBtn">
+                🔄 Reset
+            </button>
+        </div>
+
+        <!-- 2048 Game Board -->
+        <div class="board-wrapper position-relative">
+            <div class="grid-container" id="gridContainer">
+                <!-- 16 Grid Cells -->
+                <div class="grid-cell"></div><div class="grid-cell"></div><div class="grid-cell"></div><div class="grid-cell"></div>
+                <div class="grid-cell"></div><div class="grid-cell"></div><div class="grid-cell"></div><div class="grid-cell"></div>
+                <div class="grid-cell"></div><div class="grid-cell"></div><div class="grid-cell"></div><div class="grid-cell"></div>
+                <div class="grid-cell"></div><div class="grid-cell"></div><div class="grid-cell"></div><div class="grid-cell"></div>
+            </div>
+            <div class="tile-container" id="tileContainer"></div>
+
+            <!-- Game Over / Win Overlay -->
+            <div class="overlay-screen d-none flex-column align-items-center justify-content-center" id="overlay">
+                <h2 class="fw-black fs-1 mb-2 text-warning" id="overlayTitle">Game Over!</h2>
+                <p class="text-white-50 mb-4" id="overlaySub">No more possible moves available.</p>
+                <button class="btn btn-lg btn-warning fw-bold px-5 py-3 rounded-pill shadow-btn" id="overlayRestartBtn">Play Again</button>
+            </div>
+        </div>
+
+        <!-- Touch Controls Guide for Mobile -->
+        <div class="mobile-hint text-white-50 small mt-3 text-center d-md-none">
+            👆 Swipe in any direction to move tiles
+        </div>
+    </div>
+
+    <script src="2048.js"></script>
+</body>
+</html>

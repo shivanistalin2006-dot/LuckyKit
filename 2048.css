@@ -1,0 +1,147 @@
+/* ========================================================
+   QUANTUM MERGE 2048 - AAA GLASSMORPHIC STYLES
+   ======================================================== */
+.max-w-400 {
+    max-width: 440px;
+}
+
+.game-title {
+    font-size: 2.2rem;
+    color: #fff;
+    letter-spacing: 1px;
+}
+
+.game-title span {
+    color: #f97316;
+    text-shadow: 0 0 15px rgba(249, 115, 22, 0.6);
+}
+
+.glass-box {
+    background: rgba(18, 14, 32, 0.75);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    backdrop-filter: blur(15px);
+}
+
+.shadow-btn {
+    box-shadow: 0 8px 20px rgba(249, 115, 22, 0.4);
+    transition: all 0.2s ease;
+}
+
+.shadow-btn:hover {
+    transform: translateY(-2px) scale(1.03);
+    box-shadow: 0 12px 25px rgba(249, 115, 22, 0.6);
+}
+
+/* Board Container */
+.board-wrapper {
+    width: 440px;
+    height: 440px;
+    padding: 15px;
+    background: rgba(15, 12, 28, 0.85);
+    border-radius: 24px;
+    border: 2px solid rgba(255, 255, 255, 0.12);
+    box-shadow: 0 20px 50px rgba(0, 0, 0, 0.6), inset 0 0 30px rgba(249, 115, 22, 0.15);
+    backdrop-filter: blur(20px);
+}
+
+.grid-container {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    grid-template-rows: repeat(4, 1fr);
+    gap: 12px;
+    width: 100%;
+    height: 100%;
+}
+
+.grid-cell {
+    background: rgba(255, 255, 255, 0.04);
+    border-radius: 14px;
+    border: 1px solid rgba(255, 255, 255, 0.05);
+}
+
+/* Dynamic Tiles Container */
+.tile-container {
+    position: absolute;
+    top: 15px;
+    left: 15px;
+    right: 15px;
+    bottom: 15px;
+    pointer-events: none;
+}
+
+.tile {
+    position: absolute;
+    width: calc((100% - 36px) / 4);
+    height: calc((100% - 36px) / 4);
+    border-radius: 14px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-weight: 800;
+    font-size: 1.8rem;
+    color: #fff;
+    transition: transform 0.12s ease-in-out;
+    box-shadow: 0 6px 15px rgba(0, 0, 0, 0.3);
+    animation: tileSpawn 0.2s ease-out;
+}
+
+@keyframes tileSpawn {
+    0% { transform: scale(0); opacity: 0; }
+    100% { transform: scale(1); opacity: 1; }
+}
+
+.tile-merged {
+    animation: tilePop 0.18s ease-in-out;
+}
+
+@keyframes tilePop {
+    0% { transform: scale(1); }
+    50% { transform: scale(1.18); }
+    100% { transform: scale(1); }
+}
+
+/* Neon Tile Colors by Value */
+.tile-2    { background: linear-gradient(135deg, #38bdf8, #0284c7); color: #fff; box-shadow: 0 0 15px rgba(56, 189, 248, 0.4); }
+.tile-4    { background: linear-gradient(135deg, #a855f7, #7e22ce); color: #fff; box-shadow: 0 0 15px rgba(168, 85, 247, 0.4); }
+.tile-8    { background: linear-gradient(135deg, #f97316, #c2410c); color: #fff; box-shadow: 0 0 15px rgba(249, 115, 22, 0.5); }
+.tile-16   { background: linear-gradient(135deg, #ef4444, #b91c1c); color: #fff; box-shadow: 0 0 15px rgba(239, 68, 68, 0.5); }
+.tile-32   { background: linear-gradient(135deg, #ec4899, #be185d); color: #fff; box-shadow: 0 0 20px rgba(236, 72, 153, 0.6); }
+.tile-64   { background: linear-gradient(135deg, #eab308, #ca8a04); color: #fff; box-shadow: 0 0 20px rgba(234, 179, 8, 0.6); }
+.tile-128  { background: linear-gradient(135deg, #22c55e, #15803d); color: #fff; font-size: 1.6rem; box-shadow: 0 0 25px rgba(34, 197, 94, 0.7); }
+.tile-256  { background: linear-gradient(135deg, #06b6d4, #0891b2); color: #fff; font-size: 1.6rem; box-shadow: 0 0 25px rgba(6, 182, 212, 0.7); }
+.tile-512  { background: linear-gradient(135deg, #6366f1, #4338ca); color: #fff; font-size: 1.6rem; box-shadow: 0 0 30px rgba(99, 102, 241, 0.8); }
+.tile-1024 { background: linear-gradient(135deg, #d946ef, #a21caf); color: #fff; font-size: 1.4rem; box-shadow: 0 0 30px rgba(217, 70, 239, 0.8); }
+.tile-2048 { background: linear-gradient(135deg, #f59e0b, #b45309); color: #fff; font-size: 1.4rem; box-shadow: 0 0 35px rgba(245, 158, 11, 0.9); animation: glow2048 1.5s infinite alternate; }
+
+@keyframes glow2048 {
+    0% { box-shadow: 0 0 20px #f59e0b; }
+    100% { box-shadow: 0 0 45px #f59e0b, 0 0 15px #fff; }
+}
+
+/* Overlay Screen */
+.overlay-screen {
+    position: absolute;
+    inset: 0;
+    background: rgba(10, 8, 22, 0.92);
+    backdrop-filter: blur(15px);
+    border-radius: 22px;
+    z-index: 50;
+}
+
+@media (max-width: 480px) {
+    .board-wrapper {
+        width: 320px;
+        height: 320px;
+        padding: 10px;
+    }
+    .grid-container {
+        gap: 8px;
+    }
+    .tile {
+        width: calc((100% - 24px) / 4);
+        height: calc((100% - 24px) / 4);
+        font-size: 1.4rem;
+    }
+    .tile-128, .tile-256, .tile-512 { font-size: 1.2rem; }
+    .tile-1024, .tile-2048 { font-size: 1rem; }
+}

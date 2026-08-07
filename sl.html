@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Serpent's Ascent</title>
+    <link rel="stylesheet" href="arcade-shell.css">
+    <link rel="stylesheet" href="sl.css">
+    <script type="module" src="core/app.js"></script>
+        <script src="legacy/arcade-shell.js" defer></script>
+    <script type="module" src="sl.js" defer></script>
+</head>
+<body>
+    <div class="container py-4">
+        <h1 class="game-title">SERPENT'S ASCENT</h1>
+        
+        <div class="game-layout">
+            <div class="board-container">
+                <div id="board" class="board"></div>
+            </div>
+            
+            <div class="side-panel">
+                <div class="info-box p1 active" id="p1-info">Player (Green)</div>
+                <div class="info-box p2" id="p2-info">AI (Purple)</div>
+                
+                <div class="dice-scene">
+                    <div class="cube" id="dice">
+                        <div class="cube-face front">1</div>
+                        <div class="cube-face back">6</div>
+                        <div class="cube-face right">3</div>
+                        <div class="cube-face left">4</div>
+                        <div class="cube-face top">2</div>
+                        <div class="cube-face bottom">5</div>
+                    </div>
+                </div>
+                
+                <button id="roll-btn" class="btn roll-btn">Roll Dice</button>
+                <div id="action-text" class="action-text">Roll to start!</div>
+            </div>
+        </div>
+
+        <div id="game-over-screen" class="overlay hidden">
+            <h2 id="winner-text"></h2>
+            <button id="restart-btn" class="btn">Play Again</button>
+        </div>
+    </div>
+</body>
+</html>

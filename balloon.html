@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>LuckyKit - Aero Burst</title>
+    
+    <!-- Bootstrap 5 for fast & perfect alignment -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="arcade-shell.css">
+    <link rel="stylesheet" href="balloon.css">
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+    
+    <script type="module" src="core/app.js"></script>
+        <script src="legacy/arcade-shell.js" defer></script>
+    <script src="balloon.js" defer></script>
+</head>
+<body class="bg-dark text-white premium-bg-balloon">
+
+    <!-- Unique Dynamic Background injected via CSS -->
+    <div class="bg-overlay"></div>
+    <div class="particle-container" id="particles"></div>
+
+    <div class="container py-4 position-relative" style="z-index: 10;">
+        
+        <!-- Header -->
+        <header class="d-flex justify-content-between align-items-center mb-4 p-3 rounded glass-panel">
+            <div class="d-flex align-items-center gap-3">
+                <span class="fs-1">🎈</span>
+                <div>
+                    <h1 class="m-0 fw-bold text-theme">Aero Burst</h1>
+                    <span class="text-white-50">Premium Edition</span>
+                </div>
+            </div>
+            <div>
+                
+                
+            </div>
+        </header>
+
+        <!-- Game Interface -->
+        <div class="row g-4 justify-content-center">
+            
+            <!-- Game Canvas / Play Area -->
+            <div class="col-12 col-lg-8">
+                <div class="glass-panel p-4 rounded text-center min-vh-50 d-flex flex-column align-items-center justify-content-center" id="gameArea">
+                    <h2 class="mb-4">System Initializing...</h2>
+                    <button class="btn btn-lg btn-theme px-5 py-3 fw-bold fs-4 shadow-lg pulse-btn" id="startBtn">START GAME</button>
+                </div>
+            </div>
+
+            <!-- Stats & Controls Sidebar -->
+            <div class="col-12 col-lg-4">
+                <div class="glass-panel p-4 rounded h-100 d-flex flex-column gap-3">
+                    <h4 class="text-theme border-bottom border-secondary pb-2">Mission Stats</h4>
+                    <div class="d-flex justify-content-between align-items-center">
+                        <span class="text-white-50">Score</span>
+                        <h3 class="m-0 fw-bold" id="scoreDisplay">0</h3>
+                    </div>
+                    <div class="d-flex justify-content-between align-items-center">
+                        <span class="text-white-50">Level</span>
+                        <h3 class="m-0 fw-bold" id="levelDisplay">1</h3>
+                    </div>
+                    <div class="d-flex justify-content-between align-items-center">
+                        <span class="text-white-50">High Score</span>
+                        <h3 class="m-0 fw-bold text-theme" id="highScoreDisplay">0</h3>
+                    </div>
+                    
+                    <div class="mt-auto pt-3 border-top border-secondary text-center">
+                        <p class="small text-white-50 mb-0">Powered by LuckyKit Core Engine</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+    
+</body>
+</html>

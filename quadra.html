@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>LuckyKit - Quadra Link</title>
+    
+    <!-- Bootstrap 5 for fast & perfect alignment -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="arcade-shell.css">
+    <link rel="stylesheet" href="quadra.css">
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+    
+    <script type="module" src="core/app.js"></script>
+        <script src="legacy/arcade-shell.js" defer></script>
+    <script src="quadra.js" defer></script>
+</head>
+<body class="bg-dark text-white premium-bg-quadra">
+
+    <!-- Unique Dynamic Background injected via CSS -->
+    <div class="bg-overlay"></div>
+    <div class="particle-container" id="particles"></div>
+
+    <div class="container py-4 position-relative" style="z-index: 10;">
+        
+        <!-- Header -->
+        <header class="d-flex justify-content-between align-items-center mb-4 p-3 rounded glass-panel">
+            <div class="d-flex align-items-center gap-3">
+                <span class="fs-1">🔴🟡</span>
+                <div>
+                    <h1 class="m-0 fw-bold text-theme">Quadra Link</h1>
+                    <span class="text-white-50">Premium Edition</span>
+                </div>
+            </div>
+            <div>
+                
+                
+            </div>
+        </header>
+
+        <!-- Game Interface -->
+        <div class="row g-4 justify-content-center">
+            
+            <!-- Game Canvas / Play Area -->
+            <div class="col-12 col-lg-8 d-flex justify-content-center">
+                <div class="glass-panel p-4 rounded d-flex flex-column align-items-center" id="gameArea">
+                    <canvas id="tetrisCanvas" width="300" height="600" class="shadow-lg rounded" style="background: rgba(0,0,0,0.8); border: 2px solid #334155;"></canvas>
+                    
+                    <!-- Mobile D-PAD -->
+                    <div class="d-pad-container mt-4 d-lg-none w-100" style="max-width: 300px;">
+                        <div class="d-flex justify-content-center">
+                            <button class="btn btn-secondary d-pad-btn" id="btnUp">↻</button>
+                        </div>
+                        <div class="d-flex justify-content-between">
+                            <button class="btn btn-secondary d-pad-btn" id="btnLeft">←</button>
+                            <button class="btn btn-secondary d-pad-btn" id="btnRight">→</button>
+                        </div>
+                        <div class="d-flex justify-content-center">
+                            <button class="btn btn-secondary d-pad-btn" id="btnDown">↓</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Stats & Controls Sidebar -->
+            <div class="col-12 col-lg-4">
+                <div class="glass-panel p-4 rounded h-100 d-flex flex-column gap-3">
+                    <h4 class="text-theme border-bottom border-secondary pb-2">Mission Stats</h4>
+                    <div class="d-flex justify-content-between align-items-center">
+                        <span class="text-white-50">Score</span>
+                        <h3 class="m-0 fw-bold" id="scoreDisplay">0</h3>
+                    </div>
+                    <div class="d-flex justify-content-between align-items-center">
+                        <span class="text-white-50">Level</span>
+                        <h3 class="m-0 fw-bold" id="levelDisplay">1</h3>
+                    </div>
+                    <div class="d-flex justify-content-between align-items-center">
+                        <span class="text-white-50">Lines</span>
+                        <h3 class="m-0 fw-bold text-theme" id="linesDisplay">0</h3>
+                    </div>
+                    
+                    <button class="btn btn-lg btn-theme w-100 fw-bold mt-4 shadow-lg" id="startBtn">START GAME</button>
+                    <p class="text-center mt-2 text-white-50" id="statusText">Press Start to drop blocks!</p>
+
+                    <div class="mt-auto pt-3 border-top border-secondary text-center">
+                        <p class="small text-white-50 mb-0">Powered by LuckyKit Core Engine</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+    
+</body>
+</html>
