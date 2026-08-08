@@ -27,6 +27,13 @@
     
     --v2-mission-bg: rgba(0,0,0,0.2);
     --v2-mission-hover: rgba(255,255,255,0.05);
+    
+    --card-bg-red: linear-gradient(180deg, rgba(239, 68, 68, 0.15) 0%, rgba(15,23,42,0.9) 100%);
+    --card-bg-blue: linear-gradient(180deg, rgba(59, 130, 246, 0.15) 0%, rgba(15,23,42,0.9) 100%);
+    --card-bg-green: linear-gradient(180deg, rgba(34, 197, 94, 0.15) 0%, rgba(15,23,42,0.9) 100%);
+    --card-bg-yellow: linear-gradient(180deg, rgba(234, 179, 8, 0.15) 0%, rgba(15,23,42,0.9) 100%);
+    --card-bg-purple: linear-gradient(180deg, rgba(168, 85, 247, 0.15) 0%, rgba(15,23,42,0.9) 100%);
+    --card-bg-cyan: linear-gradient(180deg, rgba(6, 182, 212, 0.15) 0%, rgba(15,23,42,0.9) 100%);
 }
 
 [data-theme="light"] {
@@ -56,6 +63,13 @@
     
     --v2-mission-bg: rgba(0,0,0,0.03);
     --v2-mission-hover: rgba(0,0,0,0.06);
+    
+    --card-bg-red: linear-gradient(180deg, rgba(254, 226, 226, 1) 0%, rgba(255, 255, 255, 1) 100%);
+    --card-bg-blue: linear-gradient(180deg, rgba(219, 234, 254, 1) 0%, rgba(255, 255, 255, 1) 100%);
+    --card-bg-green: linear-gradient(180deg, rgba(220, 252, 231, 1) 0%, rgba(255, 255, 255, 1) 100%);
+    --card-bg-yellow: linear-gradient(180deg, rgba(254, 249, 195, 1) 0%, rgba(255, 255, 255, 1) 100%);
+    --card-bg-purple: linear-gradient(180deg, rgba(243, 232, 255, 1) 0%, rgba(255, 255, 255, 1) 100%);
+    --card-bg-cyan: linear-gradient(180deg, rgba(207, 250, 254, 1) 0%, rgba(255, 255, 255, 1) 100%);
 }
 
 body.v2-launcher {
@@ -289,6 +303,13 @@ body.v2-launcher {
     align-items: center;
     text-align: center;
 }
+
+.v2-card.card-theme-red { background: var(--card-bg-red); border-color: rgba(239, 68, 68, 0.2); }
+.v2-card.card-theme-blue { background: var(--card-bg-blue); border-color: rgba(59, 130, 246, 0.2); }
+.v2-card.card-theme-green { background: var(--card-bg-green); border-color: rgba(34, 197, 94, 0.2); }
+.v2-card.card-theme-yellow { background: var(--card-bg-yellow); border-color: rgba(234, 179, 8, 0.2); }
+.v2-card.card-theme-purple { background: var(--card-bg-purple); border-color: rgba(168, 85, 247, 0.2); }
+.v2-card.card-theme-cyan { background: var(--card-bg-cyan); border-color: rgba(6, 182, 212, 0.2); }
 
 .v2-card:hover {
     transform: translateY(-10px) scale(1.02);
