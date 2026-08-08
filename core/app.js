@@ -18,7 +18,7 @@ import { animationManager } from '../animation/animationManager.js';
 import { themeManager } from '../theme/themeManager.js';
 import { shopManager, SHOP_CATALOG } from '../shop/shopManager.js';
 import { leaderboardManager } from '../leaderboard/leaderboardManager.js';
-import { gameManager } from './gameManager.js';
+import { gameManager } from './gameManager.js?v=2.2';
 import { router } from './router.js';
 
 // Import all progression engines to initialize them

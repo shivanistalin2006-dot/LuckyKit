@@ -57,9 +57,11 @@ export class GameManager {
     }
 
     injectGlobalModal() {
-        if (typeof document === 'undefined' || document.getElementById('globalInstructionsModal')) return;
+        if (typeof document === 'undefined') return;
         
-        const modalHtml = `
+        const inject = () => {
+            if (document.getElementById('globalInstructionsModal')) return;
+            const modalHtml = `
             <div class="modal fade" id="globalInstructionsModal" tabindex="-1" data-bs-backdrop="static">
                 <div class="modal-dialog modal-dialog-centered">
                     <div class="modal-content text-white" style="background: rgba(15, 15, 25, 0.95); backdrop-filter: blur(15px); border: 1px solid var(--theme-color);">
@@ -100,8 +102,15 @@ export class GameManager {
                     </div>
                 </div>
             </div>
-        `;
-        document.body.insertAdjacentHTML('beforeend', modalHtml);
+            `;
+            document.body.insertAdjacentHTML('beforeend', modalHtml);
+        };
+        
+        if (document.readyState === 'loading') {
+            document.addEventListener('DOMContentLoaded', inject);
+        } else {
+            inject();
+        }
     }
 
     showInstructions(gameId, onStartCallback) {

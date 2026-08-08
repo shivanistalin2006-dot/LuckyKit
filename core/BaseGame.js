@@ -36,7 +36,7 @@ export class BaseGame {
         eventBus.emit('PLAY_GAME', { gameId: this.gameId });
         
         // Show Instructions modal before actually starting the game loop
-        import('./gameManager.js').then(module => {
+        import('./gameManager.js?v=2.2').then(module => {
             module.gameManager.showInstructions(this.gameId, () => {
                 if (audioManager) audioManager.startBgMusic();
                 this.onStart();
