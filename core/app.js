@@ -4,13 +4,6 @@ import { audioManager } from '../audio/audioManager.js';
 import { profileManager } from '../profile/profileManager.js';
 import { xpEngine } from '../engine/xpEngine.js';
 
-// Apply Theme Globally on Boot
-const applyGlobalTheme = () => {
-    const savedTheme = localStorage.getItem('luckykit_theme') || 'dark';
-    document.documentElement.setAttribute('data-theme', savedTheme);
-};
-applyGlobalTheme();
-
 // Import UI and other systems just to ensure they load
 import { navbarUI } from '../ui/navbar.js';
 import { sidebarUI } from '../ui/sidebar.js';
@@ -30,9 +23,9 @@ import { router } from './router.js';
 
 // Import all progression engines to initialize them
 import '../engine/missionEngine.js';
-import '../ui/progressionUI.js';
-import '../ui/animations.js';
-import '../ui/v2-dashboard.js'; // V2 Launcher UI Binder
+import '../ui/progressionUI.js?v=2.1';
+import '../ui/animations.js?v=2.1';
+import '../ui/v2-dashboard.js?v=2.1'; // V2 Launcher UI Binder
 
 window.LuckyKit = {
     gameManager,

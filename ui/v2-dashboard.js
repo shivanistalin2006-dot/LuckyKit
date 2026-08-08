@@ -39,18 +39,27 @@ export class V2Dashboard {
             const themeIcon = document.getElementById('themeIcon');
             
             // Init icon based on current theme
-            const currentTheme = localStorage.getItem('luckykit_theme') || 'dark';
+            const state = storage.getState();
+            const currentTheme = state.activeTheme || 'dark';
             if (themeIcon) {
                 themeIcon.textContent = currentTheme === 'light' ? '☀️' : '🌙';
             }
 
             themeToggleBtn.addEventListener('click', () => {
-                const html = document.documentElement;
-                const isDark = html.getAttribute('data-theme') === 'dark' || !html.getAttribute('data-theme');
+                const currentState = storage.getState();
+                const isDark = currentState.activeTheme !== 'light';
                 const newTheme = isDark ? 'light' : 'dark';
                 
-                html.setAttribute('data-theme', newTheme);
-                localStorage.setItem('luckykit_theme', newTheme);
+                storage.updateState(s => s.activeTheme = newTheme);
+                
+                // Force DOM update instantly
+                document.documentElement.setAttribute('data-theme', newTheme);
+                console.log("Switched theme to", newTheme);
+                
+                // Also broadcast for other components
+                import('../core/eventBus.js?v=2.1').then(module => {
+                    module.eventBus.emit('THEME_CHANGED', { theme: newTheme });
+                });
                 
                 if (themeIcon) {
                     themeIcon.textContent = newTheme === 'light' ? '☀️' : '🌙';
