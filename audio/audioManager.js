@@ -96,6 +96,24 @@ export class AudioManager {
         } catch (e) {}
     }
 
+    playSelect() {
+        if (this.isMuted) return;
+        try {
+            const ctx = this.getAudioContext();
+            const osc = ctx.createOscillator();
+            const gain = ctx.createGain();
+            osc.type = "sine";
+            osc.frequency.setValueAtTime(600, ctx.currentTime);
+            osc.frequency.exponentialRampToValueAtTime(800, ctx.currentTime + 0.15);
+            gain.gain.setValueAtTime(0.15, ctx.currentTime);
+            gain.gain.exponentialRampToValueAtTime(0.01, ctx.currentTime + 0.15);
+            osc.connect(gain);
+            gain.connect(ctx.destination);
+            osc.start();
+            osc.stop(ctx.currentTime + 0.15);
+        } catch (e) {}
+    }
+
     playWin() {
         if (this.isMuted) return;
         try {
@@ -146,6 +164,10 @@ export class AudioManager {
             osc.start();
             osc.stop(now + 0.8);
         } catch (e) {}
+    }
+
+    playLose() {
+        this.playGameOver();
     }
 
     playLevelUp() {

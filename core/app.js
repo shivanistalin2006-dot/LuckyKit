@@ -1,6 +1,6 @@
 import { eventBus } from './eventBus.js';
 import { storage } from './storage.js';
-import { audioManager } from '../audio/audioManager.js';
+import { audioManager } from '../audio/audioManager.js?v=2.2';
 import { profileManager } from '../profile/profileManager.js';
 import { xpEngine } from '../engine/xpEngine.js?v=2.2';
 
