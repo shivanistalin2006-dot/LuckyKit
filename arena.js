@@ -525,6 +525,10 @@ class NeonArena extends BaseGame {
     }
 }
 
-document.addEventListener("DOMContentLoaded", () => {
+if (document.readyState === 'loading') {
+    document.addEventListener("DOMContentLoaded", () => {
+        const game = new NeonArena();
+    });
+} else {
     const game = new NeonArena();
-});
+}

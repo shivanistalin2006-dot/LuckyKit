@@ -396,10 +396,20 @@ class MysteryVault extends BaseGame {
     }
 }
 
-document.addEventListener("DOMContentLoaded", () => {
+if (document.readyState === 'loading') {
+    document.addEventListener("DOMContentLoaded", () => {
     const game = new MysteryVault();
     document.getElementById("overlayBtn").addEventListener("click", () => {
         if (window.ArcadeSounds) window.ArcadeSounds.playSelect();
         game.start();
     });
+} else {
+    const _init = () => {
+    const game = new MysteryVault();
+    document.getElementById("overlayBtn").addEventListener("click", () => {
+        if (window.ArcadeSounds) window.ArcadeSounds.playSelect();
+        game.start();
+    };
+    _init();
+}
 });

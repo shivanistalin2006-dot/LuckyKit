@@ -314,7 +314,15 @@ class QuadraLink extends BaseGame {
     }
 }
 
-document.addEventListener("DOMContentLoaded", () => {
+if (document.readyState === 'loading') {
+    document.addEventListener("DOMContentLoaded", () => {
     const game = new QuadraLink();
     game.render(); // Initial draw
 });
+} else {
+    const _init = () => {
+    const game = new QuadraLink();
+    game.render(); // Initial draw
+};
+    _init();
+}

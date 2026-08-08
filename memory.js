@@ -181,6 +181,10 @@ gameManager.GAME_INSTRUCTIONS["memory"] = {
     tips: "Remember card positions! Fewer moves means more XP."
 };
 
-document.addEventListener("DOMContentLoaded", () => {
+if (document.readyState === 'loading') {
+    document.addEventListener("DOMContentLoaded", () => {
+        const game = new SynapseMatch();
+    });
+} else {
     const game = new SynapseMatch();
-});
+}

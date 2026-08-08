@@ -1,5 +1,6 @@
 // Quantum Merge 2048 Engine
-document.addEventListener("DOMContentLoaded", () => {
+if (document.readyState === 'loading') {
+    document.addEventListener("DOMContentLoaded", () => {
     const SIZE = 4;
     let board = [];
     let score = 0;
@@ -39,6 +40,49 @@ document.addEventListener("DOMContentLoaded", () => {
         for (let r = 0; r < SIZE; r++) {
             for (let c = 0; c < SIZE; c++) {
                 if (board[r][c] === 0) emptyCells.push({ r, c });
+} else {
+    const _init = () => {
+    const SIZE = 4;
+    let board = [];
+    let score = 0;
+    let bestScore = parseInt(localStorage.getItem("luckykit_2048_best") || "0");
+    let gameOver = false;
+    let won = false;
+
+    const gridContainer = document.getElementById("gridContainer");
+    const tileContainer = document.getElementById("tileContainer");
+    const scoreEl = document.getElementById("score");
+    const bestScoreEl = document.getElementById("bestScore");
+    const restartBtn = document.getElementById("restartBtn");
+    const overlay = document.getElementById("overlay");
+    const overlayTitle = document.getElementById("overlayTitle");
+    const overlaySub = document.getElementById("overlaySub");
+    const overlayRestartBtn = document.getElementById("overlayRestartBtn");
+
+    bestScoreEl.innerText = bestScore;
+
+    function initGame() {
+        board = Array(SIZE).fill(null).map(() => Array(SIZE).fill(0));
+        score = 0;
+        gameOver = false;
+        won = false;
+        scoreEl.innerText = score;
+        overlay.classList.add("d-none");
+        overlay.classList.remove("d-flex");
+        tileContainer.innerHTML = "";
+        
+        spawnTile();
+        spawnTile();
+        renderBoard();
+    }
+
+    function spawnTile() {
+        const emptyCells = [];
+        for (let r = 0; r < SIZE; r++) {
+            for (let c = 0; c < SIZE; c++) {
+                if (board[r][c] === 0) emptyCells.push({ r, c };
+    _init();
+}
             }
         }
         if (emptyCells.length === 0) return;

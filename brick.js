@@ -245,8 +245,17 @@ class NeonShatter extends BaseGame {
     }
 }
 
-document.addEventListener("DOMContentLoaded", () => {
+if (document.readyState === 'loading') {
+    document.addEventListener("DOMContentLoaded", () => {
     const game = new NeonShatter();
     document.getElementById("startBtn").addEventListener("click", () => game.start());
     document.getElementById("overlayStartBtn").addEventListener("click", () => game.start());
 });
+} else {
+    const _init = () => {
+    const game = new NeonShatter();
+    document.getElementById("startBtn").addEventListener("click", () => game.start());
+    document.getElementById("overlayStartBtn").addEventListener("click", () => game.start());
+};
+    _init();
+}

@@ -202,7 +202,15 @@ class LogicGrid extends BaseGame {
     }
 }
 
-document.addEventListener("DOMContentLoaded", () => {
+if (document.readyState === 'loading') {
+    document.addEventListener("DOMContentLoaded", () => {
     const game = new LogicGrid();
     setTimeout(() => game.start(), 100);
 });
+} else {
+    const _init = () => {
+    const game = new LogicGrid();
+    setTimeout(() => game.start(), 100);
+};
+    _init();
+}

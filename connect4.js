@@ -414,6 +414,10 @@ gameManager.GAME_INSTRUCTIONS["connect4"] = {
     tips: "Always watch out for the AI setting up multiple threats!"
 };
 
-document.addEventListener("DOMContentLoaded", () => {
+if (document.readyState === 'loading') {
+    document.addEventListener("DOMContentLoaded", () => {
+        const game = new NeonConnect();
+    });
+} else {
     const game = new NeonConnect();
-});
+}

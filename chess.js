@@ -512,6 +512,10 @@ gameManager.GAME_INSTRUCTIONS["chess"] = {
     tips: "The AI looks ahead 3 full moves. Guard your center!"
 };
 
-document.addEventListener("DOMContentLoaded", () => {
+if (document.readyState === 'loading') {
+    document.addEventListener("DOMContentLoaded", () => {
+        const game = new GrandmastersGambit();
+    });
+} else {
     const game = new GrandmastersGambit();
-});
+}

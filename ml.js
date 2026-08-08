@@ -334,9 +334,19 @@ function bindUI() {
   $("homeFromGoBtn").addEventListener("click", showHome);
 }
 
-document.addEventListener("DOMContentLoaded", () => {
+if (document.readyState === 'loading') {
+    document.addEventListener("DOMContentLoaded", () => {
   createParticles();
   bindUI();
   updateHUD();
   showHome();
 });
+} else {
+    const _init = () => {
+  createParticles();
+  bindUI();
+  updateHUD();
+  showHome();
+};
+    _init();
+}

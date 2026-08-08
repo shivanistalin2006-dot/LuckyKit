@@ -238,6 +238,10 @@ gameManager.GAME_INSTRUCTIONS["type"] = {
     tips: "Accuracy matters! Mistakes lower your final score."
 };
 
-document.addEventListener("DOMContentLoaded", () => {
+if (document.readyState === 'loading') {
+    document.addEventListener("DOMContentLoaded", () => {
+        const game = new CyberTyper();
+    });
+} else {
     const game = new CyberTyper();
-});
+}

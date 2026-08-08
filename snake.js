@@ -150,7 +150,8 @@ class NeonSerpent extends BaseGame {
     }
 }
 
-document.addEventListener("DOMContentLoaded", () => {
+if (document.readyState === 'loading') {
+    document.addEventListener("DOMContentLoaded", () => {
     const game = new NeonSerpent();
     
     // Draw initial state so canvas isn't blank
@@ -165,3 +166,21 @@ document.addEventListener("DOMContentLoaded", () => {
     if (restartBtn) restartBtn.onclick = () => game.start();
     if (homeBtn) homeBtn.onclick = () => { window.location.href = "index.html"; };
 });
+} else {
+    const _init = () => {
+    const game = new NeonSerpent();
+    
+    // Draw initial state so canvas isn't blank
+    game.reset();
+    game.render();
+
+    const startBtn = document.getElementById("startBtn");
+    const restartBtn = document.getElementById("restartBtn");
+    const homeBtn = document.getElementById("homeBtn");
+
+    if (startBtn) startBtn.onclick = () => game.start();
+    if (restartBtn) restartBtn.onclick = () => game.start();
+    if (homeBtn) homeBtn.onclick = () => { window.location.href = "index.html"; };
+};
+    _init();
+}

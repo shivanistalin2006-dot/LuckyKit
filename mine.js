@@ -270,6 +270,10 @@ gameManager.GAME_INSTRUCTIONS["mine"] = {
     tips: "The first click is always safe. Use numbers to deduce mine locations!"
 };
 
-document.addEventListener("DOMContentLoaded", () => {
+if (document.readyState === 'loading') {
+    document.addEventListener("DOMContentLoaded", () => {
+        const game = new GridSweeper();
+    });
+} else {
     const game = new GridSweeper();
-});
+}

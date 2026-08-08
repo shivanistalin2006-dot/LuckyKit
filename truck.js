@@ -310,6 +310,10 @@ gameManager.GAME_INSTRUCTIONS["runner"] = {
     tips: "The game speeds up over time. Time your jumps perfectly!"
 };
 
-document.addEventListener("DOMContentLoaded", () => {
+if (document.readyState === 'loading') {
+    document.addEventListener("DOMContentLoaded", () => {
+        const game = new MidnightRunner();
+    });
+} else {
     const game = new MidnightRunner();
-});
+}

@@ -1,5 +1,6 @@
 // Neo Draughts Checkers Engine
-document.addEventListener("DOMContentLoaded", () => {
+if (document.readyState === 'loading') {
+    document.addEventListener("DOMContentLoaded", () => {
     const SIZE = 8;
     const RED = 1;      // Player 1 (Red) - moves up
     const BLUE = 2;     // Player 2 / AI (Blue) - moves down
@@ -81,6 +82,91 @@ document.addEventListener("DOMContentLoaded", () => {
                         e.stopPropagation();
                         onPieceClick(r, c);
                     });
+} else {
+    const _init = () => {
+    const SIZE = 8;
+    const RED = 1;      // Player 1 (Red) - moves up
+    const BLUE = 2;     // Player 2 / AI (Blue) - moves down
+    const RED_KING = 3;
+    const BLUE_KING = 4;
+
+    let board = [];
+    let turn = RED;
+    let selectedPiece = null;
+    let validMoves = [];
+    let redCaptured = 0;
+    let blueCaptured = 0;
+
+    const boardEl = document.getElementById("checkersBoard");
+    const turnIndicator = document.getElementById("turnIndicator");
+    const scoreDisplay = document.getElementById("scoreDisplay");
+    const restartBtn = document.getElementById("restartBtn");
+    const overlay = document.getElementById("overlay");
+    const overlayTitle = document.getElementById("overlayTitle");
+    const overlaySub = document.getElementById("overlaySub");
+    const overlayRestartBtn = document.getElementById("overlayRestartBtn");
+
+    function initBoard() {
+        board = Array(SIZE).fill(null).map(() => Array(SIZE).fill(0));
+        redCaptured = 0;
+        blueCaptured = 0;
+        turn = RED;
+        selectedPiece = null;
+        validMoves = [];
+        
+        // Populate initial checkers pieces
+        for (let r = 0; r < SIZE; r++) {
+            for (let c = 0; c < SIZE; c++) {
+                if ((r + c) % 2 === 1) {
+                    if (r < 3) board[r][c] = BLUE;
+                    else if (r > 4) board[r][c] = RED;
+                }
+            }
+        }
+        updateUI();
+        renderBoard();
+        overlay.classList.add("d-none");
+        overlay.classList.remove("d-flex");
+    }
+
+    function renderBoard() {
+        boardEl.innerHTML = "";
+        for (let r = 0; r < SIZE; r++) {
+            for (let c = 0; c < SIZE; c++) {
+                const cell = document.createElement("div");
+                const isDark = (r + c) % 2 === 1;
+                cell.className = `cell ${isDark ? "cell-dark" : "cell-light"}`;
+                cell.dataset.row = r;
+                cell.dataset.col = c;
+
+                // Check if this cell is a highlighted valid move
+                const isValidMove = validMoves.some(m => m.r === r && m.c === c);
+                if (isValidMove) {
+                    cell.classList.add("cell-highlight");
+                    cell.addEventListener("click", () => makeMove(r, c));
+                }
+
+                const pieceVal = board[r][c];
+                if (pieceVal !== 0) {
+                    const piece = document.createElement("div");
+                    const isRed = pieceVal === RED || pieceVal === RED_KING;
+                    const isKing = pieceVal === RED_KING || pieceVal === BLUE_KING;
+
+                    piece.className = `piece ${isRed ? "piece-red" : "piece-black"}`;
+                    if (selectedPiece && selectedPiece.r === r && selectedPiece.c === c) {
+                        piece.classList.add("piece-selected");
+                    }
+
+                    if (isKing) {
+                        piece.innerHTML = `<span class="king-icon">👑</span>`;
+                    }
+
+                    piece.addEventListener("click", (e) => {
+                        e.stopPropagation();
+                        onPieceClick(r, c);
+                    };
+    _init();
+}
 
                     cell.appendChild(piece);
                 }

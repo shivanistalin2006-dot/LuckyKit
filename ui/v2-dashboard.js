@@ -105,6 +105,10 @@ export class V2Dashboard {
 }
 
 // Initialize automatically
-document.addEventListener("DOMContentLoaded", () => {
+if (document.readyState === 'loading') {
+    document.addEventListener("DOMContentLoaded", () => {
+        window.v2Dashboard = new V2Dashboard();
+    });
+} else {
     window.v2Dashboard = new V2Dashboard();
-});
+}

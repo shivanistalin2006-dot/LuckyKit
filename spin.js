@@ -1,4 +1,5 @@
-document.addEventListener('DOMContentLoaded', () => {
+if (document.readyState === 'loading') {
+    document.addEventListener("DOMContentLoaded", () => {
     const canvas = document.getElementById('wheelCanvas');
     const ctx = canvas.getContext('2d');
     const spinBtn = document.getElementById('spinBtn');
@@ -41,6 +42,52 @@ document.addEventListener('DOMContentLoaded', () => {
             ctx.fillText(sector.label, 180, 10);
             ctx.restore();
         });
+} else {
+    const _init = () => {
+    const canvas = document.getElementById('wheelCanvas');
+    const ctx = canvas.getContext('2d');
+    const spinBtn = document.getElementById('spinBtn');
+    const overlay = document.getElementById('overlay');
+    const resultMsg = document.getElementById('resultMsg');
+    const closeOverlayBtn = document.getElementById('closeOverlayBtn');
+
+    const sectors = [
+        {color: "#ff0000", label: "Loss"},
+        {color: "#ff7f00", label: "Win"},
+        {color: "#ffff00", label: "Loss"},
+        {color: "#00ff00", label: "Big Win"},
+        {color: "#0000ff", label: "Loss"},
+        {color: "#4b0082", label: "Win"},
+        {color: "#9400d3", label: "Loss"},
+        {color: "#ff00ff", label: "Jackpot"}
+    ];
+    
+    const tot = sectors.length;
+    const arc = 2 * Math.PI / tot;
+    let rotation = 0;
+    let isSpinning = false;
+
+    function drawWheel() {
+        sectors.forEach((sector, i) => {
+            const ang = arc * i + rotation;
+            ctx.beginPath();
+            ctx.fillStyle = sector.color;
+            ctx.moveTo(200, 200);
+            ctx.arc(200, 200, 200, ang, ang + arc);
+            ctx.lineTo(200, 200);
+            ctx.fill();
+            
+            ctx.save();
+            ctx.translate(200, 200);
+            ctx.rotate(ang + arc / 2);
+            ctx.textAlign = "right";
+            ctx.fillStyle = "#fff";
+            ctx.font = "bold 20px sans-serif";
+            ctx.fillText(sector.label, 180, 10);
+            ctx.restore();
+        };
+    _init();
+}
     }
 
     drawWheel();

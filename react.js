@@ -166,6 +166,10 @@ gameManager.GAME_INSTRUCTIONS["react"] = {
     tips: "Tapping too early forces a retry of that attempt without penalizing the average."
 };
 
-document.addEventListener("DOMContentLoaded", () => {
+if (document.readyState === 'loading') {
+    document.addEventListener("DOMContentLoaded", () => {
+        const game = new ReflexProtocol();
+    });
+} else {
     const game = new ReflexProtocol();
-});
+}

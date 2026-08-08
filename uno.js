@@ -355,7 +355,15 @@ class CosmicUNO extends BaseGame {
     }
 }
 
-document.addEventListener("DOMContentLoaded", () => {
+if (document.readyState === 'loading') {
+    document.addEventListener("DOMContentLoaded", () => {
     const game = new CosmicUNO();
     setTimeout(() => game.start(), 100);
 });
+} else {
+    const _init = () => {
+    const game = new CosmicUNO();
+    setTimeout(() => game.start(), 100);
+};
+    _init();
+}
