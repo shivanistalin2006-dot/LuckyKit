@@ -33,6 +33,30 @@ export class V2Dashboard {
             alert('Daily Reward Claimed! +50 Coins');
             storage.updateState(s => s.coins += 50);
         });
+
+        const themeToggleBtn = document.getElementById('themeToggleBtn');
+        if (themeToggleBtn) {
+            const themeIcon = document.getElementById('themeIcon');
+            
+            // Init icon based on current theme
+            const currentTheme = localStorage.getItem('luckykit_theme') || 'dark';
+            if (themeIcon) {
+                themeIcon.textContent = currentTheme === 'light' ? '☀️' : '🌙';
+            }
+
+            themeToggleBtn.addEventListener('click', () => {
+                const html = document.documentElement;
+                const isDark = html.getAttribute('data-theme') === 'dark' || !html.getAttribute('data-theme');
+                const newTheme = isDark ? 'light' : 'dark';
+                
+                html.setAttribute('data-theme', newTheme);
+                localStorage.setItem('luckykit_theme', newTheme);
+                
+                if (themeIcon) {
+                    themeIcon.textContent = newTheme === 'light' ? '☀️' : '🌙';
+                }
+            });
+        }
     }
 
     updateUI() {
