@@ -2,7 +2,7 @@ import { eventBus } from './eventBus.js';
 import { storage } from './storage.js';
 import { audioManager } from '../audio/audioManager.js';
 import { profileManager } from '../profile/profileManager.js';
-import { xpEngine } from '../engine/xpEngine.js';
+import { xpEngine } from '../engine/xpEngine.js?v=2.2';
 
 // Import UI and other systems just to ensure they load
 import { navbarUI } from '../ui/navbar.js';

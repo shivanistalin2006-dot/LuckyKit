@@ -33,6 +33,28 @@ class XPEngine {
         
         eventBus.emit('UI_UPDATE');
     }
+
+    trackPlay(gameId) {
+        storage.updateState(state => {
+            state.stats.totalPlays += 1;
+            if (!state.stats.gameStats[gameId]) {
+                state.stats.gameStats[gameId] = { plays: 0, wins: 0, losses: 0 };
+            }
+            state.stats.gameStats[gameId].plays += 1;
+        });
+        this.addXP(15);
+    }
+
+    trackWin(gameId) {
+        storage.updateState(state => {
+            state.stats.totalWins += 1;
+            if (!state.stats.gameStats[gameId]) {
+                state.stats.gameStats[gameId] = { plays: 0, wins: 0, losses: 0 };
+            }
+            state.stats.gameStats[gameId].wins += 1;
+        });
+        this.addXP(60);
+    }
 }
 
 export const xpEngine = new XPEngine();
