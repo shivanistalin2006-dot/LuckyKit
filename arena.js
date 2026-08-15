@@ -2,6 +2,7 @@ import { BaseGame } from './core/BaseGame.js?v=2.5';
 import { gameManager } from './core/gameManager.js?v=2.5';
 import { audioManager } from './audio/audioManager.js?v=2.5';
 import { animationManager } from './animation/animationManager.js';
+import { assetLoader } from './core/assetLoader.js?v=2.5';
 
 const MAP_SIZE = 2000;
 const TILE_SIZE = 50;
@@ -29,6 +30,16 @@ class NeonArena extends BaseGame {
         this.bindControls();
         this.initMobileControls();
         
+        this.assetsLoaded = false;
+        assetLoader.loadImages({
+            player: 'assets/player_ship.jpg',
+            enemy: 'assets/enemy_ship.jpg',
+            bg: 'assets/space_bg.jpg',
+            health: 'assets/health_pack.jpg'
+        }).then(() => {
+            this.assetsLoaded = true;
+        });
+
         gameManager.registerGame(this);
     }
 
@@ -385,17 +396,23 @@ class NeonArena extends BaseGame {
 
     render() {
         // Deep space background
-        this.ctx.fillStyle = '#050b14';
-        this.ctx.fillRect(0, 0, this.canvas.width, this.canvas.height);
+        const bgImg = assetLoader.getImage('bg');
+        if (bgImg && bgImg.complete) {
+            // Draw tileable background
+            const ptrn = this.ctx.createPattern(bgImg, 'repeat');
+            this.ctx.fillStyle = ptrn;
+            this.ctx.fillRect(0, 0, this.canvas.width, this.canvas.height);
+        } else {
+            this.ctx.fillStyle = '#050b14';
+            this.ctx.fillRect(0, 0, this.canvas.width, this.canvas.height);
+        }
         
         this.ctx.save();
         this.ctx.translate(-this.camera.x, -this.camera.y);
 
-        // Synthwave Grid
-        this.ctx.strokeStyle = 'rgba(0, 255, 255, 0.08)';
+        // Synthwave Grid (Optional now that we have a nebula, but keeping it subtle)
+        this.ctx.strokeStyle = 'rgba(0, 255, 255, 0.03)';
         this.ctx.lineWidth = 1;
-        this.ctx.shadowBlur = 5;
-        this.ctx.shadowColor = 'rgba(0, 255, 255, 0.5)';
         
         const startX = Math.floor(this.camera.x / TILE_SIZE) * TILE_SIZE;
         const startY = Math.floor(this.camera.y / TILE_SIZE) * TILE_SIZE;
@@ -410,7 +427,6 @@ class NeonArena extends BaseGame {
             this.ctx.lineTo(this.camera.x + this.camera.width, y);
         }
         this.ctx.stroke();
-        this.ctx.shadowBlur = 0; // reset
 
         // Draw Map Border (Cyberpunk Red)
         this.ctx.strokeStyle = '#ff003c';
@@ -433,81 +449,76 @@ class NeonArena extends BaseGame {
         this.ctx.stroke();
         this.ctx.shadowBlur = 0;
 
-        // Draw Pickups (Gems)
+        // Draw Pickups
+        const hpImg = assetLoader.getImage('health');
         this.pickups.forEach(p => {
-            this.ctx.fillStyle = '#0ff';
-            this.ctx.shadowBlur = 15;
-            this.ctx.shadowColor = '#0ff';
-            this.ctx.beginPath();
-            this.ctx.moveTo(p.x, p.y - p.radius);
-            this.ctx.lineTo(p.x + p.radius, p.y);
-            this.ctx.lineTo(p.x, p.y + p.radius);
-            this.ctx.lineTo(p.x - p.radius, p.y);
-            this.ctx.closePath();
-            this.ctx.fill();
-            this.ctx.fillStyle = '#fff';
-            this.ctx.textAlign = 'center';
-            this.ctx.textBaseline = 'middle';
-            this.ctx.font = '12px Courier New';
-            this.ctx.fillText('HP', p.x, p.y);
-            this.ctx.shadowBlur = 0;
+            if (hpImg && hpImg.complete) {
+                this.ctx.save();
+                this.ctx.globalCompositeOperation = 'screen';
+                this.ctx.translate(p.x, p.y);
+                this.ctx.drawImage(hpImg, -p.radius * 1.5, -p.radius * 1.5, p.radius * 3, p.radius * 3);
+                this.ctx.restore();
+            } else {
+                this.ctx.fillStyle = '#0ff';
+                this.ctx.shadowBlur = 15;
+                this.ctx.shadowColor = '#0ff';
+                this.ctx.beginPath();
+                this.ctx.arc(p.x, p.y, p.radius, 0, Math.PI*2);
+                this.ctx.fill();
+                this.ctx.shadowBlur = 0;
+            }
         });
 
         // Draw Bullets (Laser bolts)
+        this.ctx.globalCompositeOperation = 'screen';
         this.bullets.forEach(b => {
-            this.ctx.strokeStyle = b.owner.isPlayer ? '#0ff' : '#ff0055';
-            this.ctx.lineWidth = 4;
-            this.ctx.shadowBlur = 10;
+            this.ctx.strokeStyle = b.owner.isPlayer ? '#00ffff' : '#ff003c';
+            this.ctx.lineWidth = 5;
+            this.ctx.shadowBlur = 15;
             this.ctx.shadowColor = this.ctx.strokeStyle;
             this.ctx.beginPath();
-            this.ctx.moveTo(b.x - b.vx, b.y - b.vy);
+            this.ctx.moveTo(b.x - b.vx * 1.5, b.y - b.vy * 1.5);
             this.ctx.lineTo(b.x, b.y);
             this.ctx.stroke();
-            this.ctx.shadowBlur = 0;
         });
+        this.ctx.shadowBlur = 0;
+        this.ctx.globalCompositeOperation = 'source-over';
 
-        // Draw Entities (Cyber-ships)
+        // Draw Entities (Ships)
+        const playerImg = assetLoader.getImage('player');
+        const enemyImg = assetLoader.getImage('enemy');
+
         this.entities.forEach(e => {
             if (e.health <= 0) return;
             
             this.ctx.save();
             this.ctx.translate(e.x, e.y);
-            this.ctx.rotate(e.angle);
+            // The generated images are usually facing UP (which is -90 degrees or -Math.PI/2 in canvas terms).
+            // Canvas 0 angle is facing RIGHT. So we need to rotate an extra 90 degrees (Math.PI/2) to align the image rightwards.
+            this.ctx.rotate(e.angle + Math.PI/2);
             
             const isPlayer = e.isPlayer;
-            const primaryColor = isPlayer ? '#00f3ff' : '#ff003c';
-            const accentColor = isPlayer ? '#ffffff' : '#ffb8c6';
-            
-            this.ctx.shadowBlur = 15;
-            this.ctx.shadowColor = primaryColor;
-            
-            // Draw Ship shape (triangle/fighter)
-            this.ctx.beginPath();
-            this.ctx.moveTo(e.radius + 10, 0); // Nose
-            this.ctx.lineTo(-e.radius, e.radius); // Back right
-            this.ctx.lineTo(-e.radius * 0.5, 0); // Engine exhaust indent
-            this.ctx.lineTo(-e.radius, -e.radius); // Back left
-            this.ctx.closePath();
-            
-            this.ctx.fillStyle = 'rgba(0,0,0,0.8)';
-            this.ctx.fill();
-            this.ctx.lineWidth = 3;
-            this.ctx.strokeStyle = primaryColor;
-            this.ctx.stroke();
-            
-            // Cockpit glow
-            this.ctx.beginPath();
-            this.ctx.arc(0, 0, e.radius * 0.4, 0, Math.PI * 2);
-            this.ctx.fillStyle = accentColor;
-            this.ctx.fill();
+            const img = isPlayer ? playerImg : enemyImg;
 
-            // Engine thrust (if moving)
-            if (isPlayer && (this.keys['KeyW'] || this.keys['KeyS'] || this.keys['KeyA'] || this.keys['KeyD'] || this.joysticks.move.y !== 0 || this.joysticks.move.x !== 0 || this.keys['ArrowUp'] || this.keys['ArrowDown'] || this.keys['ArrowLeft'] || this.keys['ArrowRight'])) {
+            if (img && img.complete) {
+                this.ctx.globalCompositeOperation = 'screen'; // Blends the dark background of JPG with the nebula
+                const drawSize = e.radius * 3; 
+                this.ctx.drawImage(img, -drawSize/2, -drawSize/2, drawSize, drawSize);
+                this.ctx.globalCompositeOperation = 'source-over';
+            } else {
+                // Fallback rendering
+                const primaryColor = isPlayer ? '#00f3ff' : '#ff003c';
+                this.ctx.shadowBlur = 15;
+                this.ctx.shadowColor = primaryColor;
                 this.ctx.beginPath();
-                this.ctx.moveTo(-e.radius * 0.5, 0);
-                this.ctx.lineTo(-e.radius - (Math.random() * 15 + 5), 0);
-                this.ctx.strokeStyle = '#0ff';
-                this.ctx.lineWidth = 4;
+                this.ctx.moveTo(e.radius + 10, -e.radius - 10);
+                this.ctx.lineTo(e.radius + 10, e.radius + 10);
+                this.ctx.lineTo(-e.radius * 0.5, 0); 
+                this.ctx.closePath();
+                this.ctx.fillStyle = 'rgba(0,0,0,0.8)';
+                this.ctx.fill();
+                this.ctx.lineWidth = 3;
+                this.ctx.strokeStyle = primaryColor;
                 this.ctx.stroke();
             }
 
@@ -516,6 +527,7 @@ class NeonArena extends BaseGame {
             // Health bar over head
             this.ctx.fillStyle = 'rgba(0,255,255,0.2)';
             this.ctx.fillRect(e.x - 20, e.y - e.radius - 20, 40, 4);
+            const primaryColor = isPlayer ? '#00f3ff' : '#ff003c';
             this.ctx.fillStyle = primaryColor;
             this.ctx.fillRect(e.x - 20, e.y - e.radius - 20, 40 * (Math.max(0, e.health)/100), 4);
         });
