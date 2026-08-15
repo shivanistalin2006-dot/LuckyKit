@@ -1,4 +1,4 @@
-import { BaseGame } from './core/BaseGame.js';
+import { BaseGame } from './core/BaseGame.js?v=2.5';
 import { gameManager } from './core/gameManager.js';
 
 class NeonShatter extends BaseGame {

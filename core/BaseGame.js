@@ -25,6 +25,22 @@ export class BaseGame {
                 this.togglePause();
             }
         });
+        
+        // Wait for user to explicitly start via a start button in the UI
+        document.getElementById('startBtn')?.addEventListener('click', () => {
+            const overlay = document.getElementById('startOverlay');
+            if (overlay) {
+                overlay.classList.remove('d-flex');
+                overlay.classList.add('d-none');
+                overlay.style.display = 'none';
+            }
+            this.start();
+        });
+
+        // Exit to Hub
+        document.getElementById('exitBtn')?.addEventListener('click', () => {
+            window.location.href = 'index.html';
+        });
     }
 
     start() {

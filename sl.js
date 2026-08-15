@@ -1,4 +1,4 @@
-import { BaseGame } from './core/BaseGame.js';
+import { BaseGame } from './core/BaseGame.js?v=2.5';
 import { gameManager } from './core/gameManager.js';
 import { eventBus } from './core/eventBus.js';
 import { audioManager } from './audio/audioManager.js';

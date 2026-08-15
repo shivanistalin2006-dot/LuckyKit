@@ -1,6 +1,6 @@
-import { BaseGame } from './core/BaseGame.js';
-import { gameManager } from './core/gameManager.js';
-import { audioManager } from './audio/audioManager.js';
+import { BaseGame } from './core/BaseGame.js?v=2.5';
+import { gameManager } from './core/gameManager.js?v=2.5';
+import { audioManager } from './audio/audioManager.js?v=2.5';
 import { animationManager } from './animation/animationManager.js';
 
 const MAP_SIZE = 2000;
@@ -42,11 +42,6 @@ class NeonArena extends BaseGame {
     }
 
     bindControls() {
-        document.getElementById('startBtn')?.addEventListener('click', () => {
-            document.getElementById('startOverlay').style.display = 'none';
-            document.getElementById('hudOverlay').style.display = 'block';
-            this.start();
-        });
         
         document.getElementById('restartBtn')?.addEventListener('click', () => {
             this.start();
@@ -126,6 +121,8 @@ class NeonArena extends BaseGame {
         
         this.updateHUD();
         document.getElementById('restartBtn')?.classList.add('d-none');
+        const hud = document.getElementById('hudOverlay');
+        if (hud) hud.style.display = 'block';
     }
 
     createEntity(x, y, isPlayer) {
@@ -387,69 +384,89 @@ class NeonArena extends BaseGame {
     }
 
     render() {
-        this.ctx.fillStyle = '#0f172a';
+        // Deep space background
+        this.ctx.fillStyle = '#050b14';
         this.ctx.fillRect(0, 0, this.canvas.width, this.canvas.height);
         
         this.ctx.save();
         this.ctx.translate(-this.camera.x, -this.camera.y);
 
-        // Draw Grid
-        this.ctx.strokeStyle = 'rgba(255,255,255,0.05)';
-        this.ctx.lineWidth = 2;
+        // Synthwave Grid
+        this.ctx.strokeStyle = 'rgba(0, 255, 255, 0.08)';
+        this.ctx.lineWidth = 1;
+        this.ctx.shadowBlur = 5;
+        this.ctx.shadowColor = 'rgba(0, 255, 255, 0.5)';
         
         const startX = Math.floor(this.camera.x / TILE_SIZE) * TILE_SIZE;
         const startY = Math.floor(this.camera.y / TILE_SIZE) * TILE_SIZE;
         
         this.ctx.beginPath();
-        for (let x = startX; x < this.camera.x + this.camera.width; x += TILE_SIZE) {
+        for (let x = startX; x < this.camera.x + this.camera.width + TILE_SIZE; x += TILE_SIZE) {
             this.ctx.moveTo(x, this.camera.y);
             this.ctx.lineTo(x, this.camera.y + this.camera.height);
         }
-        for (let y = startY; y < this.camera.y + this.camera.height; y += TILE_SIZE) {
+        for (let y = startY; y < this.camera.y + this.camera.height + TILE_SIZE; y += TILE_SIZE) {
             this.ctx.moveTo(this.camera.x, y);
             this.ctx.lineTo(this.camera.x + this.camera.width, y);
         }
         this.ctx.stroke();
+        this.ctx.shadowBlur = 0; // reset
 
-        // Draw Map Border
-        this.ctx.strokeStyle = '#ef4444';
-        this.ctx.lineWidth = 5;
+        // Draw Map Border (Cyberpunk Red)
+        this.ctx.strokeStyle = '#ff003c';
+        this.ctx.lineWidth = 4;
+        this.ctx.shadowBlur = 15;
+        this.ctx.shadowColor = '#ff003c';
         this.ctx.strokeRect(0, 0, MAP_SIZE, MAP_SIZE);
+        this.ctx.shadowBlur = 0;
 
-        // Draw Safe Zone
-        this.ctx.fillStyle = 'rgba(16, 185, 129, 0.1)';
+        // Pulsing Safe Zone (Neon Green)
+        const pulse = Math.sin(Date.now() / 300) * 0.05;
+        this.ctx.fillStyle = `rgba(16, 185, 129, ${0.05 + pulse})`;
         this.ctx.strokeStyle = '#10b981';
         this.ctx.lineWidth = 3;
+        this.ctx.shadowBlur = 20;
+        this.ctx.shadowColor = '#10b981';
         this.ctx.beginPath();
         this.ctx.arc(this.safeZone.x, this.safeZone.y, this.safeZone.radius, 0, Math.PI*2);
         this.ctx.fill();
         this.ctx.stroke();
+        this.ctx.shadowBlur = 0;
 
-        // Draw Pickups
+        // Draw Pickups (Gems)
         this.pickups.forEach(p => {
-            this.ctx.fillStyle = '#10b981';
+            this.ctx.fillStyle = '#0ff';
+            this.ctx.shadowBlur = 15;
+            this.ctx.shadowColor = '#0ff';
             this.ctx.beginPath();
-            this.ctx.arc(p.x, p.y, p.radius, 0, Math.PI*2);
+            this.ctx.moveTo(p.x, p.y - p.radius);
+            this.ctx.lineTo(p.x + p.radius, p.y);
+            this.ctx.lineTo(p.x, p.y + p.radius);
+            this.ctx.lineTo(p.x - p.radius, p.y);
+            this.ctx.closePath();
             this.ctx.fill();
             this.ctx.fillStyle = '#fff';
             this.ctx.textAlign = 'center';
             this.ctx.textBaseline = 'middle';
-            this.ctx.font = '16px Arial';
-            this.ctx.fillText('+', p.x, p.y);
+            this.ctx.font = '12px Courier New';
+            this.ctx.fillText('HP', p.x, p.y);
+            this.ctx.shadowBlur = 0;
         });
 
-        // Draw Bullets
+        // Draw Bullets (Laser bolts)
         this.bullets.forEach(b => {
-            this.ctx.fillStyle = '#f59e0b';
-            this.ctx.beginPath();
-            this.ctx.arc(b.x, b.y, 4, 0, Math.PI*2);
-            this.ctx.fill();
+            this.ctx.strokeStyle = b.owner.isPlayer ? '#0ff' : '#ff0055';
+            this.ctx.lineWidth = 4;
             this.ctx.shadowBlur = 10;
-            this.ctx.shadowColor = '#f59e0b';
+            this.ctx.shadowColor = this.ctx.strokeStyle;
+            this.ctx.beginPath();
+            this.ctx.moveTo(b.x - b.vx, b.y - b.vy);
+            this.ctx.lineTo(b.x, b.y);
+            this.ctx.stroke();
+            this.ctx.shadowBlur = 0;
         });
-        this.ctx.shadowBlur = 0;
 
-        // Draw Entities
+        // Draw Entities (Cyber-ships)
         this.entities.forEach(e => {
             if (e.health <= 0) return;
             
@@ -457,27 +474,50 @@ class NeonArena extends BaseGame {
             this.ctx.translate(e.x, e.y);
             this.ctx.rotate(e.angle);
             
-            // Body
-            this.ctx.fillStyle = e.color;
+            const isPlayer = e.isPlayer;
+            const primaryColor = isPlayer ? '#00f3ff' : '#ff003c';
+            const accentColor = isPlayer ? '#ffffff' : '#ffb8c6';
+            
+            this.ctx.shadowBlur = 15;
+            this.ctx.shadowColor = primaryColor;
+            
+            // Draw Ship shape (triangle/fighter)
             this.ctx.beginPath();
-            this.ctx.arc(0, 0, e.radius, 0, Math.PI*2);
+            this.ctx.moveTo(e.radius + 10, 0); // Nose
+            this.ctx.lineTo(-e.radius, e.radius); // Back right
+            this.ctx.lineTo(-e.radius * 0.5, 0); // Engine exhaust indent
+            this.ctx.lineTo(-e.radius, -e.radius); // Back left
+            this.ctx.closePath();
+            
+            this.ctx.fillStyle = 'rgba(0,0,0,0.8)';
             this.ctx.fill();
-            this.ctx.strokeStyle = '#fff';
-            this.ctx.lineWidth = 2;
+            this.ctx.lineWidth = 3;
+            this.ctx.strokeStyle = primaryColor;
             this.ctx.stroke();
             
-            // Gun barrel
-            this.ctx.fillStyle = '#64748b';
-            this.ctx.fillRect(0, -5, e.radius + 15, 10);
-            this.ctx.strokeRect(0, -5, e.radius + 15, 10);
-            
+            // Cockpit glow
+            this.ctx.beginPath();
+            this.ctx.arc(0, 0, e.radius * 0.4, 0, Math.PI * 2);
+            this.ctx.fillStyle = accentColor;
+            this.ctx.fill();
+
+            // Engine thrust (if moving)
+            if (isPlayer && (this.keys['KeyW'] || this.keys['KeyS'] || this.keys['KeyA'] || this.keys['KeyD'] || this.joysticks.move.y !== 0 || this.joysticks.move.x !== 0 || this.keys['ArrowUp'] || this.keys['ArrowDown'] || this.keys['ArrowLeft'] || this.keys['ArrowRight'])) {
+                this.ctx.beginPath();
+                this.ctx.moveTo(-e.radius * 0.5, 0);
+                this.ctx.lineTo(-e.radius - (Math.random() * 15 + 5), 0);
+                this.ctx.strokeStyle = '#0ff';
+                this.ctx.lineWidth = 4;
+                this.ctx.stroke();
+            }
+
             this.ctx.restore();
 
             // Health bar over head
-            this.ctx.fillStyle = 'rgba(0,0,0,0.5)';
-            this.ctx.fillRect(e.x - 20, e.y - e.radius - 15, 40, 5);
-            this.ctx.fillStyle = e.health > 50 ? '#10b981' : '#ef4444';
-            this.ctx.fillRect(e.x - 20, e.y - e.radius - 15, 40 * (Math.max(0, e.health)/100), 5);
+            this.ctx.fillStyle = 'rgba(0,255,255,0.2)';
+            this.ctx.fillRect(e.x - 20, e.y - e.radius - 20, 40, 4);
+            this.ctx.fillStyle = primaryColor;
+            this.ctx.fillRect(e.x - 20, e.y - e.radius - 20, 40 * (Math.max(0, e.health)/100), 4);
         });
 
         this.ctx.restore();
