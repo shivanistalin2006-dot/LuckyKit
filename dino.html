@@ -3,17 +3,17 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>LuckyKit - Aero Burst</title>
+    <title>LuckyKit - Cyber Dino Run</title>
     
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" href="arcade-shell.css">
-    <link rel="stylesheet" href="balloon.css">
+    <link rel="stylesheet" href="dino.css">
     <link href="https://fonts.googleapis.com/css2?family=Rajdhani:wght@300;400;500;600;700" rel="stylesheet">
     
     <script type="module" src="core/app.js?v=2.4"></script>
-    <script type="module" src="balloon.js?v=2.5" defer></script>
+    <script type="module" src="dino.js?v=2.5" defer></script>
 </head>
-<body class="bg-dark text-white premium-bg-balloon">
+<body class="bg-dark text-white premium-bg-dino">
 
     <div class="bg-overlay"></div>
     <div class="particle-container" id="particles"></div>
@@ -22,10 +22,10 @@
         
         <header class="d-flex justify-content-between align-items-center mb-4 p-3 rounded glass-panel">
             <div class="d-flex align-items-center gap-3">
-                <span class="fs-1 text-theme">🎈</span>
+                <span class="fs-1 text-theme">🦖</span>
                 <div>
-                    <h1 class="m-0 fw-bold text-theme">Aero Burst</h1>
-                    <span class="text-white-50">Offline Flight Scroller</span>
+                    <h1 class="m-0 fw-bold text-theme">Cyber Dino Run</h1>
+                    <span class="text-white-50">Offline Survival Scroller</span>
                 </div>
             </div>
             <div>
@@ -38,18 +38,18 @@
                 <div class="glass-panel p-3 rounded w-100 d-flex flex-column align-items-center position-relative overflow-hidden">
                     
                     <div class="w-100 d-flex justify-content-between mb-2 px-2">
-                        <h5 class="m-0 fw-bold">Altitude: <span id="score" class="text-theme fs-4">0</span></h5>
+                        <h5 class="m-0 fw-bold">Score: <span id="score" class="text-theme fs-4">0</span></h5>
                         <h5 class="m-0 fw-bold text-white-50">High: <span id="highScore">0</span></h5>
                     </div>
 
-                    <!-- Cyber Balloon Game Board -->
-                    <canvas id="balloonCanvas" width="500" height="700" class="rounded w-100 shadow-lg border border-secondary" style="background: rgba(0,0,0,0.6); aspect-ratio: 5/7; max-width: 500px;"></canvas>
+                    <!-- Cyber Dino Game Board -->
+                    <canvas id="dinoCanvas" width="800" height="300" class="rounded w-100 shadow-lg border border-secondary" style="background: rgba(0,0,0,0.6); aspect-ratio: 8/3;"></canvas>
 
                     <!-- Game Over Overlay -->
                     <div class="position-absolute top-50 start-50 translate-middle text-center w-100 h-100 d-none flex-column justify-content-center align-items-center glass-panel" id="overlay" style="z-index: 20; background: rgba(0,0,0,0.8);">
-                        <h1 class="fw-black fs-1 mb-2 text-danger" id="overlayTitle">Crashed!</h1>
-                        <p class="fs-5 text-white-50 mb-4" id="overlaySub">Final Altitude: 0</p>
-                        <button class="btn btn-theme btn-lg px-5 py-3 rounded-pill fw-bold" id="overlayStartBtn">FLY AGAIN 🚀</button>
+                        <h1 class="fw-black fs-1 mb-2 text-danger" id="overlayTitle">Extinction!</h1>
+                        <p class="fs-5 text-white-50 mb-4" id="overlaySub">Final Score: 0</p>
+                        <button class="btn btn-theme btn-lg px-5 py-3 rounded-pill fw-bold" id="overlayStartBtn">RUN AGAIN 🚀</button>
                     </div>
 
                 </div>
@@ -58,7 +58,7 @@
             <!-- Stats & Status -->
             <div class="col-12 col-lg-4">
                 <div class="glass-panel p-4 rounded h-100 d-flex flex-column gap-3">
-                    <h4 class="text-theme border-bottom border-secondary pb-2">Flight Status</h4>
+                    <h4 class="text-theme border-bottom border-secondary pb-2">Survival Status</h4>
                     
                     <div class="d-flex justify-content-between align-items-center mt-2">
                         <span class="fs-5">Energy</span>
@@ -68,14 +68,14 @@
                     <div class="mt-4">
                         <h5 class="text-white-50 mb-3">Controls</h5>
                         <div class="d-flex flex-wrap gap-2">
-                            <span class="badge bg-secondary p-2"><kbd class="bg-dark">HOLD SPACE</kbd> Ascend</span>
-                            <span class="badge bg-secondary p-2">🖱️ Hold Tap</span>
-                            <span class="badge bg-secondary p-2">Release to fall</span>
+                            <span class="badge bg-secondary p-2"><kbd class="bg-dark">SPACE</kbd> Jump</span>
+                            <span class="badge bg-secondary p-2"><kbd class="bg-dark">UP</kbd> Jump</span>
+                            <span class="badge bg-secondary p-2">🖱️ Tap/Click</span>
                         </div>
                     </div>
 
                     <div class="mt-auto pt-4 border-top border-secondary text-center">
-                        <button class="btn btn-theme w-100 py-3 rounded-3 fw-bold fs-5" id="startBtn">LAUNCH POD 🎈</button>
+                        <button class="btn btn-theme w-100 py-3 rounded-3 fw-bold fs-5" id="startBtn">START RUN 🦖</button>
                     </div>
                 </div>
             </div>
