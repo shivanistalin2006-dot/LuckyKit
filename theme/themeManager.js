@@ -61,14 +61,21 @@ class ThemeManager {
 export const themeManager = new ThemeManager();
 
 // Bind Hub button if present
+function bindThemeButton() {
+    const btn = document.getElementById('themeToggleBtn');
+    if (btn && !btn.hasAttribute('data-theme-bound')) {
+        btn.setAttribute('data-theme-bound', 'true');
+        btn.addEventListener('click', () => {
+            themeManager.cycleTheme();
+        });
+        themeManager.applyTheme(themeManager.currentTheme); // refresh UI
+    }
+}
+
 if (typeof document !== 'undefined') {
-    document.addEventListener('DOMContentLoaded', () => {
-        const btn = document.getElementById('themeToggleBtn');
-        if (btn) {
-            btn.addEventListener('click', () => {
-                themeManager.cycleTheme();
-            });
-            themeManager.applyTheme(themeManager.currentTheme); // refresh UI
-        }
-    });
+    if (document.readyState === 'loading') {
+        document.addEventListener('DOMContentLoaded', bindThemeButton);
+    } else {
+        bindThemeButton();
+    }
 }
