@@ -1,5 +1,6 @@
 import { BaseGame } from './core/BaseGame.js?v=2.5';
 import { gameManager } from './core/gameManager.js';
+import { assetLoader } from './core/assetLoader.js?v=2.5';
 
 class CosmicStrike extends BaseGame {
     constructor() {
@@ -30,6 +31,12 @@ class CosmicStrike extends BaseGame {
         this.canvas.addEventListener("touchstart", (e) => { this.isDragging = true; this.updateTouchPlayerPos(e); }, { passive: true });
         this.canvas.addEventListener("touchmove", (e) => { if (this.isDragging) this.updateTouchPlayerPos(e); }, { passive: true });
         this.canvas.addEventListener("touchend", () => this.isDragging = false, { passive: true });
+
+        assetLoader.loadImages({
+            player: 'assets/player_ship.jpg',
+            enemy: 'assets/enemy_ship.jpg',
+            bg: 'assets/space_bg.jpg'
+        });
 
         gameManager.registerGame(this);
     }
@@ -219,6 +226,17 @@ class CosmicStrike extends BaseGame {
     render() {
         this.ctx.clearRect(0, 0, this.canvas.width, this.canvas.height);
 
+        const bgImg = assetLoader.getImage('bg');
+        if (bgImg && bgImg.complete) {
+            this.ctx.save();
+            this.ctx.globalAlpha = 0.4;
+            // Scroll background slightly based on player movement
+            const parallaxX = -this.player.x * 0.05;
+            const parallaxY = -this.player.y * 0.05;
+            this.ctx.drawImage(bgImg, parallaxX, parallaxY, this.canvas.width + 50, this.canvas.height + 50);
+            this.ctx.restore();
+        }
+
         this.stars.forEach(s => {
             this.ctx.fillStyle = `rgba(255, 255, 255, ${s.opacity})`;
             this.ctx.fillRect(s.x, s.y, s.size, s.size);
@@ -227,59 +245,77 @@ class CosmicStrike extends BaseGame {
         this.ctx.save();
         this.ctx.translate(this.player.x, this.player.y);
         
-        this.ctx.fillStyle = "#f97316";
-        this.ctx.shadowBlur = 15;
-        this.ctx.shadowColor = "#f97316";
-        this.ctx.beginPath();
-        this.ctx.moveTo(-8, 15);
-        this.ctx.lineTo(0, 25 + Math.random() * 6);
-        this.ctx.lineTo(8, 15);
-        this.ctx.fill();
+        const playerImg = assetLoader.getImage('player');
+        if (playerImg && playerImg.complete) {
+            this.ctx.globalCompositeOperation = 'screen';
+            const drawSize = 80;
+            this.ctx.drawImage(playerImg, -drawSize/2, -drawSize/2, drawSize, drawSize);
+            this.ctx.globalCompositeOperation = 'source-over';
+        } else {
+            this.ctx.fillStyle = "#f97316";
+            this.ctx.shadowBlur = 15;
+            this.ctx.shadowColor = "#f97316";
+            this.ctx.beginPath();
+            this.ctx.moveTo(-8, 15);
+            this.ctx.lineTo(0, 25 + Math.random() * 6);
+            this.ctx.lineTo(8, 15);
+            this.ctx.fill();
 
-        this.ctx.fillStyle = this.player.color;
-        this.ctx.shadowBlur = 20;
-        this.ctx.shadowColor = this.player.color;
-        this.ctx.beginPath();
-        this.ctx.moveTo(0, -22);
-        this.ctx.lineTo(18, 18);
-        this.ctx.lineTo(0, 10);
-        this.ctx.lineTo(-18, 18);
-        this.ctx.closePath();
-        this.ctx.fill();
+            this.ctx.fillStyle = this.player.color;
+            this.ctx.shadowBlur = 20;
+            this.ctx.shadowColor = this.player.color;
+            this.ctx.beginPath();
+            this.ctx.moveTo(0, -22);
+            this.ctx.lineTo(18, 18);
+            this.ctx.lineTo(0, 10);
+            this.ctx.lineTo(-18, 18);
+            this.ctx.closePath();
+            this.ctx.fill();
 
-        this.ctx.fillStyle = "#fff";
-        this.ctx.beginPath();
-        this.ctx.arc(0, -2, 5, 0, Math.PI * 2);
-        this.ctx.fill();
-
+            this.ctx.fillStyle = "#fff";
+            this.ctx.beginPath();
+            this.ctx.arc(0, -2, 5, 0, Math.PI * 2);
+            this.ctx.fill();
+        }
         this.ctx.restore();
 
+        this.ctx.globalCompositeOperation = 'screen';
         this.bullets.forEach(b => {
             this.ctx.fillStyle = b.color;
             this.ctx.shadowBlur = 12;
             this.ctx.shadowColor = b.color;
             this.ctx.fillRect(b.x - b.w / 2, b.y, b.w, b.h);
         });
+        this.ctx.globalCompositeOperation = 'source-over';
 
+        const enemyImg = assetLoader.getImage('enemy');
         this.enemies.forEach(e => {
             this.ctx.save();
             this.ctx.translate(e.x, e.y);
             this.ctx.rotate(e.angle);
-            this.ctx.fillStyle = e.color;
-            this.ctx.shadowBlur = 15;
-            this.ctx.shadowColor = e.color;
-
-            if (e.type === "alien") {
-                this.ctx.beginPath();
-                this.ctx.moveTo(0, e.size / 2);
-                this.ctx.lineTo(e.size / 2, -e.size / 2);
-                this.ctx.lineTo(-e.size / 2, -e.size / 2);
-                this.ctx.closePath();
-                this.ctx.fill();
+            
+            if (e.type === "alien" && enemyImg && enemyImg.complete) {
+                // Enemies in space invaders face downwards (rotation +PI)
+                this.ctx.rotate(Math.PI);
+                this.ctx.globalCompositeOperation = 'screen';
+                const drawSize = e.size * 2.5;
+                this.ctx.drawImage(enemyImg, -drawSize/2, -drawSize/2, drawSize, drawSize);
             } else {
-                this.ctx.beginPath();
-                this.ctx.arc(0, 0, e.size / 2, 0, Math.PI * 2);
-                this.ctx.fill();
+                this.ctx.fillStyle = e.color;
+                this.ctx.shadowBlur = 15;
+                this.ctx.shadowColor = e.color;
+                if (e.type === "alien") {
+                    this.ctx.beginPath();
+                    this.ctx.moveTo(0, e.size / 2);
+                    this.ctx.lineTo(e.size / 2, -e.size / 2);
+                    this.ctx.lineTo(-e.size / 2, -e.size / 2);
+                    this.ctx.closePath();
+                    this.ctx.fill();
+                } else {
+                    this.ctx.beginPath();
+                    this.ctx.arc(0, 0, e.size / 2, 0, Math.PI * 2);
+                    this.ctx.fill();
+                }
             }
             this.ctx.restore();
         });
