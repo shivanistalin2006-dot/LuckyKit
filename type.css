@@ -1,11 +1,7 @@
 /* Cyber Typer Premium Theme */
 :root {
-    --theme-color: #34d399; /* emerald */
-    --theme-glow: rgba(52, 211, 153, 0.2);
 }
 
-.text-theme { color: var(--theme-color) !important; text-shadow: 0 0 10px var(--theme-glow); }
-.bg-theme { background-color: var(--theme-color) !important; }
 
 .premium-bg-type {
     background-color: #020617; /* very dark slate */

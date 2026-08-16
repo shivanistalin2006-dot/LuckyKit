@@ -1,11 +1,7 @@
 /* Grandmaster's Gambit Premium Theme */
 :root {
-    --theme-color: #d8b4fe; /* purple/light violet */
-    --theme-glow: rgba(216, 180, 254, 0.2);
 }
 
-.text-theme { color: var(--theme-color) !important; text-shadow: 0 0 10px var(--theme-glow); }
-.bg-theme { background-color: var(--theme-color) !important; }
 
 .premium-bg-chess {
     background-color: #0f172a;

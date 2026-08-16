@@ -1,11 +1,7 @@
 /* Logic Grid (Sudoku) Premium Theme */
 :root {
-    --theme-color: #8b5cf6;
-    --theme-glow: rgba(139, 92, 246, 0.2);
 }
 
-.text-theme { color: var(--theme-color) !important; text-shadow: 0 0 10px var(--theme-glow); }
-.bg-theme { background-color: var(--theme-color) !important; }
 
 .premium-bg-sudoku {
     background-color: #0b0f19;

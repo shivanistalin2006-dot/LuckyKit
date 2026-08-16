@@ -1,11 +1,7 @@
 /* Synapse Match Premium Theme */
 :root {
-    --theme-color: #a855f7; /* purple */
-    --theme-glow: rgba(168, 85, 247, 0.2);
 }
 
-.text-theme { color: var(--theme-color) !important; text-shadow: 0 0 10px var(--theme-glow); }
-.bg-theme { background-color: var(--theme-color) !important; }
 
 .premium-bg-memory {
     background-color: #18181b;

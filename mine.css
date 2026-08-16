@@ -1,11 +1,7 @@
 /* Grid Sweeper Premium Theme */
 :root {
-    --theme-color: #fca5a5;
-    --theme-glow: rgba(252, 165, 165, 0.2);
 }
 
-.text-theme { color: var(--theme-color) !important; text-shadow: 0 0 10px var(--theme-glow); }
-.bg-theme { background-color: var(--theme-color) !important; }
 
 .premium-bg-mine {
     background-color: #1e1b4b; /* Deep purple/blue */

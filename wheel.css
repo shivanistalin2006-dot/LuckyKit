@@ -1,11 +1,7 @@
 /* Fortune Vortex Premium Theme */
 :root {
-    --theme-color: #f59e0b;
-    --theme-glow: rgba(245,158,11,0.15);
 }
 
-.text-theme { color: var(--theme-color) !important; text-shadow: 0 0 10px var(--theme-glow); }
-.bg-theme { background-color: var(--theme-color) !important; }
 .btn-theme {
     background: linear-gradient(135deg, var(--theme-color), rgba(255,255,255,0.2));
     border: 1px solid var(--theme-color);

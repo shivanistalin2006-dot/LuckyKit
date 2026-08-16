@@ -1,7 +1,5 @@
 /* Cosmic Cards (UNO) Premium Theme */
 :root {
-    --theme-color: #f43f5e;
-    --theme-glow: rgba(244, 63, 94, 0.2);
     
     --uno-red: #ef4444;
     --uno-green: #22c55e;
@@ -10,8 +8,6 @@
     --uno-dark: #1f2937;
 }
 
-.text-theme { color: var(--theme-color) !important; text-shadow: 0 0 10px var(--theme-glow); }
-.bg-theme { background-color: var(--theme-color) !important; }
 
 .premium-bg-uno {
     background-color: #0a0a0f;

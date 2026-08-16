@@ -1,11 +1,7 @@
 /* Reflex Protocol Premium Theme */
 :root {
-    --theme-color: #fcd34d; /* yellow */
-    --theme-glow: rgba(252, 211, 77, 0.2);
 }
 
-.text-theme { color: var(--theme-color) !important; text-shadow: 0 0 10px var(--theme-glow); }
-.bg-theme { background-color: var(--theme-color) !important; }
 
 .premium-bg-react {
     background-color: #0f172a;
