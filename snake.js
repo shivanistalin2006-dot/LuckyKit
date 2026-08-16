@@ -1,5 +1,6 @@
 import { BaseGame } from './core/BaseGame.js?v=2.5';
 import { gameManager } from './core/gameManager.js';
+import { assetLoader } from './core/assetLoader.js?v=2.5';
 
 class NeonSerpent extends BaseGame {
     constructor() {
@@ -48,6 +49,12 @@ class NeonSerpent extends BaseGame {
                 else if(dy < -30 && this.direction !== "DOWN") this.direction = "UP";
             }
         }, {passive: true});
+
+        assetLoader.loadImages({
+            snakeHead: 'assets/snake_head.jpg',
+            snakeBody: 'assets/snake_body.jpg',
+            energyNode: 'assets/energy_node.jpg'
+        });
 
         gameManager.registerGame(this);
     }
@@ -120,27 +127,65 @@ class NeonSerpent extends BaseGame {
     render() {
         this.ctx.clearRect(0, 0, 400, 400);
 
-        // Draw Food (Glowing Apple)
+        // Draw Food (Energy Node)
+        const nodeImg = assetLoader.getImage('energyNode');
         this.ctx.save();
-        this.ctx.fillStyle = "#ef4444";
-        this.ctx.shadowBlur = 15;
-        this.ctx.shadowColor = "#ef4444";
-        this.ctx.beginPath();
-        this.ctx.arc(this.food.x + this.box/2, this.food.y + this.box/2, this.box/2 - 2, 0, Math.PI * 2);
-        this.ctx.fill();
+        if (nodeImg && nodeImg.complete) {
+            this.ctx.globalCompositeOperation = 'screen';
+            const drawSize = this.box * 1.5;
+            this.ctx.drawImage(nodeImg, this.food.x + this.box/2 - drawSize/2, this.food.y + this.box/2 - drawSize/2, drawSize, drawSize);
+        } else {
+            this.ctx.fillStyle = "#ef4444";
+            this.ctx.shadowBlur = 15;
+            this.ctx.shadowColor = "#ef4444";
+            this.ctx.beginPath();
+            this.ctx.arc(this.food.x + this.box/2, this.food.y + this.box/2, this.box/2 - 2, 0, Math.PI * 2);
+            this.ctx.fill();
+        }
         this.ctx.restore();
 
-        // Draw Snake (Glowing Segments)
-        for(let i = 0; i < this.snake.length; i++) {
+        // Draw Snake (Cyber segments)
+        const headImg = assetLoader.getImage('snakeHead');
+        const bodyImg = assetLoader.getImage('snakeBody');
+
+        for(let i = this.snake.length - 1; i >= 0; i--) {
             this.ctx.save();
             const isHead = i === 0;
-            this.ctx.fillStyle = isHead ? "#22c55e" : "#16a34a";
-            this.ctx.shadowBlur = isHead ? 20 : 10;
-            this.ctx.shadowColor = "#22c55e";
+            const img = isHead ? headImg : bodyImg;
             
-            // Render slightly smaller squares for segments to show grid gap
-            const gap = 2;
-            this.ctx.fillRect(this.snake[i].x + gap, this.snake[i].y + gap, this.box - gap*2, this.box - gap*2);
+            // Calculate rotation for head based on direction
+            let angle = 0;
+            if (isHead) {
+                if (this.direction === "RIGHT") angle = Math.PI/2;
+                if (this.direction === "DOWN") angle = Math.PI;
+                if (this.direction === "LEFT") angle = -Math.PI/2;
+            } else if (i > 0) {
+                // Approximate rotation for body based on previous segment
+                const prev = this.snake[i-1];
+                const dx = prev.x - this.snake[i].x;
+                const dy = prev.y - this.snake[i].y;
+                if (dx > 0) angle = Math.PI/2;
+                else if (dx < 0) angle = -Math.PI/2;
+                else if (dy > 0) angle = Math.PI;
+            }
+
+            if (img && img.complete) {
+                this.ctx.translate(this.snake[i].x + this.box/2, this.snake[i].y + this.box/2);
+                this.ctx.rotate(angle);
+                this.ctx.globalCompositeOperation = 'screen';
+                
+                const gap = 2;
+                const drawSize = isHead ? this.box * 1.6 : this.box * 1.2;
+                
+                this.ctx.drawImage(img, -drawSize/2, -drawSize/2, drawSize, drawSize);
+            } else {
+                this.ctx.fillStyle = isHead ? "#22c55e" : "#16a34a";
+                this.ctx.shadowBlur = isHead ? 20 : 10;
+                this.ctx.shadowColor = "#22c55e";
+                
+                const gap = 2;
+                this.ctx.fillRect(this.snake[i].x + gap, this.snake[i].y + gap, this.box - gap*2, this.box - gap*2);
+            }
             this.ctx.restore();
         }
     }
