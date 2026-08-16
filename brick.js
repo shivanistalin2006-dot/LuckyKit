@@ -1,5 +1,6 @@
 import { BaseGame } from './core/BaseGame.js?v=2.5';
 import { gameManager } from './core/gameManager.js';
+import { assetLoader } from './core/assetLoader.js?v=2.5';
 
 class NeonShatter extends BaseGame {
     constructor() {
@@ -32,6 +33,12 @@ class NeonShatter extends BaseGame {
             this.paddle.x = (e.touches[0].clientX - rect.left) * (this.canvas.width / rect.width) - this.paddle.w / 2;
             this.clampPaddle();
         }, { passive: true });
+
+        assetLoader.loadImages({
+            paddle: 'assets/neon_paddle.jpg',
+            ball: 'assets/neon_ball.jpg',
+            brick: 'assets/neon_brick.jpg'
+        });
 
         gameManager.registerGame(this);
     }
@@ -183,38 +190,61 @@ class NeonShatter extends BaseGame {
     render() {
         this.ctx.clearRect(0, 0, this.canvas.width, this.canvas.height);
 
+        const brickImg = assetLoader.getImage('brick');
         for (let r = 0; r < this.brickRows; r++) {
             for (let c = 0; c < this.brickCols; c++) {
                 const b = this.bricks[r][c];
                 if (b.status === 1) {
                     this.ctx.save();
-                    this.ctx.fillStyle = b.color;
-                    this.ctx.shadowBlur = 12;
-                    this.ctx.shadowColor = b.color;
-                    this.ctx.beginPath();
-                    this.ctx.roundRect(b.x, b.y, this.brickWidth, this.brickHeight, 6);
-                    this.ctx.fill();
+                    if (brickImg && brickImg.complete) {
+                        this.ctx.globalCompositeOperation = 'screen';
+                        // Add a subtle tint to the brick image based on its row color using shadow
+                        this.ctx.shadowBlur = 10;
+                        this.ctx.shadowColor = b.color;
+                        this.ctx.drawImage(brickImg, b.x, b.y, this.brickWidth, this.brickHeight);
+                    } else {
+                        this.ctx.fillStyle = b.color;
+                        this.ctx.shadowBlur = 12;
+                        this.ctx.shadowColor = b.color;
+                        this.ctx.beginPath();
+                        this.ctx.roundRect(b.x, b.y, this.brickWidth, this.brickHeight, 6);
+                        this.ctx.fill();
+                    }
                     this.ctx.restore();
                 }
             }
         }
 
+        const paddleImg = assetLoader.getImage('paddle');
         this.ctx.save();
-        this.ctx.fillStyle = this.paddle.color;
-        this.ctx.shadowBlur = 16;
-        this.ctx.shadowColor = this.paddle.color;
-        this.ctx.beginPath();
-        this.ctx.roundRect(this.paddle.x, this.paddle.y, this.paddle.w, this.paddle.h, 7);
-        this.ctx.fill();
+        if (paddleImg && paddleImg.complete) {
+            this.ctx.globalCompositeOperation = 'screen';
+            // Draw paddle slightly larger for visual effect
+            this.ctx.drawImage(paddleImg, this.paddle.x - 10, this.paddle.y - 10, this.paddle.w + 20, this.paddle.h + 20);
+        } else {
+            this.ctx.fillStyle = this.paddle.color;
+            this.ctx.shadowBlur = 16;
+            this.ctx.shadowColor = this.paddle.color;
+            this.ctx.beginPath();
+            this.ctx.roundRect(this.paddle.x, this.paddle.y, this.paddle.w, this.paddle.h, 7);
+            this.ctx.fill();
+        }
         this.ctx.restore();
 
+        const ballImg = assetLoader.getImage('ball');
         this.ctx.save();
-        this.ctx.fillStyle = this.ball.color;
-        this.ctx.shadowBlur = 20;
-        this.ctx.shadowColor = this.ball.color;
-        this.ctx.beginPath();
-        this.ctx.arc(this.ball.x, this.ball.y, this.ball.r, 0, Math.PI * 2);
-        this.ctx.fill();
+        if (ballImg && ballImg.complete) {
+            this.ctx.globalCompositeOperation = 'screen';
+            const drawSize = this.ball.r * 3.5;
+            this.ctx.drawImage(ballImg, this.ball.x - drawSize/2, this.ball.y - drawSize/2, drawSize, drawSize);
+        } else {
+            this.ctx.fillStyle = this.ball.color;
+            this.ctx.shadowBlur = 20;
+            this.ctx.shadowColor = this.ball.color;
+            this.ctx.beginPath();
+            this.ctx.arc(this.ball.x, this.ball.y, this.ball.r, 0, Math.PI * 2);
+            this.ctx.fill();
+        }
         this.ctx.restore();
 
         this.particles.forEach(p => {
