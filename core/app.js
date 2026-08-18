@@ -16,7 +16,6 @@ import { economyEngine } from '../engine/economyEngine.js';
 import { achievementEngine } from '../engine/achievementEngine.js';
 import { battlePassEngine } from '../engine/battlePassEngine.js';
 import { animationManager } from '../animation/animationManager.js';
-import { themeManager } from '../theme/themeManager.js';
 import { shopManager, SHOP_CATALOG } from '../shop/shopManager.js';
 import { leaderboardManager } from '../leaderboard/leaderboardManager.js';
 import { gameManager } from './gameManager.js?v=2.2';
