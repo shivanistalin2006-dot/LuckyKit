@@ -67,9 +67,6 @@ class SnakeLadderGame extends BaseGame {
                 cell.id = `cell-${num}`;
                 cell.textContent = num;
                 
-                if (snakes[num]) cell.classList.add('snake-head');
-                if (ladders[num]) cell.classList.add('ladder-bottom');
-                
                 this.boardElement.appendChild(cell);
             }
         }

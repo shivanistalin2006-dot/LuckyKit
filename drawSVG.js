@@ -33,15 +33,15 @@ export function drawConnections(boardElement) {
         let p1 = getCoords(parseInt(start));
         let p2 = getCoords(end);
         
-        // Draw two parallel lines
         const angle = Math.atan2(p2.y - p1.y, p2.x - p1.x);
-        const offsetX = Math.cos(angle + Math.PI/2) * 1.5;
-        const offsetY = Math.sin(angle + Math.PI/2) * 1.5;
+        const offsetX = Math.cos(angle + Math.PI/2) * 2.5; // Wider ladder
+        const offsetY = Math.sin(angle + Math.PI/2) * 2.5;
 
         const g = document.createElementNS("http://www.w3.org/2000/svg", "g");
-        g.style.stroke = "var(--ladder-color, #fcd34d)";
-        g.style.strokeWidth = "1";
+        g.style.stroke = "#8B4513"; // SaddleBrown real wood color
+        g.style.strokeWidth = "1.2";
         g.style.strokeLinecap = "round";
+        g.style.filter = "drop-shadow(1px 1px 2px rgba(0,0,0,0.8))";
 
         const line1 = document.createElementNS("http://www.w3.org/2000/svg", "line");
         line1.setAttribute("x1", p1.x + offsetX); line1.setAttribute("y1", p1.y + offsetY);
@@ -55,14 +55,14 @@ export function drawConnections(boardElement) {
 
         // Draw rungs
         const dist = Math.hypot(p2.x - p1.x, p2.y - p1.y);
-        const steps = Math.floor(dist / 3);
+        const steps = Math.floor(dist / 4);
         for(let i=1; i<steps; i++) {
             let rx = p1.x + (p2.x - p1.x) * (i/steps);
             let ry = p1.y + (p2.y - p1.y) * (i/steps);
             const rung = document.createElementNS("http://www.w3.org/2000/svg", "line");
             rung.setAttribute("x1", rx + offsetX); rung.setAttribute("y1", ry + offsetY);
             rung.setAttribute("x2", rx - offsetX); rung.setAttribute("y2", ry - offsetY);
-            rung.style.strokeWidth = "0.8";
+            rung.style.strokeWidth = "1";
             g.appendChild(rung);
         }
         svg.appendChild(g);
@@ -74,27 +74,46 @@ export function drawConnections(boardElement) {
         let p2 = getCoords(end); // Tail
         
         // Bezier curve to make it snake-like
-        const cx1 = p1.x + (p2.x - p1.x) * 0.2 + (Math.random() * 10 - 5);
-        const cy1 = p1.y + (p2.y - p1.y) * 0.2 + (Math.random() * 10 - 5);
-        const cx2 = p1.x + (p2.x - p1.x) * 0.8 + (Math.random() * 10 - 5);
-        const cy2 = p1.y + (p2.y - p1.y) * 0.8 + (Math.random() * 10 - 5);
+        const cx1 = p1.x + (p2.x - p1.x) * 0.2 + (Math.random() * 15 - 7.5);
+        const cy1 = p1.y + (p2.y - p1.y) * 0.2 + (Math.random() * 15 - 7.5);
+        const cx2 = p1.x + (p2.x - p1.x) * 0.8 + (Math.random() * 15 - 7.5);
+        const cy2 = p1.y + (p2.y - p1.y) * 0.8 + (Math.random() * 15 - 7.5);
 
+        // Snake Body (Thick, real snake colors)
         const path = document.createElementNS("http://www.w3.org/2000/svg", "path");
         path.setAttribute("d", `M ${p1.x} ${p1.y} C ${cx1} ${cy1}, ${cx2} ${cy2}, ${p2.x} ${p2.y}`);
-        path.style.stroke = "var(--snake-color, #ef4444)";
-        path.style.strokeWidth = "1.5";
+        path.style.stroke = "#15803d"; // Dark green real snake body
+        path.style.strokeWidth = "2.5";
         path.style.fill = "none";
         path.style.strokeLinecap = "round";
-        path.style.filter = "drop-shadow(0px 0px 1px #ef4444)";
+        path.style.filter = "drop-shadow(2px 2px 2px rgba(0,0,0,0.9))";
         
-        svg.appendChild(path);
+        // Snake Underbelly (Light green, dashed to look like scales)
+        const pathUnder = document.createElementNS("http://www.w3.org/2000/svg", "path");
+        pathUnder.setAttribute("d", `M ${p1.x} ${p1.y} C ${cx1} ${cy1}, ${cx2} ${cy2}, ${p2.x} ${p2.y}`);
+        pathUnder.style.stroke = "#4ade80"; 
+        pathUnder.style.strokeWidth = "1.5";
+        pathUnder.style.strokeDasharray = "1 1.5";
+        pathUnder.style.fill = "none";
+        pathUnder.style.strokeLinecap = "round";
 
-        // Snake Head
-        const head = document.createElementNS("http://www.w3.org/2000/svg", "circle");
-        head.setAttribute("cx", p1.x);
-        head.setAttribute("cy", p1.y);
-        head.setAttribute("r", "1.5");
-        head.style.fill = "#ef4444";
+        svg.appendChild(path);
+        svg.appendChild(pathUnder);
+
+        // Snake Head Emoji 🐍
+        const head = document.createElementNS("http://www.w3.org/2000/svg", "text");
+        head.setAttribute("x", p1.x);
+        head.setAttribute("y", p1.y + 1.5); // Slight vertical offset to center emoji
+        head.setAttribute("font-size", "5px"); // Scales with viewBox 100x100
+        head.setAttribute("text-anchor", "middle");
+        head.setAttribute("dominant-baseline", "middle");
+        head.textContent = "🐍";
+        head.style.filter = "drop-shadow(1px 1px 1px rgba(0,0,0,0.8))";
+        
+        // Rotate head to face the body direction
+        const angle = Math.atan2(cy1 - p1.y, cx1 - p1.x) * (180 / Math.PI) - 90;
+        head.setAttribute("transform", `rotate(${angle}, ${p1.x}, ${p1.y})`);
+        
         svg.appendChild(head);
     }
 }
