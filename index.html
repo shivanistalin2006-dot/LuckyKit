@@ -315,14 +315,27 @@
             gamesGrid.classList.remove('d-none');
             backBtn.classList.remove('d-none');
 
+            // Apply staggered animation
+            let delay = 0;
+            
             if (category === 'all') {
                 title.innerText = "All Games";
-                cards.forEach(card => card.classList.remove('d-none'));
+                cards.forEach(card => {
+                    card.classList.remove('d-none', 'animate-pop-in');
+                    void card.offsetWidth; // Trigger reflow
+                    card.classList.add('animate-pop-in');
+                    card.style.animationDelay = `${delay}s`;
+                    delay += 0.05;
+                });
             } else {
                 title.innerText = category.charAt(0).toUpperCase() + category.slice(1) + " Games";
                 cards.forEach(card => {
                     if (card.dataset.category === category) {
-                        card.classList.remove('d-none');
+                        card.classList.remove('d-none', 'animate-pop-in');
+                        void card.offsetWidth; // Trigger reflow
+                        card.classList.add('animate-pop-in');
+                        card.style.animationDelay = `${delay}s`;
+                        delay += 0.05;
                     } else {
                         card.classList.add('d-none');
                     }
@@ -335,6 +348,28 @@
             document.getElementById('gamesGrid').classList.add('d-none');
             document.getElementById('backToCategoriesBtn').classList.add('d-none');
             document.getElementById('hubTitle').innerText = "Game Categories";
+            
+            // Animate category cards back in
+            let delay = 0;
+            document.querySelectorAll('#categoriesGrid .col-12').forEach(card => {
+                card.classList.remove('animate-pop-in');
+                void card.offsetWidth;
+                card.classList.add('animate-pop-in');
+                card.style.animationDelay = `${delay}s`;
+                delay += 0.08;
+            });
+        });
+
+        // Global Click Particles for Teenage Vibe
+        document.addEventListener('click', (e) => {
+            const spark = document.createElement('div');
+            spark.className = 'click-spark';
+            spark.style.left = `${e.pageX}px`;
+            spark.style.top = `${e.pageY}px`;
+            document.body.appendChild(spark);
+            setTimeout(() => {
+                if (spark.parentNode) spark.remove();
+            }, 500);
         });
     </script>
 </body>

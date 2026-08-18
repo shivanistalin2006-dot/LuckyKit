@@ -597,3 +597,70 @@ label, p, span, h1, h2, h3, h4, h5, h6 {
     color: #f3f4f6; /* Force high visibility */
 }
 
+/* ========================================================
+   V3 TEEN PREMIUM AESTHETIC UPGRADES
+   ======================================================== */
+
+/* Custom Cyber Cursor */
+body {
+    cursor: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="%23ec4899" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="4"></circle><path d="M12 2v4M12 18v4M2 12h4M18 12h4"></path></svg>') 12 12, auto !important;
+}
+a, button, .v2-card, .btn, [onclick], .chess-cell, input, select {
+    cursor: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="%2306b6d4" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="4" fill="%2306b6d4"></circle><path d="M12 2v4M12 18v4M2 12h4M18 12h4"></path></svg>') 12 12, pointer !important;
+}
+
+/* Custom Neon Scrollbar */
+::-webkit-scrollbar {
+    width: 10px;
+}
+::-webkit-scrollbar-track {
+    background: #07050d;
+}
+::-webkit-scrollbar-thumb {
+    background: var(--theme-color, #ec4899);
+    border-radius: 5px;
+    box-shadow: 0 0 10px var(--theme-glow, rgba(236,72,153,0.5));
+}
+::-webkit-scrollbar-thumb:hover {
+    background: #fff;
+}
+
+/* Staggered Pop-In Animation for Cards */
+@keyframes popIn {
+    0% { opacity: 0; transform: scale(0.8) translateY(20px); }
+    100% { opacity: 1; transform: scale(1) translateY(0); }
+}
+
+.animate-pop-in {
+    animation: popIn 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards;
+    opacity: 0;
+}
+
+/* Enhancing Card Hover to feel 3D and Snappy */
+.v2-card {
+    transition: transform 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275), box-shadow 0.3s ease !important;
+}
+.v2-card:hover {
+    transform: translateY(-8px) scale(1.03) !important;
+    box-shadow: 0 15px 35px rgba(0,0,0,0.5), 0 0 20px var(--theme-glow) !important;
+    z-index: 2;
+}
+
+/* Click Particle Effects Class */
+.click-spark {
+    position: absolute;
+    width: 12px;
+    height: 12px;
+    border-radius: 50%;
+    background: var(--theme-color);
+    box-shadow: 0 0 15px var(--theme-color);
+    pointer-events: none;
+    animation: sparkOut 0.5s ease-out forwards;
+    z-index: 99999;
+    transform: translate(-50%, -50%);
+}
+@keyframes sparkOut {
+    0% { transform: translate(-50%, -50%) scale(1); opacity: 1; }
+    100% { transform: translate(-50%, -50%) scale(2.5); opacity: 0; }
+}
+
