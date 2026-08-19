@@ -41,24 +41,7 @@ class App {
     constructor() {
         this.initBackwardCompatibility();
         this.initEvents();
-        this.initEffects(); // V3 Teen Upgrades
         console.log("LuckyKit Premium Arcade Architecture Initialized");
-    }
-
-    initEffects() {
-        // Global Click Particles for Teenage Vibe
-        if (typeof document !== 'undefined') {
-            document.addEventListener('click', (e) => {
-                const spark = document.createElement('div');
-                spark.className = 'click-spark';
-                spark.style.left = `${e.pageX}px`;
-                spark.style.top = `${e.pageY}px`;
-                document.body.appendChild(spark);
-                setTimeout(() => {
-                    if (spark.parentNode) spark.remove();
-                }, 500);
-            });
-        }
     }
 
     initBackwardCompatibility() {
