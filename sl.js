@@ -3,7 +3,6 @@ import { gameManager } from './core/gameManager.js';
 import { eventBus } from './core/eventBus.js';
 import { audioManager } from './audio/audioManager.js';
 import { animationManager } from './animation/animationManager.js';
-import { drawConnections } from './drawSVG.js';
 
 const SIZE = 10;
 const snakes = { 16: 6, 47: 26, 49: 11, 56: 53, 62: 19, 64: 60, 87: 24, 93: 73, 95: 75, 98: 78 };
@@ -67,12 +66,12 @@ class SnakeLadderGame extends BaseGame {
                 cell.id = `cell-${num}`;
                 cell.textContent = num;
                 
+                if (snakes[num]) cell.classList.add('snake-head');
+                if (ladders[num]) cell.classList.add('ladder-bottom');
+                
                 this.boardElement.appendChild(cell);
             }
         }
-        
-        // Draw the visual snakes and ladders over the board
-        drawConnections(this.boardElement);
     }
 
     reset() {
