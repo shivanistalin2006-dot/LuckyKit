@@ -143,49 +143,22 @@
                 </div>
             </div>
 
-            <!-- Arcade Categories (V2 Hub) -->
-            <section class="mt-5 glass-panel-v2 p-4 rounded-4" id="hubSection">
-                <div class="d-flex justify-content-between align-items-center mb-4">
-                    <h3 class="fw-bold mb-0 text-white" id="hubTitle">Game Categories</h3>
-                    <button class="btn btn-sm btn-outline-light d-none" id="backToCategoriesBtn">⬅ Back to Categories</button>
-                </div>
-
-                <!-- Categories Grid -->
-                <div class="row g-4" id="categoriesGrid">
-                    <div class="col-12 col-md-4">
-                        <div class="premium-card v2-card border-theme h-100" onclick="filterGames('arcade')">
-                            <div class="card-image-placeholder text-theme">🔫🏃</div>
-                            <div class="card-details">
-                                <h4 class="card-title text-theme">Action & Arcade</h4>
-                                <span class="card-category text-white-50">Fast-paced reflexes</span>
-                            </div>
+            <!-- Full Library (V2 Grid) -->
+            <section class="mt-5 glass-panel-v2 p-4 rounded-4">
+                <div class="d-flex flex-wrap justify-content-between align-items-center mb-4">
+                    <h3 class="fw-bold mb-0 text-white">The Arcade Core</h3>
+                    
+                    <div class="d-flex gap-3 align-items-center">
+                        <div class="category-tabs-v2 d-flex gap-2">
+                            <button class="btn btn-sm btn-theme active tab-btn" data-filter="all">All Modules</button>
+                            <button class="btn btn-sm btn-outline-secondary tab-btn" data-filter="arcade">Arcade</button>
+                            <button class="btn btn-sm btn-outline-secondary tab-btn" data-filter="brain">Brain</button>
+                            <button class="btn btn-sm btn-outline-secondary tab-btn" data-filter="board">Board</button>
                         </div>
-                    </div>
-                    <div class="col-12 col-md-4">
-                        <div class="premium-card v2-card border-theme h-100" onclick="filterGames('brain')">
-                            <div class="card-image-placeholder text-theme">🧠🧩</div>
-                            <div class="card-details">
-                                <h4 class="card-title text-theme">Brain & Puzzle</h4>
-                                <span class="card-category text-white-50">Test your logic</span>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-12 col-md-4">
-                        <div class="premium-card v2-card border-theme h-100" onclick="filterGames('board')">
-                            <div class="card-image-placeholder text-theme">♟️🃏</div>
-                            <div class="card-details">
-                                <h4 class="card-title text-theme">Board & Strategy</h4>
-                                <span class="card-category text-white-50">Tactical gameplay</span>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-12 mt-4 text-center">
-                        <button class="btn btn-theme btn-lg px-5 py-3 rounded-pill fw-bold w-100" onclick="filterGames('all')">VIEW ALL GAMES 🌌</button>
                     </div>
                 </div>
 
-                <!-- Games Grid (Hidden initially) -->
-                <div class="row g-4 d-none" id="gamesGrid">
+                <div class="row g-4" id="gamesGrid">
                     <!-- BaseGame Engine (New) -->
                     <div class="col-12 col-sm-6 col-md-4 col-xl-3 game-card-wrapper" data-category="arcade">
                         <div class="premium-card v2-card card-theme-red h-100" onclick="window.location.href='arena.html'">
@@ -301,40 +274,6 @@
             setTimeout(() => {
                 document.body.classList.remove("page-transitioning");
             }, 500); 
-        });
-
-        // Category UI Logic
-        function filterGames(category) {
-            const catGrid = document.getElementById('categoriesGrid');
-            const gamesGrid = document.getElementById('gamesGrid');
-            const backBtn = document.getElementById('backToCategoriesBtn');
-            const title = document.getElementById('hubTitle');
-            const cards = document.querySelectorAll('.game-card-wrapper');
-
-            catGrid.classList.add('d-none');
-            gamesGrid.classList.remove('d-none');
-            backBtn.classList.remove('d-none');
-
-            if (category === 'all') {
-                title.innerText = "All Games";
-                cards.forEach(card => card.classList.remove('d-none'));
-            } else {
-                title.innerText = category.charAt(0).toUpperCase() + category.slice(1) + " Games";
-                cards.forEach(card => {
-                    if (card.dataset.category === category) {
-                        card.classList.remove('d-none');
-                    } else {
-                        card.classList.add('d-none');
-                    }
-                });
-            }
-        }
-
-        document.getElementById('backToCategoriesBtn').addEventListener('click', () => {
-            document.getElementById('categoriesGrid').classList.remove('d-none');
-            document.getElementById('gamesGrid').classList.add('d-none');
-            document.getElementById('backToCategoriesBtn').classList.add('d-none');
-            document.getElementById('hubTitle').innerText = "Game Categories";
         });
     </script>
 </body>
