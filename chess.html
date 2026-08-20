@@ -4,25 +4,36 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>LuckyKit - Grandmaster's Gambit</title>
-    
+    <meta name="description" content="Challenge the AI in Grandmaster's Gambit — a tactical chess game with Minimax AI. Capture, checkmate, and dominate.">
+
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" href="arcade-shell.css">
     <link rel="stylesheet" href="chess.css">
-    <link href="https://fonts.googleapis.com/css2?family=Rajdhani:wght@300;400;500;600;700" rel="stylesheet">
-    
+    <link href="https://fonts.googleapis.com/css2?family=Rajdhani:wght@300;400;500;600;700&family=Outfit:wght@400;700&display=swap" rel="stylesheet">
+
     <script type="module" src="core/app.js?v=2.4"></script>
-        <script type="module" src="chess.js?v=2.5" defer></script>
+    <script type="module" src="chess.js?v=2.9"></script>
 </head>
 <body class="bg-dark text-white premium-bg-chess">
+
+    <!-- HUB Back Button -->
+    <div class="position-fixed top-0 start-0 p-3" style="z-index: 9999;">
+        <button id="hubBtn" class="btn btn-sm btn-dark border border-secondary text-white fw-bold px-3 py-2 rounded-pill shadow-lg glow-hover"
+            onclick="window.location.href='index.html'"
+            style="backdrop-filter: blur(10px); background: rgba(15, 15, 25, 0.85) !important;">
+            ⬅ HUB
+        </button>
+    </div>
 
     <div class="bg-overlay"></div>
     <div class="particle-container" id="particles"></div>
 
     <div class="container py-4 position-relative" style="z-index: 10;">
-        
+
+        <!-- Header -->
         <header class="d-flex justify-content-between align-items-center mb-4 p-3 rounded glass-panel">
             <div class="d-flex align-items-center gap-3">
-                <span class="fs-1">♔</span>
+                <span class="fs-1" aria-hidden="true">♔</span>
                 <div>
                     <h1 class="m-0 fw-bold text-theme">Grandmaster's Gambit</h1>
                     <span class="text-white-50">Tactical AI Chess</span>
@@ -34,46 +45,76 @@
         </header>
 
         <div class="row g-4 justify-content-center">
-            
+
+            <!-- Chess Board Column -->
             <div class="col-12 col-lg-8 d-flex flex-column align-items-center">
                 <div class="glass-panel p-3 rounded w-100 d-flex flex-column align-items-center position-relative">
-                    
-                    <div class="chess-board" id="chessBoard">
-                        <!-- Cells injected by JS -->
+
+                    <!-- Board wrapper: position:relative, CSS controls sizing -->
+                    <div class="chess-board-wrapper">
+
+                        <!-- Rank labels: absolutely positioned on left, spanning full board height -->
+                        <div class="chess-rank-labels" aria-hidden="true">
+                            <span>8</span><span>7</span><span>6</span><span>5</span>
+                            <span>4</span><span>3</span><span>2</span><span>1</span>
+                        </div>
+
+                        <!-- File labels: absolutely positioned on bottom -->
+                        <div class="chess-file-labels" aria-hidden="true">
+                            <span>a</span><span>b</span><span>c</span><span>d</span>
+                            <span>e</span><span>f</span><span>g</span><span>h</span>
+                        </div>
+
+                        <!-- The chess board itself — SQUARE, no flex-grow needed -->
+                        <div class="chess-board" id="chessBoard">
+                            <!-- Cells injected by chess.js -->
+                        </div>
+
                     </div>
 
                 </div>
             </div>
 
-            <!-- Stats & Status -->
+            <!-- Stats & Status Panel -->
             <div class="col-12 col-lg-4">
                 <div class="glass-panel p-4 rounded h-100 d-flex flex-column gap-3">
                     <h4 class="text-theme border-bottom border-secondary pb-2">Match Status</h4>
-                    
-                    <div class="d-flex justify-content-center align-items-center my-3">
-                        <div class="text-center p-3 rounded w-100 turn-indicator" id="turnIndicator">
-                            <h3 class="m-0" id="statusMsg">White's Turn</h3>
+
+                    <!-- Turn Indicator -->
+                    <div class="d-flex justify-content-center align-items-center my-2">
+                        <div class="text-center p-3 rounded w-100 turn-indicator white-turn" id="turnIndicator">
+                            <h3 class="m-0 text-white fw-bold" id="statusMsg">Your Turn</h3>
                             <span class="small text-white-50" id="subStatusMsg">Select a piece</span>
                         </div>
                     </div>
 
-                    <div class="d-flex justify-content-between align-items-center mt-3 p-2 bg-dark rounded border border-light">
-                        <span class="fs-5 text-light fw-bold">White (You)</span>
-                        <div class="captured-pieces text-light" id="whiteCaptured"></div>
-                    </div>
-                    
-                    <div class="d-flex justify-content-between align-items-center mt-2 p-2 bg-dark rounded border" style="border-color: #000 !important;">
-                        <span class="fs-5 fw-bold" style="color: #94a3b8;">Black (AI)</span>
-                        <div class="captured-pieces" style="color: #94a3b8;" id="blackCaptured"></div>
+                    <!-- White Player Row -->
+                    <div class="d-flex justify-content-between align-items-center p-2 bg-dark rounded border border-light">
+                        <span class="fs-5 text-light fw-bold">⬜ White (You)</span>
+                        <div class="captured-pieces text-light" id="whiteCaptured" title="Pieces captured by White"></div>
                     </div>
 
+                    <!-- Black Player Row -->
+                    <div class="d-flex justify-content-between align-items-center p-2 bg-dark rounded" style="border: 1px solid #1e293b;">
+                        <span class="fs-5 fw-bold" style="color: #94a3b8;">⬛ Black (AI)</span>
+                        <div class="captured-pieces" style="color: #94a3b8;" id="blackCaptured" title="Pieces captured by Black"></div>
+                    </div>
+
+                    <!-- Tips -->
+                    <div class="mt-2 p-2 rounded" style="background: rgba(255,255,255,0.04); border: 1px solid rgba(255,255,255,0.08);">
+                        <p class="small text-white-50 mb-1"><strong class="text-theme">💡 Tips:</strong></p>
+                        <p class="small text-white-50 mb-0">Click a piece to select it, then click a valid square (green dot) to move. Capture squares show a red ring.</p>
+                    </div>
+
+                    <!-- Footer -->
                     <div class="mt-auto pt-3 border-top border-secondary text-center">
                         <p class="small text-white-50 mb-0">Powered by LuckyKit Core Engine</p>
                     </div>
                 </div>
             </div>
-        </div>
 
+        </div>
     </div>
+
 </body>
 </html>

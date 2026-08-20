@@ -37,15 +37,42 @@ class GrandmastersGambit extends BaseGame {
         this.validMoves = [];
         this.isGameOver = false;
         
+        // whiteCaptured = pieces captured BY white (enemy black pieces)
+        // blackCaptured = pieces captured BY black (enemy white pieces)
         this.whiteCaptured = [];
         this.blackCaptured = [];
         
         this.bindEvents();
         gameManager.registerGame(this);
+        
+        // Auto-start immediately (no instructions modal for chess)
+        this.quickStart();
+    }
+
+    quickStart() {
+        this.score = 0;
+        this.isRunning = true;
+        this.isPaused = false;
+        this.sessionStartTime = Date.now();
+        this.initBoard();
+        this.currentTurn = WHITE;
+        this.selectedSquare = -1;
+        this.validMoves = [];
+        this.isGameOver = false;
+        this.whiteCaptured = [];
+        this.blackCaptured = [];
+        
+        // Build DOM cells once; on restart just re-render content
+        if (!this.cells || this.cells.length !== 64) {
+            this.initBoardDOM();
+        }
+        this.updateUI();
     }
 
     bindEvents() {
-        document.getElementById('restartBtn')?.addEventListener('click', () => this.start());
+        document.getElementById('restartBtn')?.addEventListener('click', () => {
+            this.quickStart();
+        });
     }
 
     onStart() {
@@ -268,8 +295,14 @@ class GrandmastersGambit extends BaseGame {
         const targetPiece = this.board[move.to];
         
         if (targetPiece !== EMPTY) {
-            if (this.getColor(targetPiece) === WHITE) this.whiteCaptured.push(targetPiece);
-            else this.blackCaptured.push(targetPiece);
+            // Track by the capturer: White captures Black pieces (blackCaptured = held by Black side's opponent)
+            if (this.getColor(piece) === WHITE) {
+                // White captured a Black piece — show in whiteCaptured (trophies of White)
+                this.whiteCaptured.push(targetPiece);
+            } else {
+                // Black captured a White piece — show in blackCaptured (trophies of Black)
+                this.blackCaptured.push(targetPiece);
+            }
             if (audioManager) audioManager.playTone(300, 'square', 0.1);
         } else {
             if (audioManager) audioManager.playTone(400, 'triangle', 0.05);
@@ -426,6 +459,7 @@ class GrandmastersGambit extends BaseGame {
     updateUI() {
         this.renderBoard();
         
+        if (!this.turnIndicator || !this.statusMsg || !this.subStatusMsg) return;
         if (this.isGameOver) return;
         
         if (this.currentTurn === WHITE) {
@@ -437,17 +471,23 @@ class GrandmastersGambit extends BaseGame {
             this.turnIndicator.className = 'text-center p-3 rounded w-100 turn-indicator black-turn';
             this.statusMsg.textContent = 'AI Computing...';
             this.statusMsg.className = 'm-0 text-secondary fw-bold';
-            this.subStatusMsg.textContent = 'Waiting for Black';
+            this.subStatusMsg.textContent = 'Waiting for Black...';
         }
         
         // Render captured pieces
-        this.whiteCapturedContainer.innerHTML = this.blackCaptured.map(p => PIECE_SYMBOLS[p]).join('');
-        this.blackCapturedContainer.innerHTML = this.whiteCaptured.map(p => PIECE_SYMBOLS[p]).join('');
+        // whiteCapturedContainer shows pieces White has taken (Black pieces White captured)
+        if (this.whiteCapturedContainer)
+            this.whiteCapturedContainer.innerHTML = this.whiteCaptured.map(p => PIECE_SYMBOLS[p] || '').join('');
+        // blackCapturedContainer shows pieces Black has taken (White pieces Black captured)
+        if (this.blackCapturedContainer)
+            this.blackCapturedContainer.innerHTML = this.blackCaptured.map(p => PIECE_SYMBOLS[p] || '').join('');
     }
 
-    renderBoard() {
+    // --- DOM Board (created ONCE, updated in-place) ---
+    initBoardDOM() {
+        if (!this.boardElement) return;
         this.boardElement.innerHTML = '';
-        const inCheck = this.isCheck(this.board, this.currentTurn);
+        this.cells = [];
         
         for (let i = 0; i < 64; i++) {
             const r = Math.floor(i / 8);
@@ -456,29 +496,58 @@ class GrandmastersGambit extends BaseGame {
             
             const cell = document.createElement('div');
             cell.className = `chess-cell ${isLight ? 'light' : 'dark'}`;
+            cell.dataset.sq = i;
             
-            if (this.selectedSquare === i) cell.classList.add('selected');
-            
-            const move = this.validMoves.find(m => m.to === i);
-            if (move) {
-                cell.classList.add(move.capture ? 'valid-capture' : 'valid-move');
-            }
-            
-            const piece = this.board[i];
-            if (piece !== EMPTY) {
-                const pSpan = document.createElement('span');
-                pSpan.className = `chess-piece ${this.getColor(piece) === WHITE ? 'white' : 'black'}`;
-                pSpan.textContent = PIECE_SYMBOLS[piece];
-                cell.appendChild(pSpan);
-                
-                // Highlight King in check
-                if (inCheck && this.getColor(piece) === this.currentTurn && this.getType(piece) === KING) {
-                    cell.classList.add('in-check');
-                }
-            }
+            // Piece span (reused each render)
+            const pSpan = document.createElement('span');
+            pSpan.className = 'chess-piece';
+            cell.appendChild(pSpan);
             
             cell.addEventListener('click', () => this.handleSquareClick(i));
             this.boardElement.appendChild(cell);
+            this.cells.push(cell);
+        }
+    }
+
+    renderBoard() {
+        if (!this.cells || this.cells.length !== 64) {
+            this.initBoardDOM();
+        }
+        
+        const inCheck = this.isCheck(this.board, this.currentTurn);
+        const validSet = new Set(this.validMoves.map(m => m.to));
+        const captureSet = new Set(this.validMoves.filter(m => m.capture).map(m => m.to));
+        
+        for (let i = 0; i < 64; i++) {
+            const cell = this.cells[i];
+            const r = Math.floor(i / 8);
+            const c = i % 8;
+            const isLight = (r + c) % 2 === 0;
+            
+            // Reset classes (preserve base light/dark)
+            cell.className = `chess-cell ${isLight ? 'light' : 'dark'}`;
+            
+            if (this.selectedSquare === i) cell.classList.add('selected');
+            if (captureSet.has(i))       cell.classList.add('valid-capture');
+            else if (validSet.has(i))    cell.classList.add('valid-move');
+            
+            const piece = this.board[i];
+            const pSpan = cell.firstElementChild;
+            
+            if (piece !== EMPTY) {
+                pSpan.className = `chess-piece ${this.getColor(piece) === WHITE ? 'white' : 'black'}`;
+                pSpan.textContent = PIECE_SYMBOLS[piece] || '';
+                pSpan.style.display = '';
+                
+                // King in check highlight
+                if (inCheck && this.getColor(piece) === this.currentTurn && this.getType(piece) === KING) {
+                    cell.classList.add('in-check');
+                }
+            } else {
+                // Empty square — hide the span
+                pSpan.textContent = '';
+                pSpan.style.display = 'none';
+            }
         }
     }
 
