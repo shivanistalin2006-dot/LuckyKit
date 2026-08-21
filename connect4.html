@@ -3,43 +3,81 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>LuckyKit - Neon Connect</title>
+    <title>LuckyKit - Neon Connect 4</title>
     
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" href="arcade-shell.css">
-    <link rel="stylesheet" href="connect4.css">
-    <link href="https://fonts.googleapis.com/css2?family=Rajdhani:wght@300;400;500;600;700" rel="stylesheet">
+    <link rel="stylesheet" href="connect4.css?v=3.0">
+    <link href="https://fonts.googleapis.com/css2?family=Rajdhani:wght@400;600;700&family=Outfit:wght@400;700&display=swap" rel="stylesheet">
     
     <script type="module" src="core/app.js?v=2.4"></script>
-        <script type="module" src="connect4.js?v=2.5" defer></script>
+    <script type="module" src="connect4.js?v=3.0" defer></script>
 </head>
 <body class="bg-dark text-white premium-bg-c4">
+
+    <!-- Floating HUB Button -->
+    <div class="position-fixed top-0 start-0 p-3" style="z-index: 9999;">
+        <button id="hubBtn" class="btn btn-sm btn-dark border border-danger text-danger fw-bold px-3 py-2 rounded-pill shadow-lg"
+            onclick="window.location.href='index.html'"
+            style="backdrop-filter: blur(10px); background: rgba(15, 15, 25, 0.85) !important;">
+            ⬅ HUB
+        </button>
+    </div>
 
     <div class="bg-overlay"></div>
     <div class="particle-container" id="particles"></div>
 
     <div class="container py-4 position-relative" style="z-index: 10;">
         
+        <!-- Header -->
         <header class="d-flex justify-content-between align-items-center mb-4 p-3 rounded glass-panel">
             <div class="d-flex align-items-center gap-3">
                 <span class="fs-1">🔴</span>
                 <div>
-                    <h1 class="m-0 fw-bold text-theme">Neon Connect</h1>
-                    <span class="text-white-50">4-in-a-Row AI Showdown</span>
+                    <h1 class="m-0 fw-bold text-theme">Neon Connect 4</h1>
+                    <span class="text-white-50">4-in-a-Row • 1P vs AI & 2P Local Multiplayer</span>
                 </div>
             </div>
-            <div>
-                <button class="btn btn-outline-light" id="restartBtn">RESTART MATCH</button>
+            <div class="d-flex gap-2">
+                <button class="btn btn-theme fw-bold px-3" id="startBtn">▶ START MATCH</button>
+                <button class="btn btn-outline-light fw-bold" id="restartBtn">RESTART</button>
             </div>
         </header>
 
         <div class="row g-4 justify-content-center">
             
+            <!-- Board Column -->
             <div class="col-12 col-lg-8 d-flex flex-column align-items-center">
                 <div class="glass-panel p-3 p-md-4 rounded w-100 d-flex flex-column align-items-center position-relative">
                     
+                    <!-- Mode Selector -->
+                    <div class="d-flex justify-content-center gap-2 mb-3 w-100">
+                        <button class="btn btn-sm btn-outline-danger active px-3 py-2 fw-bold mode-btn" id="modeAiBtn" data-mode="ai">
+                            🤖 1 Player (vs AI)
+                        </button>
+                        <button class="btn btn-sm btn-outline-info px-3 py-2 fw-bold mode-btn" id="modePvpBtn" data-mode="pvp">
+                            👥 2 Players (Local Pass & Play)
+                        </button>
+                    </div>
+
+                    <!-- Column Drop Buttons -->
+                    <div class="c4-drop-row" id="c4DropRow">
+                        <button class="c4-drop-btn" data-col="0">⬇</button>
+                        <button class="c4-drop-btn" data-col="1">⬇</button>
+                        <button class="c4-drop-btn" data-col="2">⬇</button>
+                        <button class="c4-drop-btn" data-col="3">⬇</button>
+                        <button class="c4-drop-btn" data-col="4">⬇</button>
+                        <button class="c4-drop-btn" data-col="5">⬇</button>
+                        <button class="c4-drop-btn" data-col="6">⬇</button>
+                    </div>
+
+                    <!-- Connect 4 Grid -->
                     <div class="c4-board" id="c4Board">
                         <!-- Cells injected by JS -->
+                    </div>
+
+                    <div class="w-100 text-center mt-3">
+                        <p class="small text-white-50 m-0">Click any column or top arrow to drop your token to the bottom slot.</p>
                     </div>
 
                 </div>
@@ -50,21 +88,29 @@
                 <div class="glass-panel p-4 rounded h-100 d-flex flex-column gap-3">
                     <h4 class="text-theme border-bottom border-secondary pb-2">Match Status</h4>
                     
-                    <div class="d-flex justify-content-center align-items-center my-3">
-                        <div class="text-center p-3 rounded w-100 turn-indicator" id="turnIndicator">
-                            <h3 class="m-0" id="statusMsg">Your Turn</h3>
+                    <!-- Turn Indicator -->
+                    <div class="d-flex justify-content-center align-items-center my-2">
+                        <div class="text-center p-3 rounded w-100 turn-indicator player-turn" id="turnIndicator">
+                            <h3 class="m-0 fw-bold" id="statusMsg">Player 1's Turn</h3>
                             <span class="small text-white-50" id="subStatusMsg">Drop a Red token</span>
                         </div>
                     </div>
 
-                    <div class="d-flex justify-content-between align-items-center mt-3 p-2 bg-dark rounded border border-danger">
-                        <span class="fs-5 text-danger fw-bold">Player (Red)</span>
-                        <span class="fs-5 fw-bold" id="playerWins">0</span>
+                    <!-- Scoreboard -->
+                    <div class="d-flex justify-content-between align-items-center p-2 bg-dark rounded border border-danger">
+                        <span class="fs-5 text-danger fw-bold" id="p1Label">Player 1 (Red)</span>
+                        <span class="fs-4 fw-bold text-white" id="playerWins">0</span>
                     </div>
                     
-                    <div class="d-flex justify-content-between align-items-center mt-2 p-2 bg-dark rounded border border-info">
-                        <span class="fs-5 text-info fw-bold">AI Bot (Blue)</span>
-                        <span class="fs-5 fw-bold" id="aiWins">0</span>
+                    <div class="d-flex justify-content-between align-items-center p-2 bg-dark rounded border border-info">
+                        <span class="fs-5 text-info fw-bold" id="p2Label">AI Bot (Blue)</span>
+                        <span class="fs-4 fw-bold text-white" id="aiWins">0</span>
+                    </div>
+
+                    <!-- Rules & Tips -->
+                    <div class="mt-2 p-3 rounded" style="background: rgba(255,255,255,0.04); border: 1px solid rgba(255,255,255,0.08);">
+                        <h6 class="text-warning mb-1">💡 How to Win:</h6>
+                        <p class="small text-white-50 mb-0">Connect 4 tokens of your color in a row — horizontally, vertically, or diagonally!</p>
                     </div>
 
                     <div class="mt-auto pt-3 border-top border-secondary text-center">

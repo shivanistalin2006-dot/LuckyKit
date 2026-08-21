@@ -263,8 +263,9 @@ if (document.readyState === 'loading') {
         touchStartY = 0;
     }, { passive: true });
 
-    restartBtn.addEventListener("click", initGame);
-    overlayRestartBtn.addEventListener("click", initGame);
+    restartBtn?.addEventListener("click", initGame);
+    document.getElementById("startBtn")?.addEventListener("click", initGame);
+    overlayRestartBtn?.addEventListener("click", initGame);
 
     initGame();
 });

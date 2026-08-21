@@ -15,6 +15,15 @@
 </head>
 <body class="bg-dark text-white premium-bg-react">
 
+    <!-- Floating HUB Button -->
+    <div class="position-fixed top-0 start-0 p-3" style="z-index: 9999;">
+        <button id="hubBtn" class="btn btn-sm btn-dark border border-warning text-warning fw-bold px-3 py-2 rounded-pill shadow-lg"
+            onclick="window.location.href='index.html'"
+            style="backdrop-filter: blur(10px); background: rgba(25, 20, 10, 0.85) !important;">
+            ⬅ HUB
+        </button>
+    </div>
+
     <div class="bg-overlay"></div>
     <div class="particle-container" id="particles"></div>
 
@@ -28,8 +37,9 @@
                     <span class="text-white-50">Reaction Time Test</span>
                 </div>
             </div>
-            <div>
-                <button class="btn btn-outline-light d-none" id="restartBtn">TRY AGAIN</button>
+            <div class="d-flex gap-2">
+                <button class="btn btn-theme fw-bold px-3" id="startBtn">▶ START TEST</button>
+                <button class="btn btn-outline-light fw-bold" id="restartBtn">RESTART</button>
             </div>
         </header>
 

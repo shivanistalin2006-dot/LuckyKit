@@ -586,14 +586,102 @@ body.arcade-premium-mode {
 
 
 /* ========================================================
-   GLOBAL TEXT VISIBILITY FIX
+   LIGHT PASTEL & DARK THEME ENGINE
    ======================================================== */
-button, .btn {
-    color: #ffffff !important;
-    text-shadow: 0 1px 3px rgba(0,0,0,0.8) !important;
+
+/* Dark Theme (Default) */
+[data-theme="dark"], body.dark-theme {
+    --bg-dark: #07050d;
+    --bg-card: rgba(18, 14, 32, 0.75);
+    --border-glass: rgba(255, 255, 255, 0.08);
+    --text-primary: #f8fafc;
+    --text-muted: #94a3b8;
 }
 
-label, p, span, h1, h2, h3, h4, h5, h6 {
-    color: #f3f4f6; /* Force high visibility */
+/* Light Pastel Theme */
+[data-theme="light"], body.light-theme {
+    --bg-dark: #f8fafc;
+    --bg-card: #ffffff;
+    --border-glass: rgba(0, 0, 0, 0.08);
+    --text-primary: #0f172a;
+    --text-muted: #64748b;
+    --theme-color: #ec4899;
+    --theme-glow: rgba(236, 72, 153, 0.2);
 }
+
+body.light-theme,
+[data-theme="light"] body {
+    background-color: #f8fafc !important;
+    background-image: 
+        radial-gradient(at 10% 20%, rgba(251, 207, 232, 0.45) 0px, transparent 50%),
+        radial-gradient(at 90% 10%, rgba(186, 230, 253, 0.45) 0px, transparent 50%),
+        radial-gradient(at 50% 80%, rgba(187, 247, 208, 0.35) 0px, transparent 50%) !important;
+    color: #0f172a !important;
+}
+
+.light-theme .glass-panel,
+.light-theme .glass-panel-v2,
+.light-theme .snake-panel,
+.light-theme .gold-panel,
+.light-theme .sidebar,
+.light-theme .v2-sidebar,
+[data-theme="light"] .glass-panel,
+[data-theme="light"] .glass-panel-v2,
+[data-theme="light"] .snake-panel,
+[data-theme="light"] .gold-panel,
+[data-theme="light"] .sidebar,
+[data-theme="light"] .v2-sidebar {
+    background: rgba(255, 255, 255, 0.92) !important;
+    border: 1px solid rgba(0, 0, 0, 0.1) !important;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.06), 0 1px 3px rgba(0, 0, 0, 0.04) !important;
+    color: #0f172a !important;
+}
+
+.light-theme .premium-card,
+.light-theme .v2-card,
+[data-theme="light"] .premium-card,
+[data-theme="light"] .v2-card {
+    background: #ffffff !important;
+    border: 1px solid rgba(0, 0, 0, 0.08) !important;
+    box-shadow: 0 6px 18px rgba(0, 0, 0, 0.05) !important;
+    color: #0f172a !important;
+}
+
+.light-theme .text-white,
+.light-theme .text-white-50,
+[data-theme="light"] .text-white,
+[data-theme="light"] .text-white-50 {
+    color: #334155 !important;
+}
+
+.light-theme .bg-dark,
+[data-theme="light"] .bg-dark {
+    background-color: #f1f5f9 !important;
+    color: #0f172a !important;
+    border-color: #cbd5e1 !important;
+}
+
+.light-theme .border-secondary,
+[data-theme="light"] .border-secondary {
+    border-color: #cbd5e1 !important;
+}
+
+.light-theme p, .light-theme span, .light-theme h1, .light-theme h2, .light-theme h3, .light-theme h4, .light-theme h5, .light-theme h6,
+[data-theme="light"] p, [data-theme="light"] span, [data-theme="light"] h1, [data-theme="light"] h2, [data-theme="light"] h3, [data-theme="light"] h4, [data-theme="light"] h5, [data-theme="light"] h6 {
+    color: #0f172a !important;
+}
+
+.light-theme .btn-outline-light,
+[data-theme="light"] .btn-outline-light {
+    color: #0f172a !important;
+    border-color: #94a3b8 !important;
+    background-color: #ffffff !important;
+}
+
+.light-theme .btn-outline-light:hover,
+[data-theme="light"] .btn-outline-light:hover {
+    background-color: #0f172a !important;
+    color: #ffffff !important;
+}
+
 

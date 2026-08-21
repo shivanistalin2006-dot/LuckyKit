@@ -48,6 +48,16 @@ export class AudioManager {
 
     setMuted(muted) {
         this.isMuted = muted;
+        if (this.isMuted) {
+            this.stopBgMusic();
+        } else {
+            this.startBgMusic();
+        }
+    }
+
+    toggleMute() {
+        this.setMuted(!this.isMuted);
+        return this.isMuted;
     }
 
     getAudioContext() {

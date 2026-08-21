@@ -46,6 +46,7 @@ class GoldHighwayTruck extends BaseGame {
     }
 
     bindEvents() {
+        document.getElementById('startBtn')?.addEventListener('click', () => this.start());
         document.getElementById('restartBtn')?.addEventListener('click', () => this.start());
         document.getElementById('tryAgainBtn')?.addEventListener('click', () => {
             this.gameOverOverlay.classList.add('d-none');

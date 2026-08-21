@@ -28,6 +28,7 @@ class SynapseMatch extends BaseGame {
         this.moves = 0;
         this.lockBoard = false;
         
+        document.getElementById('startBtn')?.addEventListener('click', () => this.start());
         document.getElementById('restartBtn')?.addEventListener('click', () => this.start());
         
         gameManager.registerGame(this);

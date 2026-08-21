@@ -25,6 +25,7 @@ class GridSweeper extends BaseGame {
         this.timerInterval = null;
         this.timeElapsed = 0;
         
+        document.getElementById('startBtn')?.addEventListener('click', () => this.start());
         document.getElementById('restartBtn')?.addEventListener('click', () => this.start());
         
         gameManager.registerGame(this);

@@ -2,80 +2,151 @@ import { storage } from '../core/storage.js';
 import { eventBus } from '../core/eventBus.js';
 
 export const themes = {
-    cyberpunk: { name: 'Cyberpunk', icon: '🦿', color: '#ec4899', glow: 'rgba(236,72,153,0.3)' },
-    midnight: { name: 'Midnight', icon: '🌙', color: '#a855f7', glow: 'rgba(168,85,247,0.3)' },
-    matrix: { name: 'Matrix', icon: '💻', color: '#22c55e', glow: 'rgba(34,197,94,0.3)' },
-    synthwave: { name: 'Synthwave', icon: '🌇', color: '#f97316', glow: 'rgba(249,115,22,0.3)' },
-    bloodmoon: { name: 'Blood Moon', icon: '🩸', color: '#ef4444', glow: 'rgba(239,68,68,0.3)' }
+    dark: { 
+        name: 'Dark Theme', 
+        icon: '🌙', 
+        color: '#38bdf8', 
+        glow: 'rgba(56, 189, 248, 0.35)', 
+        isLight: false 
+    },
+    light: { 
+        name: 'Light Pastel', 
+        icon: '🌸', 
+        color: '#ec4899', 
+        glow: 'rgba(236, 72, 153, 0.25)', 
+        isLight: true 
+    }
 };
 
 class ThemeManager {
     constructor() {
-        eventBus.on('THEME_CHANGED', (data) => this.applyTheme(data.theme));
-        this.init();
-    }
-
-    init() {
-        const state = storage.getState();
-        this.currentTheme = state.activeTheme || 'cyberpunk';
+        this.currentTheme = storage.get('activeTheme', 'dark');
         this.applyTheme(this.currentTheme);
+        
+        eventBus.on('THEME_CHANGED', (data) => {
+            if (data && data.theme) this.applyTheme(data.theme);
+        });
+        
+        this.injectGlobalThemeUI();
     }
 
     applyTheme(themeKey) {
-        if (!themes[themeKey]) themeKey = 'cyberpunk';
+        if (!themes[themeKey]) themeKey = 'dark';
         this.currentTheme = themeKey;
+        const theme = themes[themeKey];
         
-        // Save to state
+        // Save to storage
+        storage.set('activeTheme', themeKey);
         storage.updateState({ activeTheme: themeKey });
 
-        // Apply to HTML and Body
-        document.documentElement.setAttribute('data-theme', themeKey);
-        document.body.setAttribute('data-theme', themeKey);
-        
-        // Set global CSS variables for all games to inherit
-        const theme = themes[themeKey];
-        document.documentElement.style.setProperty('--theme-color', theme.color);
-        document.documentElement.style.setProperty('--theme-glow', theme.glow);
-        document.documentElement.style.setProperty('--theme-neon', theme.color);
+        // Apply DOM attributes
+        if (typeof document !== 'undefined') {
+            document.documentElement.setAttribute('data-theme', themeKey);
+            document.body.setAttribute('data-theme', themeKey);
+            
+            if (theme.isLight) {
+                document.documentElement.classList.add('light-theme');
+                document.documentElement.classList.remove('dark-theme');
+                document.body.classList.add('light-theme');
+                document.body.classList.remove('dark-theme');
+            } else {
+                document.documentElement.classList.add('dark-theme');
+                document.documentElement.classList.remove('light-theme');
+                document.body.classList.add('dark-theme');
+                document.body.classList.remove('light-theme');
+            }
+            
+            // CSS Variables
+            document.documentElement.style.setProperty('--theme-color', theme.color);
+            document.documentElement.style.setProperty('--theme-glow', theme.glow);
+            document.documentElement.style.setProperty('--theme-neon', theme.color);
+        }
 
-        // Update Theme Button if exists (in Hub)
-        const themeBtn = document.getElementById('themeToggleBtn');
-        if (themeBtn) {
-            themeBtn.querySelector('span:first-child').innerText = theme.name;
-            const iconSpan = themeBtn.querySelector('#themeIcon');
+        this.updateThemeButtonUI();
+    }
+
+    toggleTheme() {
+        const nextTheme = this.currentTheme === 'dark' ? 'light' : 'dark';
+        this.applyTheme(nextTheme);
+        eventBus.emit('THEME_CHANGED', { theme: nextTheme });
+    }
+
+    updateThemeButtonUI() {
+        if (typeof document === 'undefined') return;
+        
+        const theme = themes[this.currentTheme];
+        
+        // 1. Update Hub Sidebar Button if exists
+        const hubBtn = document.getElementById('themeToggleBtn');
+        if (hubBtn) {
+            const textSpan = hubBtn.querySelector('span:first-child');
+            if (textSpan) textSpan.innerText = theme.name;
+            const iconSpan = hubBtn.querySelector('#themeIcon');
             if (iconSpan) iconSpan.innerText = theme.icon;
-            themeBtn.style.borderColor = theme.color;
-            themeBtn.style.color = theme.color;
-            themeBtn.style.boxShadow = `0 0 10px ${theme.glow}`;
+            hubBtn.className = theme.isLight 
+                ? "btn btn-sm btn-outline-danger w-100 mt-2 d-flex justify-content-between align-items-center" 
+                : "btn btn-sm btn-outline-info w-100 mt-2 d-flex justify-content-between align-items-center";
+        }
+        
+        // 2. Update Floating Game Theme Button if exists
+        const floatingBtn = document.getElementById('globalFloatingThemeBtn');
+        if (floatingBtn) {
+            floatingBtn.innerHTML = `${theme.icon} <span class="d-none d-sm-inline ms-1">${theme.name}</span>`;
+            floatingBtn.className = theme.isLight
+                ? "btn btn-sm btn-light border border-danger text-danger fw-bold rounded-pill shadow-lg"
+                : "btn btn-sm btn-dark border border-info text-info fw-bold rounded-pill shadow-lg";
         }
     }
 
-    cycleTheme() {
-        const keys = Object.keys(themes);
-        let idx = keys.indexOf(this.currentTheme);
-        idx = (idx + 1) % keys.length;
-        this.applyTheme(keys[idx]);
+    injectGlobalThemeUI() {
+        if (typeof document === 'undefined') return;
+
+        const setup = () => {
+            // Bind Hub button
+            const hubBtn = document.getElementById('themeToggleBtn');
+            if (hubBtn && !hubBtn.hasAttribute('data-theme-bound')) {
+                hubBtn.setAttribute('data-theme-bound', 'true');
+                hubBtn.addEventListener('click', (e) => {
+                    e.preventDefault();
+                    this.toggleTheme();
+                });
+            }
+
+            // If on a game page (has #hubBtn or in game container) and no floating theme button exists, inject one!
+            const isGamePage = window.location.pathname.includes('.html') && !window.location.pathname.endsWith('index.html');
+            if (isGamePage && !document.getElementById('globalFloatingThemeBtn')) {
+                const container = document.createElement('div');
+                container.className = 'position-fixed top-0 end-0 p-3';
+                container.style.zIndex = '99999';
+
+                const theme = themes[this.currentTheme];
+                const btn = document.createElement('button');
+                btn.id = 'globalFloatingThemeBtn';
+                btn.className = theme.isLight
+                    ? "btn btn-sm btn-light border border-danger text-danger fw-bold rounded-pill shadow-lg"
+                    : "btn btn-sm btn-dark border border-info text-info fw-bold rounded-pill shadow-lg";
+                btn.style.backdropFilter = 'blur(10px)';
+                btn.style.background = theme.isLight ? 'rgba(255, 255, 255, 0.9) !important' : 'rgba(15, 15, 25, 0.85) !important';
+                btn.innerHTML = `${theme.icon} <span class="d-none d-sm-inline ms-1">${theme.name}</span>`;
+                
+                btn.addEventListener('click', (e) => {
+                    e.preventDefault();
+                    this.toggleTheme();
+                });
+
+                container.appendChild(btn);
+                document.body.appendChild(container);
+            }
+
+            this.updateThemeButtonUI();
+        };
+
+        if (document.readyState === 'loading') {
+            document.addEventListener('DOMContentLoaded', setup);
+        } else {
+            setup();
+        }
     }
 }
 
 export const themeManager = new ThemeManager();
-
-// Bind Hub button if present
-function bindThemeButton() {
-    const btn = document.getElementById('themeToggleBtn');
-    if (btn && !btn.hasAttribute('data-theme-bound')) {
-        btn.setAttribute('data-theme-bound', 'true');
-        btn.addEventListener('click', () => {
-            themeManager.cycleTheme();
-        });
-        themeManager.applyTheme(themeManager.currentTheme); // refresh UI
-    }
-}
-
-if (typeof document !== 'undefined') {
-    if (document.readyState === 'loading') {
-        document.addEventListener('DOMContentLoaded', bindThemeButton);
-    } else {
-        bindThemeButton();
-    }
-}

@@ -53,7 +53,9 @@ class NeonArena extends BaseGame {
     }
 
     bindControls() {
-        
+        document.getElementById('startBtn')?.addEventListener('click', () => {
+            this.start();
+        });
         document.getElementById('restartBtn')?.addEventListener('click', () => {
             this.start();
         });

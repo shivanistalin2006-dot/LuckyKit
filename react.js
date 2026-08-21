@@ -42,6 +42,7 @@ class ReflexProtocol extends BaseGame {
             this.handleTap();
         }, { passive: false });
         
+        document.getElementById('startBtn')?.addEventListener('click', () => this.start());
         document.getElementById('restartBtn')?.addEventListener('click', () => this.start());
     }
 

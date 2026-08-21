@@ -24,6 +24,10 @@ class LogicGrid extends BaseGame {
     }
 
     bindEvents() {
+        document.getElementById('startBtn')?.addEventListener('click', () => {
+            if (audioManager) audioManager.playClick();
+            this.start();
+        });
         if (this.restartBtn) {
             this.restartBtn.addEventListener('click', () => {
                 if (audioManager) audioManager.playClick();

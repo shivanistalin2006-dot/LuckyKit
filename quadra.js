@@ -62,6 +62,7 @@ class QuadraLink extends BaseGame {
         if (this.startBtn) {
             this.startBtn.addEventListener('click', () => this.start());
         }
+        document.getElementById('restartBtn')?.addEventListener('click', () => this.start());
 
         // Keyboard
         document.addEventListener('keydown', (e) => {
@@ -75,16 +76,28 @@ class QuadraLink extends BaseGame {
             }
         });
 
-        // Mobile D-Pad
+        // Mobile D-Pad (Touch & Click)
         const btnL = document.getElementById('btnLeft');
         const btnR = document.getElementById('btnRight');
         const btnD = document.getElementById('btnDown');
         const btnU = document.getElementById('btnUp');
         
-        if (btnL) btnL.addEventListener('touchstart', (e) => { e.preventDefault(); this.move(-1); });
-        if (btnR) btnR.addEventListener('touchstart', (e) => { e.preventDefault(); this.move(1); });
-        if (btnD) btnD.addEventListener('touchstart', (e) => { e.preventDefault(); this.drop(); });
-        if (btnU) btnU.addEventListener('touchstart', (e) => { e.preventDefault(); this.rotate(); });
+        if (btnL) {
+            btnL.addEventListener('touchstart', (e) => { e.preventDefault(); this.move(-1); });
+            btnL.addEventListener('click', () => this.move(-1));
+        }
+        if (btnR) {
+            btnR.addEventListener('touchstart', (e) => { e.preventDefault(); this.move(1); });
+            btnR.addEventListener('click', () => this.move(1));
+        }
+        if (btnD) {
+            btnD.addEventListener('touchstart', (e) => { e.preventDefault(); this.drop(); });
+            btnD.addEventListener('click', () => this.drop());
+        }
+        if (btnU) {
+            btnU.addEventListener('touchstart', (e) => { e.preventDefault(); this.rotate(); });
+            btnU.addEventListener('click', () => this.rotate());
+        }
     }
 
     spawnPiece() {

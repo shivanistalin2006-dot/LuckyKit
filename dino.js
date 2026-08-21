@@ -208,11 +208,15 @@ class CyberDino extends BaseGame {
 if (document.readyState === 'loading') {
     document.addEventListener("DOMContentLoaded", () => {
         const game = new CyberDino();
-        document.getElementById("startBtn").addEventListener("click", () => game.start());
-        document.getElementById("overlayStartBtn").addEventListener("click", () => game.start());
+        document.getElementById("startBtn")?.addEventListener("click", () => game.start());
+        document.getElementById("startBtnHeader")?.addEventListener("click", () => game.start());
+        document.getElementById("restartBtn")?.addEventListener("click", () => game.start());
+        document.getElementById("overlayStartBtn")?.addEventListener("click", () => game.start());
     });
 } else {
     const game = new CyberDino();
-    document.getElementById("startBtn").addEventListener("click", () => game.start());
-    document.getElementById("overlayStartBtn").addEventListener("click", () => game.start());
+    document.getElementById("startBtn")?.addEventListener("click", () => game.start());
+    document.getElementById("startBtnHeader")?.addEventListener("click", () => game.start());
+    document.getElementById("restartBtn")?.addEventListener("click", () => game.start());
+    document.getElementById("overlayStartBtn")?.addEventListener("click", () => game.start());
 }

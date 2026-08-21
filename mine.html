@@ -15,6 +15,15 @@
 </head>
 <body class="bg-dark text-white premium-bg-mine">
 
+    <!-- Floating HUB Button -->
+    <div class="position-fixed top-0 start-0 p-3" style="z-index: 9999;">
+        <button id="hubBtn" class="btn btn-sm btn-dark border border-danger text-danger fw-bold px-3 py-2 rounded-pill shadow-lg"
+            onclick="window.location.href='index.html'"
+            style="backdrop-filter: blur(10px); background: rgba(15, 15, 25, 0.85) !important;">
+            ⬅ HUB
+        </button>
+    </div>
+
     <div class="bg-overlay"></div>
     <div class="particle-container" id="particles"></div>
 
@@ -24,12 +33,13 @@
             <div class="d-flex align-items-center gap-3">
                 <span class="fs-1">💣</span>
                 <div>
-                    <h1 class="m-0 fw-bold text-theme">Grid Sweeper</h1>
-                    <span class="text-white-50">Premium Minesweeper</span>
+                    <h1 class="m-0 fw-bold text-theme">Grid Sweeper (Minesweeper)</h1>
+                    <span class="text-white-50">Premium Tactical Sweeper</span>
                 </div>
             </div>
-            <div>
-                <button class="btn btn-outline-light" id="restartBtn">NEW GRID</button>
+            <div class="d-flex gap-2">
+                <button class="btn btn-theme fw-bold px-3" id="startBtn">▶ START SWEEP</button>
+                <button class="btn btn-outline-light fw-bold" id="restartBtn">RESTART</button>
             </div>
         </header>
 

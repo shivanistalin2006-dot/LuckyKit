@@ -70,6 +70,9 @@ class GrandmastersGambit extends BaseGame {
     }
 
     bindEvents() {
+        document.getElementById('startBtn')?.addEventListener('click', () => {
+            this.quickStart();
+        });
         document.getElementById('restartBtn')?.addEventListener('click', () => {
             this.quickStart();
         });

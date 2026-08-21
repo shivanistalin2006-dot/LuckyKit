@@ -6,37 +6,90 @@ import { animationManager } from './animation/animationManager.js';
 const COLS = 7;
 const ROWS = 6;
 const EMPTY = 0;
-const PLAYER = 1;
-const AI = 2;
+const P1 = 1; // Red
+const P2 = 2; // Blue / AI
 
 class NeonConnect extends BaseGame {
     constructor() {
         super("connect4");
         
         this.boardElement = document.getElementById('c4Board');
+        this.dropRowElement = document.getElementById('c4DropRow');
         this.turnIndicator = document.getElementById('turnIndicator');
         this.statusMsg = document.getElementById('statusMsg');
         this.subStatusMsg = document.getElementById('subStatusMsg');
         
         this.playerWinsDisplay = document.getElementById('playerWins');
         this.aiWinsDisplay = document.getElementById('aiWins');
+        this.p1Label = document.getElementById('p1Label');
+        this.p2Label = document.getElementById('p2Label');
         
+        this.mode = 'ai'; // 'ai' or 'pvp'
         this.board = [];
-        this.currentPlayer = PLAYER;
+        this.currentPlayer = P1;
         this.isGameOver = false;
         this.isDropping = false;
         
-        this.playerWins = 0;
-        this.aiWins = 0;
+        this.p1Wins = 0;
+        this.p2Wins = 0;
         
-        document.getElementById('restartBtn')?.addEventListener('click', () => this.start());
+        this.bindEvents();
+        this.start();
         
         gameManager.registerGame(this);
     }
 
+    bindEvents() {
+        document.getElementById('startBtn')?.addEventListener('click', () => this.start());
+        document.getElementById('restartBtn')?.addEventListener('click', () => this.start());
+        
+        // Mode Selector Buttons
+        const modeAiBtn = document.getElementById('modeAiBtn');
+        const modePvpBtn = document.getElementById('modePvpBtn');
+        
+        modeAiBtn?.addEventListener('click', () => {
+            if (this.mode === 'ai') return;
+            this.mode = 'ai';
+            modeAiBtn.classList.add('active', 'btn-outline-danger');
+            modeAiBtn.classList.remove('btn-outline-secondary');
+            modePvpBtn?.classList.remove('active', 'btn-outline-info');
+            modePvpBtn?.classList.add('btn-outline-secondary');
+            
+            if (this.p2Label) this.p2Label.innerText = "AI Bot (Blue)";
+            this.p1Wins = 0;
+            this.p2Wins = 0;
+            this.updateWinsUI();
+            this.start();
+        });
+        
+        modePvpBtn?.addEventListener('click', () => {
+            if (this.mode === 'pvp') return;
+            this.mode = 'pvp';
+            modePvpBtn.classList.add('active', 'btn-outline-info');
+            modePvpBtn.classList.remove('btn-outline-secondary');
+            modeAiBtn?.classList.remove('active', 'btn-outline-danger');
+            modeAiBtn?.classList.add('btn-outline-secondary');
+            
+            if (this.p2Label) this.p2Label.innerText = "Player 2 (Blue)";
+            this.p1Wins = 0;
+            this.p2Wins = 0;
+            this.updateWinsUI();
+            this.start();
+        });
+
+        // Column Drop Buttons
+        const dropButtons = document.querySelectorAll('.c4-drop-btn');
+        dropButtons.forEach(btn => {
+            const col = parseInt(btn.dataset.col);
+            btn.addEventListener('mouseenter', () => this.highlightColumn(col, true));
+            btn.addEventListener('mouseleave', () => this.highlightColumn(col, false));
+            btn.addEventListener('click', () => this.handleMove(col));
+        });
+    }
+
     onStart() {
         this.board = Array.from({ length: ROWS }, () => Array(COLS).fill(EMPTY));
-        this.currentPlayer = PLAYER;
+        this.currentPlayer = P1;
         this.isGameOver = false;
         this.isDropping = false;
         
@@ -45,6 +98,7 @@ class NeonConnect extends BaseGame {
     }
 
     initBoardUI() {
+        if (!this.boardElement) return;
         this.boardElement.innerHTML = '';
         
         for (let r = 0; r < ROWS; r++) {
@@ -57,8 +111,7 @@ class NeonConnect extends BaseGame {
                 // Hover highlights for the column
                 cell.addEventListener('mouseenter', () => this.highlightColumn(c, true));
                 cell.addEventListener('mouseleave', () => this.highlightColumn(c, false));
-                
-                cell.addEventListener('click', () => this.handlePlayerMove(c));
+                cell.addEventListener('click', () => this.handleMove(c));
                 
                 this.boardElement.appendChild(cell);
             }
@@ -66,11 +119,24 @@ class NeonConnect extends BaseGame {
     }
 
     highlightColumn(col, isHovering) {
-        if (this.isGameOver || this.currentPlayer !== PLAYER) return;
+        if (this.isGameOver || this.isDropping) return;
+        if (this.mode === 'ai' && this.currentPlayer !== P1) return;
+        
         const cells = this.boardElement.children;
+        const availableRow = this.getAvailableRow(col);
+        
         for (let r = 0; r < ROWS; r++) {
             const index = r * COLS + col;
-            cells[index].dataset.hover = isHovering ? "true" : "false";
+            const cell = cells[index];
+            if (!cell) continue;
+            
+            cell.dataset.hover = isHovering ? "true" : "false";
+            
+            if (isHovering && r === availableRow) {
+                cell.dataset.ghost = this.currentPlayer === P1 ? "p1" : "p2";
+            } else {
+                delete cell.dataset.ghost;
+            }
         }
     }
 
@@ -83,16 +149,23 @@ class NeonConnect extends BaseGame {
         return -1;
     }
 
-    async handlePlayerMove(col) {
-        if (!this.isRunning || this.isPaused || this.isGameOver || this.currentPlayer !== PLAYER || this.isDropping) return;
+    async handleMove(col) {
+        if (this.isGameOver || this.isDropping) return;
+        if (this.mode === 'ai' && this.currentPlayer !== P1) return;
         
         const row = this.getAvailableRow(col);
         if (row === -1) return; // Column full
         
-        await this.dropToken(row, col, PLAYER);
+        const movingPlayer = this.currentPlayer;
+        await this.dropToken(row, col, movingPlayer);
         
-        if (this.checkWin(this.board, PLAYER)) {
-            this.endGame(PLAYER);
+        // Clear ghost highlights
+        this.highlightColumn(col, false);
+        
+        const winningLine = this.getWinningLine(this.board, movingPlayer);
+        if (winningLine) {
+            this.highlightWinningCells(winningLine);
+            this.endGame(movingPlayer);
             return;
         }
         
@@ -101,25 +174,31 @@ class NeonConnect extends BaseGame {
             return;
         }
         
-        this.currentPlayer = AI;
-        this.updateTurnUI();
-        
-        // AI Turn
-        setTimeout(() => this.makeAIMove(), 500);
+        if (this.mode === 'pvp') {
+            // Switch to Player 2
+            this.currentPlayer = this.currentPlayer === P1 ? P2 : P1;
+            this.updateTurnUI();
+        } else {
+            // Mode is AI: Switch to AI turn
+            this.currentPlayer = P2;
+            this.updateTurnUI();
+            setTimeout(() => this.makeAIMove(), 500);
+        }
     }
 
     async makeAIMove() {
         if (this.isGameOver) return;
         
-        // Use Web Worker or chunked calculation if depth is high, but Depth 5 in JS is usually < 100ms
-        const bestCol = this.getBestMove(this.board, 5);
-        
+        const bestCol = this.getBestMove(this.board, 4);
         const row = this.getAvailableRow(bestCol);
+        if (row === -1) return;
         
-        await this.dropToken(row, bestCol, AI);
+        await this.dropToken(row, bestCol, P2);
         
-        if (this.checkWin(this.board, AI)) {
-            this.endGame(AI);
+        const winningLine = this.getWinningLine(this.board, P2);
+        if (winningLine) {
+            this.highlightWinningCells(winningLine);
+            this.endGame(P2);
             return;
         }
         
@@ -128,7 +207,7 @@ class NeonConnect extends BaseGame {
             return;
         }
         
-        this.currentPlayer = PLAYER;
+        this.currentPlayer = P1;
         this.updateTurnUI();
     }
 
@@ -145,279 +224,206 @@ class NeonConnect extends BaseGame {
             
             cell.appendChild(token);
             
-            // Trigger animation
+            if (audioManager) {
+                const pitch = player === P1 ? 440 : 550;
+                audioManager.playTone(pitch, 'sine', 0.1, 0.25);
+            }
+            
+            // Drop animation
             requestAnimationFrame(() => {
                 token.classList.add('dropped');
-                if (audioManager) audioManager.playTone(200 + (row * 50), 'sine', 0.1);
             });
             
             setTimeout(() => {
-                if (audioManager) audioManager.playTone(150, 'square', 0.05); // Thud
                 this.isDropping = false;
                 resolve();
-            }, 500);
+            }, 450);
         });
     }
 
     updateTurnUI() {
-        if (this.currentPlayer === PLAYER) {
-            this.turnIndicator.className = 'text-center p-3 rounded w-100 turn-indicator player-turn';
-            this.statusMsg.textContent = 'Your Turn';
-            this.subStatusMsg.textContent = 'Drop a Red token';
+        if (!this.turnIndicator) return;
+        
+        if (this.isGameOver) return;
+        
+        if (this.currentPlayer === P1) {
+            this.turnIndicator.className = "text-center p-3 rounded w-100 turn-indicator player-turn";
+            if (this.statusMsg) this.statusMsg.innerText = this.mode === 'pvp' ? "Player 1's Turn (Red)" : "Your Turn (Red)";
+            if (this.subStatusMsg) this.subStatusMsg.innerText = "Click a column to drop token";
         } else {
-            this.turnIndicator.className = 'text-center p-3 rounded w-100 turn-indicator ai-turn';
-            this.statusMsg.textContent = 'AI Computing...';
-            this.subStatusMsg.textContent = 'Waiting for Blue';
+            this.turnIndicator.className = `text-center p-3 rounded w-100 turn-indicator ${this.mode === 'pvp' ? 'p2-turn' : 'ai-turn'}`;
+            if (this.statusMsg) this.statusMsg.innerText = this.mode === 'pvp' ? "Player 2's Turn (Blue)" : "AI is thinking...";
+            if (this.subStatusMsg) this.subStatusMsg.innerText = this.mode === 'pvp' ? "Click a column to drop token" : "Evaluating board moves...";
         }
     }
 
-    checkWin(board, player) {
+    updateWinsUI() {
+        if (this.playerWinsDisplay) this.playerWinsDisplay.innerText = this.p1Wins;
+        if (this.aiWinsDisplay) this.aiWinsDisplay.innerText = this.p2Wins;
+    }
+
+    endGame(winner) {
+        this.isGameOver = true;
+        
+        if (winner === P1) {
+            this.p1Wins++;
+            this.turnIndicator.className = "text-center p-3 rounded w-100 turn-indicator player-turn";
+            if (this.statusMsg) this.statusMsg.innerText = this.mode === 'pvp' ? "🎉 PLAYER 1 WINS!" : "🎉 YOU WIN!";
+            if (this.subStatusMsg) this.subStatusMsg.innerText = "4 in a row achieved!";
+            if (audioManager) audioManager.playLevelUp?.();
+            if (animationManager) animationManager.spawnConfetti(window.innerWidth / 2, window.innerHeight / 2, 80);
+            this.addScore(100);
+        } else if (winner === P2) {
+            this.p2Wins++;
+            this.turnIndicator.className = "text-center p-3 rounded w-100 turn-indicator p2-turn";
+            if (this.statusMsg) this.statusMsg.innerText = this.mode === 'pvp' ? "🎉 PLAYER 2 WINS!" : "💀 AI WINS!";
+            if (this.subStatusMsg) this.subStatusMsg.innerText = "Better luck next round!";
+            if (audioManager) audioManager.playLose?.();
+        } else {
+            if (this.statusMsg) this.statusMsg.innerText = "⚖️ DRAW MATCH!";
+            if (this.subStatusMsg) this.subStatusMsg.innerText = "Board is completely filled!";
+        }
+        
+        this.updateWinsUI();
+        this.gameOver(winner === P1);
+    }
+
+    highlightWinningCells(coords) {
+        coords.forEach(([r, c]) => {
+            const index = r * COLS + c;
+            const cell = this.boardElement.children[index];
+            if (cell) cell.classList.add('winning');
+        });
+    }
+
+    getWinningLine(b, player) {
         // Horizontal
-        for (let c = 0; c < COLS - 3; c++) {
-            for (let r = 0; r < ROWS; r++) {
-                if (board[r][c] == player && board[r][c+1] == player && board[r][c+2] == player && board[r][c+3] == player) return [[r,c], [r,c+1], [r,c+2], [r,c+3]];
+        for (let r = 0; r < ROWS; r++) {
+            for (let c = 0; c <= COLS - 4; c++) {
+                if (b[r][c] === player && b[r][c+1] === player && b[r][c+2] === player && b[r][c+3] === player) {
+                    return [[r,c], [r,c+1], [r,c+2], [r,c+3]];
+                }
             }
         }
         // Vertical
-        for (let c = 0; c < COLS; c++) {
-            for (let r = 0; r < ROWS - 3; r++) {
-                if (board[r][c] == player && board[r+1][c] == player && board[r+2][c] == player && board[r+3][c] == player) return [[r,c], [r+1,c], [r+2,c], [r+3,c]];
+        for (let r = 0; r <= ROWS - 4; r++) {
+            for (let c = 0; c < COLS; c++) {
+                if (b[r][c] === player && b[r+1][c] === player && b[r+2][c] === player && b[r+3][c] === player) {
+                    return [[r,c], [r+1,c], [r+2,c], [r+3,c]];
+                }
             }
         }
-        // Positive Diagonal
-        for (let c = 0; c < COLS - 3; c++) {
-            for (let r = 0; r < ROWS - 3; r++) {
-                if (board[r][c] == player && board[r+1][c+1] == player && board[r+2][c+2] == player && board[r+3][c+3] == player) return [[r,c], [r+1,c+1], [r+2,c+2], [r+3,c+3]];
+        // Diagonal Down-Right
+        for (let r = 0; r <= ROWS - 4; r++) {
+            for (let c = 0; c <= COLS - 4; c++) {
+                if (b[r][c] === player && b[r+1][c+1] === player && b[r+2][c+2] === player && b[r+3][c+3] === player) {
+                    return [[r,c], [r+1,c+1], [r+2,c+2], [r+3,c+3]];
+                }
             }
         }
-        // Negative Diagonal
-        for (let c = 0; c < COLS - 3; c++) {
-            for (let r = 3; r < ROWS; r++) {
-                if (board[r][c] == player && board[r-1][c+1] == player && board[r-2][c+2] == player && board[r-3][c+3] == player) return [[r,c], [r-1,c+1], [r-2,c+2], [r-3,c+3]];
+        // Diagonal Up-Right
+        for (let r = 3; r < ROWS; r++) {
+            for (let c = 0; c <= COLS - 4; c++) {
+                if (b[r][c] === player && b[r-1][c+1] === player && b[r-2][c+2] === player && b[r-3][c+3] === player) {
+                    return [[r,c], [r-1,c+1], [r-2,c+2], [r-3,c+3]];
+                }
             }
         }
         return null;
     }
 
-    checkDraw(board) {
-        for (let c = 0; c < COLS; c++) {
-            if (board[0][c] === EMPTY) return false;
-        }
-        return true;
+    checkDraw(b) {
+        return b[0].every(cell => cell !== EMPTY);
     }
 
-    endGame(winner) {
-        this.isGameOver = true;
-        this.turnIndicator.className = 'text-center p-3 rounded w-100 turn-indicator';
+    // Minimax AI with Alpha-Beta Pruning
+    getBestMove(b, depth) {
+        let bestScore = -Infinity;
+        let bestCol = 3; // Center column bias
         
-        if (winner === PLAYER) {
-            this.statusMsg.textContent = 'YOU WIN!';
-            this.statusMsg.className = 'm-0 text-success fw-bold';
-            this.subStatusMsg.textContent = '+500 XP';
-            this.playerWins++;
-            this.playerWinsDisplay.textContent = this.playerWins;
-            this.addScore(500);
-            if (audioManager) audioManager.playWin();
-            if (animationManager) animationManager.spawnConfetti(window.innerWidth/2, window.innerHeight/2, 100);
+        const validCols = [];
+        for (let c = 0; c < COLS; c++) {
+            if (b[0][c] === EMPTY) validCols.push(c);
+        }
+        
+        // Immediate win or block check
+        for (const col of validCols) {
+            const row = this.getAvailableRow(col);
+            b[row][col] = P2;
+            if (this.getWinningLine(b, P2)) {
+                b[row][col] = EMPTY;
+                return col;
+            }
+            b[row][col] = EMPTY;
+        }
+        
+        for (const col of validCols) {
+            const row = this.getAvailableRow(col);
+            b[row][col] = P1;
+            if (this.getWinningLine(b, P1)) {
+                b[row][col] = EMPTY;
+                return col; // Block player's win
+            }
+            b[row][col] = EMPTY;
+        }
+        
+        for (const col of validCols) {
+            const row = this.getAvailableRow(col);
+            b[row][col] = P2;
+            const score = this.minimax(b, depth - 1, -Infinity, Infinity, false);
+            b[row][col] = EMPTY;
             
-            const winCells = this.checkWin(this.board, PLAYER);
-            if (winCells) this.highlightWin(winCells);
-            
-        } else if (winner === AI) {
-            this.statusMsg.textContent = 'AI WINS!';
-            this.statusMsg.className = 'm-0 text-danger fw-bold';
-            this.subStatusMsg.textContent = 'Better luck next time.';
-            this.aiWins++;
-            this.aiWinsDisplay.textContent = this.aiWins;
-            if (audioManager) audioManager.playTone(150, 'sawtooth', 0.5, 0.5);
-            
-            const winCells = this.checkWin(this.board, AI);
-            if (winCells) this.highlightWin(winCells);
-            
+            if (score > bestScore) {
+                bestScore = score;
+                bestCol = col;
+            }
+        }
+        
+        return bestCol;
+    }
+
+    minimax(b, depth, alpha, beta, isMaximizing) {
+        if (this.getWinningLine(b, P2)) return 1000 + depth;
+        if (this.getWinningLine(b, P1)) return -1000 - depth;
+        if (this.checkDraw(b) || depth === 0) return 0;
+        
+        const validCols = [];
+        for (let c = 0; c < COLS; c++) {
+            if (b[0][c] === EMPTY) validCols.push(c);
+        }
+        
+        if (isMaximizing) {
+            let maxEval = -Infinity;
+            for (const col of validCols) {
+                const row = this.getAvailableRow(col);
+                b[row][col] = P2;
+                const evaluation = this.minimax(b, depth - 1, alpha, beta, false);
+                b[row][col] = EMPTY;
+                maxEval = Math.max(maxEval, evaluation);
+                alpha = Math.max(alpha, evaluation);
+                if (beta <= alpha) break;
+            }
+            return maxEval;
         } else {
-            this.statusMsg.textContent = 'DRAW';
-            this.statusMsg.className = 'm-0 text-warning fw-bold';
-            this.subStatusMsg.textContent = 'No moves left.';
-        }
-        
-        this.gameOver(winner === PLAYER);
-    }
-
-    highlightWin(cells) {
-        cells.forEach(([r, c]) => {
-            const index = r * COLS + c;
-            const cell = this.boardElement.children[index];
-            cell.classList.add('winning');
-        });
-    }
-
-    // --- AI Minimax Logic ---
-    evaluateWindow(window, piece) {
-        let score = 0;
-        const oppPiece = piece === AI ? PLAYER : AI;
-        
-        let pieceCount = 0;
-        let emptyCount = 0;
-        let oppCount = 0;
-        
-        for (let i = 0; i < 4; i++) {
-            if (window[i] === piece) pieceCount++;
-            else if (window[i] === EMPTY) emptyCount++;
-            else if (window[i] === oppPiece) oppCount++;
-        }
-        
-        if (pieceCount === 4) score += 100;
-        else if (pieceCount === 3 && emptyCount === 1) score += 5;
-        else if (pieceCount === 2 && emptyCount === 2) score += 2;
-        
-        if (oppCount === 3 && emptyCount === 1) score -= 4; // Block opponent
-        
-        return score;
-    }
-
-    scorePosition(board, piece) {
-        let score = 0;
-        
-        // Center column preference
-        const centerCol = [];
-        for (let r = 0; r < ROWS; r++) centerCol.push(board[r][Math.floor(COLS/2)]);
-        const centerCount = centerCol.filter(c => c === piece).length;
-        score += centerCount * 3;
-        
-        // Horizontal
-        for (let r = 0; r < ROWS; r++) {
-            const rowArray = board[r];
-            for (let c = 0; c < COLS - 3; c++) {
-                const window = rowArray.slice(c, c + 4);
-                score += this.evaluateWindow(window, piece);
+            let minEval = Infinity;
+            for (const col of validCols) {
+                const row = this.getAvailableRow(col);
+                b[row][col] = P1;
+                const evaluation = this.minimax(b, depth - 1, alpha, beta, true);
+                b[row][col] = EMPTY;
+                minEval = Math.min(minEval, evaluation);
+                beta = Math.min(beta, evaluation);
+                if (beta <= alpha) break;
             }
+            return minEval;
         }
-        
-        // Vertical
-        for (let c = 0; c < COLS; c++) {
-            const colArray = [];
-            for (let r = 0; r < ROWS; r++) colArray.push(board[r][c]);
-            for (let r = 0; r < ROWS - 3; r++) {
-                const window = colArray.slice(r, r + 4);
-                score += this.evaluateWindow(window, piece);
-            }
-        }
-        
-        // Positive Diagonal
-        for (let r = 0; r < ROWS - 3; r++) {
-            for (let c = 0; c < COLS - 3; c++) {
-                const window = [board[r][c], board[r+1][c+1], board[r+2][c+2], board[r+3][c+3]];
-                score += this.evaluateWindow(window, piece);
-            }
-        }
-        
-        // Negative Diagonal
-        for (let r = 0; r < ROWS - 3; r++) {
-            for (let c = 0; c < COLS - 3; c++) {
-                const window = [board[r+3][c], board[r+2][c+1], board[r+1][c+2], board[r][c+3]];
-                score += this.evaluateWindow(window, piece);
-            }
-        }
-        
-        return score;
-    }
-
-    isTerminalNode(board) {
-        return this.checkWin(board, PLAYER) || this.checkWin(board, AI) || this.checkDraw(board);
-    }
-
-    getValidLocations(board) {
-        const validLocations = [];
-        for (let c = 0; c < COLS; c++) {
-            if (board[0][c] === EMPTY) validLocations.push(c);
-        }
-        return validLocations;
-    }
-
-    minimax(board, depth, alpha, beta, maximizingPlayer) {
-        const validLocations = this.getValidLocations(board);
-        const isTerminal = this.isTerminalNode(board);
-        
-        if (depth === 0 || isTerminal) {
-            if (isTerminal) {
-                if (this.checkWin(board, AI)) return { score: 100000000000000, column: null };
-                else if (this.checkWin(board, PLAYER)) return { score: -10000000000000, column: null };
-                else return { score: 0, column: null }; // Draw
-            } else {
-                return { score: this.scorePosition(board, AI), column: null };
-            }
-        }
-        
-        // Sort valid locations to search center first (alpha-beta optimization)
-        const center = Math.floor(COLS/2);
-        validLocations.sort((a, b) => Math.abs(center - a) - Math.abs(center - b));
-        
-        if (maximizingPlayer) {
-            let value = -Infinity;
-            let bestCol = validLocations[Math.floor(Math.random() * validLocations.length)];
-            
-            for (const col of validLocations) {
-                const row = this.getAvailableRowFromBoard(board, col);
-                const bCopy = board.map(r => [...r]);
-                bCopy[row][col] = AI;
-                
-                const newScore = this.minimax(bCopy, depth - 1, alpha, beta, false).score;
-                if (newScore > value) {
-                    value = newScore;
-                    bestCol = col;
-                }
-                alpha = Math.max(alpha, value);
-                if (alpha >= beta) break;
-            }
-            return { score: value, column: bestCol };
-        } else {
-            let value = Infinity;
-            let bestCol = validLocations[Math.floor(Math.random() * validLocations.length)];
-            
-            for (const col of validLocations) {
-                const row = this.getAvailableRowFromBoard(board, col);
-                const bCopy = board.map(r => [...r]);
-                bCopy[row][col] = PLAYER;
-                
-                const newScore = this.minimax(bCopy, depth - 1, alpha, beta, true).score;
-                if (newScore < value) {
-                    value = newScore;
-                    bestCol = col;
-                }
-                beta = Math.min(beta, value);
-                if (alpha >= beta) break;
-            }
-            return { score: value, column: bestCol };
-        }
-    }
-
-    getAvailableRowFromBoard(board, col) {
-        for (let r = ROWS - 1; r >= 0; r--) {
-            if (board[r][col] === EMPTY) return r;
-        }
-        return -1;
-    }
-
-    getBestMove(board, depth) {
-        return this.minimax(board, depth, -Infinity, Infinity, true).column;
     }
 }
 
-// Add instructions
-gameManager.GAME_INSTRUCTIONS = gameManager.GAME_INSTRUCTIONS || {};
-gameManager.GAME_INSTRUCTIONS["connect4"] = {
-    title: "Neon Connect",
-    objective: "Be the first to form a horizontal, vertical, or diagonal line of four tokens.",
-    controls: "Tap or click a column to drop your Red token.",
-    win: "Connect 4 tokens before the AI.",
-    lose: "The AI connects 4 tokens first.",
-    tips: "Always watch out for the AI setting up multiple threats!"
-};
-
 if (document.readyState === 'loading') {
     document.addEventListener("DOMContentLoaded", () => {
-        const game = new NeonConnect();
+        new NeonConnect();
     });
 } else {
-    const game = new NeonConnect();
+    new NeonConnect();
 }

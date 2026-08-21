@@ -43,6 +43,8 @@ class SnakeLadderGame extends BaseGame {
             });
         }
         
+        document.getElementById('startBtn')?.addEventListener('click', () => this.start());
+        document.getElementById('restartBtn')?.addEventListener('click', () => this.restart());
         if (this.restartBtn) {
             this.restartBtn.addEventListener('click', () => this.restart());
         }
