@@ -51,15 +51,10 @@ export class BaseGame {
         
         eventBus.emit('PLAY_GAME', { gameId: this.gameId });
         
-        // Show Instructions modal before actually starting the game loop
-        import('./gameManager.js?v=2.2').then(module => {
-            module.gameManager.showInstructions(this.gameId, () => {
-                if (audioManager) audioManager.startBgMusic();
-                this.onStart();
-                if (this.animationFrameId) cancelAnimationFrame(this.animationFrameId);
-                this.loop();
-            });
-        });
+        if (audioManager) audioManager.startBgMusic();
+        this.onStart();
+        if (this.animationFrameId) cancelAnimationFrame(this.animationFrameId);
+        this.loop();
     }
 
     pause() {

@@ -58,14 +58,14 @@ class AeroBurst extends BaseGame {
             w: 45,
             h: 50,
             dy: 0,
-            gravity: 0.25,
-            lift: -0.4,
-            maxFall: 5,
-            maxRise: -4
+            gravity: 0.35,
+            lift: -0.65,
+            maxFall: 6.5,
+            maxRise: -5.5
         };
         
         this.clouds = [];
-        this.gameSpeed = 3;
+        this.gameSpeed = 5.0;
         this.bgOffset = 0;
         this.spawnTimer = 0;
         

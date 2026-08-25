@@ -73,7 +73,7 @@ class GoldHighwayTruck extends BaseGame {
 
     resetGameVariables() {
         this.score = 0;
-        this.baseSpeed = 6;
+        this.baseSpeed = 8.5;
         this.currentSpeed = this.baseSpeed;
         this.distance = 0;
         
@@ -85,13 +85,13 @@ class GoldHighwayTruck extends BaseGame {
         
         // Truck properties (Heavy Golden Semi-Truck)
         this.player = {
-            x: 60,
+            x: 70,
             y: 0,
             width: 85,
             height: 48,
             vy: 0,
-            gravity: 0.65,
-            jumpPower: -13,
+            gravity: 0.85,
+            jumpPower: -14.5,
             isGrounded: false,
             bounce: 0
         };

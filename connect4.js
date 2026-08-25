@@ -182,7 +182,7 @@ class NeonConnect extends BaseGame {
             // Mode is AI: Switch to AI turn
             this.currentPlayer = P2;
             this.updateTurnUI();
-            setTimeout(() => this.makeAIMove(), 500);
+            setTimeout(() => this.makeAIMove(), 180);
         }
     }
 
@@ -226,7 +226,7 @@ class NeonConnect extends BaseGame {
             
             if (audioManager) {
                 const pitch = player === P1 ? 440 : 550;
-                audioManager.playTone(pitch, 'sine', 0.1, 0.25);
+                audioManager.playTone(pitch, 'sine', 0.08, 0.25);
             }
             
             // Drop animation
@@ -237,7 +237,7 @@ class NeonConnect extends BaseGame {
             setTimeout(() => {
                 this.isDropping = false;
                 resolve();
-            }, 450);
+            }, 250);
         });
     }
 

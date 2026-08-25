@@ -333,7 +333,7 @@ class GrandmastersGambit extends BaseGame {
         this.checkGameState();
         
         if (!this.isGameOver && this.currentTurn === BLACK) {
-            setTimeout(() => this.makeAIMove(), 500);
+            setTimeout(() => this.makeAIMove(), 200);
         }
     }
 

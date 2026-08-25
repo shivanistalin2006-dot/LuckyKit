@@ -134,7 +134,7 @@ class ArcadeLudo extends BaseGame {
         this.turnDisplay.style.color = p.name === 'Red' ? '#ef4444' : p.name === 'Green' ? '#22c55e' : p.name === 'Yellow' ? '#eab308' : '#3b82f6';
         
         if (p.isAI && this.isRunning && !this.isPaused) {
-            setTimeout(() => this.rollDice(), 1000);
+            setTimeout(() => this.rollDice(), 300);
         }
     }
 
@@ -186,8 +186,8 @@ class ArcadeLudo extends BaseGame {
             this.diceFace.textContent = ['⚀','⚁','⚂','⚃','⚄','⚅'][roll-1];
             this.actionText.textContent = `${this.players[this.turn].name} rolled a ${roll}!`;
             
-            setTimeout(() => this.processMove(this.players[this.turn], roll), 800);
-        }, 800);
+            setTimeout(() => this.processMove(this.players[this.turn], roll), 300);
+        }, 350);
     }
 
     processMove(player, roll) {
@@ -233,12 +233,12 @@ class ArcadeLudo extends BaseGame {
             // Roll again on 6, else next turn
             if (roll === 6 && canMove) {
                 this.actionText.textContent = "Rolled a 6! Roll again!";
-                if (this.players[this.turn].isAI) setTimeout(() => this.rollDice(), 1000);
+                if (this.players[this.turn].isAI) setTimeout(() => this.rollDice(), 300);
                 else if (this.rollBtn) this.rollBtn.disabled = false;
             } else {
                 this.nextTurn();
             }
-        }, 1000);
+        }, 350);
     }
 
     checkCapture(player) {

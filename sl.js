@@ -128,8 +128,8 @@ class SnakeLadderGame extends BaseGame {
             
             this.actionText.textContent = `Rolled a ${roll}!`;
             
-            setTimeout(() => this.movePlayer(player, roll), 800);
-        }, 1000);
+            setTimeout(() => this.movePlayer(player, roll), 350);
+        }, 400);
     }
 
     movePlayer(player, amount) {
@@ -149,7 +149,7 @@ class SnakeLadderGame extends BaseGame {
         if (player === 1) this.score = this.p1Pos * 10;
         
         this.renderPawns();
-        if (audioManager) audioManager.playTone(300 + (newPos * 5), 'sine', 0.1);
+        if (audioManager) audioManager.playTone(300 + (newPos * 5), 'sine', 0.08);
         
         setTimeout(() => {
             if (!this.isRunning) return;
@@ -187,9 +187,9 @@ class SnakeLadderGame extends BaseGame {
                 } else {
                     this.switchTurn();
                 }
-            }, 800);
+            }, 350);
             
-        }, 500);
+        }, 250);
     }
 
     switchTurn() {
@@ -200,7 +200,7 @@ class SnakeLadderGame extends BaseGame {
         if (this.currentPlayer === 2) {
             setTimeout(() => {
                 if (this.isRunning) this.performRoll(2);
-            }, 1000);
+            }, 400);
         } else {
             if (this.rollBtn) this.rollBtn.disabled = false;
             if (this.actionText) this.actionText.textContent = "Your turn. Roll!";

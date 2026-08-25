@@ -288,7 +288,7 @@ class CosmicUNO extends BaseGame {
                     this.drawCard(nextP, 4);
                     skipNext = true;
                 }
-                setTimeout(() => this.nextTurn(skipNext), 1000);
+                setTimeout(() => this.nextTurn(skipNext), 350);
             } else {
                 this.awaitingColor = true;
                 this.colorPicker.classList.remove('d-none');
@@ -296,7 +296,7 @@ class CosmicUNO extends BaseGame {
                 // nextTurn is called when color is picked
             }
         } else {
-            setTimeout(() => this.nextTurn(skipNext), 1000);
+            setTimeout(() => this.nextTurn(skipNext), 350);
         }
     }
 
@@ -311,7 +311,7 @@ class CosmicUNO extends BaseGame {
         const activePlayer = this.players[this.turn];
         if (activePlayer.isAI) {
             this.actionText.textContent = `${activePlayer.name} is thinking...`;
-            setTimeout(() => this.aiPlay(), 1500);
+            setTimeout(() => this.aiPlay(), 350);
         } else {
             this.actionText.textContent = "Your turn!";
         }
@@ -334,7 +334,7 @@ class CosmicUNO extends BaseGame {
         } else {
             this.actionText.textContent = `${ai.name} draws a card.`;
             this.drawCard(this.turn);
-            setTimeout(() => this.nextTurn(), 1000);
+            setTimeout(() => this.nextTurn(), 300);
         }
     }
 

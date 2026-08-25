@@ -113,7 +113,7 @@ class ClassicSnakeGame extends BaseGame {
         this.direction = "RIGHT";
         this.nextDirection = "RIGHT";
         this.score = 0;
-        this.baseSpeed = 130; // ms per tick
+        this.baseSpeed = 95; // Fast, responsive ms per tick
         this.currentSpeed = this.baseSpeed;
         this.lastTickTime = performance.now();
         this.frames = 0;
@@ -154,9 +154,7 @@ class ClassicSnakeGame extends BaseGame {
     }
 
     gameLoop(time) {
-        if (!this.isRunning) return;
-        
-        if (!this.isPaused) {
+        if (!this.isPaused && this.isRunning) {
             // Check if it's time to tick
             if (time - this.lastTickTime >= this.currentSpeed) {
                 this.lastTickTime = time;
@@ -200,7 +198,7 @@ class ClassicSnakeGame extends BaseGame {
             if (this.scoreEl) this.scoreEl.innerText = this.score;
             
             // Speed up slightly as snake grows
-            this.currentSpeed = Math.max(65, this.baseSpeed - Math.floor(this.snake.length * 1.8));
+            this.currentSpeed = Math.max(50, this.baseSpeed - Math.floor(this.snake.length * 1.5));
             const speedMultiplier = (this.baseSpeed / this.currentSpeed).toFixed(1);
             if (this.speedDisplay) this.speedDisplay.innerText = `${speedMultiplier}x`;
             

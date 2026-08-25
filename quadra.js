@@ -42,7 +42,7 @@ class QuadraLink extends BaseGame {
         this.grid = this.createMatrix(COLS, ROWS);
         this.piece = null;
         this.dropCounter = 0;
-        this.dropInterval = 1000;
+        this.dropInterval = 650;
         this.lastTime = 0;
         this.lines = 0;
         
@@ -278,7 +278,7 @@ class QuadraLink extends BaseGame {
             this.addScore(linesCleared * 100 * linesCleared);
             
             // Speed up
-            this.dropInterval = Math.max(100, 1000 - (this.lines * 10));
+            this.dropInterval = Math.max(120, 650 - (this.lines * 20));
             
             if (audioManager) audioManager.playLevelUp();
             if (animationManager) {

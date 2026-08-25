@@ -31,10 +31,10 @@ class CyberDino extends BaseGame {
             if (e && e.type === 'keydown' && (e.code !== 'Space' && e.code !== 'ArrowUp')) return;
             if (e) e.preventDefault();
             
-            if (this.isPlaying && !this.isJumping) {
-                this.dino.dy = -15; // Jump velocity
+            if (this.isRunning && !this.isPaused && !this.isJumping) {
+                this.dino.dy = -16; // Jump velocity
                 this.isJumping = true;
-                if (window.ArcadeSounds) window.ArcadeSounds.playSelect();
+                if (audioManager) audioManager.playTone(360, 'sine', 0.1, 0.25);
             }
         };
 
@@ -52,11 +52,11 @@ class CyberDino extends BaseGame {
             w: 50,
             h: 50,
             dy: 0,
-            gravity: 0.8
+            gravity: 0.9
         };
         
         this.obstacles = [];
-        this.gameSpeed = 6;
+        this.gameSpeed = 8.0;
         this.bgOffset = 0;
         this.spawnTimer = 0;
         this.groundY = 250;
