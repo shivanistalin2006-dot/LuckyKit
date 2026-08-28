@@ -1,0 +1,186 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>LuckyKit - Escape from Monster</title>
+    
+    <!-- Bootstrap 5 & Shell Styles -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="arcade-shell.css">
+    <link rel="stylesheet" href="escape.css?v=1.0">
+    <link href="https://fonts.googleapis.com/css2?family=Rajdhani:wght@400;600;700;800&family=Outfit:wght@400;700;900&display=swap" rel="stylesheet">
+    
+    <script type="module" src="core/app.js?v=2.4"></script>
+    <script type="module" src="escape.js?v=1.0" defer></script>
+</head>
+<body class="bg-dark text-white escape-body">
+
+    <!-- Floating HUB Button -->
+    <div class="position-fixed top-0 start-0 p-3" style="z-index: 9999;">
+        <button id="hubBtn" class="btn btn-sm btn-dark border border-danger text-danger fw-bold px-3 py-2 rounded-pill shadow-lg"
+            onclick="window.location.href='index.html'"
+            style="backdrop-filter: blur(10px); background: rgba(20, 10, 15, 0.85) !important;">
+            ⬅ HUB
+        </button>
+    </div>
+
+    <!-- Atmospheric Background Effects -->
+    <div class="escape-bg-glow"></div>
+    <div class="particle-container" id="particles"></div>
+
+    <div class="container py-4 position-relative" style="z-index: 10;">
+        
+        <!-- Header -->
+        <header class="d-flex justify-content-between align-items-center mb-3 p-3 rounded glass-panel">
+            <div class="d-flex align-items-center gap-3">
+                <span class="fs-1 text-danger">👹🏃</span>
+                <div>
+                    <h1 class="m-0 fw-bold text-danger title-glow">Escape from Monster</h1>
+                    <span class="text-white-50">Survive the Chase • Dodge Hazards • Outrun the Beast</span>
+                </div>
+            </div>
+            <div class="d-flex gap-2">
+                <button class="btn btn-danger fw-bold px-4 shadow-btn" id="startBtn">▶ START RUN</button>
+                <button class="btn btn-outline-light fw-bold" id="restartBtn">RESTART</button>
+            </div>
+        </header>
+
+        <!-- Main Game Area -->
+        <div class="row g-4 justify-content-center">
+            
+            <!-- Game Canvas Column -->
+            <div class="col-12 col-xl-8 d-flex flex-column align-items-center">
+                <div class="glass-panel p-3 rounded-4 w-100 d-flex flex-column align-items-center position-relative overflow-hidden escape-panel">
+                    
+                    <!-- Top Game HUD -->
+                    <div class="w-100 d-flex justify-content-between align-items-center mb-2 px-2 gap-2 flex-wrap">
+                        <div class="d-flex align-items-center gap-2">
+                            <span class="badge bg-dark border border-warning text-warning fs-6 px-3 py-2">
+                                🪙 <span id="coinCount">0</span>
+                            </span>
+                            <span class="badge bg-dark border border-info text-info fs-6 px-3 py-2">
+                                🏃 <span id="distanceCount">0</span>m
+                            </span>
+                        </div>
+
+                        <!-- Monster Danger Proximity Bar -->
+                        <div class="danger-bar-wrapper flex-grow-1 mx-2" style="max-width: 280px;">
+                            <div class="d-flex justify-content-between small text-white-50 mb-1 fw-bold">
+                                <span class="text-danger">👹 MONSTER</span>
+                                <span id="monsterDistText" class="text-warning">Gap: 50m</span>
+                                <span class="text-success">RUNNER 🏃</span>
+                            </div>
+                            <div class="progress danger-progress" style="height: 10px; background: rgba(0,0,0,0.6);">
+                                <div id="dangerProgressBar" class="progress-bar bg-danger progress-bar-striped progress-bar-animated" style="width: 70%;"></div>
+                            </div>
+                        </div>
+
+                        <div class="d-flex align-items-center gap-2">
+                            <span class="badge bg-dark border border-secondary text-white-50 fs-6 px-3 py-2">
+                                🏆 Best: <span id="highScoreText" class="text-white">0m</span>
+                            </span>
+                        </div>
+                    </div>
+
+                    <!-- Canvas Container -->
+                    <div class="canvas-wrapper position-relative w-100 rounded-3 overflow-hidden" style="max-width: 800px; aspect-ratio: 16/9; background: #08060c;">
+                        <canvas id="escapeCanvas" width="800" height="450" class="w-100 h-100 d-block"></canvas>
+
+                        <!-- Active Power-up Overlay Badges -->
+                        <div class="position-absolute top-0 start-0 p-3 d-flex gap-2" id="powerupBadgeContainer" style="z-index: 5;">
+                            <!-- Injected dynamically by JS -->
+                        </div>
+
+                        <!-- Game Over Screen Overlay -->
+                        <div class="position-absolute top-50 start-50 translate-middle text-center w-100 h-100 d-none flex-column justify-content-center align-items-center game-overlay" id="gameOverOverlay" style="z-index: 20; background: rgba(10, 5, 15, 0.92); backdrop-filter: blur(10px);">
+                            <span class="display-1 mb-2 animate-bounce">👹</span>
+                            <h1 class="fw-black fs-1 mb-1 text-danger title-glow" id="overlayTitle">THE MONSTER CAUGHT YOU!</h1>
+                            <p class="fs-4 text-white-50 mb-3" id="overlayScore">Distance Survived: 0m</p>
+                            
+                            <div class="d-flex gap-3 mb-4">
+                                <div class="p-2 px-4 rounded bg-dark border border-warning">
+                                    <span class="text-white-50 small d-block">Coins Earned</span>
+                                    <strong class="text-warning fs-4" id="overlayCoins">+0</strong>
+                                </div>
+                                <div class="p-2 px-4 rounded bg-dark border border-info">
+                                    <span class="text-white-50 small d-block">Best Distance</span>
+                                    <strong class="text-info fs-4" id="overlayBest">0m</strong>
+                                </div>
+                            </div>
+
+                            <button class="btn btn-danger btn-lg px-5 py-3 rounded-pill fw-bold shadow-lg shadow-btn" id="modalRestartBtn">
+                                🏃 ESCAPE AGAIN
+                            </button>
+                        </div>
+                    </div>
+
+                    <!-- Mobile Touch Action Buttons -->
+                    <div class="d-flex justify-content-between w-100 mt-3 d-lg-none px-3" style="max-width: 600px;">
+                        <button class="btn btn-danger btn-lg flex-fill me-2 py-3 rounded-4 fw-bold fs-4 touch-action-btn" id="mobileJumpBtn">
+                            ⬆️ JUMP
+                        </button>
+                        <button class="btn btn-warning btn-lg flex-fill ms-2 py-3 rounded-4 fw-bold fs-4 touch-action-btn" id="mobileSlideBtn">
+                            ⬇️ SLIDE
+                        </button>
+                    </div>
+
+                </div>
+            </div>
+
+            <!-- Controls & Instructions Column -->
+            <div class="col-12 col-xl-4">
+                <div class="glass-panel p-4 rounded-4 h-100 d-flex flex-column gap-3 escape-panel">
+                    <h4 class="text-danger fw-bold border-bottom border-secondary pb-2">Survival Guide</h4>
+                    
+                    <div class="d-flex flex-column gap-3">
+                        <!-- Key Controls -->
+                        <div class="p-3 rounded-3" style="background: rgba(255,255,255,0.04); border: 1px solid rgba(255,255,255,0.08);">
+                            <h6 class="text-warning fw-bold mb-2">🎮 Action Controls:</h6>
+                            <div class="d-flex flex-column gap-2 small text-white-50">
+                                <div class="d-flex justify-content-between align-items-center">
+                                    <span>Jump Over Spikes & Pits</span>
+                                    <span class="badge bg-dark text-white border border-secondary p-2"><kbd>SPACE</kbd> or <kbd>▲</kbd></span>
+                                </div>
+                                <div class="d-flex justify-content-between align-items-center">
+                                    <span>Double Jump (Mid-Air)</span>
+                                    <span class="badge bg-dark text-white border border-secondary p-2">Double Tap Jump</span>
+                                </div>
+                                <div class="d-flex justify-content-between align-items-center">
+                                    <span>Slide Under Lasers & Rocks</span>
+                                    <span class="badge bg-dark text-white border border-secondary p-2"><kbd>DOWN ▼</kbd> or <kbd>S</kbd></span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Powerups -->
+                        <div class="p-3 rounded-3" style="background: rgba(255,255,255,0.04); border: 1px solid rgba(255,255,255,0.08);">
+                            <h6 class="text-info fw-bold mb-2">⚡ Power-ups:</h6>
+                            <ul class="list-unstyled small text-white-50 m-0 d-flex flex-column gap-2">
+                                <li><strong class="text-warning">⚡ Boost Juice:</strong> High-speed surge, leaves monster behind!</li>
+                                <li><strong class="text-info">🛡️ Energy Shield:</strong> Smashes through 1 obstacle safely.</li>
+                                <li><strong class="text-success">🧲 Coin Magnet:</strong> Draws all nearby gold coins.</li>
+                            </ul>
+                        </div>
+
+                        <!-- Warning Alert -->
+                        <div class="p-3 rounded-3 border border-danger" style="background: rgba(239, 68, 68, 0.1);">
+                            <h6 class="text-danger fw-bold mb-1">⚠️ Danger Warning:</h6>
+                            <p class="small text-white-50 mb-0">
+                                Tripping on obstacles slows you down and lets the monster close in. Keep running to stay alive!
+                            </p>
+                        </div>
+                    </div>
+
+                    <div class="mt-auto pt-3 border-top border-secondary text-center">
+                        <button class="btn btn-danger w-100 py-3 rounded-3 fw-bold fs-5 shadow-btn" id="sidebarStartBtn">
+                            START ESCAPE 🏃
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+</body>
+</html>

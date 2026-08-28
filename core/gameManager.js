@@ -46,6 +46,14 @@ const GAME_INSTRUCTIONS = {
         win: "Be the last survivor.",
         lose: "Lose all your health.",
         tips: "Stay inside the safe zone and collect health packs!"
+    },
+    "escape": {
+        title: "Escape from Monster",
+        objective: "Outrun the giant shadow monster, jump over spikes, and slide under laser gates.",
+        controls: "SPACE / UP (Jump, Double Jump), DOWN / S (Slide)",
+        win: "Set a record escape distance and collect gold coins.",
+        lose: "The monster catches up with you.",
+        tips: "Use Double Jump over wide boulder pits and slide under high lasers!"
     }
 };
 
