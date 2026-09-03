@@ -3,13 +3,13 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>LuckyKit V2.0 - Ultimate Cyber Arcade</title>
+    <title>LuckyKit OS - The Ultimate Cyber Arcade</title>
     
     <!-- Bootstrap 5 -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
-    <link rel="stylesheet" href="style.css?v=2.1">
-    <link rel="stylesheet" href="premium-dashboard.css?v=2.1">
-    <link href="https://fonts.googleapis.com/css2?family=Rajdhani:wght@300;400;500;600;700" rel="stylesheet">
+    <link rel="stylesheet" href="style.css?v=2.2">
+    <link rel="stylesheet" href="premium-dashboard.css?v=2.2">
+    <link href="https://fonts.googleapis.com/css2?family=Rajdhani:wght@400;500;600;700;800&family=Outfit:wght@400;600;700;900&display=swap" rel="stylesheet">
     
     <!-- Load Global Arcade Architecture (ES6 Modules) -->
     <script type="module" src="core/app.js?v=2.4"></script>
@@ -22,11 +22,11 @@
     <div class="particles-overlay" id="dashboardParticles"></div>
 
     <div class="dashboard-layout">
-        <!-- V2 Sidebar Navigation -->
+        <!-- V2 Sidebar Navigation (Desktop) -->
         <aside class="sidebar v2-sidebar">
             <div class="brand">
                 <span class="brand-icon glow-pulse">⚡</span>
-                <span class="fw-black text-gradient">LUCKYKIT OS</span>
+                <span class="brand-text">LUCKYKIT OS</span>
             </div>
             
             <nav class="d-flex flex-column gap-2 mb-4 mt-4">
@@ -37,7 +37,7 @@
             </nav>
 
             <!-- V2 Profile Widget -->
-            <div class="profile-card-v2 d-flex flex-column gap-2 mt-auto cursor-pointer" id="profileCardBtn" style="cursor: pointer;" title="Click to Switch Account or Edit Profile">
+            <div class="profile-card-v2 d-flex flex-column gap-2 mt-auto" id="profileCardBtn" title="Click to Switch Account or Edit Profile">
                 <div class="d-flex align-items-center justify-content-between">
                     <div class="d-flex align-items-center gap-3">
                         <div class="avatar-ring-v2" id="profileBorder">
@@ -72,12 +72,12 @@
 
             <!-- V2 Quick Actions -->
             <div class="d-flex gap-2 mt-3" role="group">
-                <button class="btn btn-sm btn-outline-warning flex-fill glow-hover" id="achievementsBtn">🏆 Achievements</button>
+                <button class="btn btn-sm btn-outline-warning flex-fill glow-hover" id="achievementsBtn">🏆 Quests</button>
                 <button class="btn btn-sm btn-outline-info flex-fill glow-hover" id="muteToggleBtn">🔊 Audio</button>
             </div>
             
             <button class="btn btn-sm btn-outline-secondary w-100 mt-2 glow-hover d-flex justify-content-between align-items-center" id="themeToggleBtn">
-                <span>Theme</span>
+                <span>Theme Mode</span>
                 <span id="themeIcon">🌙</span>
             </button>
         </aside>
@@ -85,16 +85,46 @@
         <!-- Main Content -->
         <main class="main-content">
             
+            <!-- Top Hub Bar (Search & Instant Filter) -->
+            <header class="hub-topbar">
+                <div class="d-flex align-items-center gap-3">
+                    <span class="fs-4 d-lg-none">⚡</span>
+                    <div>
+                        <h4 class="m-0 fw-bold text-white">Arcade Headquarters</h4>
+                        <span class="text-white-50 small">20 Ultra-Responsive Games Live</span>
+                    </div>
+                </div>
+
+                <!-- Instant Real-Time Search Bar -->
+                <div class="search-input-wrapper">
+                    <span class="search-icon">🔍</span>
+                    <input type="text" id="gameSearchInput" placeholder="Search games (e.g. Monster, Chess, Snake, Truck)..." autocomplete="off">
+                </div>
+
+                <!-- Quick Action Badges (Mobile & Desktop) -->
+                <div class="d-flex align-items-center gap-2">
+                    <button class="btn btn-sm btn-dark border border-secondary text-warning fw-bold px-3 py-2 rounded-pill" id="topbarCoinsBtn">
+                        🪙 <span id="topbarCoins">100</span>
+                    </button>
+                    <button class="btn btn-sm btn-outline-light rounded-pill px-3 py-2 d-lg-none" id="mobileThemeToggleBtn">
+                        🌙
+                    </button>
+                    <button class="btn btn-sm btn-danger rounded-pill px-3 py-2 d-lg-none" id="mobileLoginBtn">
+                        🔑 Login
+                    </button>
+                </div>
+            </header>
+
             <!-- V2 Hero Banner -->
             <section class="hero-banner-v2" style="background-image: url('https://images.unsplash.com/photo-1542751371-adc38448a05e?q=80&w=2000&auto=format&fit=crop');">
                 <div class="hero-gradient"></div>
                 <div class="hero-content">
-                    <span class="badge bg-danger mb-2 p-2 border border-danger shadow-glow">FEATURED EVENT</span>
-                    <h1 class="display-3 fw-black text-white mb-2 title-glow">Neon Arena 2.0</h1>
-                    <p class="lead text-white-50 mb-4">The flagship Battle Royale returns with advanced AI pathfinding and dynamic safe zones.</p>
-                    <div class="d-flex gap-3">
-                        <button class="btn btn-theme btn-lg fw-bold px-5 py-3 rounded-pill shadow-lg v2-btn" onclick="window.location.href='arena.html'">
-                            ▶ LAUNCH
+                    <span class="badge bg-danger mb-2 p-2 border border-danger shadow-glow">FEATURED EXPEDITION</span>
+                    <h1 class="display-4 fw-black text-white mb-2 title-glow">Escape from Monster</h1>
+                    <p class="lead text-white-50 mb-4">Outrun the giant shadow beast, double-jump over boulders, and slide under laser gates!</p>
+                    <div class="d-flex gap-3 flex-wrap">
+                        <button class="btn btn-danger btn-lg fw-bold px-5 py-3 rounded-pill shadow-lg v2-btn shadow-btn" onclick="window.location.href='escape.html'">
+                            ▶ LAUNCH RUN
                         </button>
                         <button class="btn btn-outline-light btn-lg fw-bold px-4 py-3 rounded-pill v2-btn" id="claimLoginRewardBtn">
                             🎁 CLAIM DAILY REWARD
@@ -103,14 +133,14 @@
                 </div>
             </section>
 
-            <div class="row mt-4 g-4">
+            <!-- Missions & Continue Playing Row -->
+            <div class="row g-4">
                 <!-- Daily Missions Panel -->
                 <div class="col-12 col-xl-4">
                     <div class="glass-panel-v2 h-100 p-4 rounded-4 position-relative overflow-hidden">
                         <div class="panel-glow-corner"></div>
                         <h4 class="text-theme fw-bold mb-4">🎯 Daily Missions</h4>
                         <div id="dailyMissionsContainer" class="d-flex flex-column gap-3">
-                            <!-- Injected by missionSystem -->
                             <div class="text-center text-muted">Loading missions...</div>
                         </div>
                     </div>
@@ -118,10 +148,9 @@
                 
                 <!-- Recent & Continue Playing -->
                 <div class="col-12 col-xl-8">
-                    <section class="netflix-section h-100">
-                        <h3 class="section-title">Continue Journey</h3>
+                    <section class="glass-panel-v2 h-100 p-4 rounded-4 position-relative overflow-hidden">
+                        <h4 class="text-white fw-bold mb-3">🔥 Continue Journey</h4>
                         <div class="scrolling-wrapper v2-scroller" id="continuePlayingRow">
-                            <!-- Fallbacks if no history -->
                             <div class="premium-card v2-card card-theme-red" onclick="window.location.href='escape.html'">
                                 <div class="card-image-placeholder text-danger">👹🏃</div>
                                 <div class="card-details">
@@ -129,11 +158,18 @@
                                     <span class="card-category">Chaser Runner</span>
                                 </div>
                             </div>
+                            <div class="premium-card v2-card card-theme-yellow" onclick="window.location.href='truck.html'">
+                                <div class="card-image-placeholder text-warning">🚚💨</div>
+                                <div class="card-details">
+                                    <h4 class="card-title">Gold Highway Truck</h4>
+                                    <span class="card-category">Endless Drive</span>
+                                </div>
+                            </div>
                             <div class="premium-card v2-card card-theme-red" onclick="window.location.href='connect4.html'">
                                 <div class="card-image-placeholder text-danger">🔴🔵</div>
                                 <div class="card-details">
                                     <h4 class="card-title">Neon Connect</h4>
-                                    <span class="card-category">AI Battle</span>
+                                    <span class="card-category">1P vs AI / 2P</span>
                                 </div>
                             </div>
                             <div class="premium-card v2-card card-theme-green" onclick="window.location.href='snake.html'">
@@ -143,8 +179,8 @@
                                     <span class="card-category">Endless</span>
                                 </div>
                             </div>
-                            <div class="premium-card v2-card" onclick="window.location.href='chess.html'">
-                                <div class="card-image-placeholder">♔♛</div>
+                            <div class="premium-card v2-card card-theme-purple" onclick="window.location.href='chess.html'">
+                                <div class="card-image-placeholder text-light">♔♛</div>
                                 <div class="card-details">
                                     <h4 class="card-title">Grandmaster's Gambit</h4>
                                     <span class="card-category">Strategy</span>
@@ -155,133 +191,236 @@
                 </div>
             </div>
 
-            <!-- Full Library (V2 Grid) -->
-            <section class="mt-5 glass-panel-v2 p-4 rounded-4">
-                <div class="d-flex flex-wrap justify-content-between align-items-center mb-4">
-                    <h3 class="fw-bold mb-0 text-white">The Arcade Core</h3>
+            <!-- Full Library (The Arcade Core) -->
+            <section class="glass-panel-v2 p-4 rounded-4" id="librarySection">
+                <div class="d-flex flex-wrap justify-content-between align-items-center mb-4 gap-3">
+                    <div>
+                        <h3 class="fw-bold mb-0 text-white">The Arcade Core</h3>
+                        <span class="text-white-50 small" id="gameCountText">Showing 20 games</span>
+                    </div>
                     
-                    <div class="d-flex gap-3 align-items-center">
-                        <div class="category-tabs-v2 d-flex gap-2">
-                            <button class="btn btn-sm btn-theme active tab-btn" data-filter="all">All Modules</button>
-                            <button class="btn btn-sm btn-outline-secondary tab-btn" data-filter="arcade">Arcade</button>
-                            <button class="btn btn-sm btn-outline-secondary tab-btn" data-filter="brain">Brain</button>
-                            <button class="btn btn-sm btn-outline-secondary tab-btn" data-filter="board">Board</button>
-                        </div>
+                    <div class="category-tabs-v2">
+                        <button class="btn btn-sm btn-theme active tab-btn" data-filter="all">All (20)</button>
+                        <button class="btn btn-sm btn-outline-secondary tab-btn" data-filter="arcade">🕹️ Arcade (9)</button>
+                        <button class="btn btn-sm btn-outline-secondary tab-btn" data-filter="brain">🧠 Brain & Puzzle (5)</button>
+                        <button class="btn btn-sm btn-outline-secondary tab-btn" data-filter="board">🎲 Board & Cards (6)</button>
                     </div>
                 </div>
 
-                <div class="row g-4" id="gamesGrid">
-                    <!-- BaseGame Engine (New) -->
-                    <div class="col-12 col-sm-6 col-md-4 col-xl-3 game-card-wrapper" data-category="arcade">
-                        <div class="premium-card v2-card card-theme-red h-100" onclick="window.location.href='escape.html'">
-                            <div class="card-image-placeholder text-danger">👹🏃</div>
-                            <div class="card-details"><h4 class="card-title">Escape from Monster</h4><span class="card-category">Action Runner</span></div>
+                <!-- Aligned Games Grid -->
+                <div class="games-grid" id="gamesGrid">
+                    
+                    <!-- 1. Escape from Monster -->
+                    <div class="game-card-wrapper" data-category="arcade" data-title="escape from monster runner action">
+                        <div class="v2-card card-theme-red" onclick="window.location.href='escape.html'">
+                            <span class="card-image-placeholder text-danger">👹🏃</span>
+                            <h4 class="card-title">Escape from Monster</h4>
+                            <span class="card-category">Action Runner</span>
                         </div>
                     </div>
-                    <div class="col-12 col-sm-6 col-md-4 col-xl-3 game-card-wrapper" data-category="arcade">
-                        <div class="premium-card v2-card card-theme-red h-100" onclick="window.location.href='arena.html'">
-                            <div class="card-image-placeholder text-danger">🔫🏃</div>
-                            <div class="card-details"><h4 class="card-title">Neon Arena</h4><span class="card-category">Action</span></div>
+
+                    <!-- 2. Gold Highway Truck -->
+                    <div class="game-card-wrapper" data-category="arcade" data-title="gold highway truck driver endless vehicle">
+                        <div class="v2-card card-theme-yellow" onclick="window.location.href='truck.html'">
+                            <span class="card-image-placeholder text-warning">🚚💨</span>
+                            <h4 class="card-title">Gold Highway Truck</h4>
+                            <span class="card-category">Endless Drive</span>
                         </div>
                     </div>
-                    <div class="col-12 col-sm-6 col-md-4 col-xl-3 game-card-wrapper" data-category="arcade">
-                        <div class="premium-card v2-card card-theme-green h-100" onclick="window.location.href='snake.html'">
-                            <div class="card-image-placeholder text-success">🐍🍎</div>
-                            <div class="card-details"><h4 class="card-title">Neon Serpent</h4><span class="card-category">Endless</span></div>
+
+                    <!-- 3. Neon Serpent -->
+                    <div class="game-card-wrapper" data-category="arcade" data-title="neon serpent snake classic arcade">
+                        <div class="v2-card card-theme-green" onclick="window.location.href='snake.html'">
+                            <span class="card-image-placeholder text-success">🐍🍎</span>
+                            <h4 class="card-title">Neon Serpent</h4>
+                            <span class="card-category">Endless</span>
                         </div>
                     </div>
-                    <div class="col-12 col-sm-6 col-md-4 col-xl-3 game-card-wrapper" data-category="board">
-                        <div class="premium-card v2-card card-theme-red h-100" onclick="window.location.href='connect4.html'">
-                            <div class="card-image-placeholder text-danger">🔴🔵</div>
-                            <div class="card-details"><h4 class="card-title">Neon Connect</h4><span class="card-category">Strategy</span></div>
+
+                    <!-- 4. Grandmaster's Gambit -->
+                    <div class="game-card-wrapper" data-category="board" data-title="chess grandmasters gambit board strategy">
+                        <div class="v2-card card-theme-purple" onclick="window.location.href='chess.html'">
+                            <span class="card-image-placeholder text-light">♔♛</span>
+                            <h4 class="card-title">Grandmaster's Gambit</h4>
+                            <span class="card-category">Strategy Chess</span>
                         </div>
                     </div>
-                    <div class="col-12 col-sm-6 col-md-4 col-xl-3 game-card-wrapper" data-category="board">
-                        <div class="premium-card v2-card card-theme-cyan h-100" onclick="window.location.href='sl.html'">
-                            <div class="card-image-placeholder text-info">🪜🐍</div>
-                            <div class="card-details"><h4 class="card-title">Neon Ladders</h4><span class="card-category">Board</span></div>
+
+                    <!-- 5. Neon Connect -->
+                    <div class="game-card-wrapper" data-category="board" data-title="neon connect 4 four in a row board battle">
+                        <div class="v2-card card-theme-red" onclick="window.location.href='connect4.html'">
+                            <span class="card-image-placeholder text-danger">🔴🔵</span>
+                            <h4 class="card-title">Neon Connect</h4>
+                            <span class="card-category">1P vs AI / 2P Local</span>
                         </div>
                     </div>
-                    <div class="col-12 col-sm-6 col-md-4 col-xl-3 game-card-wrapper" data-category="board">
-                        <div class="premium-card v2-card card-theme-red h-100" onclick="window.location.href='ludo.html'">
-                            <div class="card-image-placeholder text-danger">🎲🏁</div>
-                            <div class="card-details"><h4 class="card-title">Cosmic Race</h4><span class="card-category">Board</span></div>
+
+                    <!-- 6. Cosmic Race (Ludo) -->
+                    <div class="game-card-wrapper" data-category="board" data-title="cosmic race ludo dice board game">
+                        <div class="v2-card card-theme-red" onclick="window.location.href='ludo.html'">
+                            <span class="card-image-placeholder text-danger">🎲🏁</span>
+                            <h4 class="card-title">Cosmic Race (Ludo)</h4>
+                            <span class="card-category">Board Classic</span>
                         </div>
                     </div>
-                    <div class="col-12 col-sm-6 col-md-4 col-xl-3 game-card-wrapper" data-category="board">
-                        <div class="premium-card v2-card card-theme-yellow h-100" onclick="window.location.href='uno.html'">
-                            <div class="card-image-placeholder text-warning">🃏🔄</div>
-                            <div class="card-details"><h4 class="card-title">Cosmic Cards</h4><span class="card-category">Cards</span></div>
+
+                    <!-- 7. Cosmic Cards (UNO) -->
+                    <div class="game-card-wrapper" data-category="board" data-title="cosmic cards uno card game casual">
+                        <div class="v2-card card-theme-yellow" onclick="window.location.href='uno.html'">
+                            <span class="card-image-placeholder text-warning">🃏🔄</span>
+                            <h4 class="card-title">Cosmic Cards (UNO)</h4>
+                            <span class="card-category">Card Battle</span>
                         </div>
                     </div>
-                    <div class="col-12 col-sm-6 col-md-4 col-xl-3 game-card-wrapper" data-category="brain">
-                        <div class="premium-card v2-card card-theme-blue h-100" onclick="window.location.href='sudoku.html'">
-                            <div class="card-image-placeholder text-primary">🔢🧩</div>
-                            <div class="card-details"><h4 class="card-title">Logic Grid</h4><span class="card-category">Puzzle</span></div>
+
+                    <!-- 8. Neon Ladders -->
+                    <div class="game-card-wrapper" data-category="board" data-title="neon ladders snakes and ladders board dice">
+                        <div class="v2-card card-theme-cyan" onclick="window.location.href='sl.html'">
+                            <span class="card-image-placeholder text-info">🪜🐍</span>
+                            <h4 class="card-title">Neon Ladders</h4>
+                            <span class="card-category">Board Classic</span>
                         </div>
                     </div>
-                    <div class="col-12 col-sm-6 col-md-4 col-xl-3 game-card-wrapper" data-category="arcade">
-                        <div class="premium-card v2-card card-theme-cyan h-100" onclick="window.location.href='quadra.html'">
-                            <div class="card-image-placeholder text-info">🧊🧱</div>
-                            <div class="card-details"><h4 class="card-title">Quadra Link</h4><span class="card-category">Puzzle</span></div>
+
+                    <!-- 9. Neon Arena -->
+                    <div class="game-card-wrapper" data-category="arcade" data-title="neon arena battle royale action shooter survival">
+                        <div class="v2-card card-theme-red" onclick="window.location.href='arena.html'">
+                            <span class="card-image-placeholder text-danger">🔫🏃</span>
+                            <h4 class="card-title">Neon Arena</h4>
+                            <span class="card-category">Battle Royale</span>
                         </div>
                     </div>
-                    <div class="col-12 col-sm-6 col-md-4 col-xl-3 game-card-wrapper" data-category="brain">
-                        <div class="premium-card v2-card card-theme-red h-100" onclick="window.location.href='mine.html'">
-                            <div class="card-image-placeholder text-danger">💣</div>
-                            <div class="card-details"><h4 class="card-title">Grid Sweeper</h4><span class="card-category">Logic</span></div>
+
+                    <!-- 10. Quadra Link -->
+                    <div class="game-card-wrapper" data-category="brain" data-title="quadra link tetris blocks puzzle">
+                        <div class="v2-card card-theme-cyan" onclick="window.location.href='quadra.html'">
+                            <span class="card-image-placeholder text-info">🧊🧱</span>
+                            <h4 class="card-title">Quadra Link</h4>
+                            <span class="card-category">Block Puzzle</span>
                         </div>
                     </div>
-                    <div class="col-12 col-sm-6 col-md-4 col-xl-3 game-card-wrapper" data-category="brain">
-                        <div class="premium-card v2-card card-theme-green h-100" onclick="window.location.href='type.html'">
-                            <div class="card-image-placeholder text-success">⌨️</div>
-                            <div class="card-details"><h4 class="card-title">Cyber Typer</h4><span class="card-category">Speed</span></div>
-                        </div>
-                    <div class="col-12 col-sm-6 col-md-4 col-xl-3 game-card-wrapper" data-category="arcade">
-                        <div class="premium-card v2-card card-theme-green h-100" onclick="window.location.href='dino.html'">
-                            <div class="card-image-placeholder text-success">🦖</div>
-                            <div class="card-details"><h4 class="card-title">Cyber Dino Run</h4><span class="card-category">Survival</span></div>
+
+                    <!-- 11. Logic Grid (Sudoku) -->
+                    <div class="game-card-wrapper" data-category="brain" data-title="logic grid sudoku numbers puzzle">
+                        <div class="v2-card card-theme-blue" onclick="window.location.href='sudoku.html'">
+                            <span class="card-image-placeholder text-primary">🔢🧩</span>
+                            <h4 class="card-title">Logic Grid (Sudoku)</h4>
+                            <span class="card-category">Number Puzzle</span>
                         </div>
                     </div>
-                    <div class="col-12 col-sm-6 col-md-4 col-xl-3 game-card-wrapper" data-category="arcade">
-                        <div class="premium-card v2-card card-theme-cyan h-100" onclick="window.location.href='balloon.html'">
-                            <div class="card-image-placeholder text-info">🎈</div>
-                            <div class="card-details"><h4 class="card-title">Aero Burst</h4><span class="card-category">Flight</span></div>
+
+                    <!-- 12. Grid Sweeper -->
+                    <div class="game-card-wrapper" data-category="brain" data-title="grid sweeper minesweeper bomb logic">
+                        <div class="v2-card card-theme-red" onclick="window.location.href='mine.html'">
+                            <span class="card-image-placeholder text-danger">💣</span>
+                            <h4 class="card-title">Grid Sweeper</h4>
+                            <span class="card-category">Logic Puzzle</span>
                         </div>
                     </div>
-                    <div class="col-12 col-sm-6 col-md-4 col-xl-3 game-card-wrapper" data-category="arcade">
-                        <div class="premium-card v2-card card-theme-yellow h-100" onclick="window.location.href='react.html'">
-                            <div class="card-image-placeholder text-warning">⚡</div>
-                            <div class="card-details"><h4 class="card-title">Reflex Protocol</h4><span class="card-category">Speed</span></div>
+
+                    <!-- 13. Cyber Typer -->
+                    <div class="game-card-wrapper" data-category="brain" data-title="cyber typer typing keyboard speed word">
+                        <div class="v2-card card-theme-green" onclick="window.location.href='type.html'">
+                            <span class="card-image-placeholder text-success">⌨️</span>
+                            <h4 class="card-title">Cyber Typer</h4>
+                            <span class="card-category">Typing Speed</span>
                         </div>
                     </div>
-                    <div class="col-12 col-sm-6 col-md-4 col-xl-3 game-card-wrapper" data-category="brain">
-                        <div class="premium-card v2-card card-theme-red h-100" onclick="window.location.href='memory.html'">
-                            <div class="card-image-placeholder text-danger">🧠🎴</div>
-                            <div class="card-details"><h4 class="card-title">Synapse Match</h4><span class="card-category">Brain</span></div>
+
+                    <!-- 14. Synapse Match -->
+                    <div class="game-card-wrapper" data-category="brain" data-title="synapse match memory card pair brain">
+                        <div class="v2-card card-theme-red" onclick="window.location.href='memory.html'">
+                            <span class="card-image-placeholder text-danger">🧠🎴</span>
+                            <h4 class="card-title">Synapse Match</h4>
+                            <span class="card-category">Memory Challenge</span>
                         </div>
                     </div>
-                    <div class="col-12 col-sm-6 col-md-4 col-xl-3 game-card-wrapper" data-category="arcade">
-                        <div class="premium-card v2-card card-theme-yellow h-100" onclick="window.location.href='truck.html'">
-                            <div class="card-image-placeholder text-warning">🚚💨</div>
-                            <div class="card-details"><h4 class="card-title">Gold Highway Truck</h4><span class="card-category">Endless Drive</span></div>
+
+                    <!-- 15. Cyber Dino Run -->
+                    <div class="game-card-wrapper" data-category="arcade" data-title="cyber dino run dinosaur obstacle runner">
+                        <div class="v2-card card-theme-green" onclick="window.location.href='dino.html'">
+                            <span class="card-image-placeholder text-success">🦖</span>
+                            <h4 class="card-title">Cyber Dino Run</h4>
+                            <span class="card-category">Survival Runner</span>
                         </div>
                     </div>
-                    <div class="col-12 col-sm-6 col-md-4 col-xl-3 game-card-wrapper" data-category="board">
-                        <div class="premium-card v2-card card-theme-purple h-100" onclick="window.location.href='chess.html'">
-                            <div class="card-image-placeholder text-light">♔♛</div>
-                            <div class="card-details"><h4 class="card-title">Grandmaster's Gambit</h4><span class="card-category">Strategy</span></div>
+
+                    <!-- 16. Aero Burst -->
+                    <div class="game-card-wrapper" data-category="arcade" data-title="aero burst hot air balloon flight survival">
+                        <div class="v2-card card-theme-cyan" onclick="window.location.href='balloon.html'">
+                            <span class="card-image-placeholder text-info">🎈</span>
+                            <h4 class="card-title">Aero Burst</h4>
+                            <span class="card-category">Flight Action</span>
                         </div>
                     </div>
+
+                    <!-- 17. Reflex Protocol -->
+                    <div class="game-card-wrapper" data-category="arcade" data-title="reflex protocol reaction speed tap">
+                        <div class="v2-card card-theme-yellow" onclick="window.location.href='react.html'">
+                            <span class="card-image-placeholder text-warning">⚡</span>
+                            <h4 class="card-title">Reflex Protocol</h4>
+                            <span class="card-category">Reaction Speed</span>
+                        </div>
+                    </div>
+
+                    <!-- 18. Neon Breaker -->
+                    <div class="game-card-wrapper" data-category="arcade" data-title="neon breaker brick breakout paddle ball">
+                        <div class="v2-card card-theme-cyan" onclick="window.location.href='brick.html'">
+                            <span class="card-image-placeholder text-info">🧱🎾</span>
+                            <h4 class="card-title">Neon Breaker</h4>
+                            <span class="card-category">Brick Breaker</span>
+                        </div>
+                    </div>
+
+                    <!-- 19. Astro Void -->
+                    <div class="game-card-wrapper" data-category="arcade" data-title="astro void space shooter spaceship galaxy">
+                        <div class="v2-card card-theme-purple" onclick="window.location.href='space.html'">
+                            <span class="card-image-placeholder text-primary">🚀🌌</span>
+                            <h4 class="card-title">Astro Void</h4>
+                            <span class="card-category">Space Shooter</span>
+                        </div>
+                    </div>
+
+                    <!-- 20. 2048 Matrix -->
+                    <div class="game-card-wrapper" data-category="board" data-title="2048 matrix math grid sliding numbers">
+                        <div class="v2-card card-theme-yellow" onclick="window.location.href='2048.html'">
+                            <span class="card-image-placeholder text-warning">🔢✨</span>
+                            <h4 class="card-title">2048 Matrix</h4>
+                            <span class="card-category">Math Puzzle</span>
+                        </div>
+                    </div>
+
                 </div>
             </section>
 
-            <footer class="mt-5 pt-5 pb-4 text-center text-muted">
-                <p>LuckyKit OS • Play • Compete • Prestige</p>
+            <!-- Footer -->
+            <footer class="mt-4 py-3 text-center text-white-50 border-top border-secondary small">
+                LuckyKit OS • Ultra-Responsive Cyber Arcade • Play, Compete & Prestige
             </footer>
         </main>
     </div>
 
+    <!-- Mobile Bottom Navigation Bar -->
+    <nav class="mobile-bottom-nav">
+        <button class="mobile-nav-btn active" onclick="window.scrollTo({top: 0, behavior: 'smooth'})">
+            <span>🏠</span>
+            <span>Hub</span>
+        </button>
+        <button class="mobile-nav-btn" onclick="document.getElementById('librarySection')?.scrollIntoView({behavior: 'smooth'})">
+            <span>🎲</span>
+            <span>Games</span>
+        </button>
+        <button class="mobile-nav-btn" id="mobileQuestsBtn">
+            <span>🏆</span>
+            <span>Quests</span>
+        </button>
+        <button class="mobile-nav-btn" id="mobileAuthBtn">
+            <span>👤</span>
+            <span>Profile</span>
+        </button>
+    </nav>
+
+    <!-- Bootstrap & Dynamic Filter Scripts -->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
     <script>
         document.addEventListener("DOMContentLoaded", () => {
@@ -289,9 +428,42 @@
                 document.body.classList.remove("page-transitioning");
             }, 300);
 
-            // Tab filtering for games
+            // Instant Live Search & Filter
+            const searchInput = document.getElementById('gameSearchInput');
             const tabButtons = document.querySelectorAll('.tab-btn');
             const gameCards = document.querySelectorAll('.game-card-wrapper');
+            const countText = document.getElementById('gameCountText');
+
+            let currentCategory = 'all';
+
+            function filterGames() {
+                const query = (searchInput?.value || '').toLowerCase().trim();
+                let visibleCount = 0;
+
+                gameCards.forEach(card => {
+                    const category = card.getAttribute('data-category');
+                    const title = (card.getAttribute('data-title') || '').toLowerCase();
+                    const cardText = card.textContent.toLowerCase();
+
+                    const matchesCategory = currentCategory === 'all' || category === currentCategory;
+                    const matchesQuery = query === '' || title.includes(query) || cardText.includes(query);
+
+                    if (matchesCategory && matchesQuery) {
+                        card.style.display = 'block';
+                        visibleCount++;
+                    } else {
+                        card.style.display = 'none';
+                    }
+                });
+
+                if (countText) {
+                    countText.textContent = `Showing ${visibleCount} game${visibleCount === 1 ? '' : 's'}`;
+                }
+            }
+
+            if (searchInput) {
+                searchInput.addEventListener('input', filterGames);
+            }
 
             tabButtons.forEach(btn => {
                 btn.addEventListener('click', () => {
@@ -302,15 +474,23 @@
                     btn.classList.remove('btn-outline-secondary');
                     btn.classList.add('btn-theme', 'active');
 
-                    const filter = btn.getAttribute('data-filter');
-                    gameCards.forEach(card => {
-                        if (filter === 'all' || card.getAttribute('data-category') === filter) {
-                            card.classList.remove('d-none');
-                        } else {
-                            card.classList.add('d-none');
-                        }
-                    });
+                    currentCategory = btn.getAttribute('data-filter');
+                    filterGames();
                 });
+            });
+
+            // Bind mobile quick actions
+            document.getElementById('mobileQuestsBtn')?.addEventListener('click', () => {
+                document.getElementById('achievementsBtn')?.click();
+            });
+            document.getElementById('mobileAuthBtn')?.addEventListener('click', () => {
+                document.getElementById('profileCardBtn')?.click();
+            });
+            document.getElementById('mobileLoginBtn')?.addEventListener('click', () => {
+                document.getElementById('quickLoginBtn')?.click();
+            });
+            document.getElementById('mobileThemeToggleBtn')?.addEventListener('click', () => {
+                document.getElementById('themeToggleBtn')?.click();
             });
         });
     </script>

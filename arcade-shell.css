@@ -667,21 +667,46 @@ body.light-theme,
 }
 
 .light-theme p, .light-theme span, .light-theme h1, .light-theme h2, .light-theme h3, .light-theme h4, .light-theme h5, .light-theme h6,
-[data-theme="light"] p, [data-theme="light"] span, [data-theme="light"] h1, [data-theme="light"] h2, [data-theme="light"] h3, [data-theme="light"] h4, [data-theme="light"] h5, [data-theme="light"] h6 {
-    color: #0f172a !important;
+/* ========================================================
+   GLOBAL USER-FRIENDLY FLOATING BUTTONS & CANVAS ALIGNMENT
+   ======================================================== */
+
+#hubBtn {
+    backdrop-filter: blur(12px) !important;
+    -webkit-backdrop-filter: blur(12px) !important;
+    box-shadow: 0 8px 25px rgba(0, 0, 0, 0.5) !important;
+    transition: all 0.25s cubic-bezier(0.175, 0.885, 0.32, 1.275) !important;
+    font-family: 'Rajdhani', sans-serif !important;
+    letter-spacing: 0.5px;
 }
 
-.light-theme .btn-outline-light,
-[data-theme="light"] .btn-outline-light {
-    color: #0f172a !important;
-    border-color: #94a3b8 !important;
-    background-color: #ffffff !important;
+#hubBtn:hover {
+    transform: translateX(-3px) scale(1.05) !important;
+    box-shadow: 0 12px 30px rgba(239, 68, 68, 0.4) !important;
 }
 
-.light-theme .btn-outline-light:hover,
-[data-theme="light"] .btn-outline-light:hover {
-    background-color: #0f172a !important;
-    color: #ffffff !important;
+/* Centered Game Canvas & Boards */
+canvas {
+    max-width: 100% !important;
+    height: auto !important;
+    border-radius: 16px;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+    margin: 0 auto;
 }
+
+/* User-Friendly Mobile Touch Buttons */
+.touch-action-btn {
+    min-height: 56px !important;
+    font-family: 'Rajdhani', sans-serif !important;
+    letter-spacing: 1px !important;
+    user-select: none !important;
+    -webkit-user-select: none !important;
+    touch-action: manipulation !important;
+    display: inline-flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    gap: 8px !important;
+}
+
 
 
