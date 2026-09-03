@@ -45,14 +45,11 @@
     transform: scale(1.05);
 }
 
-/* Base Body Premium Mesh Background Override */
+/* Base Body Solid Background Override */
 body.arcade-premium-mode {
-    background-color: var(--bg-dark) !important;
-    background-image: 
-        radial-gradient(at 10% 20%, rgba(168, 85, 247, 0.15) 0px, transparent 50%),
-        radial-gradient(at 90% 10%, rgba(6, 182, 212, 0.15) 0px, transparent 50%),
-        radial-gradient(at 50% 80%, rgba(236, 72, 153, 0.12) 0px, transparent 50%) !important;
-    color: #f3f4f6 !important;
+    background-color: #0a0c14 !important;
+    background-image: none !important;
+    color: #f8fafc !important;
     font-family: 'Rajdhani', sans-serif !important;
     min-height: 100vh;
     margin: 0;
@@ -591,8 +588,8 @@ body.arcade-premium-mode {
 
 /* Dark Theme (Default) */
 [data-theme="dark"], body.dark-theme {
-    --bg-dark: #07050d;
-    --bg-card: rgba(18, 14, 32, 0.75);
+    --bg-dark: #0a0c14;
+    --bg-card: #121624;
     --border-glass: rgba(255, 255, 255, 0.08);
     --text-primary: #f8fafc;
     --text-muted: #94a3b8;
@@ -612,10 +609,7 @@ body.arcade-premium-mode {
 body.light-theme,
 [data-theme="light"] body {
     background-color: #f8fafc !important;
-    background-image: 
-        radial-gradient(at 10% 20%, rgba(251, 207, 232, 0.45) 0px, transparent 50%),
-        radial-gradient(at 90% 10%, rgba(186, 230, 253, 0.45) 0px, transparent 50%),
-        radial-gradient(at 50% 80%, rgba(187, 247, 208, 0.35) 0px, transparent 50%) !important;
+    background-image: none !important;
     color: #0f172a !important;
 }
 

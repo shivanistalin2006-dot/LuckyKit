@@ -3,11 +3,11 @@
    ======================================================== */
 
 :root {
-    --bg-dark: #07050b;
-    --bg-card: rgba(18, 14, 32, 0.65);
+    --bg-dark: #0a0c14;
+    --bg-card: #121624;
     --border-glass: rgba(255, 255, 255, 0.08);
-    --text-primary: #f3f4f6;
-    --text-muted: #9ca3af;
+    --text-primary: #f8fafc;
+    --text-muted: #94a3b8;
     
     --neon-purple: #a855f7;
     --neon-cyan: #06b6d4;
@@ -18,12 +18,12 @@
     --neon-yellow: #f59e0b;
     --neon-crimson: #be123c;
     
-    --shadow-purple: 0 0 20px rgba(168, 85, 247, 0.4);
-    --shadow-cyan: 0 0 20px rgba(6, 182, 212, 0.4);
-    --shadow-pink: 0 0 20px rgba(236, 72, 153, 0.4);
-    --shadow-gold: 0 0 20px rgba(234, 179, 8, 0.4);
-    --shadow-green: 0 0 20px rgba(34, 197, 94, 0.4);
-    --shadow-red: 0 0 20px rgba(239, 68, 68, 0.4);
+    --shadow-purple: 0 0 15px rgba(168, 85, 247, 0.3);
+    --shadow-cyan: 0 0 15px rgba(6, 182, 212, 0.3);
+    --shadow-pink: 0 0 15px rgba(236, 72, 153, 0.3);
+    --shadow-gold: 0 0 15px rgba(234, 179, 8, 0.3);
+    --shadow-green: 0 0 15px rgba(34, 197, 94, 0.3);
+    --shadow-red: 0 0 15px rgba(239, 68, 68, 0.3);
 }
 
 /* ========================================================
@@ -43,7 +43,8 @@ html {
 body {
     min-height: 100vh;
     overflow-x: hidden;
-    background-color: var(--bg-dark);
+    background-color: #0a0c14 !important;
+    background-image: none !important;
     color: var(--text-primary);
     display: flex;
     justify-content: center;
@@ -58,67 +59,12 @@ body {
 }
 
 /* ========================================================
-   BACKGROUND EFFECTS (STUNNING AESTHETICS)
+   SOLID BACKGROUND (NO ANIMATED BLOBS)
    ======================================================== */
-.bg-glow {
-    position: fixed;
-    border-radius: 50%;
-    filter: blur(120px);
-    z-index: -2;
-    pointer-events: none;
-    opacity: 0.45;
-}
-
-.bg-glow-1 {
-    width: 500px;
-    height: 500px;
-    background: radial-gradient(circle, rgba(168, 85, 247, 0.3) 0%, transparent 70%);
-    top: -100px;
-    left: -100px;
-    animation: floatGlow 15s infinite alternate ease-in-out;
-}
-
-.bg-glow-2 {
-    width: 600px;
-    height: 600px;
-    background: radial-gradient(circle, rgba(6, 182, 212, 0.25) 0%, transparent 70%);
-    bottom: -150px;
-    right: -100px;
-    animation: floatGlow 18s infinite alternate-reverse ease-in-out;
-}
-
-.bg-glow-3 {
-    width: 400px;
-    height: 400px;
-    background: radial-gradient(circle, rgba(236, 72, 153, 0.2) 0%, transparent 70%);
-    top: 40%;
-    left: 30%;
-    animation: floatGlow 22s infinite alternate ease-in-out;
-}
-
-.stars {
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    background-image: 
-        radial-gradient(1px 1px at 20px 30px, #fff, rgba(0,0,0,0)),
-        radial-gradient(1.5px 1.5px at 150px 80px, #fff, rgba(0,0,0,0)),
-        radial-gradient(1px 1px at 300px 240px, #fff, rgba(0,0,0,0)),
-        radial-gradient(2px 2px at 600px 350px, rgba(255,255,255,0.7), rgba(0,0,0,0)),
-        radial-gradient(1.5px 1.5px at 950px 600px, #fff, rgba(0,0,0,0)),
-        radial-gradient(1px 1px at 1200px 150px, #fff, rgba(0,0,0,0));
-    background-repeat: repeat;
-    background-size: 1400px 800px;
-    opacity: 0.15;
-    z-index: -1;
-    pointer-events: none;
-}
-
-@keyframes floatGlow {
-    0% { transform: translate(0, 0) scale(1); }
-    100% { transform: translate(60px, 40px) scale(1.15); }
+.bg-glow, .bg-glow-1, .bg-glow-2, .bg-glow-3, .stars, .particles-overlay {
+    display: none !important;
+    animation: none !important;
+    opacity: 0 !important;
 }
 
 /* ========================================================

@@ -1,21 +1,15 @@
 /* Escape from Monster - Dynamic Runner Styles */
 
 .escape-body {
-    background-color: #07050d;
-    background-image: 
-        radial-gradient(ellipse at 50% 10%, rgba(220, 38, 38, 0.18) 0%, transparent 60%),
-        radial-gradient(ellipse at 10% 90%, rgba(139, 92, 246, 0.12) 0%, transparent 50%);
+    background-color: #0a0c14 !important;
+    background-image: none !important;
     font-family: 'Rajdhani', 'Outfit', sans-serif;
     min-height: 100vh;
     overflow-x: hidden;
 }
 
 .escape-bg-glow {
-    position: fixed;
-    inset: 0;
-    background: radial-gradient(circle at 20% 50%, rgba(239, 68, 68, 0.08) 0%, transparent 50%);
-    pointer-events: none;
-    z-index: 1;
+    display: none !important;
 }
 
 .escape-panel {
@@ -74,8 +68,6 @@ body.light-theme .escape-panel,
 
 body.light-theme .escape-body,
 [data-theme="light"] .escape-body {
-    background-color: #fdf2f2 !important;
-    background-image: 
-        radial-gradient(at 10% 20%, rgba(254, 202, 202, 0.5) 0px, transparent 50%),
-        radial-gradient(at 90% 80%, rgba(254, 215, 170, 0.4) 0px, transparent 50%) !important;
+    background-color: #f8fafc !important;
+    background-image: none !important;
 }
