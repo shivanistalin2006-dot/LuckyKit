@@ -70,8 +70,12 @@ class StorageManager {
         return this.state;
     }
 
-    updateState(updaterFunction) {
-        updaterFunction(this.state);
+    updateState(updater) {
+        if (typeof updater === 'function') {
+            updater(this.state);
+        } else if (updater && typeof updater === 'object') {
+            Object.assign(this.state, updater);
+        }
         this.saveState();
     }
 

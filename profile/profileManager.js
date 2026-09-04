@@ -27,6 +27,15 @@ class ProfileManager {
         eventBus.emit('UI_UPDATE');
         return true;
     }
+
+    getState() {
+        return storage.getState();
+    }
+
+    updateProfile(name, avatar) {
+        if (name) this.updateName(name);
+        if (avatar) this.equipItem(avatar, 'avatar');
+    }
 }
 
 export const profileManager = new ProfileManager();
