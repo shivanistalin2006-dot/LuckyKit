@@ -54,6 +54,14 @@ const GAME_INSTRUCTIONS = {
         win: "Set a record escape distance and collect gold coins.",
         lose: "The monster catches up with you.",
         tips: "Use Double Jump over wide boulder pits and slide under high lasers!"
+    },
+    "bike": {
+        title: "MotoPark Pro: Bike Parking Master",
+        objective: "Navigate through real environments and park your bike accurately inside the marked yellow slot.",
+        controls: "W/S (Throttle/Brake), A/D (Steering), SPACE (Handbrake), H (Horn), C (Camera), P (Guide Line)",
+        win: "Align motorcycle inside slot, stop completely, and hold still for 1.5s to turn off engine.",
+        lose: "Damage reaches 100% or timer expires.",
+        tips: "Brake early on wet surfaces and use the Handlebar view for realistic precision!"
     }
 };
 

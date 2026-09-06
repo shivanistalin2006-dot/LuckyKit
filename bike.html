@@ -1,0 +1,409 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>LuckyKit - MotoPark Pro: Bike Parking Master</title>
+    
+    <!-- Bootstrap 5 & Styles -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="arcade-shell.css">
+    <link rel="stylesheet" href="bike.css?v=1.0">
+    <link href="https://fonts.googleapis.com/css2?family=Rajdhani:wght@400;600;700;800&family=Outfit:wght@400;600;700;900&display=swap" rel="stylesheet">
+    
+    <!-- App Architecture -->
+    <script type="module" src="core/app.js?v=2.4"></script>
+    <script type="module" src="bike.js?v=1.0" defer></script>
+</head>
+<body class="bg-dark text-white bike-body">
+
+    <!-- Floating HUB Button -->
+    <div class="position-fixed top-0 start-0 p-3" style="z-index: 9999;">
+        <button id="hubBtn" class="btn btn-sm btn-dark border border-warning text-warning fw-bold px-3 py-2 rounded-pill shadow-lg"
+            onclick="window.location.href='index.html'"
+            style="backdrop-filter: blur(10px); background: rgba(18, 16, 24, 0.9) !important;">
+            ⬅ HUB
+        </button>
+    </div>
+
+    <div class="container-fluid py-3 px-lg-4 position-relative" style="z-index: 10;">
+        
+        <!-- Header -->
+        <header class="d-flex justify-content-between align-items-center mb-3 p-3 rounded-4 glass-panel flex-wrap gap-2">
+            <div class="d-flex align-items-center gap-3">
+                <span class="fs-1 text-warning">🏍️🅿️</span>
+                <div>
+                    <h1 class="m-0 fw-bold text-warning title-glow fs-3">MotoPark Pro: Bike Parking Master</h1>
+                    <span class="text-white-50 small">Realistic 2-Wheeler Kinematics • Precision Alignment • Multi-Environment</span>
+                </div>
+            </div>
+            
+            <div class="d-flex gap-2 align-items-center flex-wrap">
+                <button class="btn btn-outline-warning fw-bold px-3" id="garageBtn">
+                    🏬 GARAGE
+                </button>
+                <button class="btn btn-outline-info fw-bold px-3" id="levelSelectBtn">
+                    🗺️ LEVELS (<span id="currentLevelHeader">1/10</span>)
+                </button>
+                <button class="btn btn-warning fw-bold px-4 shadow-btn" id="startBtn">
+                    ▶ START RIDE
+                </button>
+                <button class="btn btn-outline-light fw-bold" id="restartBtn">
+                    🔄 RESTART
+                </button>
+            </div>
+        </header>
+
+        <!-- Main Game Area -->
+        <div class="row g-3 justify-content-center">
+            
+            <!-- Game Canvas & Cockpit Column -->
+            <div class="col-12 col-xl-9 d-flex flex-column align-items-center">
+                <div class="glass-panel p-2 p-md-3 rounded-4 w-100 d-flex flex-column align-items-center position-relative overflow-hidden bike-panel">
+                    
+                    <!-- Top HUD Status Bar -->
+                    <div class="w-100 d-flex justify-content-between align-items-center mb-2 px-2 gap-2 flex-wrap text-nowrap">
+                        <div class="d-flex align-items-center gap-2">
+                            <span class="badge bg-dark border border-warning text-warning fs-6 px-3 py-2">
+                                🏍️ <span id="currentBikeName">Street 150cc</span>
+                            </span>
+                            <span class="badge bg-dark border border-info text-info fs-6 px-3 py-2">
+                                ⏱️ <span id="missionTimer">00:00.0</span>
+                            </span>
+                            <span class="badge bg-dark border border-secondary text-white fs-6 px-3 py-2">
+                                🎯 Level: <span id="levelNumberText">1</span> - <span id="levelTitleText" class="text-white-50">Mall Entrance</span>
+                            </span>
+                        </div>
+
+                        <!-- Damage Bar -->
+                        <div class="d-flex align-items-center gap-2" style="min-width: 180px;">
+                            <span class="small fw-bold text-danger">DAMAGE:</span>
+                            <div class="progress flex-grow-1" style="height: 10px; background: rgba(0,0,0,0.6);">
+                                <div id="damageProgressBar" class="progress-bar bg-success" style="width: 100%;"></div>
+                            </div>
+                            <span id="damageText" class="small fw-bold text-success">0%</span>
+                        </div>
+
+                        <div class="d-flex align-items-center gap-2">
+                            <!-- Camera Toggle -->
+                            <button class="btn btn-sm btn-outline-info rounded-pill px-3 py-1 fw-bold" id="camToggleBtn" title="Switch Camera View (Key: C)">
+                                🎥 <span id="camNameText">Chase Cam</span>
+                            </button>
+                            <!-- Assist Mode Toggle -->
+                            <button class="btn btn-sm btn-outline-warning rounded-pill px-3 py-1 fw-bold" id="assistToggleBtn" title="Toggle Parking Guide Path (Key: P)">
+                                🧭 Guide: <span id="assistText">ON</span>
+                            </button>
+                        </div>
+                    </div>
+
+                    <!-- Canvas Wrapper -->
+                    <div class="canvas-wrapper position-relative w-100 rounded-3 overflow-hidden shadow-lg" style="max-width: 1000px; aspect-ratio: 16/9; background: #11131c;">
+                        <canvas id="bikeCanvas" width="960" height="540" class="w-100 h-100 d-block"></canvas>
+
+                        <!-- In-Game Cockpit Dashboard Gauges Overlay -->
+                        <div class="position-absolute bottom-0 start-0 p-3 d-flex align-items-end gap-3 pointer-events-none" style="z-index: 5;">
+                            <!-- Speedometer Cluster -->
+                            <div class="gauge-cluster p-2 rounded-4 text-center">
+                                <div class="speed-value fw-black text-warning" id="hudSpeed">0</div>
+                                <div class="speed-unit text-white-50 small">KM/H</div>
+                                <div class="gear-indicator fw-bold text-info" id="hudGear">N</div>
+                            </div>
+                            
+                            <!-- Real-time Parking Zone Alignment Status Indicator -->
+                            <div class="parking-status-card p-2 px-3 rounded-4" id="parkingStatusCard">
+                                <div class="d-flex align-items-center gap-2">
+                                    <span class="fs-4" id="parkingIcon">🅿️</span>
+                                    <div>
+                                        <div class="fw-bold text-white small" id="parkingStatusTitle">APPROACH SLOT</div>
+                                        <div class="text-white-50 very-small" id="parkingStatusSubtitle">Align inside yellow box</div>
+                                    </div>
+                                </div>
+                                <div class="d-flex gap-2 mt-1 very-small justify-content-between">
+                                    <span>Fit: <strong id="alignFitText" class="text-warning">0%</strong></span>
+                                    <span>Angle: <strong id="alignAngleText" class="text-warning">0°</strong></span>
+                                    <span>Hold: <strong id="alignHoldText" class="text-info">0.0s</strong></span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Weather / Location Badge Overlay -->
+                        <div class="position-absolute top-0 end-0 p-3 d-flex gap-2 pointer-events-none" style="z-index: 5;">
+                            <span class="badge bg-dark border border-secondary text-white-50 p-2" id="envBadge">☀️ Dry Asphalt</span>
+                            <span class="badge bg-dark border border-secondary text-white-50 p-2" id="timeBadge">Day 12:00</span>
+                        </div>
+
+                        <!-- Mission Completion / Failure Modal Overlay -->
+                        <div class="position-absolute top-50 start-50 translate-middle text-center w-100 h-100 d-none flex-column justify-content-center align-items-center game-overlay" id="resultOverlay" style="z-index: 25; background: rgba(10, 12, 20, 0.95); backdrop-filter: blur(12px);">
+                            <span class="display-2 mb-1" id="resultEmoji">🅿️✨</span>
+                            <h1 class="fw-black fs-1 mb-1 text-warning title-glow" id="resultTitle">PERFECT PARKING!</h1>
+                            <div class="fs-4 text-warning mb-2" id="resultStars">⭐⭐⭐⭐⭐</div>
+                            <p class="text-white-50 mb-3" id="resultMessage">Engine stopped cleanly with precision alignment!</p>
+                            
+                            <div class="d-flex gap-3 mb-4 flex-wrap justify-content-center">
+                                <div class="p-2 px-4 rounded-3 bg-dark border border-warning">
+                                    <span class="text-white-50 small d-block">Parking Accuracy</span>
+                                    <strong class="text-warning fs-4" id="scoreAccuracy">98%</strong>
+                                </div>
+                                <div class="p-2 px-4 rounded-3 bg-dark border border-info">
+                                    <span class="text-white-50 small d-block">Time Elapsed</span>
+                                    <strong class="text-info fs-4" id="scoreTime">18.4s</strong>
+                                </div>
+                                <div class="p-2 px-4 rounded-3 bg-dark border border-danger">
+                                    <span class="text-white-50 small d-block">Total Damage</span>
+                                    <strong class="text-danger fs-4" id="scoreDamage">0%</strong>
+                                </div>
+                                <div class="p-2 px-4 rounded-3 bg-dark border border-success">
+                                    <span class="text-white-50 small d-block">Reward</span>
+                                    <strong class="text-success fs-4" id="scoreCoins">+150 🪙</strong>
+                                </div>
+                            </div>
+
+                            <div class="d-flex gap-3">
+                                <button class="btn btn-outline-light btn-lg px-4 py-3 rounded-pill fw-bold" id="retryBtn">
+                                    🔄 RETRY
+                                </button>
+                                <button class="btn btn-warning btn-lg px-5 py-3 rounded-pill fw-bold shadow-lg shadow-btn" id="nextLevelBtn">
+                                    NEXT LEVEL ➡️
+                                </button>
+                            </div>
+                        </div>
+
+                    </div>
+
+                    <!-- Mobile Touch Controls Layout -->
+                    <div class="mobile-controls-wrapper w-100 mt-3 d-lg-none px-2" style="max-width: 800px;">
+                        <div class="d-flex justify-content-between align-items-center">
+                            <!-- Left Steering Buttons / D-Pad -->
+                            <div class="d-flex gap-2">
+                                <button class="btn btn-dark border border-secondary text-white fs-3 touch-btn" id="btnSteerLeft" style="width: 70px; height: 70px;">
+                                    ◀️
+                                </button>
+                                <button class="btn btn-dark border border-secondary text-white fs-3 touch-btn" id="btnSteerRight" style="width: 70px; height: 70px;">
+                                    ▶️
+                                </button>
+                            </div>
+
+                            <!-- Center Actions (Horn, Handbrake, Camera) -->
+                            <div class="d-flex gap-2">
+                                <button class="btn btn-outline-warning rounded-circle touch-btn" id="btnHorn" style="width: 50px; height: 50px;">
+                                    📯
+                                </button>
+                                <button class="btn btn-outline-danger rounded-circle touch-btn" id="btnHandbrake" style="width: 50px; height: 50px;">
+                                    🛑
+                                </button>
+                                <button class="btn btn-outline-info rounded-circle touch-btn" id="btnMobileCam" style="width: 50px; height: 50px;">
+                                    🎥
+                                </button>
+                            </div>
+
+                            <!-- Right Throttle & Brake Pedals -->
+                            <div class="d-flex gap-2">
+                                <button class="btn btn-danger fs-4 fw-bold touch-btn" id="btnBrake" style="width: 75px; height: 70px;">
+                                    BRAKE
+                                </button>
+                                <button class="btn btn-success fs-4 fw-bold touch-btn" id="btnThrottle" style="width: 75px; height: 70px;">
+                                    GAS
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+
+            <!-- Controls & Missions Sidebar Column -->
+            <div class="col-12 col-xl-3">
+                <div class="glass-panel p-3 rounded-4 h-100 d-flex flex-column gap-3 bike-panel">
+                    
+                    <h4 class="text-warning fw-bold border-bottom border-secondary pb-2 mb-0">Rider's Dashboard</h4>
+                    
+                    <!-- Current Mission Card -->
+                    <div class="p-3 rounded-3 mission-card">
+                        <div class="d-flex justify-content-between align-items-center mb-1">
+                            <span class="badge bg-warning text-dark fw-bold" id="sidebarLevelBadge">LEVEL 1</span>
+                            <span class="text-white-50 very-small" id="sidebarModeBadge">CAREER</span>
+                        </div>
+                        <h6 class="fw-bold text-white mb-1" id="sidebarMissionTitle">Residential Bay Parking</h6>
+                        <p class="small text-white-50 mb-2" id="sidebarMissionDesc">Drive through the neighborhood, avoid parked sedans, and park inside the marked bay.</p>
+                        
+                        <div class="d-flex flex-column gap-1 very-small text-white-50 border-top border-secondary pt-2">
+                            <div class="d-flex justify-content-between">
+                                <span>Target Accuracy:</span>
+                                <strong class="text-warning">&gt; 85%</strong>
+                            </div>
+                            <div class="d-flex justify-content-between">
+                                <span>Max Collisions:</span>
+                                <strong class="text-danger">&lt; 30% Damage</strong>
+                            </div>
+                            <div class="d-flex justify-content-between">
+                                <span>Time Limit:</span>
+                                <strong class="text-info" id="sidebarTimeLimit">60s</strong>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Keyboard Controls Guide -->
+                    <div class="p-3 rounded-3" style="background: rgba(255,255,255,0.03); border: 1px solid rgba(255,255,255,0.06);">
+                        <h6 class="text-warning fw-bold mb-2">🎮 Desktop Keybinds:</h6>
+                        <div class="d-flex flex-column gap-2 very-small text-white-50">
+                            <div class="d-flex justify-content-between align-items-center">
+                                <span>Accelerate / Reverse</span>
+                                <span class="badge bg-dark text-white border border-secondary p-1"><kbd>W</kbd> / <kbd>S</kbd> or <kbd>▲</kbd> / <kbd>▼</kbd></span>
+                            </div>
+                            <div class="d-flex justify-content-between align-items-center">
+                                <span>Steer Handlebar</span>
+                                <span class="badge bg-dark text-white border border-secondary p-1"><kbd>A</kbd> / <kbd>D</kbd> or <kbd>◀</kbd> / <kbd>▶</kbd></span>
+                            </div>
+                            <div class="d-flex justify-content-between align-items-center">
+                                <span>Handbrake (Skid)</span>
+                                <span class="badge bg-dark text-white border border-secondary p-1"><kbd>SPACE</kbd></span>
+                            </div>
+                            <div class="d-flex justify-content-between align-items-center">
+                                <span>Horn / Camera</span>
+                                <span class="badge bg-dark text-white border border-secondary p-1"><kbd>H</kbd> / <kbd>C</kbd></span>
+                            </div>
+                            <div class="d-flex justify-content-between align-items-center">
+                                <span>Parking Guide Line</span>
+                                <span class="badge bg-dark text-white border border-secondary p-1"><kbd>P</kbd></span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Garage Quick Stats -->
+                    <div class="p-3 rounded-3" style="background: rgba(255,255,255,0.03); border: 1px solid rgba(255,255,255,0.06);">
+                        <div class="d-flex justify-content-between align-items-center mb-2">
+                            <h6 class="text-info fw-bold m-0">🏍️ Selected Bike:</h6>
+                            <button class="btn btn-sm btn-outline-warning py-0 px-2" id="sidebarGarageBtn">Modify</button>
+                        </div>
+                        <div class="d-flex flex-column gap-2 very-small text-white-50">
+                            <div class="d-flex justify-content-between">
+                                <span>Top Speed:</span>
+                                <span class="text-white" id="statSpeed">85 km/h</span>
+                            </div>
+                            <div class="d-flex justify-content-between">
+                                <span>Handling / Turn:</span>
+                                <span class="text-white" id="statHandling">High</span>
+                            </div>
+                            <div class="d-flex justify-content-between">
+                                <span>Braking Power:</span>
+                                <span class="text-white" id="statBrake">Superior</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="mt-auto pt-2">
+                        <button class="btn btn-warning w-100 py-3 rounded-3 fw-bold fs-5 shadow-btn" id="sidebarStartBtn">
+                            START PARKING 🏍️
+                        </button>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+    <!-- ========================================================
+         GARAGE MODAL (Bikes, Colors, Upgrades)
+         ======================================================== -->
+    <div class="modal fade" id="garageModal" tabindex="-1" aria-hidden="true">
+        <div class="modal-dialog modal-xl modal-dialog-centered">
+            <div class="modal-content text-white garage-modal-content">
+                <div class="modal-header border-secondary">
+                    <h4 class="modal-title fw-bold text-warning">🏬 MotoPark Garage & Tuning</h4>
+                    <div class="d-flex align-items-center gap-3">
+                        <span class="fs-5 fw-bold text-warning">🪙 <span id="garageCoins">0</span></span>
+                        <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                </div>
+                <div class="modal-body p-4">
+                    <div class="row g-4">
+                        <!-- Bike Selection Grid -->
+                        <div class="col-12 col-lg-7">
+                            <h5 class="fw-bold text-white mb-3">Select Your Motorcycle</h5>
+                            <div class="row g-3" id="garageBikesGrid">
+                                <!-- Rendered dynamically by JS -->
+                            </div>
+                        </div>
+
+                        <!-- Bike Customizer & Upgrades -->
+                        <div class="col-12 col-lg-5">
+                            <div class="p-3 rounded-4" style="background: rgba(0,0,0,0.4); border: 1px solid rgba(255,255,255,0.08);">
+                                <h5 class="fw-bold text-warning mb-2" id="customizerBikeTitle">Street 150cc</h5>
+                                <div class="text-white-50 small mb-3" id="customizerBikeDesc">Balanced daily commuter with nimble steering.</div>
+
+                                <!-- Paint Color Selector -->
+                                <h6 class="fw-bold text-white mb-2">🎨 Paint Color</h6>
+                                <div class="d-flex gap-2 mb-4" id="colorPickerRow">
+                                    <button class="color-dot active" style="background: #ef4444;" data-color="#ef4444"></button>
+                                    <button class="color-dot" style="background: #06b6d4;" data-color="#06b6d4"></button>
+                                    <button class="color-dot" style="background: #eab308;" data-color="#eab308"></button>
+                                    <button class="color-dot" style="background: #22c55e;" data-color="#22c55e"></button>
+                                    <button class="color-dot" style="background: #a855f7;" data-color="#a855f7"></button>
+                                    <button class="color-dot" style="background: #18181b;" data-color="#18181b"></button>
+                                </div>
+
+                                <!-- Upgrades -->
+                                <h6 class="fw-bold text-white mb-2">⚡ Performance Tuning</h6>
+                                <div class="d-flex flex-column gap-3 mb-4">
+                                    <div class="d-flex justify-content-between align-items-center">
+                                        <div>
+                                            <div class="small fw-bold">Engine Power</div>
+                                            <div class="very-small text-white-50">Quicker acceleration</div>
+                                        </div>
+                                        <button class="btn btn-sm btn-outline-warning px-3 upgrade-btn" data-upgrade="engine">
+                                            LVL <span id="lvlEngine">1</span> (150 🪙)
+                                        </button>
+                                    </div>
+                                    <div class="d-flex justify-content-between align-items-center">
+                                        <div>
+                                            <div class="small fw-bold">Disc Brakes</div>
+                                            <div class="very-small text-white-50">Shorter stopping distance</div>
+                                        </div>
+                                        <button class="btn btn-sm btn-outline-info px-3 upgrade-btn" data-upgrade="brakes">
+                                            LVL <span id="lvlBrakes">1</span> (150 🪙)
+                                        </button>
+                                    </div>
+                                    <div class="d-flex justify-content-between align-items-center">
+                                        <div>
+                                            <div class="small fw-bold">Grip Tyres</div>
+                                            <div class="very-small text-white-50">Better wet surface traction</div>
+                                        </div>
+                                        <button class="btn btn-sm btn-outline-success px-3 upgrade-btn" data-upgrade="tyres">
+                                            LVL <span id="lvlTyres">1</span> (150 🪙)
+                                        </button>
+                                    </div>
+                                </div>
+
+                                <button class="btn btn-warning w-100 py-2 rounded-pill fw-bold" data-bs-dismiss="modal">
+                                    EQUIP & RIDE 🏍️
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- ========================================================
+         LEVEL SELECTOR MODAL (10 Handcrafted Missions)
+         ======================================================== -->
+    <div class="modal fade" id="levelModal" tabindex="-1" aria-hidden="true">
+        <div class="modal-dialog modal-lg modal-dialog-centered">
+            <div class="modal-content text-white garage-modal-content">
+                <div class="modal-header border-secondary">
+                    <h4 class="modal-title fw-bold text-info">🗺️ Select Parking Mission</h4>
+                    <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body p-4">
+                    <div class="row g-3" id="levelGridContainer">
+                        <!-- Injected by JS -->
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+</body>
+</html>

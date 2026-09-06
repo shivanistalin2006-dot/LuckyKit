@@ -151,6 +151,13 @@
                     <section class="glass-panel-v2 h-100 p-4 rounded-4 position-relative overflow-hidden">
                         <h4 class="text-white fw-bold mb-3">🔥 Continue Journey</h4>
                         <div class="scrolling-wrapper v2-scroller" id="continuePlayingRow">
+                            <div class="premium-card v2-card card-theme-yellow" onclick="window.location.href='bike.html'">
+                                <div class="card-image-placeholder text-warning">🏍️🅿️</div>
+                                <div class="card-details">
+                                    <h4 class="card-title">MotoPark Pro</h4>
+                                    <span class="card-category">Bike Parking</span>
+                                </div>
+                            </div>
                             <div class="premium-card v2-card card-theme-red" onclick="window.location.href='escape.html'">
                                 <div class="card-image-placeholder text-danger">👹🏃</div>
                                 <div class="card-details">
@@ -196,12 +203,12 @@
                 <div class="d-flex flex-wrap justify-content-between align-items-center mb-4 gap-3">
                     <div>
                         <h3 class="fw-bold mb-0 text-white">The Arcade Core</h3>
-                        <span class="text-white-50 small" id="gameCountText">Showing 20 games</span>
+                        <span class="text-white-50 small" id="gameCountText">Showing 21 games</span>
                     </div>
                     
                     <div class="category-tabs-v2">
-                        <button class="btn btn-sm btn-theme active tab-btn" data-filter="all">All (20)</button>
-                        <button class="btn btn-sm btn-outline-secondary tab-btn" data-filter="arcade">🕹️ Arcade (9)</button>
+                        <button class="btn btn-sm btn-theme active tab-btn" data-filter="all">All (21)</button>
+                        <button class="btn btn-sm btn-outline-secondary tab-btn" data-filter="arcade">🕹️ Arcade (10)</button>
                         <button class="btn btn-sm btn-outline-secondary tab-btn" data-filter="brain">🧠 Brain & Puzzle (5)</button>
                         <button class="btn btn-sm btn-outline-secondary tab-btn" data-filter="board">🎲 Board & Cards (6)</button>
                     </div>
@@ -210,7 +217,16 @@
                 <!-- Aligned Games Grid -->
                 <div class="games-grid" id="gamesGrid">
                     
-                    <!-- 1. Escape from Monster -->
+                    <!-- 1. MotoPark Pro: Bike Parking Master -->
+                    <div class="game-card-wrapper" data-category="arcade" data-title="motopark pro bike parking master motorcycle simulator ride driving">
+                        <div class="v2-card card-theme-yellow" onclick="window.location.href='bike.html'">
+                            <span class="card-image-placeholder text-warning">🏍️🅿️</span>
+                            <h4 class="card-title">MotoPark Pro</h4>
+                            <span class="card-category">Bike Parking Master</span>
+                        </div>
+                    </div>
+
+                    <!-- 2. Escape from Monster -->
                     <div class="game-card-wrapper" data-category="arcade" data-title="escape from monster runner action">
                         <div class="v2-card card-theme-red" onclick="window.location.href='escape.html'">
                             <span class="card-image-placeholder text-danger">👹🏃</span>
