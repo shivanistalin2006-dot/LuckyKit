@@ -1,11 +1,11 @@
 const GAME_INSTRUCTIONS = {
     "snake": {
-        title: "Neon Serpent",
-        objective: "Eat glowing food to grow your serpent and score points.",
-        controls: "Swipe (Mobile) or Arrow Keys (Desktop)",
-        win: "Get the highest score possible without crashing.",
-        lose: "Crashing into walls or your own tail.",
-        tips: "Plan your path ahead. Don't trap yourself!"
+        title: "Nokia 3310 Classic Snake",
+        objective: "Eat pixel apples to grow your snake and score points on the monochrome LCD grid.",
+        controls: "Arrow Keys, D-Pad, or Numpad 2/4/6/8 (Up/Left/Right/Down), 5/Enter (Select)",
+        win: "Set a new high score on the classic leaderboard.",
+        lose: "Crashing into the outer boundary wall or your own body.",
+        tips: "Classic Snake speeds up progressively. Plan your turns before the next grid tick!"
     },
     "ludo": {
         title: "Cosmic Race (Ludo)",

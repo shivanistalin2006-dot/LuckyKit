@@ -1,402 +1,800 @@
 import { BaseGame } from './core/BaseGame.js?v=2.5';
 import { gameManager } from './core/gameManager.js';
-import { audioManager } from './audio/audioManager.js';
-import { animationManager } from './animation/animationManager.js';
 import { storage } from './core/storage.js';
 
-class ClassicSnakeGame extends BaseGame {
+// ========================================================
+// NOKIA 3310 AUDIO SYNTHESIZER (WEB AUDIO API)
+// ========================================================
+class NokiaAudio {
+    constructor() {
+        this.ctx = null;
+        this.muted = localStorage.getItem('luckykit_snake_muted') === 'true';
+    }
+
+    init() {
+        if (!this.ctx) {
+            const AudioCtx = window.AudioContext || window.webkitAudioContext;
+            if (AudioCtx) this.ctx = new AudioCtx();
+        }
+        if (this.ctx && this.ctx.state === 'suspended') {
+            this.ctx.resume();
+        }
+    }
+
+    playTone(freq, type = 'square', duration = 0.04, vol = 0.15) {
+        if (this.muted) return;
+        this.init();
+        if (!this.ctx) return;
+
+        try {
+            const osc = this.ctx.createOscillator();
+            const gain = this.ctx.createGain();
+
+            osc.type = type;
+            osc.frequency.setValueAtTime(freq, this.ctx.currentTime);
+
+            gain.gain.setValueAtTime(vol, this.ctx.currentTime);
+            gain.gain.exponentialRampToValueAtTime(0.001, this.ctx.currentTime + duration);
+
+            osc.connect(gain);
+            gain.connect(this.ctx.destination);
+
+            osc.start();
+            osc.stop(this.ctx.currentTime + duration);
+        } catch (e) {
+            // Audio context failed or blocked
+        }
+    }
+
+    buttonBeep() { this.playTone(1200, 'square', 0.03, 0.12); }
+    menuBeep() { this.playTone(880, 'square', 0.04, 0.15); }
+    selectBeep() { this.playTone(1046, 'square', 0.06, 0.18); }
+    eatBeep() { this.playTone(1318, 'square', 0.06, 0.22); }
+    countBeep(high = false) { this.playTone(high ? 1318 : 659, 'square', 0.08, 0.2); }
+    gameOverBeep() {
+        this.playTone(587, 'square', 0.08, 0.2);
+        setTimeout(() => this.playTone(493, 'square', 0.08, 0.2), 90);
+        setTimeout(() => this.playTone(392, 'square', 0.08, 0.2), 180);
+        setTimeout(() => this.playTone(293, 'square', 0.25, 0.25), 270);
+    }
+
+    toggleMute() {
+        this.muted = !this.muted;
+        localStorage.setItem('luckykit_snake_muted', this.muted.toString());
+        return this.muted;
+    }
+}
+
+// ========================================================
+// NOKIA 3310 SNAKE GAME & OS ENGINE
+// ========================================================
+const GRID_WIDTH = 30;
+const GRID_HEIGHT = 18;
+const CELL_SIZE = 8; // 30*8 = 240px, 18*8 = 144px
+
+// UI States
+const STATES = {
+    HOME: 'HOME',
+    MAIN_MENU: 'MAIN_MENU',
+    GAMES_MENU: 'GAMES_MENU',
+    SNAKE_MENU: 'SNAKE_MENU',
+    COUNTDOWN: 'COUNTDOWN',
+    PLAYING: 'PLAYING',
+    PAUSED: 'PAUSED',
+    GAME_OVER: 'GAME_OVER',
+    HIGH_SCORES: 'HIGH_SCORES',
+    SETTINGS: 'SETTINGS'
+};
+
+class NokiaSnakeGame extends BaseGame {
     constructor() {
         super("snake");
-        
-        this.canvas = document.getElementById("gameBoard");
+
+        this.canvas = document.getElementById("nokiaLcdCanvas");
         this.ctx = this.canvas.getContext("2d");
-        
-        this.scoreEl = document.getElementById("score");
-        this.highScoreEl = document.getElementById("highScore");
-        this.speedDisplay = document.getElementById("speedDisplay");
-        this.statusText = document.getElementById("statusText");
-        this.gameOverOverlay = document.getElementById("gameOverOverlay");
-        this.finalScoreMsg = document.getElementById("finalScoreMsg");
-        
-        this.gridCount = 20; // 20x20 grid
-        this.cellSize = 25;  // 25px per cell => 500x500 canvas
-        
-        this.highScore = storage.get("highScore_snake", 0);
-        if (this.highScoreEl) this.highScoreEl.innerText = this.highScore;
-        
+        this.ctx.imageSmoothingEnabled = false;
+
+        this.audio = new NokiaAudio();
+        this.uiState = STATES.SNAKE_MENU; // Default directly to Snake Menu for immediate play
+        this.menuCursor = 0;
+
+        // Soft Keys Labels
+        this.lcdSoftLeft = document.getElementById("lcdSoftLeft");
+        this.lcdSoftRight = document.getElementById("lcdSoftRight");
+        this.lcdClock = document.getElementById("lcdClock");
+        this.soundStatusText = document.getElementById("soundStatusText");
+        this.sidebarBestScore = document.getElementById("sidebarBestScore");
+
+        // High Scores from localStorage
+        this.highScores = JSON.parse(localStorage.getItem('luckykit_snake_highscores') || '[520, 410, 280, 190, 120]');
+        this.highScore = this.highScores[0] || 0;
+        this.updateSidebarScore();
+
+        // Snake Engine State
+        this.snake = [];
+        this.direction = 'RIGHT';
+        this.nextDirection = 'RIGHT';
+        this.food = { x: 10, y: 5 };
+        this.score = 0;
+        this.foodEaten = 0;
+        this.speedInterval = 180;
+        this.countdownNumber = 3;
+        this.countdownTimer = null;
+        this.lastTick = 0;
+
+        this.updateClock();
+        setInterval(() => this.updateClock(), 30000);
+
         this.bindEvents();
-        this.resetGame();
-        
+        this.render();
+
         gameManager.registerGame(this);
+    }
+
+    updateClock() {
+        const d = new Date();
+        const hrs = String(d.getHours()).padStart(2, '0');
+        const mins = String(d.getMinutes()).padStart(2, '0');
+        if (this.lcdClock) this.lcdClock.textContent = `${hrs}:${mins}`;
+    }
+
+    updateSidebarScore() {
+        if (this.sidebarBestScore) {
+            this.sidebarBestScore.textContent = `${this.highScore} pts`;
+        }
+    }
+
+    getSpeedInterval(foodCount) {
+        if (foodCount >= 40) return 105;
+        if (foodCount >= 30) return 120;
+        if (foodCount >= 20) return 135;
+        if (foodCount >= 10) return 150;
+        if (foodCount >= 5) return 165;
+        return 180;
+    }
+
+    onStart() {
+        this.startCountdown();
+    }
+
+    startCountdown() {
+        this.uiState = STATES.COUNTDOWN;
+        this.countdownNumber = 3;
+        this.updateSoftKeys();
+        this.render();
+        this.audio.countBeep(false);
+
+        if (this.countdownTimer) clearInterval(this.countdownTimer);
+        this.countdownTimer = setInterval(() => {
+            this.countdownNumber--;
+            if (this.countdownNumber > 0) {
+                this.audio.countBeep(false);
+                this.render();
+            } else if (this.countdownNumber === 0) {
+                this.audio.countBeep(true);
+                this.render();
+            } else {
+                clearInterval(this.countdownTimer);
+                this.initNewSnakeGame();
+            }
+        }, 600);
+    }
+
+    initNewSnakeGame() {
+        this.uiState = STATES.PLAYING;
+        this.isRunning = true;
+        this.isPaused = false;
+
+        // Initial 3-segment snake moving RIGHT
+        this.snake = [
+            { x: 12, y: 9 },
+            { x: 11, y: 9 },
+            { x: 10, y: 9 }
+        ];
+        this.direction = 'RIGHT';
+        this.nextDirection = 'RIGHT';
+        this.score = 0;
+        this.foodEaten = 0;
+        this.speedInterval = this.getSpeedInterval(0);
+        this.spawnFood();
+
+        this.updateSoftKeys();
+        this.lastTick = performance.now();
+        if (this.loopId) cancelAnimationFrame(this.loopId);
+        this.loopId = requestAnimationFrame((t) => this.gameLoop(t));
+    }
+
+    spawnFood() {
+        let valid = false;
+        let attempts = 0;
+        while (!valid && attempts < 200) {
+            attempts++;
+            const fx = Math.floor(Math.random() * (GRID_WIDTH - 2)) + 1;
+            const fy = Math.floor(Math.random() * (GRID_HEIGHT - 2)) + 1;
+            const onSnake = this.snake.some(seg => seg.x === fx && seg.y === fy);
+            if (!onSnake) {
+                this.food = { x: fx, y: fy };
+                valid = true;
+            }
+        }
     }
 
     bindEvents() {
         // Desktop Keyboard Controls
         window.addEventListener("keydown", (e) => {
-            if (["ArrowLeft", "ArrowRight", "ArrowUp", "ArrowDown", "Space", "KeyW", "KeyA", "KeyS", "KeyD"].includes(e.code)) {
+            const key = e.key;
+            const code = e.code;
+
+            if (["ArrowUp", "ArrowDown", "ArrowLeft", "ArrowRight", "Space", "Enter", "Escape", "Backspace"].includes(code)) {
                 e.preventDefault();
             }
-            
-            if (e.code === "Space") {
-                if (!this.isRunning) {
-                    this.start();
-                } else {
+
+            // Animate on-screen button press
+            this.triggerKeyVisual(code);
+
+            // Audio & Direction Handler
+            if (this.uiState === STATES.PLAYING) {
+                if ((code === "ArrowUp" || key === "2" || code === "KeyW") && this.direction !== "DOWN") {
+                    this.nextDirection = "UP";
+                } else if ((code === "ArrowDown" || key === "8" || code === "KeyS") && this.direction !== "UP") {
+                    this.nextDirection = "DOWN";
+                } else if ((code === "ArrowLeft" || key === "4" || code === "KeyA") && this.direction !== "RIGHT") {
+                    this.nextDirection = "LEFT";
+                } else if ((code === "ArrowRight" || key === "6" || code === "KeyD") && this.direction !== "LEFT") {
+                    this.nextDirection = "RIGHT";
+                } else if (code === "Space" || code === "Enter" || code === "Escape") {
                     this.togglePause();
                 }
                 return;
             }
-            
-            if (!this.isRunning || this.isPaused) return;
-            
-            if ((e.code === "ArrowLeft" || e.code === "KeyA") && this.direction !== "RIGHT") {
-                this.nextDirection = "LEFT";
-            } else if ((e.code === "ArrowRight" || e.code === "KeyD") && this.direction !== "LEFT") {
-                this.nextDirection = "RIGHT";
-            } else if ((e.code === "ArrowUp" || e.code === "KeyW") && this.direction !== "DOWN") {
-                this.nextDirection = "UP";
-            } else if ((e.code === "ArrowDown" || e.code === "KeyS") && this.direction !== "UP") {
-                this.nextDirection = "DOWN";
+
+            // Menu Navigation for other UI States
+            if (code === "ArrowUp" || key === "2" || code === "KeyW") {
+                this.handleMenuNav(-1);
+            } else if (code === "ArrowDown" || key === "8" || code === "KeyS") {
+                this.handleMenuNav(1);
+            } else if (code === "Enter" || code === "Space" || key === "5") {
+                this.handleMenuSelect();
+            } else if (code === "Escape" || code === "Backspace") {
+                this.handleMenuBack();
             }
         });
 
-        // Touch Swipe Controls
-        let touchStartX = 0;
-        let touchStartY = 0;
-        this.canvas.addEventListener('touchstart', (e) => {
-            touchStartX = e.changedTouches[0].clientX;
-            touchStartY = e.changedTouches[0].clientY;
-        }, { passive: true });
+        // Keypad Button Clicks
+        const bindBtn = (id, action) => {
+            const btn = document.getElementById(id);
+            if (!btn) return;
+            btn.addEventListener("click", (e) => {
+                e.preventDefault();
+                this.audio.buttonBeep();
+                action();
+            });
+        };
 
-        this.canvas.addEventListener('touchend', (e) => {
-            if (!this.isRunning || this.isPaused) return;
-            const dx = e.changedTouches[0].clientX - touchStartX;
-            const dy = e.changedTouches[0].clientY - touchStartY;
-            
-            if (Math.abs(dx) > Math.abs(dy) && Math.abs(dx) > 20) {
-                if (dx > 0 && this.direction !== "LEFT") this.nextDirection = "RIGHT";
-                else if (dx < 0 && this.direction !== "RIGHT") this.nextDirection = "LEFT";
-            } else if (Math.abs(dy) > 20) {
-                if (dy > 0 && this.direction !== "UP") this.nextDirection = "DOWN";
-                else if (dy < 0 && this.direction !== "DOWN") this.nextDirection = "UP";
-            }
-        }, { passive: true });
+        // D-Pad
+        bindBtn("btnNavUp", () => this.handleDirectionInput("UP"));
+        bindBtn("btnNavDown", () => this.handleDirectionInput("DOWN"));
+        bindBtn("btnNavLeft", () => this.handleDirectionInput("LEFT"));
+        bindBtn("btnNavRight", () => this.handleDirectionInput("RIGHT"));
+        bindBtn("btnNavCenter", () => this.handleMenuSelect());
 
-        // Mobile D-Pad Buttons
-        document.getElementById('dpadUp')?.addEventListener('click', () => {
-            if (this.isRunning && !this.isPaused && this.direction !== "DOWN") this.nextDirection = "UP";
-        });
-        document.getElementById('dpadDown')?.addEventListener('click', () => {
-            if (this.isRunning && !this.isPaused && this.direction !== "UP") this.nextDirection = "DOWN";
-        });
-        document.getElementById('dpadLeft')?.addEventListener('click', () => {
-            if (this.isRunning && !this.isPaused && this.direction !== "RIGHT") this.nextDirection = "LEFT";
-        });
-        document.getElementById('dpadRight')?.addEventListener('click', () => {
-            if (this.isRunning && !this.isPaused && this.direction !== "LEFT") this.nextDirection = "RIGHT";
+        // Soft Keys
+        bindBtn("btnSoftLeft", () => this.handleMenuSelect());
+        bindBtn("btnSoftRight", () => this.handleMenuBack());
+        bindBtn("btnCall", () => this.handleMenuSelect());
+        bindBtn("btnEnd", () => this.handleMenuBack());
+
+        // Numeric Keypad
+        for (let i = 0; i <= 9; i++) {
+            bindBtn(`key${i}`, () => this.handleNumKey(i.toString()));
+        }
+        bindBtn("keyStar", () => this.handleNumKey("*"));
+        bindBtn("keyHash", () => this.handleNumKey("#"));
+
+        // Header Buttons
+        document.getElementById("startBtn")?.addEventListener("click", () => this.startCountdown());
+        document.getElementById("restartBtn")?.addEventListener("click", () => this.resetPhone());
+        document.getElementById("sidebarPlayBtn")?.addEventListener("click", () => this.startCountdown());
+        document.getElementById("sidebarHighScoresBtn")?.addEventListener("click", () => {
+            this.uiState = STATES.HIGH_SCORES;
+            this.updateSoftKeys();
+            this.render();
         });
 
-        // UI Buttons
-        document.getElementById("startBtn")?.addEventListener("click", () => this.start());
-        document.getElementById("restartBtn")?.addEventListener("click", () => this.start());
-        document.getElementById("modalRestartBtn")?.addEventListener("click", () => {
-            if (this.gameOverOverlay) this.gameOverOverlay.classList.add("d-none");
-            this.start();
+        document.getElementById("soundToggleBtn")?.addEventListener("click", () => {
+            const isMuted = this.audio.toggleMute();
+            if (this.soundStatusText) this.soundStatusText.textContent = isMuted ? "OFF" : "ON";
         });
     }
 
-    resetGame() {
-        this.snake = [
-            { x: 8, y: 10 },
-            { x: 7, y: 10 },
-            { x: 6, y: 10 }
-        ];
-        this.direction = "RIGHT";
-        this.nextDirection = "RIGHT";
-        this.score = 0;
-        this.baseSpeed = 95; // Fast, responsive ms per tick
-        this.currentSpeed = this.baseSpeed;
-        this.lastTickTime = performance.now();
-        this.frames = 0;
-        
-        this.spawnFood();
+    triggerKeyVisual(code) {
+        let btnId = null;
+        if (code === "ArrowUp" || code === "KeyW") btnId = "btnNavUp";
+        if (code === "ArrowDown" || code === "KeyS") btnId = "btnNavDown";
+        if (code === "ArrowLeft" || code === "KeyA") btnId = "btnNavLeft";
+        if (code === "ArrowRight" || code === "KeyD") btnId = "btnNavRight";
+        if (code === "Enter" || code === "Space") btnId = "btnNavCenter";
+        if (code === "Escape" || code === "Backspace") btnId = "btnSoftRight";
+        if (code === "Digit2" || code === "Numpad2") btnId = "key2";
+        if (code === "Digit4" || code === "Numpad4") btnId = "key4";
+        if (code === "Digit6" || code === "Numpad6") btnId = "key6";
+        if (code === "Digit8" || code === "Numpad8") btnId = "key8";
+        if (code === "Digit5" || code === "Numpad5") btnId = "key5";
+
+        if (btnId) {
+            const el = document.getElementById(btnId);
+            if (el) {
+                el.classList.add("pressed");
+                setTimeout(() => el.classList.remove("pressed"), 120);
+            }
+        }
+    }
+
+    handleDirectionInput(dir) {
+        if (this.uiState === STATES.PLAYING) {
+            if (dir === "UP" && this.direction !== "DOWN") this.nextDirection = "UP";
+            if (dir === "DOWN" && this.direction !== "UP") this.nextDirection = "DOWN";
+            if (dir === "LEFT" && this.direction !== "RIGHT") this.nextDirection = "LEFT";
+            if (dir === "RIGHT" && this.direction !== "LEFT") this.nextDirection = "RIGHT";
+        } else {
+            if (dir === "UP") this.handleMenuNav(-1);
+            if (dir === "DOWN") this.handleMenuNav(1);
+            if (dir === "RIGHT") this.handleMenuSelect();
+            if (dir === "LEFT") this.handleMenuBack();
+        }
+    }
+
+    handleNumKey(num) {
+        if (this.uiState === STATES.PLAYING) {
+            if (num === "2" && this.direction !== "DOWN") this.nextDirection = "UP";
+            if (num === "8" && this.direction !== "UP") this.nextDirection = "DOWN";
+            if (num === "4" && this.direction !== "RIGHT") this.nextDirection = "LEFT";
+            if (num === "6" && this.direction !== "LEFT") this.nextDirection = "RIGHT";
+            if (num === "5") this.togglePause();
+        } else {
+            if (num === "2") this.handleMenuNav(-1);
+            if (num === "8") this.handleMenuNav(1);
+            if (num === "5") this.handleMenuSelect();
+            // Direct item selection
+            const itemIdx = parseInt(num) - 1;
+            if (!isNaN(itemIdx) && itemIdx >= 0) {
+                this.menuCursor = itemIdx;
+                this.handleMenuSelect();
+            }
+        }
+    }
+
+    handleMenuNav(delta) {
+        this.audio.menuBeep();
+        const menuLen = this.getMenuLength();
+        if (menuLen > 0) {
+            this.menuCursor = (this.menuCursor + delta + menuLen) % menuLen;
+            this.render();
+        }
+    }
+
+    getMenuLength() {
+        if (this.uiState === STATES.HOME) return 1;
+        if (this.uiState === STATES.MAIN_MENU) return 4;
+        if (this.uiState === STATES.GAMES_MENU) return 3;
+        if (this.uiState === STATES.SNAKE_MENU) return 4;
+        if (this.uiState === STATES.PAUSED) return 3;
+        if (this.uiState === STATES.GAME_OVER) return 2;
+        if (this.uiState === STATES.SETTINGS) return 3;
+        return 1;
+    }
+
+    handleMenuSelect() {
+        this.audio.selectBeep();
+
+        if (this.uiState === STATES.HOME) {
+            this.uiState = STATES.MAIN_MENU;
+            this.menuCursor = 0;
+        } else if (this.uiState === STATES.MAIN_MENU) {
+            if (this.menuCursor === 0) { // Games
+                this.uiState = STATES.GAMES_MENU;
+                this.menuCursor = 0;
+            } else if (this.menuCursor === 3) { // Settings
+                this.uiState = STATES.SETTINGS;
+                this.menuCursor = 0;
+            }
+        } else if (this.uiState === STATES.GAMES_MENU) {
+            if (this.menuCursor === 0) { // Snake
+                this.uiState = STATES.SNAKE_MENU;
+                this.menuCursor = 0;
+            }
+        } else if (this.uiState === STATES.SNAKE_MENU) {
+            if (this.menuCursor === 0 || this.menuCursor === 1) { // Play / New Game
+                this.startCountdown();
+            } else if (this.menuCursor === 2) { // High Scores
+                this.uiState = STATES.HIGH_SCORES;
+            } else if (this.menuCursor === 3) { // Settings
+                this.uiState = STATES.SETTINGS;
+                this.menuCursor = 0;
+            }
+        } else if (this.uiState === STATES.PAUSED) {
+            if (this.menuCursor === 0) { // Continue
+                this.uiState = STATES.PLAYING;
+                this.isPaused = false;
+                this.lastTick = performance.now();
+            } else if (this.menuCursor === 1) { // New Game
+                this.startCountdown();
+            } else { // Exit
+                this.uiState = STATES.SNAKE_MENU;
+                this.menuCursor = 0;
+            }
+        } else if (this.uiState === STATES.GAME_OVER) {
+            if (this.menuCursor === 0) {
+                this.startCountdown();
+            } else {
+                this.uiState = STATES.SNAKE_MENU;
+                this.menuCursor = 0;
+            }
+        } else if (this.uiState === STATES.HIGH_SCORES) {
+            this.uiState = STATES.SNAKE_MENU;
+            this.menuCursor = 0;
+        } else if (this.uiState === STATES.SETTINGS) {
+            if (this.menuCursor === 0) {
+                this.audio.toggleMute();
+            } else if (this.menuCursor === 2) {
+                localStorage.removeItem('luckykit_snake_highscores');
+                this.highScores = [520, 410, 280, 190, 120];
+                this.highScore = 520;
+                this.updateSidebarScore();
+            }
+        }
+
+        this.updateSoftKeys();
         this.render();
     }
 
-    spawnFood() {
-        let valid = false;
-        while (!valid) {
-            this.food = {
-                x: Math.floor(Math.random() * this.gridCount),
-                y: Math.floor(Math.random() * this.gridCount)
-            };
-            valid = !this.snake.some(segment => segment.x === this.food.x && segment.y === this.food.y);
+    handleMenuBack() {
+        this.audio.buttonBeep();
+
+        if (this.uiState === STATES.PLAYING) {
+            this.togglePause();
+            return;
         }
+
+        if (this.uiState === STATES.PAUSED || this.uiState === STATES.GAME_OVER || this.uiState === STATES.HIGH_SCORES) {
+            this.uiState = STATES.SNAKE_MENU;
+            this.menuCursor = 0;
+        } else if (this.uiState === STATES.SNAKE_MENU) {
+            this.uiState = STATES.GAMES_MENU;
+            this.menuCursor = 0;
+        } else if (this.uiState === STATES.GAMES_MENU || this.uiState === STATES.SETTINGS) {
+            this.uiState = STATES.MAIN_MENU;
+            this.menuCursor = 0;
+        } else if (this.uiState === STATES.MAIN_MENU) {
+            this.uiState = STATES.HOME;
+            this.menuCursor = 0;
+        }
+
+        this.updateSoftKeys();
+        this.render();
     }
 
-    onStart() {
-        this.resetGame();
-        if (this.gameOverOverlay) this.gameOverOverlay.classList.add("d-none");
-        if (this.scoreEl) this.scoreEl.innerText = "0";
-        if (this.speedDisplay) this.speedDisplay.innerText = "1.0x";
-        if (this.statusText) this.statusText.innerText = "Slithering...";
-        
-        this.lastTime = performance.now();
-        this.loopId = requestAnimationFrame((t) => this.gameLoop(t));
-    }
-
-    onPause() {
-        if (this.statusText) this.statusText.innerText = "Paused (Press Space)";
-    }
-
-    onResume() {
-        if (this.statusText) this.statusText.innerText = "Slithering...";
-        this.lastTime = performance.now();
-    }
-
-    gameLoop(time) {
-        if (!this.isPaused && this.isRunning) {
-            // Check if it's time to tick
-            if (time - this.lastTickTime >= this.currentSpeed) {
-                this.lastTickTime = time;
-                this.tick();
-            }
-            this.frames++;
+    togglePause() {
+        if (this.uiState === STATES.PLAYING) {
+            this.uiState = STATES.PAUSED;
+            this.isPaused = true;
+            this.menuCursor = 0;
+            this.audio.selectBeep();
+            this.updateSoftKeys();
+            this.render();
+        } else if (this.uiState === STATES.PAUSED) {
+            this.uiState = STATES.PLAYING;
+            this.isPaused = false;
+            this.lastTick = performance.now();
+            this.updateSoftKeys();
             this.render();
         }
-        
-        if (this.isRunning) {
+    }
+
+    resetPhone() {
+        this.uiState = STATES.HOME;
+        this.menuCursor = 0;
+        this.updateSoftKeys();
+        this.render();
+    }
+
+    updateSoftKeys() {
+        if (!this.lcdSoftLeft || !this.lcdSoftRight) return;
+
+        if (this.uiState === STATES.HOME) {
+            this.lcdSoftLeft.textContent = "Menu";
+            this.lcdSoftRight.textContent = "Names";
+        } else if (this.uiState === STATES.PLAYING) {
+            this.lcdSoftLeft.textContent = "Pause";
+            this.lcdSoftRight.textContent = "Exit";
+        } else if (this.uiState === STATES.COUNTDOWN) {
+            this.lcdSoftLeft.textContent = "";
+            this.lcdSoftRight.textContent = "";
+        } else {
+            this.lcdSoftLeft.textContent = "Select";
+            this.lcdSoftRight.textContent = "Back";
+        }
+    }
+
+    // ========================================================
+    // SNAKE GAME TICK LOOP
+    // ========================================================
+    gameLoop(time) {
+        if (this.uiState === STATES.PLAYING && this.isRunning && !this.isPaused) {
+            const dt = time - this.lastTick;
+            if (dt >= this.speedInterval) {
+                this.lastTick = time;
+                this.updateSnake();
+            }
+        }
+
+        this.render();
+
+        if (this.uiState === STATES.PLAYING || this.uiState === STATES.COUNTDOWN) {
             this.loopId = requestAnimationFrame((t) => this.gameLoop(t));
         }
     }
 
-    tick() {
+    updateSnake() {
         this.direction = this.nextDirection;
         const head = { ...this.snake[0] };
-        
-        if (this.direction === "LEFT") head.x -= 1;
-        else if (this.direction === "RIGHT") head.x += 1;
-        else if (this.direction === "UP") head.y -= 1;
-        else if (this.direction === "DOWN") head.y += 1;
-        
-        // Wall Collision
-        if (head.x < 0 || head.x >= this.gridCount || head.y < 0 || head.y >= this.gridCount) {
-            return this.handleGameOver();
+
+        if (this.direction === 'UP') head.y--;
+        if (this.direction === 'DOWN') head.y++;
+        if (this.direction === 'LEFT') head.x--;
+        if (this.direction === 'RIGHT') head.x++;
+
+        // 1. Hard Wall Collision Check (1..GRID_WIDTH-2, 1..GRID_HEIGHT-2)
+        if (head.x <= 0 || head.x >= GRID_WIDTH - 1 || head.y <= 0 || head.y >= GRID_HEIGHT - 1) {
+            this.handleGameOver();
+            return;
         }
-        
-        // Self Collision
+
+        // 2. Self Collision Check
         for (let i = 0; i < this.snake.length; i++) {
             if (head.x === this.snake[i].x && head.y === this.snake[i].y) {
-                return this.handleGameOver();
+                this.handleGameOver();
+                return;
             }
         }
-        
+
+        // 3. Move Snake
         this.snake.unshift(head);
-        
-        // Eat Food
+
+        // 4. Check Food Eaten
         if (head.x === this.food.x && head.y === this.food.y) {
             this.score += 10;
-            if (this.scoreEl) this.scoreEl.innerText = this.score;
-            
-            // Speed up slightly as snake grows
-            this.currentSpeed = Math.max(50, this.baseSpeed - Math.floor(this.snake.length * 1.5));
-            const speedMultiplier = (this.baseSpeed / this.currentSpeed).toFixed(1);
-            if (this.speedDisplay) this.speedDisplay.innerText = `${speedMultiplier}x`;
-            
-            if (audioManager) audioManager.playTone(580 + (this.snake.length * 15), "sine", 0.08, 0.3);
+            this.foodEaten++;
+            this.speedInterval = this.getSpeedInterval(this.foodEaten);
+            this.audio.eatBeep();
             this.spawnFood();
+
+            // Check high score
+            if (this.score > this.highScore) {
+                this.highScore = this.score;
+                this.saveNewHighScore(this.score);
+            }
         } else {
+            // Remove tail segment if food not eaten
             this.snake.pop();
         }
     }
 
-    render() {
-        this.ctx.clearRect(0, 0, this.canvas.width, this.canvas.height);
-        
-        // 1. Draw Food (Realistic Glowing Apple)
-        this.drawApple(this.food.x, this.food.y);
-        
-        // 2. Draw Snake
-        for (let i = this.snake.length - 1; i >= 0; i--) {
-            const seg = this.snake[i];
-            const isHead = i === 0;
-            
-            if (isHead) {
-                this.drawSnakeHead(seg.x, seg.y, this.direction);
-            } else {
-                const prev = this.snake[i - 1];
-                this.drawSnakeBody(seg.x, seg.y, prev, i);
-            }
-        }
-    }
-
-    drawApple(gx, gy) {
-        const cx = gx * this.cellSize + this.cellSize / 2;
-        const cy = gy * this.cellSize + this.cellSize / 2;
-        const r = this.cellSize / 2 - 2;
-        
-        this.ctx.save();
-        
-        // Glow effect
-        this.ctx.shadowBlur = 15;
-        this.ctx.shadowColor = '#ef4444';
-        
-        // Apple Body Gradient
-        const appleGrad = this.ctx.createRadialGradient(cx - 2, cy - 2, 2, cx, cy, r);
-        appleGrad.addColorStop(0, '#f87171');
-        appleGrad.addColorStop(0.5, '#ef4444');
-        appleGrad.addColorStop(1, '#991b1b');
-        
-        this.ctx.fillStyle = appleGrad;
-        this.ctx.beginPath();
-        this.ctx.arc(cx, cy, r, 0, Math.PI * 2);
-        this.ctx.fill();
-        
-        this.ctx.shadowBlur = 0; // reset shadow
-        
-        // Specular highlight dot
-        this.ctx.fillStyle = 'rgba(255, 255, 255, 0.7)';
-        this.ctx.beginPath();
-        this.ctx.arc(cx - r * 0.35, cy - r * 0.35, r * 0.25, 0, Math.PI * 2);
-        this.ctx.fill();
-        
-        // Little green stem / leaf
-        this.ctx.fillStyle = '#22c55e';
-        this.ctx.beginPath();
-        this.ctx.ellipse(cx + 2, cy - r + 1, 4, 2, Math.PI / 4, 0, Math.PI * 2);
-        this.ctx.fill();
-        
-        this.ctx.restore();
-    }
-
-    drawSnakeHead(gx, gy, dir) {
-        const cx = gx * this.cellSize + this.cellSize / 2;
-        const cy = gy * this.cellSize + this.cellSize / 2;
-        const r = this.cellSize / 2 - 1;
-        
-        this.ctx.save();
-        this.ctx.translate(cx, cy);
-        
-        let angle = 0;
-        if (dir === "RIGHT") angle = 0;
-        else if (dir === "DOWN") angle = Math.PI / 2;
-        else if (dir === "LEFT") angle = Math.PI;
-        else if (dir === "UP") angle = -Math.PI / 2;
-        
-        this.ctx.rotate(angle);
-        
-        // Flickering Forked Tongue
-        if (Math.sin(this.frames * 0.3) > 0.2) {
-            this.ctx.strokeStyle = '#ef4444';
-            this.ctx.lineWidth = 1.5;
-            this.ctx.beginPath();
-            this.ctx.moveTo(r, 0);
-            this.ctx.lineTo(r + 6, 0);
-            this.ctx.lineTo(r + 9, -2.5);
-            this.ctx.moveTo(r + 6, 0);
-            this.ctx.lineTo(r + 9, 2.5);
-            this.ctx.stroke();
-        }
-        
-        // Head Gradient
-        const headGrad = this.ctx.createRadialGradient(-2, -2, 2, 0, 0, r);
-        headGrad.addColorStop(0, '#86efac');
-        headGrad.addColorStop(0.5, '#22c55e');
-        headGrad.addColorStop(1, '#15803d');
-        
-        this.ctx.fillStyle = headGrad;
-        this.ctx.strokeStyle = '#14532d';
-        this.ctx.lineWidth = 1.5;
-        
-        this.ctx.beginPath();
-        this.ctx.roundRect(-r, -r, r * 2, r * 2, [6, 10, 10, 6]);
-        this.ctx.fill();
-        this.ctx.stroke();
-        
-        // Snake Eyes
-        const eyeOffsetX = 2;
-        const eyeOffsetY = 5;
-        
-        // White sclera
-        this.ctx.fillStyle = '#ffffff';
-        this.ctx.beginPath();
-        this.ctx.arc(eyeOffsetX, -eyeOffsetY, 3, 0, Math.PI * 2);
-        this.ctx.arc(eyeOffsetX, eyeOffsetY, 3, 0, Math.PI * 2);
-        this.ctx.fill();
-        
-        // Black pupils looking forward
-        this.ctx.fillStyle = '#0f172a';
-        this.ctx.beginPath();
-        this.ctx.arc(eyeOffsetX + 1, -eyeOffsetY, 1.6, 0, Math.PI * 2);
-        this.ctx.arc(eyeOffsetX + 1, eyeOffsetY, 1.6, 0, Math.PI * 2);
-        this.ctx.fill();
-        
-        this.ctx.restore();
-    }
-
-    drawSnakeBody(gx, gy, prev, index) {
-        const x = gx * this.cellSize + 1.5;
-        const y = gy * this.cellSize + 1.5;
-        const size = this.cellSize - 3;
-        
-        this.ctx.save();
-        
-        // Alternating scale pattern
-        const isAlt = index % 2 === 0;
-        const bodyGrad = this.ctx.createLinearGradient(x, y, x + size, y + size);
-        if (isAlt) {
-            bodyGrad.addColorStop(0, '#4ade80');
-            bodyGrad.addColorStop(1, '#16a34a');
-        } else {
-            bodyGrad.addColorStop(0, '#22c55e');
-            bodyGrad.addColorStop(1, '#15803d');
-        }
-        
-        this.ctx.fillStyle = bodyGrad;
-        this.ctx.strokeStyle = '#14532d';
-        this.ctx.lineWidth = 1;
-        
-        this.ctx.beginPath();
-        this.ctx.roundRect(x, y, size, size, 5);
-        this.ctx.fill();
-        this.ctx.stroke();
-        
-        // Scale inner dot accent
-        this.ctx.fillStyle = 'rgba(255, 255, 255, 0.25)';
-        this.ctx.beginPath();
-        this.ctx.arc(x + size / 2, y + size / 2, size * 0.2, 0, Math.PI * 2);
-        this.ctx.fill();
-        
-        this.ctx.restore();
-    }
-
     handleGameOver() {
+        this.uiState = STATES.GAME_OVER;
         this.isRunning = false;
-        if (audioManager) audioManager.playTone(110, "sawtooth", 0.5, 0.5);
-        
-        if (this.statusText) this.statusText.innerText = "Game Over 💀";
-        if (this.gameOverOverlay) this.gameOverOverlay.classList.remove("d-none");
-        if (this.finalScoreMsg) this.finalScoreMsg.innerText = `Score: ${this.score}`;
-        
-        if (this.score > this.highScore) {
-            this.highScore = this.score;
-            storage.set("highScore_snake", this.highScore);
-            if (this.highScoreEl) this.highScoreEl.innerText = this.highScore;
-            if (animationManager) animationManager.spawnConfetti(window.innerWidth / 2, window.innerHeight / 2, 80);
-        }
-        
-        this.addScore(this.score);
-        this.gameOver(false);
+        this.menuCursor = 0;
+        this.audio.gameOverBeep();
+
+        this.saveNewHighScore(this.score);
+        this.updateSoftKeys();
+        this.render();
+
+        // Award Coins in LuckyKit storage
+        const coinsEarned = Math.floor(this.score / 2);
+        storage.updateState(s => {
+            s.coins += coinsEarned;
+            s.xp += this.score;
+        });
     }
 
-    onDestroy() {
-        if (this.loopId) cancelAnimationFrame(this.loopId);
+    saveNewHighScore(val) {
+        if (!this.highScores.includes(val)) {
+            this.highScores.push(val);
+            this.highScores.sort((a, b) => b - a);
+            this.highScores = this.highScores.slice(0, 5);
+            localStorage.setItem('luckykit_snake_highscores', JSON.stringify(this.highScores));
+            this.highScore = this.highScores[0];
+            this.updateSidebarScore();
+        }
+    }
+
+    // ========================================================
+    // MONOCHROME 2D CANVAS RENDERER
+    // ========================================================
+    render() {
+        const ctx = this.ctx;
+        const w = this.canvas.width;
+        const h = this.canvas.height;
+
+        // Clear LCD background
+        ctx.fillStyle = '#9ea786';
+        ctx.fillRect(0, 0, w, h);
+
+        ctx.fillStyle = '#1d2b1f';
+
+        if (this.uiState === STATES.HOME) {
+            this.renderHomeScreen(ctx, w, h);
+        } else if (this.uiState === STATES.MAIN_MENU) {
+            this.renderMenu(ctx, w, h, "MENU", ["1 Games", "2 Messages", "3 Contacts", "4 Settings"]);
+        } else if (this.uiState === STATES.GAMES_MENU) {
+            this.renderMenu(ctx, w, h, "GAMES", ["1 Snake", "2 Space Impact", "3 Pairs II"]);
+        } else if (this.uiState === STATES.SNAKE_MENU) {
+            this.renderMenu(ctx, w, h, "SNAKE", ["1 Play", "2 New Game", "3 High Scores", "4 Settings"]);
+        } else if (this.uiState === STATES.COUNTDOWN) {
+            this.renderCountdown(ctx, w, h);
+        } else if (this.uiState === STATES.PLAYING || this.uiState === STATES.PAUSED) {
+            this.renderSnakeBoard(ctx, w, h);
+            if (this.uiState === STATES.PAUSED) {
+                this.renderPauseOverlay(ctx, w, h);
+            }
+        } else if (this.uiState === STATES.GAME_OVER) {
+            this.renderGameOverScreen(ctx, w, h);
+        } else if (this.uiState === STATES.HIGH_SCORES) {
+            this.renderHighScores(ctx, w, h);
+        } else if (this.uiState === STATES.SETTINGS) {
+            const soundTxt = this.audio.muted ? "Sound: OFF" : "Sound: ON";
+            this.renderMenu(ctx, w, h, "SETTINGS", [soundTxt, "Vibration: ON", "Reset High Scores"]);
+        }
+    }
+
+    renderHomeScreen(ctx, w, h) {
+        ctx.font = "bold 28px VT323, monospace";
+        ctx.textAlign = "center";
+        ctx.fillText("NOKIA", w / 2, 45);
+
+        ctx.font = "18px VT323, monospace";
+        ctx.fillText("LUCKYKIT NETWORK", w / 2, 75);
+
+        // Little antenna icon
+        ctx.fillRect(w / 2 - 15, 95, 30, 2);
+        ctx.fillRect(w / 2 - 1, 90, 2, 12);
+    }
+
+    renderMenu(ctx, w, h, title, items) {
+        ctx.font = "bold 20px VT323, monospace";
+        ctx.textAlign = "left";
+        ctx.fillText(title, 14, 22);
+
+        // Divider line
+        ctx.fillRect(10, 26, w - 20, 1);
+
+        ctx.font = "18px VT323, monospace";
+        items.forEach((item, idx) => {
+            const y = 50 + (idx * 22);
+            if (idx === this.menuCursor) {
+                // Inverted highlighted cursor row
+                ctx.fillRect(10, y - 14, w - 20, 18);
+                ctx.fillStyle = '#9ea786';
+                ctx.fillText(`> ${item}`, 14, y);
+                ctx.fillStyle = '#1d2b1f';
+            } else {
+                ctx.fillText(`  ${item}`, 14, y);
+            }
+        });
+    }
+
+    renderCountdown(ctx, w, h) {
+        ctx.font = "bold 22px VT323, monospace";
+        ctx.textAlign = "center";
+        ctx.fillText("SNAKE", w / 2, 40);
+
+        ctx.font = "bold 44px VT323, monospace";
+        const txt = this.countdownNumber > 0 ? this.countdownNumber.toString() : "START!";
+        ctx.fillText(txt, w / 2, 95);
+    }
+
+    renderSnakeBoard(ctx, w, h) {
+        // Draw Outer Hard Border
+        ctx.fillRect(0, 0, w, CELL_SIZE);
+        ctx.fillRect(0, h - CELL_SIZE, w, CELL_SIZE);
+        ctx.fillRect(0, 0, CELL_SIZE, h);
+        ctx.fillRect(w - CELL_SIZE, 0, CELL_SIZE, h);
+
+        // Draw Score at Top Left inside screen
+        ctx.font = "16px VT323, monospace";
+        ctx.textAlign = "left";
+        ctx.fillText(`SCORE:${this.score}`, 10, CELL_SIZE + 14);
+
+        // Draw Food (Pixel Apple with stem)
+        const fx = this.food.x * CELL_SIZE;
+        const fy = this.food.y * CELL_SIZE;
+        ctx.fillRect(fx + 1, fy + 2, CELL_SIZE - 2, CELL_SIZE - 3);
+        ctx.fillRect(fx + 3, fy, 2, 2); // Apple stem
+
+        // Draw Snake Segments
+        this.snake.forEach((seg, idx) => {
+            const sx = seg.x * CELL_SIZE;
+            const sy = seg.y * CELL_SIZE;
+
+            if (idx === 0) {
+                // Head: Solid block
+                ctx.fillRect(sx, sy, CELL_SIZE, CELL_SIZE);
+            } else {
+                // Body: Checker-pattern block for authentic Nokia look
+                ctx.fillRect(sx + 1, sy + 1, CELL_SIZE - 2, CELL_SIZE - 2);
+            }
+        });
+    }
+
+    renderPauseOverlay(ctx, w, h) {
+        // Semi-transparent overlay box
+        ctx.fillStyle = '#9ea786';
+        ctx.fillRect(40, 25, w - 80, 95);
+        ctx.strokeStyle = '#1d2b1f';
+        ctx.lineWidth = 2;
+        ctx.strokeRect(40, 25, w - 80, 95);
+
+        ctx.fillStyle = '#1d2b1f';
+        ctx.font = "bold 20px VT323, monospace";
+        ctx.textAlign = "center";
+        ctx.fillText("PAUSED", w / 2, 45);
+
+        const items = ["1 Continue", "2 New Game", "3 Exit"];
+        ctx.font = "16px VT323, monospace";
+        items.forEach((item, idx) => {
+            const y = 68 + (idx * 18);
+            if (idx === this.menuCursor) {
+                ctx.fillText(`> ${item} <`, w / 2, y);
+            } else {
+                ctx.fillText(item, w / 2, y);
+            }
+        });
+    }
+
+    renderGameOverScreen(ctx, w, h) {
+        ctx.font = "bold 22px VT323, monospace";
+        ctx.textAlign = "center";
+        ctx.fillText("GAME OVER", w / 2, 35);
+
+        ctx.font = "18px VT323, monospace";
+        ctx.fillText(`SCORE: ${this.score}`, w / 2, 60);
+        ctx.fillText(`HIGH: ${this.highScore}`, w / 2, 80);
+
+        // Options
+        const items = ["1 New Game", "2 Menu"];
+        items.forEach((item, idx) => {
+            const y = 108 + (idx * 20);
+            if (idx === this.menuCursor) {
+                ctx.fillText(`> ${item} <`, w / 2, y);
+            } else {
+                ctx.fillText(item, w / 2, y);
+            }
+        });
+    }
+
+    renderHighScores(ctx, w, h) {
+        ctx.font = "bold 20px VT323, monospace";
+        ctx.textAlign = "center";
+        ctx.fillText("HIGH SCORES", w / 2, 22);
+
+        ctx.fillRect(10, 26, w - 20, 1);
+
+        ctx.font = "16px VT323, monospace";
+        this.highScores.forEach((hs, idx) => {
+            const y = 46 + (idx * 18);
+            ctx.textAlign = "left";
+            ctx.fillText(`${idx + 1}. PLAYER`, 20, y);
+            ctx.textAlign = "right";
+            ctx.fillText(`${hs}`, w - 20, y);
+        });
     }
 }
 
 if (document.readyState === 'loading') {
     document.addEventListener("DOMContentLoaded", () => {
-        new ClassicSnakeGame();
+        new NokiaSnakeGame();
     });
 } else {
-    new ClassicSnakeGame();
+    new NokiaSnakeGame();
 }
