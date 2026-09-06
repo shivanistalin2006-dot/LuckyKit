@@ -242,13 +242,13 @@ class NokiaSnakeGame extends BaseGame {
                     this.nextDirection = "LEFT";
                 } else if ((code === "ArrowRight" || key === "6" || code === "KeyD") && this.direction !== "LEFT") {
                     this.nextDirection = "RIGHT";
-                } else if (code === "Space" || code === "Enter" || code === "Escape") {
-                    this.togglePause();
+                } else if (code === "Space" || code === "Enter" || code === "Escape" || key === "5") {
+                    this.pauseGame();
                 }
                 return;
             }
 
-            // Menu Navigation for other UI States
+            // Menu Navigation for PAUSED and other UI States
             if (code === "ArrowUp" || key === "2" || code === "KeyW") {
                 this.handleMenuNav(-1);
             } else if (code === "ArrowDown" || key === "8" || code === "KeyS") {
@@ -266,7 +266,6 @@ class NokiaSnakeGame extends BaseGame {
             if (!btn) return;
             btn.addEventListener("click", (e) => {
                 e.preventDefault();
-                this.audio.buttonBeep();
                 action();
             });
         };
@@ -276,12 +275,30 @@ class NokiaSnakeGame extends BaseGame {
         bindBtn("btnNavDown", () => this.handleDirectionInput("DOWN"));
         bindBtn("btnNavLeft", () => this.handleDirectionInput("LEFT"));
         bindBtn("btnNavRight", () => this.handleDirectionInput("RIGHT"));
-        bindBtn("btnNavCenter", () => this.handleMenuSelect());
+        bindBtn("btnNavCenter", () => {
+            if (this.uiState === STATES.PLAYING) {
+                this.pauseGame();
+            } else {
+                this.handleMenuSelect();
+            }
+        });
 
         // Soft Keys
-        bindBtn("btnSoftLeft", () => this.handleMenuSelect());
+        bindBtn("btnSoftLeft", () => {
+            if (this.uiState === STATES.PLAYING) {
+                this.pauseGame();
+            } else {
+                this.handleMenuSelect();
+            }
+        });
         bindBtn("btnSoftRight", () => this.handleMenuBack());
-        bindBtn("btnCall", () => this.handleMenuSelect());
+        bindBtn("btnCall", () => {
+            if (this.uiState === STATES.PLAYING) {
+                this.pauseGame();
+            } else {
+                this.handleMenuSelect();
+            }
+        });
         bindBtn("btnEnd", () => this.handleMenuBack());
 
         // Numeric Keypad
@@ -336,6 +353,10 @@ class NokiaSnakeGame extends BaseGame {
             if (dir === "DOWN" && this.direction !== "UP") this.nextDirection = "DOWN";
             if (dir === "LEFT" && this.direction !== "RIGHT") this.nextDirection = "LEFT";
             if (dir === "RIGHT" && this.direction !== "LEFT") this.nextDirection = "RIGHT";
+        } else if (this.uiState === STATES.PAUSED) {
+            if (dir === "UP") this.handleMenuNav(-1);
+            if (dir === "DOWN") this.handleMenuNav(1);
+            // Ignore LEFT and RIGHT while paused to keep snake completely frozen
         } else {
             if (dir === "UP") this.handleMenuNav(-1);
             if (dir === "DOWN") this.handleMenuNav(1);
@@ -350,12 +371,20 @@ class NokiaSnakeGame extends BaseGame {
             if (num === "8" && this.direction !== "UP") this.nextDirection = "DOWN";
             if (num === "4" && this.direction !== "RIGHT") this.nextDirection = "LEFT";
             if (num === "6" && this.direction !== "LEFT") this.nextDirection = "RIGHT";
-            if (num === "5") this.togglePause();
+            if (num === "5") this.pauseGame();
+        } else if (this.uiState === STATES.PAUSED) {
+            if (num === "2") this.handleMenuNav(-1);
+            if (num === "8") this.handleMenuNav(1);
+            if (num === "5") this.handleMenuSelect();
+            const itemIdx = parseInt(num) - 1;
+            if (itemIdx >= 0 && itemIdx <= 2) {
+                this.menuCursor = itemIdx;
+                this.handleMenuSelect();
+            }
         } else {
             if (num === "2") this.handleMenuNav(-1);
             if (num === "8") this.handleMenuNav(1);
             if (num === "5") this.handleMenuSelect();
-            // Direct item selection
             const itemIdx = parseInt(num) - 1;
             if (!isNaN(itemIdx) && itemIdx >= 0) {
                 this.menuCursor = itemIdx;
@@ -413,15 +442,15 @@ class NokiaSnakeGame extends BaseGame {
                 this.menuCursor = 0;
             }
         } else if (this.uiState === STATES.PAUSED) {
-            if (this.menuCursor === 0) { // Continue
-                this.uiState = STATES.PLAYING;
-                this.isPaused = false;
-                this.lastTick = performance.now();
-            } else if (this.menuCursor === 1) { // New Game
+            if (this.menuCursor === 0) { // CONTINUE
+                this.resumeGame();
+                return;
+            } else if (this.menuCursor === 1) { // NEW GAME
                 this.startCountdown();
-            } else { // Exit
-                this.uiState = STATES.SNAKE_MENU;
-                this.menuCursor = 0;
+                return;
+            } else if (this.menuCursor === 2) { // EXIT
+                this.exitToSnakeMenu();
+                return;
             }
         } else if (this.uiState === STATES.GAME_OVER) {
             if (this.menuCursor === 0) {
@@ -452,11 +481,16 @@ class NokiaSnakeGame extends BaseGame {
         this.audio.buttonBeep();
 
         if (this.uiState === STATES.PLAYING) {
-            this.togglePause();
+            this.pauseGame();
             return;
         }
 
-        if (this.uiState === STATES.PAUSED || this.uiState === STATES.GAME_OVER || this.uiState === STATES.HIGH_SCORES) {
+        if (this.uiState === STATES.PAUSED) {
+            this.exitToSnakeMenu();
+            return;
+        }
+
+        if (this.uiState === STATES.GAME_OVER || this.uiState === STATES.HIGH_SCORES) {
             this.uiState = STATES.SNAKE_MENU;
             this.menuCursor = 0;
         } else if (this.uiState === STATES.SNAKE_MENU) {
@@ -474,26 +508,56 @@ class NokiaSnakeGame extends BaseGame {
         this.render();
     }
 
-    togglePause() {
-        if (this.uiState === STATES.PLAYING) {
-            this.uiState = STATES.PAUSED;
-            this.isPaused = true;
-            this.menuCursor = 0;
-            this.audio.selectBeep();
-            this.updateSoftKeys();
-            this.render();
-        } else if (this.uiState === STATES.PAUSED) {
-            this.uiState = STATES.PLAYING;
-            this.isPaused = false;
-            this.lastTick = performance.now();
-            this.updateSoftKeys();
-            this.render();
+    pauseGame() {
+        if (this.uiState !== STATES.PLAYING) return;
+        this.uiState = STATES.PAUSED;
+        this.isPaused = true;
+        this.menuCursor = 0; // Point to > CONTINUE
+        if (this.loopId) {
+            cancelAnimationFrame(this.loopId);
+            this.loopId = null;
         }
+        // Discard any pending directional turn
+        this.nextDirection = this.direction;
+        this.audio.selectBeep();
+        this.updateSoftKeys();
+        this.render();
+    }
+
+    resumeGame() {
+        if (this.uiState !== STATES.PAUSED) return;
+        this.uiState = STATES.PLAYING;
+        this.isPaused = false;
+        this.lastTick = performance.now();
+        this.nextDirection = this.direction;
+        this.audio.selectBeep();
+        this.updateSoftKeys();
+        if (this.loopId) cancelAnimationFrame(this.loopId);
+        this.loopId = requestAnimationFrame((t) => this.gameLoop(t));
+    }
+
+    exitToSnakeMenu() {
+        this.uiState = STATES.SNAKE_MENU;
+        this.isRunning = false;
+        this.isPaused = false;
+        this.menuCursor = 0;
+        if (this.loopId) {
+            cancelAnimationFrame(this.loopId);
+            this.loopId = null;
+        }
+        this.updateSoftKeys();
+        this.render();
     }
 
     resetPhone() {
         this.uiState = STATES.HOME;
+        this.isRunning = false;
+        this.isPaused = false;
         this.menuCursor = 0;
+        if (this.loopId) {
+            cancelAnimationFrame(this.loopId);
+            this.loopId = null;
+        }
         this.updateSoftKeys();
         this.render();
     }
@@ -728,26 +792,33 @@ class NokiaSnakeGame extends BaseGame {
     }
 
     renderPauseOverlay(ctx, w, h) {
-        // Semi-transparent overlay box
+        // Pixelated LCD Pause Box
         ctx.fillStyle = '#9ea786';
-        ctx.fillRect(40, 25, w - 80, 95);
+        ctx.fillRect(35, 20, w - 70, 104);
         ctx.strokeStyle = '#1d2b1f';
         ctx.lineWidth = 2;
-        ctx.strokeRect(40, 25, w - 80, 95);
+        ctx.strokeRect(35, 20, w - 70, 104);
 
         ctx.fillStyle = '#1d2b1f';
-        ctx.font = "bold 20px VT323, monospace";
+        ctx.font = "bold 22px VT323, monospace";
         ctx.textAlign = "center";
-        ctx.fillText("PAUSED", w / 2, 45);
+        ctx.fillText("PAUSED", w / 2, 42);
 
-        const items = ["1 Continue", "2 New Game", "3 Exit"];
-        ctx.font = "16px VT323, monospace";
+        // Divider line
+        ctx.fillRect(45, 48, w - 90, 1);
+
+        const items = ["1. CONTINUE", "2. NEW GAME", "3. EXIT"];
+        ctx.font = "18px VT323, monospace";
         items.forEach((item, idx) => {
-            const y = 68 + (idx * 18);
+            const y = 72 + (idx * 20);
             if (idx === this.menuCursor) {
-                ctx.fillText(`> ${item} <`, w / 2, y);
+                // Inverted highlighted cursor block
+                ctx.fillRect(45, y - 14, w - 90, 18);
+                ctx.fillStyle = '#9ea786';
+                ctx.fillText(`> ${item}`, w / 2, y);
+                ctx.fillStyle = '#1d2b1f';
             } else {
-                ctx.fillText(item, w / 2, y);
+                ctx.fillText(`  ${item}`, w / 2, y);
             }
         });
     }
