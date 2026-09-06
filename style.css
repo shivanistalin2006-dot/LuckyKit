@@ -1,8 +1,14 @@
+@import url('https://fonts.googleapis.com/css2?family=Dancing+Script:wght@700&family=Caveat:wght@700&family=Kaushan+Script&family=Pacifico&display=swap');
+
 /* ========================================================
    LUCKYKIT PREMIUM ARCADE - MAIN PORTAL STYLES (style.css)
    ======================================================== */
 
 :root {
+    --app-font-family: 'Dancing Script', 'Brush Script MT', 'Lucida Handwriting', 'Segoe Script', cursive, sans-serif;
+    --app-font-weight: 700;
+    --app-font-style: italic;
+
     --bg-dark: #060b08;
     --bg-card: #0e1a14;
     --border-glass: rgba(16, 185, 129, 0.22);
@@ -31,11 +37,12 @@
 /* ========================================================
    RESET & BASE SETUP
    ======================================================== */
-* {
+*, *::before, *::after {
     margin: 0;
     padding: 0;
     box-sizing: border-box;
-    font-family: 'Rajdhani', sans-serif;
+    font-family: var(--app-font-family) !important;
+    font-style: italic !important;
 }
 
 html {
@@ -53,6 +60,15 @@ body {
     align-items: flex-start;
     padding: 40px 20px;
     position: relative;
+    font-family: var(--app-font-family) !important;
+    font-weight: 700 !important;
+    font-style: italic !important;
+}
+
+h1, h2, h3, h4, h5, h6, p, span, a, button, input, select, textarea, .btn {
+    font-family: var(--app-font-family) !important;
+    font-weight: 700 !important;
+    font-style: italic !important;
 }
 
 ::selection {

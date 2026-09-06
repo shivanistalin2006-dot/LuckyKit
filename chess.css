@@ -162,7 +162,7 @@
     justify-content: space-around;
     align-items: center;
     font-size: 0.6rem;
-    font-family: 'Outfit', 'Rajdhani', monospace;
+    font-family: 'Dancing Script', 'Brush Script MT', 'Lucida Handwriting', 'Segoe Script', cursive, sans-serif, monospace;
     color: rgba(255,255,255,0.4);
     user-select: none;
     pointer-events: none;
@@ -181,7 +181,7 @@
     justify-content: space-around;
     align-items: center;
     font-size: 0.6rem;
-    font-family: 'Outfit', 'Rajdhani', monospace;
+    font-family: 'Dancing Script', 'Brush Script MT', 'Lucida Handwriting', 'Segoe Script', cursive, sans-serif, monospace;
     color: rgba(255,255,255,0.4);
     user-select: none;
     pointer-events: none;

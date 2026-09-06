@@ -5,7 +5,7 @@
 .snake-page-body {
     background-color: #0a0c14 !important;
     background-image: none !important;
-    font-family: 'Rajdhani', 'Outfit', sans-serif;
+    font-family: 'Dancing Script', 'Brush Script MT', 'Lucida Handwriting', 'Segoe Script', cursive, sans-serif;
     min-height: 100vh;
     overflow-x: hidden;
 }
@@ -50,7 +50,7 @@
 }
 
 .nokia-brand-logo {
-    font-family: 'Outfit', sans-serif;
+    font-family: 'Dancing Script', 'Brush Script MT', 'Lucida Handwriting', 'Segoe Script', cursive, sans-serif;
     font-size: 0.95rem;
     font-weight: 900;
     letter-spacing: 3px;
@@ -308,7 +308,7 @@
     font-size: 1.15rem;
     font-weight: bold;
     line-height: 1;
-    font-family: 'Outfit', sans-serif;
+    font-family: 'Dancing Script', 'Brush Script MT', 'Lucida Handwriting', 'Segoe Script', cursive, sans-serif;
 }
 
 .nokia-num-key .arrow-hint {

@@ -3,7 +3,7 @@
 .bike-body {
     background-color: #0a0c14 !important;
     background-image: none !important;
-    font-family: 'Rajdhani', 'Outfit', sans-serif;
+    font-family: 'Dancing Script', 'Brush Script MT', 'Lucida Handwriting', 'Segoe Script', cursive, sans-serif;
     min-height: 100vh;
     overflow-x: hidden;
 }
@@ -30,7 +30,7 @@
 .speed-value {
     font-size: 2.5rem;
     line-height: 1;
-    font-family: 'Outfit', sans-serif;
+    font-family: 'Dancing Script', 'Brush Script MT', 'Lucida Handwriting', 'Segoe Script', cursive, sans-serif;
     letter-spacing: -1px;
 }
 
@@ -44,7 +44,7 @@
 .gear-indicator {
     font-size: 1.6rem;
     line-height: 1;
-    font-family: 'Outfit', sans-serif;
+    font-family: 'Dancing Script', 'Brush Script MT', 'Lucida Handwriting', 'Segoe Script', cursive, sans-serif;
 }
 
 .indicator-icon {

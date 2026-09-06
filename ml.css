@@ -20,7 +20,7 @@ html, body {
   width: 100%;
   height: 100%;
   overflow: hidden;
-  font-family: 'Poppins', sans-serif;
+  font-family: 'Dancing Script', 'Brush Script MT', 'Lucida Handwriting', 'Segoe Script', cursive, sans-serif;
   color: var(--text-dark);
 }
 

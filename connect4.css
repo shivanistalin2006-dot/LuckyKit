@@ -9,7 +9,7 @@
     background-image: radial-gradient(circle at 50% 20%, #1e1b4b 0%, #0b0f19 100%);
     position: relative;
     overflow-x: hidden;
-    font-family: 'Rajdhani', 'Outfit', sans-serif;
+    font-family: 'Dancing Script', 'Brush Script MT', 'Lucida Handwriting', 'Segoe Script', cursive, sans-serif;
     min-height: 100vh;
 }
 

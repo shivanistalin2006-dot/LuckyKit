@@ -1,6 +1,19 @@
+@import url('https://fonts.googleapis.com/css2?family=Dancing+Script:wght@700&family=Caveat:wght@700&family=Kaushan+Script&family=Pacifico&display=swap');
+
 /* ========================================================
    LUCKYKIT OS V2 - 6 LUXURY THEMES (3 DARK + 3 LIGHT)
    ======================================================== */
+
+:root {
+    --app-font-family: 'Dancing Script', 'Brush Script MT', 'Lucida Handwriting', 'Segoe Script', cursive, sans-serif;
+    --app-font-weight: 700;
+    --app-font-style: italic;
+}
+
+*, *::before, *::after {
+    font-family: var(--app-font-family);
+    font-style: var(--app-font-style);
+}
 
 /* --------------------------------------------------------
    🌙 DARK 1: Black + Emerald (Default)
@@ -248,11 +261,23 @@
 body.v2-launcher {
     background-color: var(--v2-bg);
     color: var(--v2-text);
-    font-family: 'Rajdhani', 'Outfit', sans-serif;
+    font-family: var(--app-font-family) !important;
+    font-weight: 700 !important;
+    font-style: italic !important;
     overflow-x: hidden;
     margin: 0;
     padding: 0;
     min-height: 100vh;
+}
+
+h1, h2, h3, h4, h5, h6,
+.display-1, .display-2, .display-3, .display-4, .display-5, .display-6,
+p, span, a, button, input, select, textarea,
+.nav-item, .brand-text, .card-title, .card-category, .badge, .lead, .btn,
+.stat-value, .stat-label, .mission-card-v2, .profile-card-v2, #playerName {
+    font-family: var(--app-font-family) !important;
+    font-weight: 700 !important;
+    font-style: italic !important;
 }
 
 /* ========================================================
