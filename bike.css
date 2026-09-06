@@ -188,15 +188,16 @@
     background: #242217;
 }
 
-/* Light Mode Overrides */
-body.light-theme .bike-body,
-[data-theme="light"] .bike-body {
-    background-color: #f8fafc !important;
+/* Custom 3 Themes Overrides */
+body.theme-emerald .bike-body,
+[data-theme="emerald"] .bike-body {
+    background-color: #060b08 !important;
 }
-
-body.light-theme .bike-panel,
-[data-theme="light"] .bike-panel {
-    background: #ffffff !important;
-    border-color: rgba(0, 0, 0, 0.1) !important;
-    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.06) !important;
+body.theme-purple .bike-body,
+[data-theme="purple"] .bike-body {
+    background-color: #0a0614 !important;
+}
+body.theme-gold .bike-body,
+[data-theme="gold"] .bike-body {
+    background-color: #0a0904 !important;
 }

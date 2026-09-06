@@ -583,84 +583,89 @@ body.arcade-premium-mode {
 
 
 /* ========================================================
-   LIGHT PASTEL & DARK THEME ENGINE
+   3 LUXURY THEMES ENGINE (Emerald & Black, Lavender & Purple, Black & Gold)
    ======================================================== */
 
-/* Dark Theme (Default) */
-[data-theme="dark"], body.dark-theme {
-    --bg-dark: #0a0c14;
-    --bg-card: #121624;
-    --border-glass: rgba(255, 255, 255, 0.08);
+/* Theme 1: Emerald & Black (Default) */
+:root, [data-theme="emerald"], .theme-emerald, [data-theme="dark"] {
+    --bg-dark: #060b08;
+    --bg-card: #0e1a14;
+    --border-glass: rgba(16, 185, 129, 0.22);
     --text-primary: #f8fafc;
     --text-muted: #94a3b8;
+    --theme-color: #10b981;
+    --theme-glow: rgba(16, 185, 129, 0.3);
 }
 
-/* Light Pastel Theme */
-[data-theme="light"], body.light-theme {
-    --bg-dark: #f8fafc;
-    --bg-card: #ffffff;
-    --border-glass: rgba(0, 0, 0, 0.08);
-    --text-primary: #0f172a;
-    --text-muted: #64748b;
-    --theme-color: #ec4899;
-    --theme-glow: rgba(236, 72, 153, 0.2);
+/* Theme 2: Lavender & Dark Purple */
+[data-theme="purple"], .theme-purple {
+    --bg-dark: #0a0614;
+    --bg-card: #150d29;
+    --border-glass: rgba(192, 132, 252, 0.22);
+    --text-primary: #f8fafc;
+    --text-muted: #cbd5e1;
+    --theme-color: #c084fc;
+    --theme-glow: rgba(192, 132, 252, 0.3);
 }
 
-body.light-theme,
-[data-theme="light"] body {
-    background-color: #f8fafc !important;
+/* Theme 3: Black & Gold */
+[data-theme="gold"], .theme-gold {
+    --bg-dark: #0a0904;
+    --bg-card: #17150a;
+    --border-glass: rgba(234, 179, 8, 0.25);
+    --text-primary: #f8fafc;
+    --text-muted: #cbd5e1;
+    --theme-color: #eab308;
+    --theme-glow: rgba(234, 179, 8, 0.3);
+}
+
+/* Theme 1 Theme Overrides */
+body.theme-emerald, [data-theme="emerald"] body {
+    background-color: #060b08 !important;
     background-image: none !important;
-    color: #0f172a !important;
+    color: #f8fafc !important;
 }
 
-.light-theme .glass-panel,
-.light-theme .glass-panel-v2,
-.light-theme .snake-panel,
-.light-theme .gold-panel,
-.light-theme .sidebar,
-.light-theme .v2-sidebar,
-[data-theme="light"] .glass-panel,
-[data-theme="light"] .glass-panel-v2,
-[data-theme="light"] .snake-panel,
-[data-theme="light"] .gold-panel,
-[data-theme="light"] .sidebar,
-[data-theme="light"] .v2-sidebar {
-    background: rgba(255, 255, 255, 0.92) !important;
-    border: 1px solid rgba(0, 0, 0, 0.1) !important;
-    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.06), 0 1px 3px rgba(0, 0, 0, 0.04) !important;
-    color: #0f172a !important;
+/* Theme 2 Theme Overrides */
+body.theme-purple, [data-theme="purple"] body {
+    background-color: #0a0614 !important;
+    background-image: none !important;
+    color: #f8fafc !important;
 }
 
-.light-theme .premium-card,
-.light-theme .v2-card,
-[data-theme="light"] .premium-card,
-[data-theme="light"] .v2-card {
-    background: #ffffff !important;
-    border: 1px solid rgba(0, 0, 0, 0.08) !important;
-    box-shadow: 0 6px 18px rgba(0, 0, 0, 0.05) !important;
-    color: #0f172a !important;
+/* Theme 3 Theme Overrides */
+body.theme-gold, [data-theme="gold"] body {
+    background-color: #0a0904 !important;
+    background-image: none !important;
+    color: #f8fafc !important;
 }
 
-.light-theme .text-white,
-.light-theme .text-white-50,
-[data-theme="light"] .text-white,
-[data-theme="light"] .text-white-50 {
-    color: #334155 !important;
+.theme-emerald .glass-panel,
+.theme-emerald .glass-panel-v2,
+[data-theme="emerald"] .glass-panel,
+[data-theme="emerald"] .glass-panel-v2 {
+    background: #0d1712 !important;
+    border: 1px solid rgba(16, 185, 129, 0.22) !important;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.6) !important;
 }
 
-.light-theme .bg-dark,
-[data-theme="light"] .bg-dark {
-    background-color: #f1f5f9 !important;
-    color: #0f172a !important;
-    border-color: #cbd5e1 !important;
+.theme-purple .glass-panel,
+.theme-purple .glass-panel-v2,
+[data-theme="purple"] .glass-panel,
+[data-theme="purple"] .glass-panel-v2 {
+    background: #140d26 !important;
+    border: 1px solid rgba(192, 132, 252, 0.22) !important;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.65) !important;
 }
 
-.light-theme .border-secondary,
-[data-theme="light"] .border-secondary {
-    border-color: #cbd5e1 !important;
+.theme-gold .glass-panel,
+.theme-gold .glass-panel-v2,
+[data-theme="gold"] .glass-panel,
+[data-theme="gold"] .glass-panel-v2 {
+    background: #161408 !important;
+    border: 1px solid rgba(234, 179, 8, 0.25) !important;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.65) !important;
 }
-
-.light-theme p, .light-theme span, .light-theme h1, .light-theme h2, .light-theme h3, .light-theme h4, .light-theme h5, .light-theme h6,
 /* ========================================================
    GLOBAL USER-FRIENDLY FLOATING BUTTONS & CANVAS ALIGNMENT
    ======================================================== */

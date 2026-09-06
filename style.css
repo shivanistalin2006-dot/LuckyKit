@@ -3,26 +3,28 @@
    ======================================================== */
 
 :root {
-    --bg-dark: #0a0c14;
-    --bg-card: #121624;
-    --border-glass: rgba(255, 255, 255, 0.08);
+    --bg-dark: #060b08;
+    --bg-card: #0e1a14;
+    --border-glass: rgba(16, 185, 129, 0.22);
     --text-primary: #f8fafc;
     --text-muted: #94a3b8;
+    --theme-color: #10b981;
+    --theme-glow: rgba(16, 185, 129, 0.3);
     
-    --neon-purple: #a855f7;
-    --neon-cyan: #06b6d4;
-    --neon-pink: #ec4899;
+    --neon-purple: #c084fc;
+    --neon-cyan: #10b981;
+    --neon-pink: #a855f7;
     --neon-gold: #eab308;
-    --neon-green: #22c55e;
+    --neon-green: #34d399;
     --neon-red: #ef4444;
     --neon-yellow: #f59e0b;
     --neon-crimson: #be123c;
     
-    --shadow-purple: 0 0 15px rgba(168, 85, 247, 0.3);
-    --shadow-cyan: 0 0 15px rgba(6, 182, 212, 0.3);
-    --shadow-pink: 0 0 15px rgba(236, 72, 153, 0.3);
+    --shadow-purple: 0 0 15px rgba(192, 132, 252, 0.3);
+    --shadow-cyan: 0 0 15px rgba(16, 185, 129, 0.3);
+    --shadow-pink: 0 0 15px rgba(168, 85, 247, 0.3);
     --shadow-gold: 0 0 15px rgba(234, 179, 8, 0.3);
-    --shadow-green: 0 0 15px rgba(34, 197, 94, 0.3);
+    --shadow-green: 0 0 15px rgba(52, 211, 153, 0.3);
     --shadow-red: 0 0 15px rgba(239, 68, 68, 0.3);
 }
 
@@ -43,7 +45,7 @@ html {
 body {
     min-height: 100vh;
     overflow-x: hidden;
-    background-color: #0a0c14 !important;
+    background-color: #060b08 !important;
     background-image: none !important;
     color: var(--text-primary);
     display: flex;

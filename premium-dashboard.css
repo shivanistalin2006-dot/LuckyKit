@@ -2,78 +2,118 @@
    LUCKYKIT OS V2 - PREMIUM DASHBOARD & ALIGNMENT STYLES
    ======================================================== */
 
-:root, [data-theme="dark"] {
-    --v2-primary: #0ea5e9;
-    --v2-accent: #f43f5e;
-    --v2-bg: #0a0c14;
-    --v2-surface: #121626;
-    --v2-surface-hover: #181e33;
-    --v2-border: rgba(255, 255, 255, 0.08);
-    --v2-border-hover: rgba(14, 165, 233, 0.4);
-    --v2-glow: rgba(14, 165, 233, 0.2);
+/* Theme 1: Emerald & Black (Default) */
+:root, [data-theme="emerald"], .theme-emerald, [data-theme="dark"] {
+    --v2-primary: #10b981;
+    --v2-accent: #34d399;
+    --v2-bg: #060b08;
+    --v2-surface: #0d1712;
+    --v2-surface-hover: #14241c;
+    --v2-border: rgba(16, 185, 129, 0.22);
+    --v2-border-hover: rgba(52, 211, 153, 0.55);
+    --v2-glow: rgba(16, 185, 129, 0.28);
     
     --v2-text: #f8fafc;
     --v2-text-muted: #94a3b8;
     
-    --v2-sidebar-bg: #0d101c;
-    --v2-card-bg: #13182b;
-    --v2-nav-hover: rgba(255, 255, 255, 0.05);
+    --v2-sidebar-bg: #08100c;
+    --v2-card-bg: #0e1a14;
+    --v2-nav-hover: rgba(16, 185, 129, 0.1);
     
-    --v2-shadow: rgba(0, 0, 0, 0.5);
-    --v2-shadow-lg: 0 10px 25px rgba(0, 0, 0, 0.4);
+    --v2-shadow: rgba(0, 0, 0, 0.6);
+    --v2-shadow-lg: 0 10px 25px rgba(0, 0, 0, 0.6);
     
-    --v2-profile-bg: #101424;
-    --v2-profile-border: rgba(255, 255, 255, 0.08);
+    --v2-profile-bg: #0d1712;
+    --v2-profile-border: rgba(16, 185, 129, 0.25);
     
-    --v2-progress-bg: #07090f;
-    --v2-hero-overlay: linear-gradient(to top, #0a0c14 10%, rgba(10, 12, 20, 0.8) 60%, transparent 100%);
+    --v2-progress-bg: #040806;
+    --v2-hero-overlay: linear-gradient(to top, #060b08 10%, rgba(6, 11, 8, 0.85) 60%, transparent 100%);
     
-    --v2-mission-bg: #101424;
-    --v2-mission-hover: #161b30;
+    --v2-mission-bg: #0d1712;
+    --v2-mission-hover: #14241c;
     
-    --card-bg-red: #1a1424;
-    --card-bg-blue: #121a2e;
-    --card-bg-green: #101e1d;
-    --card-bg-yellow: #1e1b15;
-    --card-bg-purple: #1a1428;
-    --card-bg-cyan: #101c26;
+    --card-bg-red: #180f12;
+    --card-bg-blue: #0d1a24;
+    --card-bg-green: #0e1f16;
+    --card-bg-yellow: #1c190d;
+    --card-bg-purple: #180d22;
+    --card-bg-cyan: #0c1c1f;
 }
 
-[data-theme="light"] {
-    --v2-primary: #0284c7;
-    --v2-accent: #ec4899;
-    --v2-bg: #f8fafc;
-    --v2-surface: #ffffff;
-    --v2-surface-hover: #f1f5f9;
-    --v2-border: rgba(0, 0, 0, 0.08);
-    --v2-border-hover: rgba(2, 132, 199, 0.4);
-    --v2-glow: rgba(2, 132, 199, 0.15);
+/* Theme 2: Lavender & Dark Purple */
+[data-theme="purple"], .theme-purple {
+    --v2-primary: #c084fc;
+    --v2-accent: #a855f7;
+    --v2-bg: #0a0614;
+    --v2-surface: #140d26;
+    --v2-surface-hover: #1f143d;
+    --v2-border: rgba(192, 132, 252, 0.22);
+    --v2-border-hover: rgba(216, 180, 254, 0.55);
+    --v2-glow: rgba(192, 132, 252, 0.28);
     
-    --v2-text: #0f172a;
-    --v2-text-muted: #64748b;
+    --v2-text: #f8fafc;
+    --v2-text-muted: #cbd5e1;
     
-    --v2-sidebar-bg: #ffffff;
-    --v2-card-bg: #ffffff;
-    --v2-nav-hover: #f1f5f9;
+    --v2-sidebar-bg: #0e091c;
+    --v2-card-bg: #150d29;
+    --v2-nav-hover: rgba(192, 132, 252, 0.1);
     
-    --v2-shadow: rgba(0, 0, 0, 0.05);
-    --v2-shadow-lg: 0 8px 20px rgba(0, 0, 0, 0.06);
+    --v2-shadow: rgba(0, 0, 0, 0.65);
+    --v2-shadow-lg: 0 10px 25px rgba(0, 0, 0, 0.65);
     
-    --v2-profile-bg: #f8fafc;
-    --v2-profile-border: rgba(0, 0, 0, 0.06);
+    --v2-profile-bg: #140d26;
+    --v2-profile-border: rgba(192, 132, 252, 0.25);
     
-    --v2-progress-bg: #e2e8f0;
-    --v2-hero-overlay: linear-gradient(to top, #f8fafc 10%, rgba(248, 250, 252, 0.8) 60%, transparent 100%);
+    --v2-progress-bg: #06030d;
+    --v2-hero-overlay: linear-gradient(to top, #0a0614 10%, rgba(10, 6, 20, 0.85) 60%, transparent 100%);
     
-    --v2-mission-bg: #f8fafc;
-    --v2-mission-hover: #f1f5f9;
+    --v2-mission-bg: #140d26;
+    --v2-mission-hover: #1f143d;
     
-    --card-bg-red: #ffffff;
-    --card-bg-blue: #ffffff;
-    --card-bg-green: #ffffff;
-    --card-bg-yellow: #ffffff;
-    --card-bg-purple: #ffffff;
-    --card-bg-cyan: #ffffff;
+    --card-bg-red: #1f0d1a;
+    --card-bg-blue: #12142e;
+    --card-bg-green: #0f1e1a;
+    --card-bg-yellow: #1e1b10;
+    --card-bg-purple: #1e0f33;
+    --card-bg-cyan: #101c2b;
+}
+
+/* Theme 3: Black & Gold */
+[data-theme="gold"], .theme-gold {
+    --v2-primary: #eab308;
+    --v2-accent: #facc15;
+    --v2-bg: #0a0904;
+    --v2-surface: #161408;
+    --v2-surface-hover: #24200c;
+    --v2-border: rgba(234, 179, 8, 0.25);
+    --v2-border-hover: rgba(250, 204, 21, 0.6);
+    --v2-glow: rgba(234, 179, 8, 0.28);
+    
+    --v2-text: #f8fafc;
+    --v2-text-muted: #cbd5e1;
+    
+    --v2-sidebar-bg: #0f0d06;
+    --v2-card-bg: #17150a;
+    --v2-nav-hover: rgba(234, 179, 8, 0.1);
+    
+    --v2-shadow: rgba(0, 0, 0, 0.65);
+    --v2-shadow-lg: 0 10px 25px rgba(0, 0, 0, 0.65);
+    
+    --v2-profile-bg: #161408;
+    --v2-profile-border: rgba(234, 179, 8, 0.28);
+    
+    --v2-progress-bg: #060502;
+    --v2-hero-overlay: linear-gradient(to top, #0a0904 10%, rgba(10, 9, 4, 0.85) 60%, transparent 100%);
+    
+    --v2-mission-bg: #161408;
+    --v2-mission-hover: #24200c;
+    
+    --card-bg-red: #1f1012;
+    --card-bg-blue: #0f192b;
+    --card-bg-green: #0f1f16;
+    --card-bg-yellow: #241f0c;
+    --card-bg-purple: #1b1029;
+    --card-bg-cyan: #0e1e24;
 }
 
 body.v2-launcher {

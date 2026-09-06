@@ -324,8 +324,16 @@
     margin-top: 1px;
 }
 
-/* Light Theme Overrides */
-body.light-theme .snake-page-body,
-[data-theme="light"] .snake-page-body {
-    background-color: #f8fafc !important;
+/* Custom 3 Themes Overrides */
+body.theme-emerald .snake-page-body,
+[data-theme="emerald"] .snake-page-body {
+    background-color: #060b08 !important;
+}
+body.theme-purple .snake-page-body,
+[data-theme="purple"] .snake-page-body {
+    background-color: #0a0614 !important;
+}
+body.theme-gold .snake-page-body,
+[data-theme="gold"] .snake-page-body {
+    background-color: #0a0904 !important;
 }
