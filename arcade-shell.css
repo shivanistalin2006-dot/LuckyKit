@@ -583,11 +583,11 @@ body.arcade-premium-mode {
 
 
 /* ========================================================
-   3 LUXURY THEMES ENGINE (Emerald & Black, Lavender & Purple, Black & Gold)
+   6 LUXURY THEMES ENGINE (3 Dark 🌙 + 3 Light ☀️)
    ======================================================== */
 
-/* Theme 1: Emerald & Black (Default) */
-:root, [data-theme="emerald"], .theme-emerald, [data-theme="dark"] {
+/* 🌙 DARK 1: Black + Emerald (Default) */
+:root, [data-theme="dark-emerald"], .theme-dark-emerald, [data-theme="emerald"], .theme-emerald, [data-theme="dark"] {
     --bg-dark: #060b08;
     --bg-card: #0e1a14;
     --border-glass: rgba(16, 185, 129, 0.22);
@@ -597,19 +597,8 @@ body.arcade-premium-mode {
     --theme-glow: rgba(16, 185, 129, 0.3);
 }
 
-/* Theme 2: Lavender & Dark Purple */
-[data-theme="purple"], .theme-purple {
-    --bg-dark: #0a0614;
-    --bg-card: #150d29;
-    --border-glass: rgba(192, 132, 252, 0.22);
-    --text-primary: #f8fafc;
-    --text-muted: #cbd5e1;
-    --theme-color: #c084fc;
-    --theme-glow: rgba(192, 132, 252, 0.3);
-}
-
-/* Theme 3: Black & Gold */
-[data-theme="gold"], .theme-gold {
+/* 🌙 DARK 2: Black + Gold */
+[data-theme="dark-gold"], .theme-dark-gold, [data-theme="gold"], .theme-gold {
     --bg-dark: #0a0904;
     --bg-card: #17150a;
     --border-glass: rgba(234, 179, 8, 0.25);
@@ -619,52 +608,138 @@ body.arcade-premium-mode {
     --theme-glow: rgba(234, 179, 8, 0.3);
 }
 
-/* Theme 1 Theme Overrides */
+/* 🌙 DARK 3: Dark Purple + Lavender */
+[data-theme="dark-purple"], .theme-dark-purple, [data-theme="purple"], .theme-purple {
+    --bg-dark: #0a0614;
+    --bg-card: #150d29;
+    --border-glass: rgba(192, 132, 252, 0.22);
+    --text-primary: #f8fafc;
+    --text-muted: #cbd5e1;
+    --theme-color: #c084fc;
+    --theme-glow: rgba(192, 132, 252, 0.3);
+}
+
+/* ☀️ LIGHT 1: Ivory + Champagne Gold */
+[data-theme="light-gold"], .theme-light-gold {
+    --bg-dark: #faf8f2;
+    --bg-card: #ffffff;
+    --border-glass: rgba(180, 83, 9, 0.25);
+    --text-primary: #1c1917;
+    --text-muted: #78716c;
+    --theme-color: #b45309;
+    --theme-glow: rgba(217, 119, 6, 0.25);
+}
+
+/* ☀️ LIGHT 2: Soft Mint + Emerald */
+[data-theme="light-emerald"], .theme-light-emerald, [data-theme="light"] {
+    --bg-dark: #f0fdf4;
+    --bg-card: #ffffff;
+    --border-glass: rgba(5, 150, 105, 0.25);
+    --text-primary: #062e1e;
+    --text-muted: #4b7a67;
+    --theme-color: #059669;
+    --theme-glow: rgba(5, 150, 105, 0.25);
+}
+
+/* ☀️ LIGHT 3: Lavender Mist + Deep Purple */
+[data-theme="light-purple"], .theme-light-purple {
+    --bg-dark: #faf5ff;
+    --bg-card: #ffffff;
+    --border-glass: rgba(126, 34, 206, 0.25);
+    --text-primary: #2e1065;
+    --text-muted: #6b5b95;
+    --theme-color: #7e22ce;
+    --theme-glow: rgba(126, 34, 206, 0.25);
+}
+
+/* Dark Theme Body & Glass Overrides */
+body.theme-dark-emerald, [data-theme="dark-emerald"] body,
 body.theme-emerald, [data-theme="emerald"] body {
     background-color: #060b08 !important;
     background-image: none !important;
     color: #f8fafc !important;
 }
 
-/* Theme 2 Theme Overrides */
-body.theme-purple, [data-theme="purple"] body {
-    background-color: #0a0614 !important;
-    background-image: none !important;
-    color: #f8fafc !important;
-}
-
-/* Theme 3 Theme Overrides */
+body.theme-dark-gold, [data-theme="dark-gold"] body,
 body.theme-gold, [data-theme="gold"] body {
     background-color: #0a0904 !important;
     background-image: none !important;
     color: #f8fafc !important;
 }
 
-.theme-emerald .glass-panel,
-.theme-emerald .glass-panel-v2,
-[data-theme="emerald"] .glass-panel,
-[data-theme="emerald"] .glass-panel-v2 {
+body.theme-dark-purple, [data-theme="dark-purple"] body,
+body.theme-purple, [data-theme="purple"] body {
+    background-color: #0a0614 !important;
+    background-image: none !important;
+    color: #f8fafc !important;
+}
+
+/* Light Theme Body & Glass Overrides */
+body.theme-light-gold, [data-theme="light-gold"] body {
+    background-color: #faf8f2 !important;
+    background-image: none !important;
+    color: #1c1917 !important;
+}
+
+body.theme-light-emerald, [data-theme="light-emerald"] body {
+    background-color: #f0fdf4 !important;
+    background-image: none !important;
+    color: #062e1e !important;
+}
+
+body.theme-light-purple, [data-theme="light-purple"] body {
+    background-color: #faf5ff !important;
+    background-image: none !important;
+    color: #2e1065 !important;
+}
+
+/* Glass Panels & Surfaces */
+.theme-dark-emerald .glass-panel, .theme-dark-emerald .glass-panel-v2,
+[data-theme="dark-emerald"] .glass-panel, [data-theme="dark-emerald"] .glass-panel-v2 {
     background: #0d1712 !important;
     border: 1px solid rgba(16, 185, 129, 0.22) !important;
     box-shadow: 0 10px 30px rgba(0, 0, 0, 0.6) !important;
+    color: #f8fafc !important;
 }
 
-.theme-purple .glass-panel,
-.theme-purple .glass-panel-v2,
-[data-theme="purple"] .glass-panel,
-[data-theme="purple"] .glass-panel-v2 {
-    background: #140d26 !important;
-    border: 1px solid rgba(192, 132, 252, 0.22) !important;
-    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.65) !important;
-}
-
-.theme-gold .glass-panel,
-.theme-gold .glass-panel-v2,
-[data-theme="gold"] .glass-panel,
-[data-theme="gold"] .glass-panel-v2 {
+.theme-dark-gold .glass-panel, .theme-dark-gold .glass-panel-v2,
+[data-theme="dark-gold"] .glass-panel, [data-theme="dark-gold"] .glass-panel-v2 {
     background: #161408 !important;
     border: 1px solid rgba(234, 179, 8, 0.25) !important;
     box-shadow: 0 10px 30px rgba(0, 0, 0, 0.65) !important;
+    color: #f8fafc !important;
+}
+
+.theme-dark-purple .glass-panel, .theme-dark-purple .glass-panel-v2,
+[data-theme="dark-purple"] .glass-panel, [data-theme="dark-purple"] .glass-panel-v2 {
+    background: #140d26 !important;
+    border: 1px solid rgba(192, 132, 252, 0.22) !important;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.65) !important;
+    color: #f8fafc !important;
+}
+
+.theme-light-gold .glass-panel, .theme-light-gold .glass-panel-v2,
+[data-theme="light-gold"] .glass-panel, [data-theme="light-gold"] .glass-panel-v2 {
+    background: #ffffff !important;
+    border: 1px solid rgba(180, 83, 9, 0.25) !important;
+    box-shadow: 0 10px 30px rgba(180, 83, 9, 0.1) !important;
+    color: #1c1917 !important;
+}
+
+.theme-light-emerald .glass-panel, .theme-light-emerald .glass-panel-v2,
+[data-theme="light-emerald"] .glass-panel, [data-theme="light-emerald"] .glass-panel-v2 {
+    background: #ffffff !important;
+    border: 1px solid rgba(5, 150, 105, 0.25) !important;
+    box-shadow: 0 10px 30px rgba(5, 150, 105, 0.1) !important;
+    color: #062e1e !important;
+}
+
+.theme-light-purple .glass-panel, .theme-light-purple .glass-panel-v2,
+[data-theme="light-purple"] .glass-panel, [data-theme="light-purple"] .glass-panel-v2 {
+    background: #ffffff !important;
+    border: 1px solid rgba(126, 34, 206, 0.25) !important;
+    box-shadow: 0 10px 30px rgba(126, 34, 206, 0.1) !important;
+    color: #2e1065 !important;
 }
 /* ========================================================
    GLOBAL USER-FRIENDLY FLOATING BUTTONS & CANVAS ALIGNMENT

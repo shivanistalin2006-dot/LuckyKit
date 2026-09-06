@@ -324,16 +324,25 @@
     margin-top: 1px;
 }
 
-/* Custom 3 Themes Overrides */
-body.theme-emerald .snake-page-body,
-[data-theme="emerald"] .snake-page-body {
+/* 6 Luxury Themes Overrides */
+body.theme-dark-emerald .snake-page-body, [data-theme="dark-emerald"] .snake-page-body,
+body.theme-emerald .snake-page-body, [data-theme="emerald"] .snake-page-body {
     background-color: #060b08 !important;
 }
-body.theme-purple .snake-page-body,
-[data-theme="purple"] .snake-page-body {
+body.theme-dark-gold .snake-page-body, [data-theme="dark-gold"] .snake-page-body,
+body.theme-gold .snake-page-body, [data-theme="gold"] .snake-page-body {
+    background-color: #0a0904 !important;
+}
+body.theme-dark-purple .snake-page-body, [data-theme="dark-purple"] .snake-page-body,
+body.theme-purple .snake-page-body, [data-theme="purple"] .snake-page-body {
     background-color: #0a0614 !important;
 }
-body.theme-gold .snake-page-body,
-[data-theme="gold"] .snake-page-body {
-    background-color: #0a0904 !important;
+body.theme-light-gold .snake-page-body, [data-theme="light-gold"] .snake-page-body {
+    background-color: #faf8f2 !important;
+}
+body.theme-light-emerald .snake-page-body, [data-theme="light-emerald"] .snake-page-body {
+    background-color: #f0fdf4 !important;
+}
+body.theme-light-purple .snake-page-body, [data-theme="light-purple"] .snake-page-body {
+    background-color: #faf5ff !important;
 }

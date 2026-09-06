@@ -59,7 +59,7 @@ export class V2Dashboard {
         if (themeToggleBtn) {
             themeToggleBtn.addEventListener('click', (e) => {
                 e.preventDefault();
-                themeManager.toggleTheme();
+                themeManager.openThemeModal();
             });
         }
         

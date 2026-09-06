@@ -188,16 +188,25 @@
     background: #242217;
 }
 
-/* Custom 3 Themes Overrides */
-body.theme-emerald .bike-body,
-[data-theme="emerald"] .bike-body {
+/* 6 Luxury Themes Overrides */
+body.theme-dark-emerald .bike-body, [data-theme="dark-emerald"] .bike-body,
+body.theme-emerald .bike-body, [data-theme="emerald"] .bike-body {
     background-color: #060b08 !important;
 }
-body.theme-purple .bike-body,
-[data-theme="purple"] .bike-body {
+body.theme-dark-gold .bike-body, [data-theme="dark-gold"] .bike-body,
+body.theme-gold .bike-body, [data-theme="gold"] .bike-body {
+    background-color: #0a0904 !important;
+}
+body.theme-dark-purple .bike-body, [data-theme="dark-purple"] .bike-body,
+body.theme-purple .bike-body, [data-theme="purple"] .bike-body {
     background-color: #0a0614 !important;
 }
-body.theme-gold .bike-body,
-[data-theme="gold"] .bike-body {
-    background-color: #0a0904 !important;
+body.theme-light-gold .bike-body, [data-theme="light-gold"] .bike-body {
+    background-color: #faf8f2 !important;
+}
+body.theme-light-emerald .bike-body, [data-theme="light-emerald"] .bike-body {
+    background-color: #f0fdf4 !important;
+}
+body.theme-light-purple .bike-body, [data-theme="light-purple"] .bike-body {
+    background-color: #faf5ff !important;
 }
