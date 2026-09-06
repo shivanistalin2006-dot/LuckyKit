@@ -741,6 +741,43 @@ body.theme-light-purple, [data-theme="light-purple"] body {
     box-shadow: 0 10px 30px rgba(126, 34, 206, 0.1) !important;
     color: #2e1065 !important;
 }
+
+/* Light Mode Arcade Header & Controls Overrides */
+[data-mode="light"] .arcade-header-bar,
+.light-mode .arcade-header-bar,
+[data-theme^="light"] .arcade-header-bar {
+    background: rgba(255, 255, 255, 0.88) !important;
+    border-bottom: 1px solid var(--border-glass) !important;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08) !important;
+}
+
+[data-mode="light"] .arcade-header-bar .btn,
+.light-mode .arcade-header-bar .btn,
+[data-theme^="light"] .arcade-header-bar .btn {
+    color: var(--text-primary) !important;
+}
+
+[data-mode="light"] #hubBtn,
+.light-mode #hubBtn,
+[data-theme^="light"] #hubBtn {
+    background: #ffffff !important;
+    color: var(--text-primary) !important;
+    border: 1.5px solid var(--border-glass) !important;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.08) !important;
+}
+
+[data-mode="light"] .text-white,
+.light-mode .text-white,
+[data-theme^="light"] .text-white {
+    color: var(--text-primary) !important;
+}
+
+[data-mode="light"] .text-white-50,
+.light-mode .text-white-50,
+[data-theme^="light"] .text-white-50 {
+    color: var(--text-muted) !important;
+}
+
 /* ========================================================
    GLOBAL USER-FRIENDLY FLOATING BUTTONS & CANVAS ALIGNMENT
    ======================================================== */
@@ -781,6 +818,3 @@ canvas {
     justify-content: center !important;
     gap: 8px !important;
 }
-
-
-
