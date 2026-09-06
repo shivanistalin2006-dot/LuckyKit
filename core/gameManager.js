@@ -56,12 +56,12 @@ const GAME_INSTRUCTIONS = {
         tips: "Use Double Jump over wide boulder pits and slide under high lasers!"
     },
     "bike": {
-        title: "MotoPark Pro: Bike Parking Master",
-        objective: "Navigate through real environments and park your bike accurately inside the marked yellow slot.",
-        controls: "W/S (Throttle/Brake), A/D (Steering), SPACE (Handbrake), H (Horn), C (Camera), P (Guide Line)",
-        win: "Align motorcycle inside slot, stop completely, and hold still for 1.5s to turn off engine.",
+        title: "MotoPark: Real Ride 3D",
+        objective: "Ride through realistic 3D city environments and precision-park your motorcycle into designated 3D bays.",
+        controls: "W/S (Throttle/Brake), A/D (Steering), Q/E (Gear Down/Up), SHIFT (Clutch), SPACE (Rear Brake), C (3D Camera), K (Stand)",
+        win: "Align motorcycle inside 3D bay, stop completely, and hold still for 1.5s to turn off ignition.",
         lose: "Damage reaches 100% or timer expires.",
-        tips: "Brake early on wet surfaces and use the Handlebar view for realistic precision!"
+        tips: "Smooth throttle and clutch control prevent engine stalls. Use the 3D Helmet and Handlebar cameras for immersive precision!"
     }
 };
 

@@ -3,17 +3,20 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>LuckyKit - MotoPark Pro: Motorcycle Simulator & Parking Master</title>
+    <title>MotoPark: Real Ride - 3D Motorcycle Simulator & Parking</title>
     
     <!-- Bootstrap 5 & Styles -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" href="arcade-shell.css">
-    <link rel="stylesheet" href="bike.css?v=2.0">
-    <link href="https://fonts.googleapis.com/css2?family=Rajdhani:wght@400;600;700;800&family=Outfit:wght@400;600;700;900&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="bike.css?v=3.0">
+    <link href="https://fonts.googleapis.com/css2?family=Rajdhani:wght@500;600;700;800&family=Outfit:wght@400;600;700;900&display=swap" rel="stylesheet">
+    
+    <!-- Three.js 3D WebGL Library -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
     
     <!-- App Architecture -->
     <script type="module" src="core/app.js?v=2.4"></script>
-    <script type="module" src="bike.js?v=2.0" defer></script>
+    <script type="module" src="bike.js?v=3.0" defer></script>
 </head>
 <body class="bg-dark text-white bike-body">
 
@@ -26,35 +29,40 @@
         </button>
     </div>
 
-    <div class="container-fluid py-3 px-lg-4 position-relative" style="z-index: 10;">
+    <div class="container-fluid py-2 px-lg-4 position-relative" style="z-index: 10;">
         
         <!-- Header -->
-        <header class="d-flex justify-content-between align-items-center mb-3 p-3 rounded-4 glass-panel flex-wrap gap-2">
+        <header class="d-flex justify-content-between align-items-center mb-2 p-3 rounded-4 glass-panel flex-wrap gap-2">
             <div class="d-flex align-items-center gap-3">
-                <span class="fs-1 text-warning">🏍️🅿️</span>
+                <span class="fs-1 text-warning">🏍️💨</span>
                 <div>
-                    <h1 class="m-0 fw-bold text-warning title-glow fs-3">MotoPark Pro: Motorcycle Simulator</h1>
-                    <span class="text-white-50 small">Manual 6-Speed Gearbox • True 2-Wheel Physics • Living Open City</span>
+                    <h1 class="m-0 fw-bold text-warning title-glow fs-3">MotoPark: Real Ride 3D</h1>
+                    <span class="text-white-50 small">True 3D Physics Engine • Manual 6-Speed Transmission • Living Open City</span>
                 </div>
             </div>
             
             <div class="d-flex gap-2 align-items-center flex-wrap">
-                <!-- Transmission Mode Switch -->
-                <button class="btn btn-sm btn-outline-info fw-bold px-3 py-2 rounded-pill" id="transmissionToggleBtn" title="Toggle Manual / Automatic Gearbox">
-                    ⚙️ Mode: <span id="transModeText" class="text-warning">MANUAL</span>
+                <!-- Difficulty / Mode Switch -->
+                <button class="btn btn-sm btn-outline-info fw-bold px-3 py-2 rounded-pill" id="difficultyToggleBtn" title="Difficulty: Casual / Realistic / Hardcore">
+                    🎯 <span id="diffModeText" class="text-warning">REALISTIC</span>
                 </button>
 
-                <button class="btn btn-outline-warning fw-bold px-3 py-2 rounded-pill" id="garageBtn">
-                    🏬 GARAGE
+                <!-- Transmission Mode Switch -->
+                <button class="btn btn-sm btn-outline-warning fw-bold px-3 py-2 rounded-pill" id="transmissionToggleBtn" title="Toggle Manual / Automatic Gearbox">
+                    ⚙️ <span id="transModeText" class="text-warning">6-SPEED MANUAL</span>
+                </button>
+
+                <button class="btn btn-outline-light fw-bold px-3 py-2 rounded-pill" id="garageBtn">
+                    🏬 3D GARAGE
                 </button>
                 <button class="btn btn-outline-info fw-bold px-3 py-2 rounded-pill" id="levelSelectBtn">
-                    🗺️ CITY MISSIONS (<span id="currentLevelHeader">1/10</span>)
+                    🗺️ MISSIONS (<span id="currentLevelHeader">1/10</span>)
                 </button>
                 <button class="btn btn-warning fw-bold px-4 py-2 rounded-pill shadow-btn" id="startBtn">
                     ▶ START ENGINE
                 </button>
                 <button class="btn btn-outline-light fw-bold px-3 py-2 rounded-pill" id="restartBtn">
-                    🔄 RESTART
+                    🔄 RESET
                 </button>
             </div>
         </header>
@@ -62,7 +70,7 @@
         <!-- Main Game Area -->
         <div class="row g-3 justify-content-center">
             
-            <!-- Game Canvas & Cockpit Column -->
+            <!-- 3D Viewport & Cockpit Column -->
             <div class="col-12 col-xl-9 d-flex flex-column align-items-center">
                 <div class="glass-panel p-2 p-md-3 rounded-4 w-100 d-flex flex-column align-items-center position-relative overflow-hidden bike-panel">
                     
@@ -70,18 +78,18 @@
                     <div class="w-100 d-flex justify-content-between align-items-center mb-2 px-2 gap-2 flex-wrap text-nowrap">
                         <div class="d-flex align-items-center gap-2">
                             <span class="badge bg-dark border border-warning text-warning fs-6 px-3 py-2">
-                                🏍️ <span id="currentBikeName">Street 150cc</span>
+                                🏍️ <span id="currentBikeName">Street Raven 150cc</span>
                             </span>
                             <span class="badge bg-dark border border-info text-info fs-6 px-3 py-2">
                                 ⏱️ <span id="missionTimer">00:00.0</span>
                             </span>
                             <span class="badge bg-dark border border-secondary text-white fs-6 px-3 py-2">
-                                🎯 <span id="levelNumberText">Level 1</span>: <span id="levelTitleText" class="text-white-50">Residential Driveway</span>
+                                🎯 <span id="levelNumberText">Mission 1</span>: <span id="levelTitleText" class="text-white-50">Residential Driveway</span>
                             </span>
                         </div>
 
-                        <!-- Vehicle Health & Repair Bar -->
-                        <div class="d-flex align-items-center gap-2" style="min-width: 180px;">
+                        <!-- Vehicle Damage / Health -->
+                        <div class="d-flex align-items-center gap-2" style="min-width: 170px;">
                             <span class="small fw-bold text-danger">DAMAGE:</span>
                             <div class="progress flex-grow-1" style="height: 10px; background: rgba(0,0,0,0.6);">
                                 <div id="damageProgressBar" class="progress-bar bg-success" style="width: 100%;"></div>
@@ -91,28 +99,28 @@
 
                         <div class="d-flex align-items-center gap-2">
                             <!-- Camera Switcher -->
-                            <button class="btn btn-sm btn-outline-info rounded-pill px-3 py-1 fw-bold" id="camToggleBtn" title="Switch Camera View (Key: C)">
+                            <button class="btn btn-sm btn-outline-info rounded-pill px-3 py-1 fw-bold" id="camToggleBtn" title="Cycle 3D Camera (Key: C)">
                                 🎥 <span id="camNameText">Chase Cam</span>
                             </button>
-                            <!-- Headlight Toggle -->
-                            <button class="btn btn-sm btn-outline-light rounded-pill px-3 py-1 fw-bold" id="headlightToggleBtn" title="Toggle Headlight (Key: L)">
+                            <!-- 3D Headlight Toggle -->
+                            <button class="btn btn-sm btn-outline-light rounded-pill px-3 py-1 fw-bold" id="headlightToggleBtn" title="Toggle 3D Headlight Beam (Key: L)">
                                 💡 <span id="lightStatusText">ON</span>
                             </button>
-                            <!-- Parking Assist Guideline -->
-                            <button class="btn btn-sm btn-outline-warning rounded-pill px-3 py-1 fw-bold" id="assistToggleBtn" title="Toggle Parking Guide Path (Key: P)">
+                            <!-- Parking Assist Guide -->
+                            <button class="btn btn-sm btn-outline-warning rounded-pill px-3 py-1 fw-bold" id="assistToggleBtn" title="Toggle 3D Parking Guide Path (Key: P)">
                                 🧭 Guide: <span id="assistText">ON</span>
                             </button>
                         </div>
                     </div>
 
-                    <!-- Canvas Wrapper -->
-                    <div class="canvas-wrapper position-relative w-100 rounded-3 overflow-hidden shadow-lg" style="max-width: 1000px; aspect-ratio: 16/9; background: #0c0e18;">
+                    <!-- 3D Three.js Canvas Container -->
+                    <div class="canvas-wrapper position-relative w-100 rounded-3 overflow-hidden shadow-lg" style="max-width: 1000px; aspect-ratio: 16/9; background: #070913;" id="threeContainer">
                         <canvas id="bikeCanvas" width="1000" height="562" class="w-100 h-100 d-block"></canvas>
 
-                        <!-- Instrument Cluster / Full Digital Dashboard Overlay -->
+                        <!-- Digital Automotive Cockpit Gauges Overlay -->
                         <div class="position-absolute bottom-0 start-0 p-3 d-flex align-items-end gap-3 pointer-events-none" style="z-index: 6;">
                             
-                            <!-- Digital & Analog Speedo + Tachometer Cluster -->
+                            <!-- Digital Instrument Cluster -->
                             <div class="gauge-cluster p-3 rounded-4">
                                 <div class="d-flex align-items-center justify-content-between gap-3 mb-1">
                                     <div class="indicator-icon" id="hudBlinkerLeft">◀</div>
@@ -128,31 +136,31 @@
                                     </div>
                                 </div>
 
-                                <!-- RPM Bar & Redline Gauge -->
+                                <!-- RPM Bar & Redline Indicator -->
                                 <div class="mt-2">
                                     <div class="d-flex justify-content-between very-small text-white-50 mb-1">
                                         <span>RPM: <strong id="hudRpmText" class="text-white">1200</strong></span>
-                                        <span class="text-danger fw-bold">REDLINE</span>
+                                        <span class="text-danger fw-bold">14k REDLINE</span>
                                     </div>
                                     <div class="progress" style="height: 6px; background: rgba(0,0,0,0.7);">
                                         <div id="hudRpmBar" class="progress-bar bg-info" style="width: 10%;"></div>
                                     </div>
                                 </div>
 
-                                <!-- Clutch & Kickstand Bar -->
+                                <!-- Clutch & Kickstand Indicator -->
                                 <div class="d-flex justify-content-between align-items-center mt-2 very-small text-white-50">
                                     <span>Clutch: <strong id="hudClutchText" class="text-info">OUT (0%)</strong></span>
                                     <span id="hudStandBadge" class="badge bg-secondary text-white">🦵 STAND UP</span>
                                 </div>
                             </div>
 
-                            <!-- Real-time Parking Zone Alignment Status Radar -->
+                            <!-- Real-time 3D Parking Radar Card -->
                             <div class="parking-status-card p-3 rounded-4" id="parkingStatusCard">
                                 <div class="d-flex align-items-center gap-2">
                                     <span class="fs-3" id="parkingIcon">🅿️</span>
                                     <div>
-                                        <div class="fw-bold text-white small" id="parkingStatusTitle">APPROACH SLOT</div>
-                                        <div class="text-white-50 very-small" id="parkingStatusSubtitle">Align inside yellow bay lines</div>
+                                        <div class="fw-bold text-white small" id="parkingStatusTitle">APPROACH 3D BAY</div>
+                                        <div class="text-white-50 very-small" id="parkingStatusSubtitle">Align inside yellow 3D boundary</div>
                                     </div>
                                 </div>
                                 <div class="d-flex gap-3 mt-2 very-small justify-content-between border-top border-secondary pt-1">
@@ -163,10 +171,10 @@
                             </div>
                         </div>
 
-                        <!-- Top-Right Mini-Map / GPS Radar & Location -->
+                        <!-- Top-Right 3D Mini-Map & Environment Info -->
                         <div class="position-absolute top-0 end-0 p-3 d-flex flex-column align-items-end gap-2 pointer-events-none" style="z-index: 6;">
                             <div class="minimap-box p-1 rounded-3">
-                                <canvas id="minimapCanvas" width="120" height="90" class="d-block rounded-2"></canvas>
+                                <canvas id="minimapCanvas" width="130" height="95" class="d-block rounded-2"></canvas>
                             </div>
                             <div class="d-flex gap-2">
                                 <span class="badge bg-dark border border-secondary text-white-50 p-2" id="envBadge">☀️ Dry Asphalt</span>
@@ -174,19 +182,19 @@
                             </div>
                         </div>
 
-                        <!-- Engine Stalled Alert Banner -->
+                        <!-- Stalled Engine Warning Alert -->
                         <div class="position-absolute top-50 start-50 translate-middle text-center p-3 rounded-4 d-none stalled-banner" id="stalledAlert" style="z-index: 10; background: rgba(239, 68, 68, 0.92); backdrop-filter: blur(8px);">
                             <span class="fs-1">⚠️</span>
                             <h4 class="fw-black text-white m-0">ENGINE STALLED!</h4>
                             <p class="small text-white mb-0">Pull Clutch (<kbd>Shift</kbd>) and Shift to Neutral (<kbd>Q</kbd>) to restart!</p>
                         </div>
 
-                        <!-- Mission Completion / Failure Modal Overlay -->
+                        <!-- Mission Completion / Failure Overlay -->
                         <div class="position-absolute top-50 start-50 translate-middle text-center w-100 h-100 d-none flex-column justify-content-center align-items-center game-overlay" id="resultOverlay" style="z-index: 25; background: rgba(10, 12, 20, 0.95); backdrop-filter: blur(14px);">
                             <span class="display-2 mb-1" id="resultEmoji">🅿️✨</span>
                             <h1 class="fw-black fs-1 mb-1 text-warning title-glow" id="resultTitle">PERFECT PARKING!</h1>
                             <div class="fs-4 text-warning mb-2" id="resultStars">⭐⭐⭐⭐⭐</div>
-                            <p class="text-white-50 mb-3" id="resultMessage">Engine stopped cleanly with kickstand deployed!</p>
+                            <p class="text-white-50 mb-3" id="resultMessage">Engine stopped cleanly with kickstand deployed in 3D bay!</p>
                             
                             <div class="d-flex gap-3 mb-4 flex-wrap justify-content-center">
                                 <div class="p-2 px-4 rounded-3 bg-dark border border-warning">
@@ -194,7 +202,7 @@
                                     <strong class="text-warning fs-4" id="scoreAccuracy">98%</strong>
                                 </div>
                                 <div class="p-2 px-4 rounded-3 bg-dark border border-info">
-                                    <span class="text-white-50 small d-block">Time Taken</span>
+                                    <span class="text-white-50 small d-block">Time Elapsed</span>
                                     <strong class="text-info fs-4" id="scoreTime">18.4s</strong>
                                 </div>
                                 <div class="p-2 px-4 rounded-3 bg-dark border border-danger">
@@ -202,8 +210,8 @@
                                     <strong class="text-danger fs-4" id="scoreDamage">0%</strong>
                                 </div>
                                 <div class="p-2 px-4 rounded-3 bg-dark border border-success">
-                                    <span class="text-white-50 small d-block">Coins Earned</span>
-                                    <strong class="text-success fs-4" id="scoreCoins">+200 🪙</strong>
+                                    <span class="text-white-50 small d-block">Reward</span>
+                                    <strong class="text-success fs-4" id="scoreCoins">+250 🪙</strong>
                                 </div>
                             </div>
 
@@ -219,11 +227,11 @@
 
                     </div>
 
-                    <!-- Mobile Touch Controls Layout -->
-                    <div class="mobile-controls-wrapper w-100 mt-3 d-lg-none px-2" style="max-width: 900px;">
+                    <!-- Responsive Mobile On-Screen Controls -->
+                    <div class="mobile-controls-wrapper w-100 mt-3 d-lg-none px-2" style="max-width: 920px;">
                         <div class="d-flex justify-content-between align-items-center gap-2">
                             
-                            <!-- Left: Handlebar Steering & Blinker Buttons -->
+                            <!-- Left: Handlebars & Blinkers -->
                             <div class="d-flex flex-column gap-2">
                                 <div class="d-flex gap-2">
                                     <button class="btn btn-dark border border-secondary text-white fs-3 touch-btn" id="btnSteerLeft" style="width: 75px; height: 70px;">
@@ -239,7 +247,7 @@
                                 </div>
                             </div>
 
-                            <!-- Center: Manual Shifter (Clutch + Gear Up/Down) & Stand -->
+                            <!-- Center: Shifters & Stand -->
                             <div class="d-flex flex-column align-items-center gap-2">
                                 <div class="d-flex gap-2">
                                     <button class="btn btn-outline-info fw-bold touch-btn" id="btnGearDown" style="width: 65px; height: 50px;">
@@ -259,7 +267,7 @@
                                 </div>
                             </div>
 
-                            <!-- Right: Throttle Grip & Front/Rear Brakes -->
+                            <!-- Right: Throttle & Dual Brakes -->
                             <div class="d-flex gap-2">
                                 <button class="btn btn-danger fs-5 fw-bold touch-btn" id="btnBrake" style="width: 75px; height: 75px;">
                                     FRONT<br>BRAKE
@@ -278,7 +286,7 @@
             <div class="col-12 col-xl-3">
                 <div class="glass-panel p-3 rounded-4 h-100 d-flex flex-column gap-3 bike-panel">
                     
-                    <h4 class="text-warning fw-bold border-bottom border-secondary pb-2 mb-0">Rider's Telemetry</h4>
+                    <h4 class="text-warning fw-bold border-bottom border-secondary pb-2 mb-0">Rider's Telemetry 3D</h4>
                     
                     <!-- Current Mission Card -->
                     <div class="p-3 rounded-3 mission-card">
@@ -287,7 +295,7 @@
                             <span class="text-white-50 very-small" id="sidebarTypeBadge">STRAIGHT BAY</span>
                         </div>
                         <h6 class="fw-bold text-white mb-1" id="sidebarMissionTitle">Residential Driveway</h6>
-                        <p class="small text-white-50 mb-2" id="sidebarMissionDesc">Drive down the road, avoid parked sedans, and park in the driveway bay.</p>
+                        <p class="small text-white-50 mb-2" id="sidebarMissionDesc">Ride down Maple Street, avoid the parked sedan, and straight-park inside the driveway.</p>
                         
                         <div class="d-flex flex-column gap-1 very-small text-white-50 border-top border-secondary pt-2">
                             <div class="d-flex justify-content-between">
@@ -307,7 +315,7 @@
 
                     <!-- Keyboard Keybinds Guide -->
                     <div class="p-3 rounded-3" style="background: rgba(255,255,255,0.03); border: 1px solid rgba(255,255,255,0.06);">
-                        <h6 class="text-warning fw-bold mb-2">🎮 Real Motorcycle Controls:</h6>
+                        <h6 class="text-warning fw-bold mb-2">🎮 Real 3D Bike Keybinds:</h6>
                         <div class="d-flex flex-column gap-2 very-small text-white-50">
                             <div class="d-flex justify-content-between align-items-center">
                                 <span>Throttle / Front Brake</span>
@@ -340,10 +348,10 @@
                         </div>
                     </div>
 
-                    <!-- Garage & Tuning Quick Card -->
+                    <!-- 3D Garage Quick Card -->
                     <div class="p-3 rounded-3" style="background: rgba(255,255,255,0.03); border: 1px solid rgba(255,255,255,0.06);">
                         <div class="d-flex justify-content-between align-items-center mb-2">
-                            <h6 class="text-info fw-bold m-0">🏍️ Active Bike:</h6>
+                            <h6 class="text-info fw-bold m-0">🏍️ Selected 3D Bike:</h6>
                             <button class="btn btn-sm btn-outline-warning py-0 px-2" id="sidebarGarageBtn">Tune & Paint</button>
                         </div>
                         <div class="d-flex flex-column gap-2 very-small text-white-50">
@@ -375,13 +383,13 @@
     </div>
 
     <!-- ========================================================
-         GARAGE MODAL (6 Bikes, Custom Parts, Tuning & Paint)
+         3D GARAGE & CUSTOMIZER MODAL (6 Motorcycles + Live 3D Tuning)
          ======================================================== -->
     <div class="modal fade" id="garageModal" tabindex="-1" aria-hidden="true">
         <div class="modal-dialog modal-xl modal-dialog-centered">
             <div class="modal-content text-white garage-modal-content">
                 <div class="modal-header border-secondary">
-                    <h4 class="modal-title fw-bold text-warning">🏬 MotoPark Garage, Customization & Performance</h4>
+                    <h4 class="modal-title fw-bold text-warning">🏬 MotoPark 3D Showroom & Tuning Garage</h4>
                     <div class="d-flex align-items-center gap-3">
                         <span class="fs-5 fw-bold text-warning">🪙 <span id="garageCoins">0</span></span>
                         <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
@@ -391,20 +399,20 @@
                     <div class="row g-4">
                         <!-- Bike Selection Grid (6 Bikes) -->
                         <div class="col-12 col-lg-7">
-                            <h5 class="fw-bold text-white mb-3">Select Your Motorcycle</h5>
+                            <h5 class="fw-bold text-white mb-3">Select Your 3D Motorcycle</h5>
                             <div class="row g-3" id="garageBikesGrid">
                                 <!-- Rendered dynamically by JS -->
                             </div>
                         </div>
 
-                        <!-- Bike Customizer & Upgrades -->
+                        <!-- 3D Bike Customizer & Upgrades -->
                         <div class="col-12 col-lg-5">
                             <div class="p-3 rounded-4" style="background: rgba(0,0,0,0.4); border: 1px solid rgba(255,255,255,0.08);">
-                                <h5 class="fw-bold text-warning mb-1" id="customizerBikeTitle">Street 150cc</h5>
+                                <h5 class="fw-bold text-warning mb-1" id="customizerBikeTitle">Street Raven 150cc</h5>
                                 <div class="text-white-50 small mb-3" id="customizerBikeDesc">Balanced daily commuter with responsive 6-speed gearbox.</div>
 
                                 <!-- Paint Color Selector -->
-                                <h6 class="fw-bold text-white mb-2">🎨 Paint Color & Livery</h6>
+                                <h6 class="fw-bold text-white mb-2">🎨 Metallic Paint Finish</h6>
                                 <div class="d-flex gap-2 mb-3" id="colorPickerRow">
                                     <button class="color-dot active" style="background: #ef4444;" data-color="#ef4444" title="Racing Crimson"></button>
                                     <button class="color-dot" style="background: #06b6d4;" data-color="#06b6d4" title="Neon Cyan"></button>
@@ -414,29 +422,8 @@
                                     <button class="color-dot" style="background: #18181b;" data-color="#18181b" title="Matte Obsidian"></button>
                                 </div>
 
-                                <!-- Custom Parts Selection -->
-                                <h6 class="fw-bold text-white mb-2">🛠️ Custom Components</h6>
-                                <div class="row g-2 mb-3">
-                                    <div class="col-6">
-                                        <label class="very-small text-white-50">Exhaust System</label>
-                                        <select class="form-select form-select-sm bg-dark text-white border-secondary" id="selectExhaust">
-                                            <option value="stock">Stock OEM</option>
-                                            <option value="sport">Akrapovic Sport (+HP)</option>
-                                            <option value="straight">Straight Pipe Rumble</option>
-                                        </select>
-                                    </div>
-                                    <div class="col-6">
-                                        <label class="very-small text-white-50">Mirrors</label>
-                                        <select class="form-select form-select-sm bg-dark text-white border-secondary" id="selectMirrors">
-                                            <option value="standard">Standard Stem</option>
-                                            <option value="barend">Bar-End Racing</option>
-                                            <option value="stealth">Aero Stealth Wing</option>
-                                        </select>
-                                    </div>
-                                </div>
-
                                 <!-- Performance Upgrades -->
-                                <h6 class="fw-bold text-white mb-2">⚡ Performance Tuning</h6>
+                                <h6 class="fw-bold text-white mb-2">⚡ 3D Performance Tuning</h6>
                                 <div class="d-flex flex-column gap-2 mb-4">
                                     <div class="d-flex justify-content-between align-items-center p-2 rounded" style="background: rgba(255,255,255,0.02);">
                                         <div>
@@ -468,7 +455,7 @@
                                 </div>
 
                                 <button class="btn btn-warning w-100 py-2 rounded-pill fw-bold" data-bs-dismiss="modal">
-                                    EQUIP & RIDE 🏍️
+                                    EQUIP & RIDE IN 3D 🏍️
                                 </button>
                             </div>
                         </div>
@@ -479,13 +466,13 @@
     </div>
 
     <!-- ========================================================
-         LEVEL SELECTOR MODAL (10 Handcrafted Missions)
+         MISSION SELECTOR MODAL (10 Handcrafted Missions)
          ======================================================== -->
     <div class="modal fade" id="levelModal" tabindex="-1" aria-hidden="true">
         <div class="modal-dialog modal-lg modal-dialog-centered">
             <div class="modal-content text-white garage-modal-content">
                 <div class="modal-header border-secondary">
-                    <h4 class="modal-title fw-bold text-info">🗺️ Select City Parking Mission</h4>
+                    <h4 class="modal-title fw-bold text-info">🗺️ Select 3D Parking Mission</h4>
                     <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <div class="modal-body p-4">

@@ -4,12 +4,12 @@ import { audioManager } from './audio/audioManager.js';
 import { storage } from './core/storage.js';
 
 // ========================================================
-// 6 MOTORCYCLES CATALOGUE & KINEMATICS
+// 6 MOTORCYCLES CATALOGUE & 3D SPECS
 // ========================================================
 const BIKES = [
     {
         id: 'scooter',
-        name: 'Cyber Scooter 110cc',
+        name: 'Urban Sprint 110cc',
         category: '🛵 Scooter (Automatic)',
         cost: 0,
         unlocked: true,
@@ -19,16 +19,14 @@ const BIKES = [
         turnAgility: 0.055,
         maxLean: 0.28,
         weight: 95,
-        width: 18,
-        length: 44,
         color: '#06b6d4',
         isAutomatic: true,
         gearsCount: 1,
-        desc: 'Twist-and-go automatic scooter. Perfect for city beginners.'
+        desc: 'Nimble twist-and-go scooter. Great for quick city commuting.'
     },
     {
         id: 'street',
-        name: 'Street Commuter 150cc',
+        name: 'Street Raven 150cc',
         category: '🏍️ Commuter (5-Speed)',
         cost: 200,
         unlocked: true,
@@ -38,8 +36,6 @@ const BIKES = [
         turnAgility: 0.048,
         maxLean: 0.36,
         weight: 135,
-        width: 20,
-        length: 50,
         color: '#ef4444',
         isAutomatic: false,
         gearsCount: 5,
@@ -47,8 +43,8 @@ const BIKES = [
     },
     {
         id: 'naked',
-        name: 'Streetfighter 250cc',
-        category: '🏍️ Naked (6-Speed)',
+        name: 'Vortex Naked 250cc',
+        category: '🏍️ Streetfighter (6-Speed)',
         cost: 500,
         unlocked: false,
         maxSpeed: 19.0,      // ~95 km/h
@@ -57,17 +53,15 @@ const BIKES = [
         turnAgility: 0.052,
         maxLean: 0.48,
         weight: 155,
-        width: 21,
-        length: 52,
         color: '#22c55e',
         isAutomatic: false,
         gearsCount: 6,
-        desc: 'Aggressive naked bike with wide handlebars and punchy mid-range torque.'
+        desc: 'Punchy 250cc streetfighter with wide handlebars and sharp agility.'
     },
     {
         id: 'cruiser',
-        name: 'Royal Cruiser 350cc',
-        category: '🏍️ Cruiser (5-Speed)',
+        name: 'Iron Thunder 350cc',
+        category: '🏍️ Classic Cruiser (5-Speed)',
         cost: 800,
         unlocked: false,
         maxSpeed: 17.0,      // ~85 km/h
@@ -76,8 +70,6 @@ const BIKES = [
         turnAgility: 0.036,
         maxLean: 0.30,
         weight: 195,
-        width: 22,
-        length: 56,
         color: '#eab308',
         isAutomatic: false,
         gearsCount: 5,
@@ -85,8 +77,8 @@ const BIKES = [
     },
     {
         id: 'adventure',
-        name: 'Rally Adventure 450cc',
-        category: '🏍️ Adventure (6-Speed)',
+        name: 'Apex Rally 450cc',
+        category: '🏍️ Adventure Tourer (6-Speed)',
         cost: 1400,
         unlocked: false,
         maxSpeed: 22.0,      // ~110 km/h
@@ -95,17 +87,15 @@ const BIKES = [
         turnAgility: 0.046,
         maxLean: 0.44,
         weight: 175,
-        width: 22,
-        length: 54,
         color: '#f97316',
         isAutomatic: false,
         gearsCount: 6,
-        desc: 'Dual-sport adventure machine with long suspension travel and all-terrain grip.'
+        desc: 'High-clearance adventure tourer with dual-sport all-weather grip.'
     },
     {
         id: 'superbike',
-        name: 'Hyper Superbike 1000cc',
-        category: '🏍️ Hyper (6-Speed)',
+        name: 'Phantom RR 1000cc',
+        category: '🏍️ Hyper Superbike (6-Speed)',
         cost: 2500,
         unlocked: false,
         maxSpeed: 28.0,      // ~150 km/h
@@ -114,8 +104,6 @@ const BIKES = [
         turnAgility: 0.058,
         maxLean: 0.65,
         weight: 185,
-        width: 22,
-        length: 54,
         color: '#a855f7',
         isAutomatic: false,
         gearsCount: 6,
@@ -123,19 +111,10 @@ const BIKES = [
     }
 ];
 
-// Gear transmission ratios (relative top speeds per gear)
-const GEAR_RATIOS = [
-    0,      // Neutral
-    0.28,   // 1st Gear (~30 km/h)
-    0.46,   // 2nd Gear (~60 km/h)
-    0.65,   // 3rd Gear (~90 km/h)
-    0.80,   // 4th Gear (~115 km/h)
-    0.92,   // 5th Gear (~135 km/h)
-    1.00    // 6th Gear (~150 km/h)
-];
+const GEAR_RATIOS = [0, 0.28, 0.46, 0.65, 0.80, 0.92, 1.00];
 
 // ========================================================
-// 10 OPEN-CITY PARKING MISSIONS & ENVIRONMENTS
+// 10 3D MISSIONS & OPEN-WORLD ENVIRONMENTS
 // ========================================================
 const MISSIONS = [
     {
@@ -147,15 +126,13 @@ const MISSIONS = [
         time: 'Day 10:00',
         friction: 1.0,
         timeLimit: 50,
-        spawn: { x: 100, y: 440, angle: 0 },
-        slot: { x: 800, y: 140, width: 52, length: 90, angle: -Math.PI / 2, type: 'straight' },
-        desc: 'Ride down Maple Street, avoid the parked sedan and garbage bins, and straight-park inside the driveway.',
+        spawn: { x: -35, z: 25, angle: 0 },
+        slot: { x: 35, z: -20, width: 3.2, length: 6.0, angle: -Math.PI / 2 },
+        desc: 'Ride down Maple Street, avoid the parked sedan, and straight-park inside the driveway.',
         obstacles: [
-            { type: 'building', x: 250, y: 80, width: 220, height: 100, color: '#334155' },
-            { type: 'building', x: 550, y: 80, width: 200, height: 100, color: '#475569' },
-            { type: 'car', x: 420, y: 440, width: 55, length: 105, angle: 0, color: '#3b82f6' },
-            { type: 'cone', x: 680, y: 220, radius: 10 },
-            { type: 'cone', x: 680, y: 100, radius: 10 }
+            { type: 'car', x: 0, z: 25, angle: 0, color: '#3b82f6' },
+            { type: 'cone', x: 22, z: -10 },
+            { type: 'cone', x: 22, z: -30 }
         ],
         traffic: []
     },
@@ -168,15 +145,14 @@ const MISSIONS = [
         time: 'Day 14:00',
         friction: 0.95,
         timeLimit: 45,
-        spawn: { x: 100, y: 100, angle: Math.PI / 2 },
-        slot: { x: 760, y: 420, width: 52, length: 90, angle: Math.PI / 4, type: 'angle' },
-        desc: 'Navigate the busy mall parking lot and angle-park at 45 degrees between safety pillars.',
+        spawn: { x: -35, z: -35, angle: Math.PI / 2 },
+        slot: { x: 30, z: 25, width: 3.2, length: 6.0, angle: Math.PI / 4 },
+        desc: 'Navigate the commercial mall parking lot and angle-park at 45 degrees between safety pillars.',
         obstacles: [
-            { type: 'building', x: 300, y: 180, width: 260, height: 80, color: '#1e293b' },
-            { type: 'car', x: 380, y: 340, width: 55, length: 105, angle: Math.PI / 2, color: '#ef4444' },
-            { type: 'car', x: 550, y: 340, width: 55, length: 105, angle: Math.PI / 2, color: '#eab308' },
-            { type: 'pillar', x: 260, y: 420, radius: 18 },
-            { type: 'pillar', x: 660, y: 420, radius: 18 }
+            { type: 'car', x: -5, z: 15, angle: Math.PI / 2, color: '#ef4444' },
+            { type: 'car', x: 15, z: 15, angle: Math.PI / 2, color: '#eab308' },
+            { type: 'pillar', x: -15, z: 25 },
+            { type: 'pillar', x: 45, z: 25 }
         ],
         traffic: []
     },
@@ -189,13 +165,13 @@ const MISSIONS = [
         time: 'Night 19:00',
         friction: 0.9,
         timeLimit: 50,
-        spawn: { x: 100, y: 280, angle: 0 },
-        slot: { x: 560, y: 280, width: 55, length: 95, angle: 0, type: 'reverse' },
+        spawn: { x: -35, z: 0, angle: 0 },
+        slot: { x: 10, z: 0, width: 3.4, length: 6.2, angle: 0 },
         desc: 'Shift to Neutral (N) or 1st, maneuver past the luxury sedans, and reverse cleanly into the tight bay.',
         obstacles: [
-            { type: 'car', x: 380, y: 280, width: 55, length: 105, angle: 0, color: '#64748b' },
-            { type: 'car', x: 740, y: 280, width: 55, length: 105, angle: 0, color: '#0f172a' },
-            { type: 'barrier', x: 560, y: 160, width: 260, height: 18 }
+            { type: 'car', x: -8, z: 0, angle: 0, color: '#64748b' },
+            { type: 'car', x: 28, z: 0, angle: 0, color: '#0f172a' },
+            { type: 'barrier', x: 10, z: -12, width: 18, height: 1.5 }
         ],
         traffic: []
     },
@@ -208,16 +184,15 @@ const MISSIONS = [
         time: 'Day 16:30',
         friction: 1.0,
         timeLimit: 60,
-        spawn: { x: 80, y: 460, angle: 0 },
-        slot: { x: 840, y: 120, width: 52, length: 90, angle: -Math.PI / 2, type: 'straight' },
-        desc: 'City street in full motion! Watch for moving cars and pedestrians before parking by the cafe.',
+        spawn: { x: -40, z: 30, angle: 0 },
+        slot: { x: 38, z: -25, width: 3.2, length: 6.0, angle: -Math.PI / 2 },
+        desc: 'City street in full motion! Watch for moving AI cars and pedestrians before parking by the cafe.',
         obstacles: [
-            { type: 'building', x: 320, y: 80, width: 340, height: 90, color: '#1e293b' },
-            { type: 'car', x: 680, y: 120, width: 55, length: 100, angle: -Math.PI / 2, color: '#22c55e' }
+            { type: 'car', x: 20, z: -25, angle: -Math.PI / 2, color: '#22c55e' }
         ],
         traffic: [
-            { type: 'car', x: 150, y: 280, vx: 2.2, vy: 0, width: 55, length: 105, minX: 100, maxX: 850, color: '#f97316' },
-            { type: 'pedestrian', x: 480, y: 440, vx: 0, vy: -1.0, radius: 10, minY: 160, maxY: 480 }
+            { type: 'car', x: -20, z: 0, vx: 0.35, vz: 0, minX: -35, maxX: 35, color: '#f97316' },
+            { type: 'pedestrian', x: 5, z: 25, vx: 0, vz: -0.15, minZ: -15, maxZ: 30 }
         ]
     },
     {
@@ -228,15 +203,14 @@ const MISSIONS = [
         weather: '☀️ High-Speed Zone',
         time: 'Day 11:00',
         friction: 1.0,
-        timeLimit: 30, // Fast rush!
-        spawn: { x: 100, y: 120, angle: 0 },
-        slot: { x: 820, y: 420, width: 55, length: 95, angle: Math.PI / 2, type: 'straight' },
+        timeLimit: 30,
+        spawn: { x: -35, z: -30, angle: 0 },
+        slot: { x: 35, z: 25, width: 3.4, length: 6.2, angle: Math.PI / 2 },
         desc: '30-Second emergency rush! Navigate the speed bumps and park between ambulances.',
         obstacles: [
-            { type: 'ambulance', x: 660, y: 420, width: 64, length: 120, angle: Math.PI / 2, color: '#ffffff' },
-            { type: 'speedbreaker', x: 420, y: 270, width: 30, height: 180 },
-            { type: 'cone', x: 280, y: 150, radius: 10 },
-            { type: 'cone', x: 520, y: 360, radius: 10 }
+            { type: 'ambulance', x: 18, z: 25, angle: Math.PI / 2, color: '#ffffff' },
+            { type: 'cone', x: -10, z: -10 },
+            { type: 'cone', x: 10, z: 10 }
         ],
         traffic: []
     },
@@ -247,16 +221,15 @@ const MISSIONS = [
         environment: 'Multi-Floor Mall',
         weather: '🌧️ Heavy Rain / Wet',
         time: 'Night 21:00',
-        friction: 0.60, // Slippery!
+        friction: 0.60,
         timeLimit: 60,
-        spawn: { x: 120, y: 440, angle: -Math.PI / 4 },
-        slot: { x: 760, y: 140, width: 52, length: 90, angle: -Math.PI / 2, type: 'straight' },
+        spawn: { x: -30, z: 30, angle: -Math.PI / 4 },
+        slot: { x: 30, z: -20, width: 3.2, length: 6.0, angle: -Math.PI / 2 },
         desc: 'Heavy rain on wet asphalt! Drastically reduced tire grip. Brake early and avoid excessive lean angles.',
         obstacles: [
-            { type: 'pillar', x: 380, y: 240, radius: 22 },
-            { type: 'pillar', x: 580, y: 240, radius: 22 },
-            { type: 'car', x: 580, y: 140, width: 55, length: 100, angle: -Math.PI / 2, color: '#0284c7' },
-            { type: 'puddle', x: 320, y: 360, width: 100, height: 70 }
+            { type: 'pillar', x: -5, z: 0 },
+            { type: 'pillar', x: 15, z: 0 },
+            { type: 'car', x: 15, z: -20, angle: -Math.PI / 2, color: '#0284c7' }
         ],
         traffic: []
     },
@@ -269,15 +242,14 @@ const MISSIONS = [
         time: 'Day 13:00',
         friction: 1.0,
         timeLimit: 50,
-        spawn: { x: 80, y: 100, angle: 0 },
-        slot: { x: 840, y: 460, width: 44, length: 80, angle: 0, type: 'tight' },
-        desc: 'Slalom past speed breakers and park into a narrow spot between two parked motorcycles.',
+        spawn: { x: -40, z: -30, angle: 0 },
+        slot: { x: 38, z: 30, width: 2.8, length: 5.5, angle: 0 },
+        desc: 'Slalom past safety cones and park into a narrow spot between two parked motorcycles.',
         obstacles: [
-            { type: 'parked_bike', x: 840, y: 380, width: 20, length: 50, angle: 0, color: '#ef4444' },
-            { type: 'parked_bike', x: 840, y: 530, width: 20, length: 50, angle: 0, color: '#3b82f6' },
-            { type: 'speedbreaker', x: 280, y: 200, width: 25, height: 140 },
-            { type: 'speedbreaker', x: 580, y: 320, width: 25, height: 140 },
-            { type: 'cone', x: 420, y: 260, radius: 10 }
+            { type: 'parked_bike', x: 38, z: 24, angle: 0, color: '#ef4444' },
+            { type: 'parked_bike', x: 38, z: 36, angle: 0, color: '#3b82f6' },
+            { type: 'cone', x: -15, z: -10 },
+            { type: 'cone', x: 10, z: 10 }
         ],
         traffic: []
     },
@@ -290,16 +262,16 @@ const MISSIONS = [
         time: 'Evening 18:00',
         friction: 0.95,
         timeLimit: 55,
-        spawn: { x: 100, y: 460, angle: -Math.PI / 2 },
-        slot: { x: 520, y: 120, width: 54, length: 90, angle: Math.PI / 3, type: 'angle' },
+        spawn: { x: -35, z: 30, angle: -Math.PI / 2 },
+        slot: { x: 5, z: -25, width: 3.2, length: 6.0, angle: Math.PI / 3 },
         desc: 'Delicate valet parking among exotic sports cars and fountain curbs in the sunset courtyard.',
         obstacles: [
-            { type: 'car', x: 360, y: 120, width: 55, length: 105, angle: Math.PI / 3, color: '#e11d48' },
-            { type: 'car', x: 680, y: 120, width: 55, length: 105, angle: Math.PI / 3, color: '#facc15' },
-            { type: 'fountain', x: 500, y: 330, radius: 48 }
+            { type: 'car', x: -12, z: -25, angle: Math.PI / 3, color: '#e11d48' },
+            { type: 'car', x: 22, z: -25, angle: Math.PI / 3, color: '#facc15' },
+            { type: 'fountain', x: 0, z: 5, radius: 4.5 }
         ],
         traffic: [
-            { type: 'car', x: 820, y: 460, vx: -1.8, vy: 0, width: 55, length: 105, minX: 200, maxX: 880, color: '#0ea5e9' }
+            { type: 'car', x: 35, z: 30, vx: -0.28, vz: 0, minX: -25, maxX: 38, color: '#0ea5e9' }
         ]
     },
     {
@@ -311,16 +283,16 @@ const MISSIONS = [
         time: 'Night 23:00',
         friction: 0.9,
         timeLimit: 60,
-        spawn: { x: 100, y: 120, angle: 0 },
-        slot: { x: 840, y: 440, width: 55, length: 95, angle: Math.PI / 2, type: 'straight' },
+        spawn: { x: -35, z: -30, angle: 0 },
+        slot: { x: 35, z: 28, width: 3.4, length: 6.2, angle: Math.PI / 2 },
         desc: 'City traffic in full motion! Navigate past auto-rickshaws, buses, and neon streetlights with headlights ON.',
         obstacles: [
-            { type: 'barrier', x: 460, y: 280, width: 380, height: 18 },
-            { type: 'car', x: 700, y: 440, width: 55, length: 100, angle: Math.PI / 2, color: '#6366f1' }
+            { type: 'barrier', x: 0, z: 0, width: 25, height: 1.5 },
+            { type: 'car', x: 18, z: 28, angle: Math.PI / 2, color: '#6366f1' }
         ],
         traffic: [
-            { type: 'autorickshaw', x: 200, y: 400, vx: 2.0, vy: 0, width: 45, length: 75, minX: 100, maxX: 720, color: '#eab308' },
-            { type: 'pedestrian', x: 560, y: 100, vx: 0, vy: 1.2, radius: 10, minY: 80, maxY: 460 }
+            { type: 'autorickshaw', x: -20, z: 18, vx: 0.3, vz: 0, minX: -30, maxX: 30, color: '#eab308' },
+            { type: 'pedestrian', x: 10, z: -30, vx: 0, vz: 0.18, minZ: -30, maxZ: 30 }
         ]
     },
     {
@@ -330,30 +302,28 @@ const MISSIONS = [
         environment: 'Driving Academy',
         weather: '🌧️ Heavy Rain / Wet Night',
         time: 'Night 00:00',
-        friction: 0.58, // Extreme wet!
+        friction: 0.58,
         timeLimit: 75,
-        spawn: { x: 100, y: 460, angle: 0 },
-        slot: { x: 860, y: 120, width: 48, length: 85, angle: -Math.PI / 2, type: 'reverse' },
+        spawn: { x: -35, z: 30, angle: 0 },
+        slot: { x: 38, z: -25, width: 3.0, length: 5.8, angle: -Math.PI / 2 },
         desc: 'The Ultimate Motorcycle Exam: Wet roads, moving traffic, zero-contact penalty, and precision reverse bay parking!',
         obstacles: [
-            { type: 'car', x: 720, y: 120, width: 55, length: 100, angle: -Math.PI / 2, color: '#ef4444' },
-            { type: 'speedbreaker', x: 360, y: 370, width: 25, height: 140 },
-            { type: 'pillar', x: 500, y: 240, radius: 20 },
-            { type: 'pillar', x: 660, y: 350, radius: 20 }
+            { type: 'car', x: 22, z: -25, angle: -Math.PI / 2, color: '#ef4444' },
+            { type: 'pillar', x: 0, z: 5 },
+            { type: 'pillar', x: 20, z: 18 }
         ],
         traffic: [
-            { type: 'car', x: 200, y: 220, vx: 2.4, vy: 0, width: 55, length: 105, minX: 100, maxX: 820, color: '#f59e0b' },
-            { type: 'pedestrian', x: 440, y: 460, vx: 0, vy: -1.2, radius: 10, minY: 120, maxY: 480 }
+            { type: 'car', x: -20, z: -5, vx: 0.38, vz: 0, minX: -30, maxX: 30, color: '#f59e0b' },
+            { type: 'pedestrian', x: 5, z: 30, vx: 0, vz: -0.2, minZ: -20, maxZ: 30 }
         ]
     }
 ];
 
-class MotoParkPro extends BaseGame {
+class MotoParkRealRide extends BaseGame {
     constructor() {
         super("bike");
 
         this.canvas = document.getElementById('bikeCanvas');
-        this.ctx = this.canvas.getContext('2d');
         this.minimapCanvas = document.getElementById('minimapCanvas');
         this.mmCtx = this.minimapCanvas ? this.minimapCanvas.getContext('2d') : null;
 
@@ -363,15 +333,16 @@ class MotoParkPro extends BaseGame {
         this.selectedBikeId = localStorage.getItem('luckykit_bike_selected') || 'street';
         this.selectedColor = localStorage.getItem('luckykit_bike_color') || '#ef4444';
         this.isManualTransmission = localStorage.getItem('luckykit_bike_manual') !== 'false';
+        this.difficulty = localStorage.getItem('luckykit_bike_diff') || 'REALISTIC';
         
         // Upgrades
         this.upgrades = JSON.parse(localStorage.getItem('luckykit_bike_upgrades') || '{"engine":1,"brakes":1,"tyres":1}');
 
-        // Camera mode: 0=Chase, 1=1st Person Cockpit, 2=Helmet Cam, 3=Rear View, 4=Top Tactical
+        // Camera: 0=Chase, 1=1st Person Helmet, 2=Handlebar Cockpit, 3=Rear View, 4=Tactical Overhead
         this.cameraMode = 0;
         this.parkingAssist = true;
         this.headlightOn = true;
-        this.blinkerState = 0; // 0=Off, 1=Left, 2=Right
+        this.blinkerState = 0;
         this.blinkerFlash = false;
         this.blinkerTimer = 0;
 
@@ -393,6 +364,7 @@ class MotoParkPro extends BaseGame {
         this.assistText = document.getElementById('assistText');
         this.lightStatusText = document.getElementById('lightStatusText');
         this.transModeText = document.getElementById('transModeText');
+        this.diffModeText = document.getElementById('diffModeText');
         this.stalledAlert = document.getElementById('stalledAlert');
         this.envBadge = document.getElementById('envBadge');
         this.timeBadge = document.getElementById('timeBadge');
@@ -422,20 +394,325 @@ class MotoParkPro extends BaseGame {
             left: false,
             right: false,
             clutch: false,
-            rearBrake: false,
-            gearUp: false,
-            gearDown: false
+            rearBrake: false
         };
 
-        this.particles = [];
-        this.skidmarks = [];
-
+        // Initialize 3D Three.js Engine
+        this.initThree();
         this.bindControls();
         this.setupGarageUI();
         this.setupLevelSelectorUI();
         this.loadMission(this.currentLevel);
 
         gameManager.registerGame(this);
+    }
+
+    // ========================================================
+    // THREE.JS 3D WEBGL ENGINE INITIALIZATION
+    // ========================================================
+    initThree() {
+        const w = this.canvas.clientWidth || 1000;
+        const h = this.canvas.clientHeight || 562;
+
+        this.scene = new THREE.Scene();
+        this.scene.background = new THREE.Color(0x0a0c16);
+        this.scene.fog = new THREE.FogExp2(0x0a0c16, 0.015);
+
+        this.camera = new THREE.PerspectiveCamera(55, w / h, 0.1, 300);
+        this.renderer = new THREE.WebGLRenderer({
+            canvas: this.canvas,
+            antialias: true,
+            powerPreference: 'high-performance'
+        });
+        this.renderer.setSize(w, h, false);
+        this.renderer.shadowMap.enabled = true;
+        this.renderer.shadowMap.type = THREE.PCFSoftShadowMap;
+
+        // Lighting
+        this.ambientLight = new THREE.AmbientLight(0xffffff, 0.45);
+        this.scene.add(this.ambientLight);
+
+        this.sunLight = new THREE.DirectionalLight(0xfff8e7, 1.2);
+        this.sunLight.position.set(40, 60, 40);
+        this.sunLight.castShadow = true;
+        this.sunLight.shadow.mapSize.width = 1024;
+        this.sunLight.shadow.mapSize.height = 1024;
+        this.sunLight.shadow.camera.near = 10;
+        this.sunLight.shadow.camera.far = 150;
+        this.sunLight.shadow.camera.left = -50;
+        this.sunLight.shadow.camera.right = 50;
+        this.sunLight.shadow.camera.top = 50;
+        this.sunLight.shadow.camera.bottom = -50;
+        this.scene.add(this.sunLight);
+
+        // Build 3D City Environment & 3D Bike
+        this.worldGroup = new THREE.Group();
+        this.scene.add(this.worldGroup);
+
+        this.trafficGroup = new THREE.Group();
+        this.scene.add(this.trafficGroup);
+
+        this.build3DBike();
+        this.build3DEnvironment();
+
+        // Handle Resize
+        window.addEventListener('resize', () => {
+            const nw = this.canvas.clientWidth || 1000;
+            const nh = this.canvas.clientHeight || 562;
+            this.camera.aspect = nw / nh;
+            this.camera.updateProjectionMatrix();
+            this.renderer.setSize(nw, nh, false);
+        });
+    }
+
+    // ========================================================
+    // BUILD REALISTIC 3D PROCEDURAL MOTORCYCLE & RIDER
+    // ========================================================
+    build3DBike() {
+        this.bikeGroup = new THREE.Group();
+
+        // Materials
+        this.bodyMaterial = new THREE.MeshStandardMaterial({
+            color: new THREE.Color(this.selectedColor),
+            roughness: 0.2,
+            metalness: 0.8
+        });
+        const chromeMaterial = new THREE.MeshStandardMaterial({ color: 0xe2e8f0, roughness: 0.1, metalness: 0.95 });
+        const darkMetal = new THREE.MeshStandardMaterial({ color: 0x1e293b, roughness: 0.5, metalness: 0.7 });
+        const tireMaterial = new THREE.MeshStandardMaterial({ color: 0x111318, roughness: 0.85, metalness: 0.1 });
+        const seatMaterial = new THREE.MeshStandardMaterial({ color: 0x09090b, roughness: 0.9, metalness: 0.05 });
+        const riderGear = new THREE.MeshStandardMaterial({ color: 0x334155, roughness: 0.7 });
+        const helmetMat = new THREE.MeshStandardMaterial({ color: 0xef4444, roughness: 0.2, metalness: 0.5 });
+        const visorMat = new THREE.MeshStandardMaterial({ color: 0x0284c7, roughness: 0.1, metalness: 0.9 });
+
+        // 1. Chassis / Engine Block
+        const frameGeo = new THREE.BoxGeometry(0.5, 0.45, 1.2);
+        const frameMesh = new THREE.Mesh(frameGeo, darkMetal);
+        frameMesh.position.y = 0.55;
+        frameMesh.castShadow = true;
+        this.bikeGroup.add(frameMesh);
+
+        // 2. Fuel Tank & Fairings
+        const tankGeo = new THREE.BoxGeometry(0.46, 0.35, 0.85);
+        this.tankMesh = new THREE.Mesh(tankGeo, this.bodyMaterial);
+        this.tankMesh.position.set(0, 0.8, -0.1);
+        this.tankMesh.castShadow = true;
+        this.bikeGroup.add(this.tankMesh);
+
+        // 3. Rider Seat
+        const seatGeo = new THREE.BoxGeometry(0.38, 0.15, 0.65);
+        const seatMesh = new THREE.Mesh(seatGeo, seatMaterial);
+        seatMesh.position.set(0, 0.75, 0.45);
+        seatMesh.castShadow = true;
+        this.bikeGroup.add(seatMesh);
+
+        // 4. Exhaust Pipe
+        const exhaustGeo = new THREE.CylinderGeometry(0.06, 0.08, 1.2, 12);
+        const exhaustMesh = new THREE.Mesh(exhaustGeo, chromeMaterial);
+        exhaustMesh.rotation.x = Math.PI / 2 - 0.1;
+        exhaustMesh.position.set(0.28, 0.35, 0.4);
+        exhaustMesh.castShadow = true;
+        this.bikeGroup.add(exhaustMesh);
+
+        // 5. Rear Wheel Assembly
+        this.rearWheelGroup = new THREE.Group();
+        this.rearWheelGroup.position.set(0, 0.36, 0.85);
+        const wheelGeo = new THREE.CylinderGeometry(0.36, 0.36, 0.2, 20);
+        wheelGeo.rotateZ(Math.PI / 2);
+        const rTireMesh = new THREE.Mesh(wheelGeo, tireMaterial);
+        rTireMesh.castShadow = true;
+        this.rearWheelGroup.add(rTireMesh);
+
+        const rRimGeo = new THREE.CylinderGeometry(0.24, 0.24, 0.21, 16);
+        rRimGeo.rotateZ(Math.PI / 2);
+        const rRimMesh = new THREE.Mesh(rRimGeo, chromeMaterial);
+        this.rearWheelGroup.add(rRimMesh);
+        this.bikeGroup.add(this.rearWheelGroup);
+
+        // 6. Front Fork & Handlebars (Turns with Steering)
+        this.frontForkGroup = new THREE.Group();
+        this.frontForkGroup.position.set(0, 0.7, -0.75);
+
+        // Handlebars
+        const barGeo = new THREE.CylinderGeometry(0.025, 0.025, 0.75, 12);
+        barGeo.rotateZ(Math.PI / 2);
+        const barMesh = new THREE.Mesh(barGeo, darkMetal);
+        barMesh.position.y = 0.25;
+        this.frontForkGroup.add(barMesh);
+
+        // Front Wheel inside fork
+        this.frontWheelGroup = new THREE.Group();
+        this.frontWheelGroup.position.set(0, -0.34, -0.2);
+        const fTireMesh = new THREE.Mesh(wheelGeo, tireMaterial);
+        fTireMesh.castShadow = true;
+        this.frontWheelGroup.add(fTireMesh);
+        const fRimMesh = new THREE.Mesh(rRimGeo, chromeMaterial);
+        this.frontWheelGroup.add(fRimMesh);
+        this.frontForkGroup.add(this.frontWheelGroup);
+
+        this.bikeGroup.add(this.frontForkGroup);
+
+        // 7. 3D Headlight Projector Beam & Tail Light
+        this.headlightSpot = new THREE.SpotLight(0xfffaed, 3.5, 45, Math.PI / 6, 0.4, 1.2);
+        this.headlightSpot.position.set(0, 0.75, -0.9);
+        this.headlightTarget = new THREE.Object3D();
+        this.headlightTarget.position.set(0, 0.2, -15);
+        this.bikeGroup.add(this.headlightTarget);
+        this.headlightSpot.target = this.headlightTarget;
+        this.headlightSpot.castShadow = true;
+        this.bikeGroup.add(this.headlightSpot);
+
+        // Rear Brake Light Mesh
+        const brakeLightGeo = new THREE.BoxGeometry(0.18, 0.08, 0.06);
+        this.brakeLightMat = new THREE.MeshBasicMaterial({ color: 0x7f1d1d });
+        const brakeLightMesh = new THREE.Mesh(brakeLightGeo, this.brakeLightMat);
+        brakeLightMesh.position.set(0, 0.72, 0.85);
+        this.bikeGroup.add(brakeLightMesh);
+
+        // 8. 3D Rider Character
+        this.riderGroup = new THREE.Group();
+        this.riderGroup.position.set(0, 0.75, 0.35);
+
+        // Torso
+        const torsoGeo = new THREE.BoxGeometry(0.38, 0.5, 0.28);
+        const torsoMesh = new THREE.Mesh(torsoGeo, riderGear);
+        torsoMesh.position.set(0, 0.35, -0.1);
+        torsoMesh.rotation.x = 0.25; // Leaning forward slightly
+        torsoMesh.castShadow = true;
+        this.riderGroup.add(torsoMesh);
+
+        // Helmet & Visor
+        const helmetGeo = new THREE.SphereGeometry(0.16, 16, 16);
+        const helmetMesh = new THREE.Mesh(helmetGeo, helmetMat);
+        helmetMesh.position.set(0, 0.72, -0.18);
+        helmetMesh.castShadow = true;
+        this.riderGroup.add(helmetMesh);
+
+        const visorGeo = new THREE.BoxGeometry(0.18, 0.08, 0.1);
+        const visorMesh = new THREE.Mesh(visorGeo, visorMat);
+        visorMesh.position.set(0, 0.72, -0.28);
+        this.riderGroup.add(visorMesh);
+
+        this.bikeGroup.add(this.riderGroup);
+        this.scene.add(this.bikeGroup);
+    }
+
+    // ========================================================
+    // BUILD 3D CITY ENVIRONMENT & ROADS
+    // ========================================================
+    build3DEnvironment() {
+        // Clear previous world
+        while (this.worldGroup.children.length > 0) {
+            this.worldGroup.remove(this.worldGroup.children[0]);
+        }
+
+        // Ground Plane (Asphalt)
+        const groundGeo = new THREE.PlaneGeometry(160, 160);
+        const groundMat = new THREE.MeshStandardMaterial({ color: 0x141622, roughness: 0.9, metalness: 0.1 });
+        const groundMesh = new THREE.Mesh(groundGeo, groundMat);
+        groundMesh.rotation.x = -Math.PI / 2;
+        groundMesh.receiveShadow = true;
+        this.worldGroup.add(groundMesh);
+
+        // Sidewalk Curbs
+        const curbMat = new THREE.MeshStandardMaterial({ color: 0x334155, roughness: 0.8 });
+        const curb1 = new THREE.Mesh(new THREE.BoxGeometry(160, 0.3, 3), curbMat);
+        curb1.position.set(0, 0.15, -45);
+        this.worldGroup.add(curb1);
+
+        const curb2 = new THREE.Mesh(new THREE.BoxGeometry(160, 0.3, 3), curbMat);
+        curb2.position.set(0, 0.15, 45);
+        this.worldGroup.add(curb2);
+
+        // 3D City Buildings
+        const buildingColors = [0x1e293b, 0x334155, 0x475569, 0x0f172a];
+        for (let i = -70; i <= 70; i += 22) {
+            const h1 = 12 + Math.random() * 25;
+            const bMat1 = new THREE.MeshStandardMaterial({ color: buildingColors[Math.floor(Math.random() * buildingColors.length)], roughness: 0.7 });
+            const bMesh1 = new THREE.Mesh(new THREE.BoxGeometry(18, h1, 16), bMat1);
+            bMesh1.position.set(i, h1 / 2, -58);
+            bMesh1.castShadow = true;
+            bMesh1.receiveShadow = true;
+            this.worldGroup.add(bMesh1);
+
+            const h2 = 10 + Math.random() * 20;
+            const bMat2 = new THREE.MeshStandardMaterial({ color: buildingColors[Math.floor(Math.random() * buildingColors.length)], roughness: 0.7 });
+            const bMesh2 = new THREE.Mesh(new THREE.BoxGeometry(18, h2, 16), bMat2);
+            bMesh2.position.set(i, h2 / 2, 58);
+            bMesh2.castShadow = true;
+            bMesh2.receiveShadow = true;
+            this.worldGroup.add(bMesh2);
+        }
+
+        // 3D Parking Bay Mesh (Yellow Frame)
+        const slot = this.missionData.slot;
+        this.parkingSlotGroup = new THREE.Group();
+        this.parkingSlotGroup.position.set(slot.x, 0.05, slot.z);
+        this.parkingSlotGroup.rotation.y = slot.angle;
+
+        const slotPlaneGeo = new THREE.PlaneGeometry(slot.width, slot.length);
+        const slotPlaneMat = new THREE.MeshBasicMaterial({ color: 0xeab308, transparent: true, opacity: 0.25 });
+        const slotPlane = new THREE.Mesh(slotPlaneGeo, slotPlaneMat);
+        slotPlane.rotation.x = -Math.PI / 2;
+        this.parkingSlotGroup.add(slotPlane);
+
+        // Boundary Outline
+        const edges = new THREE.EdgesGeometry(slotPlaneGeo);
+        const lineMat = new THREE.LineBasicMaterial({ color: 0xeab308, linewidth: 3 });
+        const line = new THREE.LineSegments(edges, lineMat);
+        line.rotation.x = -Math.PI / 2;
+        this.parkingSlotGroup.add(line);
+
+        this.worldGroup.add(this.parkingSlotGroup);
+
+        // 3D Obstacles
+        this.obstaclesGroup = new THREE.Group();
+        this.missionData.obstacles.forEach(obs => {
+            if (obs.type === 'car' || obs.type === 'ambulance') {
+                const carMesh = this.create3DCar(obs.color || '#3b82f6');
+                carMesh.position.set(obs.x, 0, obs.z);
+                carMesh.rotation.y = obs.angle || 0;
+                this.obstaclesGroup.add(carMesh);
+            } else if (obs.type === 'cone') {
+                const coneGeo = new THREE.ConeGeometry(0.3, 0.8, 12);
+                const coneMat = new THREE.MeshStandardMaterial({ color: 0xf97316 });
+                const coneMesh = new THREE.Mesh(coneGeo, coneMat);
+                coneMesh.position.set(obs.x, 0.4, obs.z);
+                coneMesh.castShadow = true;
+                this.obstaclesGroup.add(coneMesh);
+            } else if (obs.type === 'pillar') {
+                const pGeo = new THREE.CylinderGeometry(0.6, 0.6, 5, 16);
+                const pMat = new THREE.MeshStandardMaterial({ color: 0x64748b });
+                const pMesh = new THREE.Mesh(pGeo, pMat);
+                pMesh.position.set(obs.x, 2.5, obs.z);
+                pMesh.castShadow = true;
+                this.obstaclesGroup.add(pMesh);
+            }
+        });
+        this.worldGroup.add(this.obstaclesGroup);
+    }
+
+    create3DCar(colorHex) {
+        const carGroup = new THREE.Group();
+        const carMat = new THREE.MeshStandardMaterial({ color: colorHex, roughness: 0.3, metalness: 0.6 });
+        const glassMat = new THREE.MeshStandardMaterial({ color: 0x0f172a, roughness: 0.1 });
+        const wheelMat = new THREE.MeshStandardMaterial({ color: 0x111827 });
+
+        // Body
+        const bodyGeo = new THREE.BoxGeometry(2.1, 0.9, 4.4);
+        const bodyMesh = new THREE.Mesh(bodyGeo, carMat);
+        bodyMesh.position.y = 0.65;
+        bodyMesh.castShadow = true;
+        carGroup.add(bodyMesh);
+
+        // Cabin
+        const cabinGeo = new THREE.BoxGeometry(1.8, 0.7, 2.3);
+        const cabinMesh = new THREE.Mesh(cabinGeo, glassMat);
+        cabinMesh.position.set(0, 1.4, -0.2);
+        cabinMesh.castShadow = true;
+        carGroup.add(cabinMesh);
+
+        return carGroup;
     }
 
     getBikeData() {
@@ -463,7 +740,7 @@ class MotoParkPro extends BaseGame {
         if (curLvlHeader) curLvlHeader.textContent = `${this.currentLevel}/${MISSIONS.length}`;
         
         const lvlNumText = document.getElementById('levelNumberText');
-        if (lvlNumText) lvlNumText.textContent = `Level ${this.currentLevel}`;
+        if (lvlNumText) lvlNumText.textContent = `Mission ${this.currentLevel}`;
         
         const lvlTitleText = document.getElementById('levelTitleText');
         if (lvlTitleText) lvlTitleText.textContent = this.missionData.title;
@@ -489,6 +766,7 @@ class MotoParkPro extends BaseGame {
         if (this.envBadge) this.envBadge.textContent = this.missionData.weather;
         if (this.timeBadge) this.timeBadge.textContent = this.missionData.time;
 
+        this.build3DEnvironment();
         this.resetGameVariables();
     }
 
@@ -498,10 +776,10 @@ class MotoParkPro extends BaseGame {
 
         this.player = {
             x: spawn.x,
-            y: spawn.y,
+            z: spawn.z,
             speed: 0,
             rpm: 1200,
-            currentGear: bike.isAutomatic ? 1 : 0, // 0 = Neutral, 1..6
+            currentGear: bike.isAutomatic ? 1 : 0,
             clutchEngaged: false,
             isStalled: false,
             kickstandDeployed: false,
@@ -509,8 +787,8 @@ class MotoParkPro extends BaseGame {
             steerAngle: 0,
             leanAngle: 0,
             damage: 0,
-            width: bike.width,
-            length: bike.length,
+            width: 0.8,
+            length: 2.1,
             isGrounded: true,
             isParked: false,
             parkHoldTime: 0
@@ -521,10 +799,6 @@ class MotoParkPro extends BaseGame {
         this.missionFailed = false;
 
         this.traffic = JSON.parse(JSON.stringify(this.missionData.traffic || []));
-        this.obstacles = JSON.parse(JSON.stringify(this.missionData.obstacles || []));
-
-        this.skidmarks = [];
-        this.particles = [];
 
         if (this.resultOverlay) this.resultOverlay.classList.add('d-none');
         if (this.stalledAlert) this.stalledAlert.classList.add('d-none');
@@ -539,17 +813,14 @@ class MotoParkPro extends BaseGame {
     }
 
     bindControls() {
-        // Desktop Keyboard
         window.addEventListener('keydown', (e) => {
             if (['KeyW', 'ArrowUp'].includes(e.code)) this.keys.forward = true;
             if (['KeyS', 'ArrowDown'].includes(e.code)) this.keys.backward = true;
             if (['KeyA', 'ArrowLeft'].includes(e.code)) this.keys.left = true;
             if (['KeyD', 'ArrowRight'].includes(e.code)) this.keys.right = true;
-            if (e.code === 'ShiftLeft' || e.code === 'ShiftRight') {
-                this.keys.clutch = true;
-            }
-            if (e.code === 'KeyE') this.shiftGear(1);  // Gear Up
-            if (e.code === 'KeyQ') this.shiftGear(-1); // Gear Down
+            if (e.code === 'ShiftLeft' || e.code === 'ShiftRight') this.keys.clutch = true;
+            if (e.code === 'KeyE') this.shiftGear(1);
+            if (e.code === 'KeyQ') this.shiftGear(-1);
             if (e.code === 'Space') { e.preventDefault(); this.keys.rearBrake = true; }
             if (e.code === 'KeyC') this.cycleCamera();
             if (e.code === 'KeyP') this.toggleAssist();
@@ -572,7 +843,7 @@ class MotoParkPro extends BaseGame {
             if (e.code === 'Space') this.keys.rearBrake = false;
         });
 
-        // Mobile Buttons
+        // Mobile Controls
         const bindTouch = (id, key, onRelease) => {
             const btn = document.getElementById(id);
             if (!btn) return;
@@ -601,13 +872,13 @@ class MotoParkPro extends BaseGame {
         document.getElementById('btnBlinkerLeft')?.addEventListener('click', () => this.setBlinker(1));
         document.getElementById('btnBlinkerRight')?.addEventListener('click', () => this.setBlinker(2));
 
-        // Mode and HUD Toggles
+        // Header Buttons & Mode Toggles
         document.getElementById('transmissionToggleBtn')?.addEventListener('click', () => this.toggleTransmissionMode());
+        document.getElementById('difficultyToggleBtn')?.addEventListener('click', () => this.toggleDifficulty());
         document.getElementById('camToggleBtn')?.addEventListener('click', () => this.cycleCamera());
         document.getElementById('assistToggleBtn')?.addEventListener('click', () => this.toggleAssist());
         document.getElementById('headlightToggleBtn')?.addEventListener('click', () => this.toggleHeadlight());
 
-        // Header & Modal Actions
         document.getElementById('startBtn')?.addEventListener('click', () => this.start());
         document.getElementById('sidebarStartBtn')?.addEventListener('click', () => this.start());
         document.getElementById('restartBtn')?.addEventListener('click', () => this.start());
@@ -627,12 +898,20 @@ class MotoParkPro extends BaseGame {
         document.getElementById('levelSelectBtn')?.addEventListener('click', () => this.openLevelSelector());
     }
 
+    toggleDifficulty() {
+        const modes = ['CASUAL', 'REALISTIC', 'HARDCORE'];
+        const idx = (modes.indexOf(this.difficulty) + 1) % modes.length;
+        this.difficulty = modes[idx];
+        localStorage.setItem('luckykit_bike_diff', this.difficulty);
+        if (this.diffModeText) this.diffModeText.textContent = this.difficulty;
+        if (audioManager) audioManager.playClick?.();
+    }
+
     toggleTransmissionMode() {
         this.isManualTransmission = !this.isManualTransmission;
         localStorage.setItem('luckykit_bike_manual', this.isManualTransmission.toString());
         if (this.transModeText) {
-            this.transModeText.textContent = this.isManualTransmission ? 'MANUAL' : 'AUTOMATIC';
-            this.transModeText.className = this.isManualTransmission ? 'text-warning' : 'text-info';
+            this.transModeText.textContent = this.isManualTransmission ? '6-SPEED MANUAL' : 'AUTOMATIC CVT';
         }
         if (audioManager) audioManager.playClick?.();
     }
@@ -642,23 +921,17 @@ class MotoParkPro extends BaseGame {
         const bike = this.getBikeData();
         const p = this.player;
 
-        if (bike.isAutomatic || !this.isManualTransmission) {
-            // Automatic mode shifts automatically
-            return;
-        }
+        if (bike.isAutomatic || !this.isManualTransmission) return;
 
-        // Motorcycle Sequential Gearbox: 0 (N), 1, 2, 3, 4, 5, 6
         if (direction > 0) {
-            // Shift Up
             if (p.currentGear === 0) p.currentGear = 1;
             else if (p.currentGear < bike.gearsCount) p.currentGear++;
         } else {
-            // Shift Down
-            if (p.currentGear === 1) p.currentGear = 0; // Down to Neutral
+            if (p.currentGear === 1) p.currentGear = 0;
             else if (p.currentGear > 0) p.currentGear--;
         }
 
-        if (audioManager) audioManager.playTone(320, 'square', 0.08, 0.3); // Gear click
+        if (audioManager) audioManager.playTone(320, 'square', 0.08, 0.3);
     }
 
     handleClutchRelease() {
@@ -667,14 +940,12 @@ class MotoParkPro extends BaseGame {
 
         if (bike.isAutomatic || !this.isManualTransmission) return;
 
-        // Stalling condition: In Gear 1/2, speed = 0, no throttle, and clutch released abruptly
-        if (p.currentGear > 0 && Math.abs(p.speed) < 0.5 && !this.keys.forward) {
+        if (p.currentGear > 0 && Math.abs(p.speed) < 0.05 && !this.keys.forward) {
             p.isStalled = true;
             p.rpm = 0;
             if (this.stalledAlert) this.stalledAlert.classList.remove('d-none');
             if (audioManager) audioManager.playLose?.();
         } else if (p.isStalled && p.currentGear === 0) {
-            // Restarted engine in Neutral
             p.isStalled = false;
             p.rpm = 1200;
             if (this.stalledAlert) this.stalledAlert.classList.add('d-none');
@@ -684,13 +955,14 @@ class MotoParkPro extends BaseGame {
 
     cycleCamera() {
         this.cameraMode = (this.cameraMode + 1) % 5;
-        const names = ['Chase Cam', 'Cockpit 1st', 'Helmet Cam', 'Rear Cam', 'Tactical Cam'];
+        const names = ['Chase Cam 3D', 'Helmet 1st Person', 'Handlebars 3D', 'Rear View 3D', 'Tactical 3D'];
         if (this.camNameText) this.camNameText.textContent = names[this.cameraMode];
         if (audioManager) audioManager.playClick?.();
     }
 
     toggleHeadlight() {
         this.headlightOn = !this.headlightOn;
+        if (this.headlightSpot) this.headlightSpot.intensity = this.headlightOn ? 3.5 : 0;
         if (this.lightStatusText) this.lightStatusText.textContent = this.headlightOn ? 'ON' : 'OFF';
         if (this.hudHeadlightIcon) this.hudHeadlightIcon.style.opacity = this.headlightOn ? '1' : '0.2';
         if (audioManager) audioManager.playClick?.();
@@ -708,10 +980,6 @@ class MotoParkPro extends BaseGame {
 
     toggleKickstand() {
         this.player.kickstandDeployed = !this.player.kickstandDeployed;
-        if (this.player.kickstandDeployed && Math.abs(this.player.speed) > 2) {
-            // Dropping stand at speed causes instant scraping brake & crash!
-            this.handleCrash({ type: 'stand_drop' });
-        }
         if (this.hudStandBadge) {
             this.hudStandBadge.textContent = this.player.kickstandDeployed ? '🦵 STAND DOWN' : '🦵 STAND UP';
             this.hudStandBadge.className = this.player.kickstandDeployed ? 'badge bg-warning text-dark' : 'badge bg-secondary text-white';
@@ -730,13 +998,6 @@ class MotoParkPro extends BaseGame {
             audioManager.playTone(480, 'sine', 0.15, 0.4);
             setTimeout(() => audioManager.playTone(480, 'sine', 0.15, 0.4), 100);
         }
-        this.particles.push({
-            x: this.player.x + Math.cos(this.player.angle) * 30,
-            y: this.player.y + Math.sin(this.player.angle) * 30,
-            radius: 10,
-            alpha: 1,
-            color: '#eab308'
-        });
     }
 
     gameLoop(time) {
@@ -748,7 +1009,7 @@ class MotoParkPro extends BaseGame {
             this.updatePhysics(dt);
             this.updateTraffic(dt);
             this.updateParkingEvaluation(dt);
-            this.render();
+            this.update3DScene(dt);
             this.renderMinimap();
         }
 
@@ -768,12 +1029,8 @@ class MotoParkPro extends BaseGame {
             this.blinkerFlash = false;
         }
 
-        if (this.hudBlinkerLeft) {
-            this.hudBlinkerLeft.classList.toggle('blinking', this.blinkerState === 1 && this.blinkerFlash);
-        }
-        if (this.hudBlinkerRight) {
-            this.hudBlinkerRight.classList.toggle('blinking', this.blinkerState === 2 && this.blinkerFlash);
-        }
+        if (this.hudBlinkerLeft) this.hudBlinkerLeft.classList.toggle('blinking', this.blinkerState === 1 && this.blinkerFlash);
+        if (this.hudBlinkerRight) this.hudBlinkerRight.classList.toggle('blinking', this.blinkerState === 2 && this.blinkerFlash);
     }
 
     updatePhysics(dt) {
@@ -784,120 +1041,80 @@ class MotoParkPro extends BaseGame {
 
         this.missionTime += (dt / 1000);
 
-        // Handle Automatic Gear Shifting
         if (bike.isAutomatic || !this.isManualTransmission) {
-            if (p.speed > 18) p.currentGear = 5;
-            else if (p.speed > 13) p.currentGear = 4;
-            else if (p.speed > 8) p.currentGear = 3;
-            else if (p.speed > 4) p.currentGear = 2;
-            else if (p.speed > 0.5) p.currentGear = 1;
+            if (p.speed > 1.8) p.currentGear = 5;
+            else if (p.speed > 1.3) p.currentGear = 4;
+            else if (p.speed > 0.8) p.currentGear = 3;
+            else if (p.speed > 0.4) p.currentGear = 2;
+            else if (p.speed > 0.05) p.currentGear = 1;
             else p.currentGear = 0;
         }
 
-        // Calculate Target RPM & Max Speed for current gear
         const currentGearRatio = GEAR_RATIOS[p.currentGear] || 0;
-        const gearMaxSpeed = bike.maxSpeed * (currentGearRatio || 0.1);
+        const gearMaxSpeed = (bike.maxSpeed * 0.1) * (currentGearRatio || 0.1);
 
-        // Steering dynamics
-        const targetSteer = (this.keys.left ? -1 : 0) + (this.keys.right ? 1 : 0);
+        const targetSteer = (this.keys.left ? 1 : 0) + (this.keys.right ? -1 : 0);
         const steerSpeed = bike.turnAgility * surfaceGrip;
-        p.steerAngle += (targetSteer * 0.65 - p.steerAngle) * steerSpeed * timeFactor;
+        p.steerAngle += (targetSteer * 0.55 - p.steerAngle) * steerSpeed * timeFactor;
 
-        // Kickstand Drag
         if (p.kickstandDeployed) {
             p.speed *= Math.pow(0.80, timeFactor);
         }
 
-        // Throttle, Acceleration & RPM
         if (this.keys.forward && !p.isStalled && !p.kickstandDeployed) {
             if (p.currentGear === 0 || this.keys.clutch) {
-                // Neutral or Clutch In: Free Engine Revving up to 13,000 RPM!
                 p.rpm += 450 * timeFactor;
                 if (p.rpm > 13500) p.rpm = 13500;
             } else {
-                // In Gear: Acceleration applied
                 if (p.speed < gearMaxSpeed) {
-                    p.speed += bike.accel * surfaceGrip * timeFactor;
+                    p.speed += (bike.accel * 0.015) * surfaceGrip * timeFactor;
                 }
-                p.rpm = 1500 + (p.speed / bike.maxSpeed) * 10500;
+                p.rpm = 1500 + (p.speed / (bike.maxSpeed * 0.1)) * 10500;
             }
         } else {
-            // Throttle released: RPM drops to idle
             p.rpm += (1200 - p.rpm) * 0.12 * timeFactor;
             if (p.rpm < 1200) p.rpm = 1200;
 
-            // Rolling friction & engine braking
             const engineBrake = p.currentGear > 0 && !this.keys.clutch ? 0.985 : 0.995;
             p.speed *= Math.pow(engineBrake, timeFactor);
-            if (Math.abs(p.speed) < 0.05) p.speed = 0;
+            if (Math.abs(p.speed) < 0.005) p.speed = 0;
         }
 
-        // Front Brake (`S` / `Down`)
+        // Brakes
         if (this.keys.backward) {
-            if (p.speed > 0.3) {
-                p.speed -= bike.brakePower * surfaceGrip * timeFactor;
+            if (p.speed > 0.03) {
+                p.speed -= (bike.brakePower * 0.02) * surfaceGrip * timeFactor;
                 if (p.speed < 0) p.speed = 0;
             } else if (p.currentGear === 0 || this.keys.clutch) {
-                // In Neutral / Clutch In: Push motorcycle backward with feet (slow reverse ~2.5 km/h)
-                p.speed -= 0.06 * timeFactor;
-                if (p.speed < -0.6) p.speed = -0.6;
+                // Reverse paddling
+                p.speed -= 0.004 * timeFactor;
+                if (p.speed < -0.06) p.speed = -0.06;
             }
         }
 
-        // Rear / Emergency Brake (`Space`)
         if (this.keys.rearBrake) {
-            p.speed *= Math.pow(0.82, timeFactor);
-            if (Math.abs(p.speed) > 2) {
-                this.skidmarks.push({
-                    x: p.x - Math.cos(p.angle) * (p.length / 2),
-                    y: p.y - Math.sin(p.angle) * (p.length / 2),
-                    alpha: 0.65
-                });
-            }
+            p.speed *= Math.pow(0.85, timeFactor);
         }
 
-        // Kinematic Turning & Physics-Based Lean Angle
-        if (Math.abs(p.speed) > 0.1) {
-            const angularVel = (p.speed / (p.length * 0.85)) * Math.sin(p.steerAngle);
+        // Kinematics & 3D Turning
+        if (Math.abs(p.speed) > 0.01) {
+            const angularVel = (p.speed / 2.1) * Math.sin(p.steerAngle);
             p.angle += angularVel * timeFactor;
 
-            // Lean Angle: proportional to (v^2 / R)
-            const targetLean = (p.speed / bike.maxSpeed) * (p.steerAngle / 0.65) * bike.maxLean;
+            const targetLean = (p.speed / (bike.maxSpeed * 0.1)) * (p.steerAngle / 0.55) * bike.maxLean;
             p.leanAngle += (targetLean - p.leanAngle) * 0.15 * timeFactor;
-
-            // Low-Side Crash Check: If lean exceeds limit on wet surface -> crash!
-            if (Math.abs(p.leanAngle) > bike.maxLean * 1.15 && surfaceGrip < 0.75) {
-                this.handleCrash({ type: 'low_side_slide' });
-            }
         } else {
             p.leanAngle *= 0.8;
         }
 
-        // Position Updates
+        // Update 3D Positions
         p.x += Math.cos(p.angle) * p.speed * timeFactor;
-        p.y += Math.sin(p.angle) * p.speed * timeFactor;
+        p.z += -Math.sin(p.angle) * p.speed * timeFactor;
 
-        // Boundaries
-        p.x = Math.max(30, Math.min(970, p.x));
-        p.y = Math.max(30, Math.min(530, p.y));
+        p.x = Math.max(-65, Math.min(65, p.x));
+        p.z = Math.max(-40, Math.min(40, p.z));
 
-        // Collisions
         this.checkCollisions();
-
-        // Skidmark decay
-        for (let i = this.skidmarks.length - 1; i >= 0; i--) {
-            this.skidmarks[i].alpha -= 0.0006 * timeFactor;
-            if (this.skidmarks[i].alpha <= 0) this.skidmarks.splice(i, 1);
-        }
-
-        // Particle decay
-        for (let i = this.particles.length - 1; i >= 0; i--) {
-            const pt = this.particles[i];
-            pt.radius += 1.2 * timeFactor;
-            pt.alpha -= 0.03 * timeFactor;
-            if (pt.alpha <= 0) this.particles.splice(i, 1);
-        }
-
         this.updateHUD();
     }
 
@@ -905,10 +1122,10 @@ class MotoParkPro extends BaseGame {
         const timeFactor = dt / 16.66;
         this.traffic.forEach(t => {
             t.x += (t.vx || 0) * timeFactor;
-            t.y += (t.vy || 0) * timeFactor;
+            t.z += (t.vz || 0) * timeFactor;
 
             if (t.minX !== undefined && (t.x <= t.minX || t.x >= t.maxX)) t.vx *= -1;
-            if (t.minY !== undefined && (t.y <= t.minY || t.y >= t.maxY)) t.vy *= -1;
+            if (t.minZ !== undefined && (t.z <= t.minZ || t.z >= t.maxZ)) t.vz *= -1;
         });
     }
 
@@ -916,24 +1133,11 @@ class MotoParkPro extends BaseGame {
         const p = this.player;
 
         const checkHit = (obs) => {
-            if (obs.radius) {
-                const dist = Math.hypot(p.x - obs.x, p.y - obs.y);
-                return dist < (obs.radius + p.width / 2);
-            } else {
-                const dist = Math.hypot(p.x - obs.x, p.y - obs.y);
-                return dist < ((obs.width || 50) / 2 + p.width / 2 + 10);
-            }
+            const dist = Math.hypot(p.x - obs.x, p.z - obs.z);
+            return dist < (obs.radius || 2.2);
         };
 
-        this.obstacles.forEach(obs => {
-            if (obs.type === 'speedbreaker' || obs.type === 'puddle') {
-                if (Math.abs(p.x - obs.x) < 30 && Math.abs(p.y - obs.y) < 70) {
-                    if (obs.type === 'speedbreaker' && Math.abs(p.speed) > 6) {
-                        p.speed *= 0.82;
-                    }
-                }
-                return;
-            }
+        this.missionData.obstacles.forEach(obs => {
             if (checkHit(obs)) this.handleCrash(obs);
         });
 
@@ -944,25 +1148,15 @@ class MotoParkPro extends BaseGame {
 
     handleCrash(obstacle) {
         const p = this.player;
-        const impactForce = Math.abs(p.speed);
+        const impactForce = Math.abs(p.speed) * 40;
 
-        p.speed = -p.speed * 0.35;
-        p.damage += Math.min(40, Math.floor(impactForce * 5.0) + 8);
+        p.speed = -p.speed * 0.3;
+        p.damage += Math.min(35, Math.floor(impactForce * 3.5) + 8);
 
         if (audioManager) audioManager.playLose?.();
 
-        for (let i = 0; i < 10; i++) {
-            this.particles.push({
-                x: p.x,
-                y: p.y,
-                radius: 4,
-                alpha: 1,
-                color: '#ef4444'
-            });
-        }
-
         if (p.damage >= 100) {
-            this.handleMissionFailure("CRITICAL DAMAGE! Motorcycle destroyed. Repair required.");
+            this.handleMissionFailure("CRITICAL DAMAGE! Motorcycle wrecked. Repair required.");
         }
     }
 
@@ -972,12 +1166,10 @@ class MotoParkPro extends BaseGame {
         const p = this.player;
         const slot = this.missionData.slot;
 
-        // Position Fit %
-        const dist = Math.hypot(p.x - slot.x, p.y - slot.y);
-        const maxTolDist = 36;
+        const dist = Math.hypot(p.x - slot.x, p.z - slot.z);
+        const maxTolDist = 2.8;
         const posFit = Math.max(0, 100 - Math.floor((dist / maxTolDist) * 100));
 
-        // Angle Fit %
         let angleDiff = Math.abs(p.angle - slot.angle) % (Math.PI * 2);
         if (angleDiff > Math.PI) angleDiff = Math.PI * 2 - angleDiff;
         const minAngleDiff = Math.min(angleDiff, Math.abs(angleDiff - Math.PI));
@@ -993,11 +1185,11 @@ class MotoParkPro extends BaseGame {
         if (isInsideBay) {
             if (this.parkingStatusCard) this.parkingStatusCard.classList.add('active-zone');
             
-            if (Math.abs(p.speed) < 0.15) {
+            if (Math.abs(p.speed) < 0.015) {
                 p.parkHoldTime += (dt / 1000);
                 if (this.alignHoldText) this.alignHoldText.textContent = `${p.parkHoldTime.toFixed(1)}s / 1.5s`;
-                if (this.parkingStatusTitle) this.parkingStatusTitle.textContent = "STOPPED • DEPLOY STAND";
-                if (this.parkingStatusSubtitle) this.parkingStatusSubtitle.textContent = "Hold still to turn off ignition";
+                if (this.parkingStatusTitle) this.parkingStatusTitle.textContent = "STOPPED • HOLD TO PARK";
+                if (this.parkingStatusSubtitle) this.parkingStatusSubtitle.textContent = "Turning off ignition...";
 
                 if (p.parkHoldTime >= 1.5) {
                     this.handleMissionSuccess(accuracy);
@@ -1012,8 +1204,8 @@ class MotoParkPro extends BaseGame {
             p.parkHoldTime = 0;
             if (this.parkingStatusCard) this.parkingStatusCard.classList.remove('active-zone');
             if (this.alignHoldText) this.alignHoldText.textContent = `0.0s`;
-            if (this.parkingStatusTitle) this.parkingStatusTitle.textContent = "APPROACH SLOT";
-            if (this.parkingStatusSubtitle) this.parkingStatusSubtitle.textContent = "Align inside yellow bay lines";
+            if (this.parkingStatusTitle) this.parkingStatusTitle.textContent = "APPROACH 3D BAY";
+            if (this.parkingStatusSubtitle) this.parkingStatusSubtitle.textContent = "Align inside yellow 3D boundary";
         }
 
         if (this.missionTime >= this.missionData.timeLimit) {
@@ -1048,7 +1240,7 @@ class MotoParkPro extends BaseGame {
 
         if (this.resultTitle) this.resultTitle.textContent = "PERFECT PARKING!";
         if (this.resultStars) this.resultStars.textContent = stars;
-        if (this.resultMessage) this.resultMessage.textContent = "Engine stopped • Kickstand deployed with precision alignment!";
+        if (this.resultMessage) this.resultMessage.textContent = "Engine stopped • Kickstand deployed in 3D bay!";
         if (this.scoreAccuracy) this.scoreAccuracy.textContent = `${accuracy}%`;
         if (this.scoreTime) this.scoreTime.textContent = `${timeTaken}s`;
         if (this.scoreDamage) this.scoreDamage.textContent = `${damageTaken}%`;
@@ -1082,8 +1274,71 @@ class MotoParkPro extends BaseGame {
         if (audioManager) audioManager.playLose?.();
     }
 
+    // ========================================================
+    // 3D SCENE & CAMERAS UPDATE
+    // ========================================================
+    update3DScene(dt) {
+        const p = this.player;
+
+        // Position 3D Bike
+        this.bikeGroup.position.set(p.x, 0, p.z);
+        this.bikeGroup.rotation.y = p.angle + Math.PI / 2;
+        this.bikeGroup.rotation.z = -p.leanAngle; // 3D Leaning
+
+        // Steering Fork Rotation
+        if (this.frontForkGroup) {
+            this.frontForkGroup.rotation.y = -p.steerAngle;
+        }
+
+        // Wheel Rotations
+        const wheelRotSpeed = (p.speed / 0.36) * 15;
+        if (this.rearWheelGroup) this.rearWheelGroup.children[0].rotation.x += wheelRotSpeed;
+        if (this.frontWheelGroup) this.frontWheelGroup.children[0].rotation.x += wheelRotSpeed;
+
+        // Brake Light Glow
+        if (this.brakeLightMat) {
+            this.brakeLightMat.color.setHex((this.keys.backward || this.keys.rearBrake) ? 0xff0000 : 0x7f1d1d);
+        }
+
+        // 3D Cameras
+        const isNearSlot = Math.hypot(p.x - this.missionData.slot.x, p.z - this.missionData.slot.z) < 12;
+        const chaseDist = isNearSlot ? 4.5 : 7.0;
+        const chaseHeight = isNearSlot ? 2.5 : 3.2;
+
+        if (this.cameraMode === 0) {
+            // Chase Cam 3D (Smooth follow)
+            const camTargetX = p.x - Math.cos(p.angle) * chaseDist;
+            const camTargetZ = p.z + Math.sin(p.angle) * chaseDist;
+            this.camera.position.set(camTargetX, chaseHeight, camTargetZ);
+            this.camera.lookAt(p.x, 1.2, p.z);
+        } else if (this.cameraMode === 1) {
+            // Helmet 1st Person
+            this.camera.position.set(p.x, 1.7, p.z);
+            const lookX = p.x + Math.cos(p.angle) * 15;
+            const lookZ = p.z - Math.sin(p.angle) * 15;
+            this.camera.lookAt(lookX, 1.5, lookZ);
+        } else if (this.cameraMode === 2) {
+            // Handlebars 3D
+            this.camera.position.set(p.x + Math.cos(p.angle) * 0.4, 1.35, p.z - Math.sin(p.angle) * 0.4);
+            const lookX = p.x + Math.cos(p.angle) * 15;
+            const lookZ = p.z - Math.sin(p.angle) * 15;
+            this.camera.lookAt(lookX, 1.2, lookZ);
+        } else if (this.cameraMode === 3) {
+            // Rear View 3D
+            this.camera.position.set(p.x + Math.cos(p.angle) * 5.5, 2.5, p.z - Math.sin(p.angle) * 5.5);
+            this.camera.lookAt(p.x, 1.0, p.z);
+        } else {
+            // Tactical Overhead 3D
+            this.camera.position.set(p.x, 28, p.z + 10);
+            this.camera.lookAt(p.x, 0, p.z);
+        }
+
+        // Render 3D Frame
+        this.renderer.render(this.scene, this.camera);
+    }
+
     updateHUD() {
-        const speedKmh = Math.abs(Math.floor(this.player.speed * 5.0));
+        const speedKmh = Math.abs(Math.floor(this.player.speed * 60.0));
         if (this.hudSpeed) this.hudSpeed.textContent = speedKmh;
 
         const gearLabel = this.player.currentGear === 0 ? 'N' : this.player.currentGear.toString();
@@ -1117,339 +1372,6 @@ class MotoParkPro extends BaseGame {
         }
     }
 
-    render() {
-        const ctx = this.ctx;
-        const w = this.canvas.width;
-        const h = this.canvas.height;
-        const p = this.player;
-
-        ctx.clearRect(0, 0, w, h);
-
-        ctx.save();
-
-        // Dynamic Cameras
-        if (this.cameraMode === 0) {
-            // Chase Cam: Damped following with Auto-Zoom when parking!
-            const isNearSlot = Math.hypot(p.x - this.missionData.slot.x, p.y - this.missionData.slot.y) < 140;
-            const zoom = isNearSlot ? 1.45 : 1.15;
-
-            ctx.translate(w / 2, h / 2);
-            ctx.scale(zoom, zoom);
-            ctx.translate(-p.x, -p.y);
-        } else if (this.cameraMode === 1) {
-            // Cockpit 1st Person
-            ctx.translate(w / 2, h / 2 + 120);
-            ctx.rotate(-p.angle - Math.PI / 2);
-            ctx.translate(-p.x, -p.y);
-        } else if (this.cameraMode === 2) {
-            // Helmet Cam
-            ctx.translate(w / 2, h / 2 + 100);
-            ctx.rotate(-p.angle - Math.PI / 2 - (p.leanAngle * 0.3));
-            ctx.translate(-p.x, -p.y);
-        } else if (this.cameraMode === 3) {
-            // Rear View
-            ctx.translate(w / 2, h / 2);
-            ctx.rotate(-p.angle + Math.PI / 2);
-            ctx.translate(-p.x, -p.y);
-        }
-
-        // 1. Draw World & Roads
-        this.drawEnvironment(ctx);
-
-        // 2. Skidmarks
-        this.skidmarks.forEach(sm => {
-            ctx.fillStyle = `rgba(15, 15, 20, ${sm.alpha})`;
-            ctx.beginPath();
-            ctx.arc(sm.x, sm.y, 4, 0, Math.PI * 2);
-            ctx.fill();
-        });
-
-        // 3. Parking Slot
-        this.drawParkingSlot(ctx);
-
-        // 4. Obstacles & Moving Traffic
-        this.drawObstacles(ctx);
-        this.drawTraffic(ctx);
-
-        // 5. Headlight Projector Beam
-        if (this.headlightOn) {
-            this.drawHeadlightBeam(ctx);
-        }
-
-        // 6. Motorcycle & Rider Model
-        this.drawBike(ctx);
-
-        // 7. Soundwave / Crash Particles
-        this.particles.forEach(pt => {
-            ctx.strokeStyle = pt.color;
-            ctx.globalAlpha = Math.max(0, pt.alpha);
-            ctx.lineWidth = 2;
-            ctx.beginPath();
-            ctx.arc(pt.x, pt.y, pt.radius, 0, Math.PI * 2);
-            ctx.stroke();
-            ctx.globalAlpha = 1;
-        });
-
-        ctx.restore();
-
-        // 8. 1st-Person Handlebar Overlay
-        if (this.cameraMode === 1 || this.cameraMode === 2) {
-            this.drawHandlebarCockpit(ctx, w, h);
-        }
-    }
-
-    drawEnvironment(ctx) {
-        // Road surface
-        ctx.fillStyle = '#141622';
-        ctx.fillRect(-300, -300, 1600, 1100);
-
-        // Kerbs
-        ctx.strokeStyle = '#334155';
-        ctx.lineWidth = 16;
-        ctx.strokeRect(10, 10, 980, 542);
-
-        // Road divider lines
-        ctx.strokeStyle = 'rgba(255, 255, 255, 0.16)';
-        ctx.lineWidth = 3;
-        ctx.setLineDash([25, 25]);
-        ctx.beginPath();
-        ctx.moveTo(100, 281);
-        ctx.lineTo(900, 281);
-        ctx.stroke();
-        ctx.setLineDash([]);
-    }
-
-    drawParkingSlot(ctx) {
-        const slot = this.missionData.slot;
-        ctx.save();
-        ctx.translate(slot.x, slot.y);
-        ctx.rotate(slot.angle);
-
-        ctx.strokeStyle = '#eab308';
-        ctx.lineWidth = 3;
-        ctx.shadowBlur = 12;
-        ctx.shadowColor = '#eab308';
-        ctx.strokeRect(-slot.width / 2, -slot.length / 2, slot.width, slot.length);
-
-        ctx.fillStyle = 'rgba(234, 179, 8, 0.14)';
-        ctx.fillRect(-slot.width / 2, -slot.length / 2, slot.width, slot.length);
-
-        // Target Arrow
-        ctx.fillStyle = '#eab308';
-        ctx.beginPath();
-        ctx.moveTo(0, -slot.length / 2 + 15);
-        ctx.lineTo(12, -slot.length / 2 + 35);
-        ctx.lineTo(-12, -slot.length / 2 + 35);
-        ctx.fill();
-
-        ctx.font = 'bold 24px Outfit, sans-serif';
-        ctx.textAlign = 'center';
-        ctx.textBaseline = 'middle';
-        ctx.fillText('🅿️', 0, 8);
-
-        ctx.restore();
-
-        // Guide Line
-        if (this.parkingAssist && !this.missionCompleted) {
-            ctx.save();
-            ctx.strokeStyle = 'rgba(234, 179, 8, 0.45)';
-            ctx.lineWidth = 2;
-            ctx.setLineDash([8, 8]);
-            ctx.beginPath();
-            ctx.moveTo(this.player.x, this.player.y);
-            ctx.lineTo(slot.x, slot.y);
-            ctx.stroke();
-            ctx.restore();
-        }
-    }
-
-    drawHeadlightBeam(ctx) {
-        const p = this.player;
-        ctx.save();
-        ctx.translate(p.x, p.y);
-        ctx.rotate(p.angle);
-
-        const grad = ctx.createRadialGradient(p.length / 2, 0, 5, p.length / 2 + 140, 0, 90);
-        grad.addColorStop(0, 'rgba(254, 240, 138, 0.55)');
-        grad.addColorStop(1, 'rgba(254, 240, 138, 0)');
-
-        ctx.fillStyle = grad;
-        ctx.beginPath();
-        ctx.moveTo(p.length / 2, 0);
-        ctx.lineTo(p.length / 2 + 150, -45);
-        ctx.lineTo(p.length / 2 + 150, 45);
-        ctx.fill();
-
-        ctx.restore();
-    }
-
-    drawBike(ctx) {
-        const p = this.player;
-        const bike = this.getBikeData();
-
-        ctx.save();
-        ctx.translate(p.x, p.y);
-        ctx.rotate(p.angle);
-
-        // Ground shadow
-        ctx.fillStyle = 'rgba(0, 0, 0, 0.45)';
-        ctx.beginPath();
-        ctx.ellipse(2, 4, p.length / 2 + 4, p.width / 2 + 2, 0, 0, Math.PI * 2);
-        ctx.fill();
-
-        // Dynamic Lean Shift
-        const leanShift = Math.sin(p.leanAngle) * 9;
-        ctx.translate(0, leanShift);
-
-        // Rear Tyre
-        ctx.fillStyle = '#0f172a';
-        ctx.fillRect(-p.length / 2 + 4, -4, 14, 8);
-
-        // Front Tyre with Steering Angle
-        ctx.save();
-        ctx.translate(p.length / 2 - 6, 0);
-        ctx.rotate(p.steerAngle);
-        ctx.fillStyle = '#0f172a';
-        ctx.fillRect(-6, -4, 12, 8);
-        ctx.restore();
-
-        // Chassis / Body
-        ctx.fillStyle = bike.color;
-        ctx.beginPath();
-        ctx.roundRect(-p.length / 2 + 10, -p.width / 2 + 3, p.length - 18, p.width - 6, 6);
-        ctx.fill();
-
-        // Engine block & Fuel Tank
-        ctx.fillStyle = '#1e293b';
-        ctx.fillRect(-8, -p.width / 2 + 5, 20, p.width - 10);
-
-        // Rider on top
-        ctx.fillStyle = '#09090b';
-        ctx.fillRect(-18, -p.width / 2 + 6, 14, p.width - 12); // Seat
-
-        // Rider Torso & Helmet (leans with bike)
-        ctx.fillStyle = '#334155';
-        ctx.beginPath();
-        ctx.arc(-4, 0, 10, 0, Math.PI * 2);
-        ctx.fill();
-        ctx.fillStyle = '#ef4444'; // Helmet
-        ctx.beginPath();
-        ctx.arc(4, 0, 8, 0, Math.PI * 2);
-        ctx.fill();
-
-        // Handlebars
-        ctx.strokeStyle = '#94a3b8';
-        ctx.lineWidth = 4;
-        ctx.beginPath();
-        ctx.moveTo(p.length / 2 - 12, -p.width / 2 - 5);
-        ctx.lineTo(p.length / 2 - 12, p.width / 2 + 5);
-        ctx.stroke();
-
-        // Brake Light (Glows bright red when braking)
-        if (this.keys.backward || this.keys.rearBrake) {
-            ctx.fillStyle = '#ef4444';
-            ctx.shadowBlur = 15;
-            ctx.shadowColor = '#ef4444';
-            ctx.fillRect(-p.length / 2 + 2, -4, 4, 8);
-        }
-
-        // Kickstand
-        if (p.kickstandDeployed) {
-            ctx.strokeStyle = '#eab308';
-            ctx.lineWidth = 3;
-            ctx.beginPath();
-            ctx.moveTo(-10, -p.width / 2);
-            ctx.lineTo(-14, -p.width / 2 - 12);
-            ctx.stroke();
-        }
-
-        ctx.restore();
-    }
-
-    drawObstacles(ctx) {
-        this.obstacles.forEach(obs => {
-            ctx.save();
-            if (obs.type === 'building') {
-                ctx.fillStyle = obs.color || '#334155';
-                ctx.fillRect(obs.x - obs.width / 2, obs.y - obs.height / 2, obs.width, obs.height);
-                ctx.strokeStyle = 'rgba(255,255,255,0.1)';
-                ctx.strokeRect(obs.x - obs.width / 2, obs.y - obs.height / 2, obs.width, obs.height);
-            } else if (obs.type === 'car' || obs.type === 'ambulance') {
-                ctx.translate(obs.x, obs.y);
-                ctx.rotate(obs.angle || 0);
-
-                ctx.fillStyle = obs.color || '#3b82f6';
-                ctx.beginPath();
-                ctx.roundRect(-obs.length / 2, -obs.width / 2, obs.length, obs.width, 8);
-                ctx.fill();
-
-                ctx.fillStyle = '#0f172a';
-                ctx.fillRect(-obs.length / 4, -obs.width / 2 + 6, obs.length / 2, obs.width - 12);
-            } else if (obs.type === 'parked_bike') {
-                ctx.translate(obs.x, obs.y);
-                ctx.rotate(obs.angle || 0);
-                ctx.fillStyle = obs.color;
-                ctx.fillRect(-obs.length / 2, -obs.width / 2, obs.length, obs.width);
-            } else if (obs.type === 'pillar') {
-                ctx.fillStyle = '#475569';
-                ctx.beginPath();
-                ctx.arc(obs.x, obs.y, obs.radius, 0, Math.PI * 2);
-                ctx.fill();
-            } else if (obs.type === 'cone') {
-                ctx.fillStyle = '#f97316';
-                ctx.beginPath();
-                ctx.arc(obs.x, obs.y, obs.radius, 0, Math.PI * 2);
-                ctx.fill();
-            } else if (obs.type === 'speedbreaker') {
-                ctx.fillStyle = '#eab308';
-                ctx.fillRect(obs.x, obs.y, obs.width, obs.height);
-            } else if (obs.type === 'barrier') {
-                ctx.fillStyle = '#dc2626';
-                ctx.fillRect(obs.x - obs.width / 2, obs.y - obs.height / 2, obs.width, obs.height);
-            }
-            ctx.restore();
-        });
-    }
-
-    drawTraffic(ctx) {
-        this.traffic.forEach(t => {
-            ctx.save();
-            ctx.translate(t.x, t.y);
-
-            if (t.type === 'pedestrian') {
-                ctx.fillStyle = '#f87171';
-                ctx.beginPath();
-                ctx.arc(0, 0, t.radius, 0, Math.PI * 2);
-                ctx.fill();
-            } else {
-                ctx.fillStyle = t.color || '#f59e0b';
-                ctx.beginPath();
-                ctx.roundRect(-t.length / 2, -t.width / 2, t.length, t.width, 6);
-                ctx.fill();
-            }
-            ctx.restore();
-        });
-    }
-
-    drawHandlebarCockpit(ctx, w, h) {
-        ctx.save();
-        ctx.fillStyle = '#0f172a';
-        ctx.fillRect(w / 2 - 180, h - 80, 360, 40);
-
-        ctx.fillStyle = '#334155';
-        ctx.fillRect(w / 2 - 220, h - 90, 45, 25);
-        ctx.fillRect(w / 2 + 175, h - 90, 45, 25);
-
-        ctx.fillStyle = '#1e293b';
-        ctx.fillRect(w / 2 - 260, h - 140, 50, 35);
-        ctx.fillRect(w / 2 + 210, h - 140, 50, 35);
-        ctx.strokeStyle = '#38bdf8';
-        ctx.strokeRect(w / 2 - 258, h - 138, 46, 31);
-        ctx.strokeRect(w / 2 + 212, h - 138, 46, 31);
-
-        ctx.restore();
-    }
-
     renderMinimap() {
         if (!this.mmCtx) return;
         const mm = this.mmCtx;
@@ -1460,40 +1382,39 @@ class MotoParkPro extends BaseGame {
         mm.fillStyle = '#080a12';
         mm.fillRect(0, 0, mw, mh);
 
-        // Scale factors: 1000x562 -> 120x90
-        const sx = mw / 1000;
-        const sy = mh / 562;
+        // Scale factors: (-70..70) -> (0..mw), (-45..45) -> (0..mh)
+        const toX = (x) => ((x + 70) / 140) * mw;
+        const toZ = (z) => ((z + 45) / 90) * mh;
 
-        // Draw Road Outline
-        mm.strokeStyle = 'rgba(255,255,255,0.2)';
-        mm.lineWidth = 1;
-        mm.strokeRect(10 * sx, 10 * sy, 980 * sx, 542 * sy);
+        // Road Borders
+        mm.strokeStyle = 'rgba(255,255,255,0.25)';
+        mm.strokeRect(toX(-65), toZ(-40), toX(65) - toX(-65), toZ(40) - toZ(-40));
 
-        // Target Parking Slot (Flashing Yellow Box)
+        // Parking Bay (Yellow)
         const slot = this.missionData.slot;
         mm.fillStyle = '#eab308';
-        mm.fillRect((slot.x - 20) * sx, (slot.y - 20) * sy, 40 * sx, 40 * sy);
+        mm.fillRect(toX(slot.x) - 4, toZ(slot.z) - 4, 8, 8);
 
-        // Traffic Dots
+        // Traffic Dots (Red)
         mm.fillStyle = '#ef4444';
         this.traffic.forEach(t => {
-            mm.fillRect(t.x * sx - 2, t.y * sy - 2, 4, 4);
+            mm.fillRect(toX(t.x) - 2, toZ(t.z) - 2, 4, 4);
         });
 
-        // Player Bike Dot with Heading Needle
+        // Player Bike Dot (Cyan) with Direction Needle
+        const px = toX(this.player.x);
+        const pz = toZ(this.player.z);
+
         mm.fillStyle = '#38bdf8';
         mm.beginPath();
-        mm.arc(this.player.x * sx, this.player.y * sy, 3.5, 0, Math.PI * 2);
+        mm.arc(px, pz, 3.5, 0, Math.PI * 2);
         mm.fill();
 
         mm.strokeStyle = '#38bdf8';
         mm.lineWidth = 2;
         mm.beginPath();
-        mm.moveTo(this.player.x * sx, this.player.y * sy);
-        mm.lineTo(
-            (this.player.x + Math.cos(this.player.angle) * 16) * sx,
-            (this.player.y + Math.sin(this.player.angle) * 16) * sy
-        );
+        mm.moveTo(px, pz);
+        mm.lineTo(px + Math.cos(this.player.angle) * 12, pz - Math.sin(this.player.angle) * 12);
         mm.stroke();
     }
 
@@ -1530,6 +1451,9 @@ class MotoParkPro extends BaseGame {
                 dot.classList.add('active');
                 this.selectedColor = dot.getAttribute('data-color');
                 localStorage.setItem('luckykit_bike_color', this.selectedColor);
+                if (this.bodyMaterial) {
+                    this.bodyMaterial.color.set(this.selectedColor);
+                }
             });
         });
 
@@ -1574,6 +1498,10 @@ class MotoParkPro extends BaseGame {
         if (lvlBrk) lvlBrk.textContent = this.upgrades.brakes;
         const lvlTyr = document.getElementById('lvlTyres');
         if (lvlTyr) lvlTyr.textContent = this.upgrades.tyres;
+
+        if (this.bodyMaterial) {
+            this.bodyMaterial.color.set(this.selectedColor);
+        }
     }
 
     setupLevelSelectorUI() {
@@ -1628,8 +1556,8 @@ class MotoParkPro extends BaseGame {
 
 if (document.readyState === 'loading') {
     document.addEventListener("DOMContentLoaded", () => {
-        new MotoParkPro();
+        new MotoParkRealRide();
     });
 } else {
-    new MotoParkPro();
+    new MotoParkRealRide();
 }
