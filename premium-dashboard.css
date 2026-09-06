@@ -123,123 +123,126 @@
 }
 
 /* --------------------------------------------------------
-   ☀️ LIGHT 1: Ivory + Champagne Gold
+   ☀️ LIGHT 1: Peach + Coral + Cream 🍑
    -------------------------------------------------------- */
-[data-theme="light-gold"], .theme-light-gold {
-    --v2-primary: #b45309;
-    --v2-accent: #d97706;
-    --v2-bg: #f8f6f0;
-    --v2-surface: #ffffff;
-    --v2-surface-hover: #fcfaf6;
-    --v2-border: rgba(180, 83, 9, 0.22);
-    --v2-border-hover: rgba(217, 119, 6, 0.6);
-    --v2-glow: rgba(217, 119, 6, 0.22);
+[data-theme="light-peach"], .theme-light-peach, [data-theme="light-gold"], .theme-light-gold, [data-theme="light"] {
+    --v2-primary: #E89A7A;
+    --v2-accent: #F4C6A6;
+    --v2-secondary: #FFD9C7;
+    --v2-bg: #FFF7F0;
+    --v2-surface: #FFFFFF;
+    --v2-surface-hover: #FFF3EB;
+    --v2-border: rgba(232, 154, 122, 0.32);
+    --v2-border-hover: rgba(232, 154, 122, 0.7);
+    --v2-glow: rgba(232, 154, 122, 0.3);
     
-    --v2-text: #1c1917;
-    --v2-text-muted: #57534e;
+    --v2-text: #3B2924;
+    --v2-text-muted: #6E5047;
     
-    --v2-sidebar-bg: #f5f1e8;
-    --v2-card-bg: #ffffff;
-    --v2-nav-hover: rgba(180, 83, 9, 0.1);
+    --v2-sidebar-bg: #FFF0E4;
+    --v2-card-bg: #FFFFFF;
+    --v2-nav-hover: rgba(232, 154, 122, 0.12);
     
-    --v2-shadow: rgba(60, 45, 20, 0.08);
-    --v2-shadow-lg: 0 12px 30px rgba(60, 45, 20, 0.1);
+    --v2-shadow: rgba(59, 41, 36, 0.08);
+    --v2-shadow-lg: 0 12px 30px rgba(59, 41, 36, 0.1);
     
-    --v2-profile-bg: #ffffff;
-    --v2-profile-border: rgba(180, 83, 9, 0.25);
+    --v2-profile-bg: #FFFFFF;
+    --v2-profile-border: rgba(232, 154, 122, 0.35);
     
-    --v2-progress-bg: #e6ded1;
-    --v2-hero-overlay: linear-gradient(135deg, rgba(248, 246, 240, 0.96) 0%, rgba(248, 246, 240, 0.88) 55%, rgba(248, 246, 240, 0.3) 100%);
+    --v2-progress-bg: #FFD9C7;
+    --v2-hero-overlay: linear-gradient(135deg, rgba(255, 247, 240, 0.96) 0%, rgba(255, 247, 240, 0.88) 55%, rgba(255, 247, 240, 0.3) 100%);
     
-    --v2-mission-bg: #ffffff;
-    --v2-mission-hover: #fdfbf7;
+    --v2-mission-bg: #FFFFFF;
+    --v2-mission-hover: #FFF9F5;
     
-    --card-bg-red: #fff1f2;
-    --card-bg-blue: #f0f9ff;
-    --card-bg-green: #f0fdf4;
-    --card-bg-yellow: #fefce8;
-    --card-bg-purple: #faf5ff;
-    --card-bg-cyan: #ecfeff;
+    --card-bg-red: #FFF1F2;
+    --card-bg-blue: #F0F9FF;
+    --card-bg-green: #F0FDF4;
+    --card-bg-yellow: #FEFCE8;
+    --card-bg-purple: #FAF5FF;
+    --card-bg-cyan: #ECFEFF;
 }
 
 /* --------------------------------------------------------
-   ☀️ LIGHT 2: Soft Mint + Emerald
+   ☀️ LIGHT 2: Powder Blue + Soft Pink + White 🩵🌸
    -------------------------------------------------------- */
-[data-theme="light-emerald"], .theme-light-emerald, [data-theme="light"] {
-    --v2-primary: #059669;
-    --v2-accent: #10b981;
-    --v2-bg: #f0f8f4;
-    --v2-surface: #ffffff;
-    --v2-surface-hover: #f4faf6;
-    --v2-border: rgba(5, 150, 105, 0.22);
-    --v2-border-hover: rgba(16, 185, 129, 0.6);
-    --v2-glow: rgba(5, 150, 105, 0.22);
+[data-theme="light-blue"], .theme-light-blue, [data-theme="light-emerald"], .theme-light-emerald {
+    --v2-primary: #7FAFC4;
+    --v2-accent: #E8AFC0;
+    --v2-secondary: #C9E2EE;
+    --v2-bg: #F4F9FC;
+    --v2-surface: #FFFFFF;
+    --v2-surface-hover: #EBF4F9;
+    --v2-border: rgba(127, 175, 196, 0.32);
+    --v2-border-hover: rgba(127, 175, 196, 0.7);
+    --v2-glow: rgba(127, 175, 196, 0.3);
     
-    --v2-text: #062e1e;
-    --v2-text-muted: #374151;
+    --v2-text: #28343B;
+    --v2-text-muted: #50616B;
     
-    --v2-sidebar-bg: #e7f5ec;
-    --v2-card-bg: #ffffff;
-    --v2-nav-hover: rgba(5, 150, 105, 0.1);
+    --v2-sidebar-bg: #E8F2F7;
+    --v2-card-bg: #FFFFFF;
+    --v2-nav-hover: rgba(127, 175, 196, 0.12);
     
-    --v2-shadow: rgba(10, 50, 30, 0.08);
-    --v2-shadow-lg: 0 12px 30px rgba(10, 50, 30, 0.1);
+    --v2-shadow: rgba(40, 52, 59, 0.08);
+    --v2-shadow-lg: 0 12px 30px rgba(40, 52, 59, 0.1);
     
-    --v2-profile-bg: #ffffff;
-    --v2-profile-border: rgba(5, 150, 105, 0.25);
+    --v2-profile-bg: #FFFFFF;
+    --v2-profile-border: rgba(127, 175, 196, 0.35);
     
-    --v2-progress-bg: #ccebd7;
-    --v2-hero-overlay: linear-gradient(135deg, rgba(240, 248, 244, 0.96) 0%, rgba(240, 248, 244, 0.88) 55%, rgba(240, 248, 244, 0.3) 100%);
+    --v2-progress-bg: #C9E2EE;
+    --v2-hero-overlay: linear-gradient(135deg, rgba(244, 249, 252, 0.96) 0%, rgba(244, 249, 252, 0.88) 55%, rgba(244, 249, 252, 0.3) 100%);
     
-    --v2-mission-bg: #ffffff;
-    --v2-mission-hover: #f7fcf9;
+    --v2-mission-bg: #FFFFFF;
+    --v2-mission-hover: #F8FCFE;
     
-    --card-bg-red: #fff1f2;
-    --card-bg-blue: #f0f9ff;
-    --card-bg-green: #ecfdf5;
-    --card-bg-yellow: #fefce8;
-    --card-bg-purple: #faf5ff;
-    --card-bg-cyan: #ecfeff;
+    --card-bg-red: #FFF1F2;
+    --card-bg-blue: #F0F9FF;
+    --card-bg-green: #ECFDF5;
+    --card-bg-yellow: #FEFCE8;
+    --card-bg-purple: #FAF5FF;
+    --card-bg-cyan: #ECFEFF;
 }
 
 /* --------------------------------------------------------
-   ☀️ LIGHT 3: Lavender Mist + Deep Purple
+   ☀️ LIGHT 3: Butter Yellow + Dusty Rose + Cream 🌼
    -------------------------------------------------------- */
-[data-theme="light-purple"], .theme-light-purple {
-    --v2-primary: #7e22ce;
-    --v2-accent: #9333ea;
-    --v2-bg: #f8f4ff;
-    --v2-surface: #ffffff;
-    --v2-surface-hover: #faf7ff;
-    --v2-border: rgba(126, 34, 206, 0.22);
-    --v2-border-hover: rgba(147, 51, 234, 0.6);
-    --v2-glow: rgba(126, 34, 206, 0.22);
+[data-theme="light-butter"], .theme-light-butter, [data-theme="light-purple"], .theme-light-purple {
+    --v2-primary: #D8B56A;
+    --v2-accent: #D99AA8;
+    --v2-secondary: #F1DCC0;
+    --v2-bg: #FFFBEF;
+    --v2-surface: #FFFFFF;
+    --v2-surface-hover: #FFF7DF;
+    --v2-border: rgba(216, 181, 106, 0.32);
+    --v2-border-hover: rgba(216, 181, 106, 0.7);
+    --v2-glow: rgba(216, 181, 106, 0.3);
     
-    --v2-text: #2e1065;
-    --v2-text-muted: #4b5563;
+    --v2-text: #39302D;
+    --v2-text-muted: #665853;
     
-    --v2-sidebar-bg: #f1e6ff;
-    --v2-card-bg: #ffffff;
-    --v2-nav-hover: rgba(126, 34, 206, 0.1);
+    --v2-sidebar-bg: #FFF6DE;
+    --v2-card-bg: #FFFFFF;
+    --v2-nav-hover: rgba(216, 181, 106, 0.12);
     
-    --v2-shadow: rgba(45, 15, 80, 0.08);
-    --v2-shadow-lg: 0 12px 30px rgba(45, 15, 80, 0.1);
+    --v2-shadow: rgba(57, 48, 45, 0.08);
+    --v2-shadow-lg: 0 12px 30px rgba(57, 48, 45, 0.1);
     
-    --v2-profile-bg: #ffffff;
-    --v2-profile-border: rgba(126, 34, 206, 0.25);
+    --v2-profile-bg: #FFFFFF;
+    --v2-profile-border: rgba(216, 181, 106, 0.35);
     
-    --v2-progress-bg: #e5d2fc;
-    --v2-hero-overlay: linear-gradient(135deg, rgba(248, 244, 255, 0.96) 0%, rgba(248, 244, 255, 0.88) 55%, rgba(248, 244, 255, 0.3) 100%);
+    --v2-progress-bg: #F1DCC0;
+    --v2-hero-overlay: linear-gradient(135deg, rgba(255, 251, 239, 0.96) 0%, rgba(255, 251, 239, 0.88) 55%, rgba(255, 251, 239, 0.3) 100%);
     
-    --v2-mission-bg: #ffffff;
-    --v2-mission-hover: #fbf9ff;
+    --v2-mission-bg: #FFFFFF;
+    --v2-mission-hover: #FFFDF7;
     
-    --card-bg-red: #fff1f2;
-    --card-bg-blue: #f0f9ff;
-    --card-bg-green: #f0fdf4;
-    --card-bg-yellow: #fefce8;
-    --card-bg-purple: #f3e8ff;
-    --card-bg-cyan: #ecfeff;
+    --card-bg-red: #FFF1F2;
+    --card-bg-blue: #F0F9FF;
+    --card-bg-green: #F0FDF4;
+    --card-bg-yellow: #FEFCE8;
+    --card-bg-purple: #F3E8FF;
+    --card-bg-cyan: #ECFEFF;
 }
 
 body.v2-launcher {

@@ -542,12 +542,206 @@ body.arcade-premium-mode {
     width: calc(100% - 40px) !important;
     border-radius: 50px !important;
     background: rgba(10, 8, 20, 0.85) !important;
+    height: 8px;
+    border-radius: 50%;
+    opacity: 0;
+    pointer-events: none;
+}
+
+.levelup-overlay.active .levelup-particle {
+    animation: particleExplode 1.2s forwards ease-out;
+}
+
+@keyframes particleExplode {
+    0% {
+        transform: translate(-50%, -50%) scale(1);
+        opacity: 1;
+    }
+    100% {
+        transform: translate(calc(-50% + var(--tx)), calc(-50% + var(--ty))) scale(0);
+        opacity: 0;
+        background-color: var(--color);
+    }
+}
+
+/* Achievement Unlocked Popup */
+.achievement-unlock-popup {
+    position: fixed;
+    bottom: 25px;
+    right: 25px;
+    background: rgba(18, 14, 32, 0.95);
+    border: 1px solid rgba(234, 179, 8, 0.4);
+    border-left: 5px solid var(--neon-gold);
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5), var(--shadow-neon-gold);
+    display: flex;
+    align-items: center;
+    gap: 15px;
+    padding: 16px 22px;
+    border-radius: 16px;
+    z-index: 10002;
+    transform: translateX(120%);
+    transition: transform 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+}
+
+.achievement-unlock-popup.show {
+    transform: translateX(0);
+}
+
+.ach-icon {
+    font-size: 2.2rem;
+    animation: spinSlow 4s infinite linear;
+}
+
+.ach-content {
+    display: flex;
+    flex-direction: column;
+}
+
+.ach-title {
+    font-size: 0.75rem;
+    font-weight: 700;
+    color: var(--neon-gold);
+    text-transform: uppercase;
+    letter-spacing: 1px;
+}
+
+.ach-name {
+    font-size: 1.1rem;
+    font-weight: 700;
+    color: #fff;
+    margin-top: 2px;
+}
+
+.ach-desc {
+    font-size: 0.8rem;
+    color: #9ca3af;
+    margin-top: 2px;
+}
+
+@keyframes spinSlow {
+    from { transform: rotate(0deg); }
+    to { transform: rotate(360deg); }
+}
+
+@keyframes pulse {
+    0%, 100% { transform: scale(1); }
+    50% { transform: scale(1.05); }
+}
+
+/* Unified Game Content Wrapper Override (Glassmorphic Styling) */
+.arcade-premium-mode .container {
+    background: var(--bg-card) !important;
+    border: 1px solid var(--border-glass) !important;
+    border-radius: 28px !important;
+    box-shadow: 0 15px 35px rgba(0, 0, 0, 0.4), 0 0 30px rgba(168, 85, 247, 0.05) !important;
+    padding: 35px !important;
+    backdrop-filter: blur(12px) !important;
+    -webkit-backdrop-filter: blur(12px) !important;
+    transition: border-color 0.3s, box-shadow 0.3s;
+}
+
+.arcade-premium-mode .container:hover {
+    border-color: rgba(168, 85, 247, 0.2);
+    box-shadow: 0 15px 40px rgba(0, 0, 0, 0.5), 0 0 30px rgba(168, 85, 247, 0.1) !important;
+}
+
+/* Premium Buttons Uniform Styles */
+.arcade-premium-mode button, 
+.arcade-premium-mode .btn,
+.arcade-premium-mode .game-btn {
+    border: 1px solid rgba(255, 255, 255, 0.1) !important;
+    background: rgba(255, 255, 255, 0.06) !important;
+    color: #fff !important;
+    border-radius: 12px !important;
+    font-weight: 600 !important;
+    transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1) !important;
+    cursor: pointer !important;
+    text-shadow: none !important;
+    box-shadow: none !important;
+}
+
+.arcade-premium-mode button:hover, 
+.arcade-premium-mode .btn:hover,
+.arcade-premium-mode .game-btn:hover {
+    background: #fff !important;
+    color: var(--bg-dark) !important;
+    transform: translateY(-2px) !important;
+    box-shadow: 0 5px 15px rgba(255, 255, 255, 0.3) !important;
+    border-color: #fff !important;
+}
+
+/* Primary actions glow purple */
+.arcade-premium-mode button[id*="toss"],
+.arcade-premium-mode button[id*="start"],
+.arcade-premium-mode button[id*="tossBtn"],
+.arcade-premium-mode button[id*="submit"],
+.arcade-premium-mode button.primary {
+    background: linear-gradient(135deg, var(--neon-purple), var(--neon-pink)) !important;
+    border: none !important;
+}
+
+.arcade-premium-mode button[id*="toss"]:hover,
+.arcade-premium-mode button[id*="start"]:hover,
+.arcade-premium-mode button[id*="tossBtn"]:hover,
+.arcade-premium-mode button[id*="submit"]:hover,
+.arcade-premium-mode button.primary:hover {
+    box-shadow: var(--shadow-neon-pink) !important;
+    color: #fff !important;
+    filter: brightness(1.1);
+}
+
+/* Game canvas borders */
+.arcade-premium-mode canvas {
+    border: 2px solid rgba(255, 255, 255, 0.1) !important;
+    border-radius: 16px !important;
+    box-shadow: 0 8px 30px rgba(0, 0, 0, 0.5) !important;
+    background: rgba(0, 0, 0, 0.6) !important;
+}
+
+/* Score cards styling */
+.arcade-premium-mode .score-card,
+.arcade-premium-mode .scoreboard,
+.arcade-premium-mode .scores {
+    background: rgba(255, 255, 255, 0.03) !important;
+    border: 1px solid var(--border-glass) !important;
+    border-radius: 16px !important;
+    padding: 15px !important;
+    box-shadow: 0 4px 20px rgba(0,0,0,0.15) !important;
+}
+
+.arcade-premium-mode header h1 {
+    font-size: 2.8rem !important;
+    font-weight: 800 !important;
+    color: #fff !important;
+    letter-spacing: 0.5px !important;
+    text-shadow: 0 2px 10px rgba(0,0,0,0.3) !important;
+    background: none !important;
+    -webkit-text-fill-color: initial !important;
+}
+
+.arcade-premium-mode header p {
+    color: #9ca3af !important;
+}
+
+.arcade-premium-mode footer {
+    display: none !important; /* Hide game footer, header and home portal footer handles credentials */
+}
+
+
+/* ========================================================
+   AAA SHELL OVERRIDES (FLOATING HEADER)
+   ======================================================== */
+.arcade-header-bar {
+    top: 15px !important;
+    left: 20px !important;
+    width: calc(100% - 40px) !important;
+    border-radius: 50px !important;
+    background: rgba(10, 8, 20, 0.85) !important;
     backdrop-filter: blur(25px) !important;
     -webkit-backdrop-filter: blur(25px) !important;
     border: 1px solid rgba(255, 255, 255, 0.1) !important;
     box-shadow: 0 20px 40px rgba(0, 0, 0, 0.6), inset 0 1px 0 rgba(255,255,255,0.05) !important;
 }
-
 body.arcade-premium-mode {
     padding-top: 110px !important; 
 }
@@ -567,20 +761,33 @@ body.arcade-premium-mode {
     padding: 8px 24px !important;
     transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275) !important;
 }
+
 .arcade-nav-btn:hover {
     transform: translateY(-2px) scale(1.05) !important;
 }
 
-/* Modals */
-.arcade-modal-content {
-    background: rgba(15, 12, 25, 0.95) !important;
-    backdrop-filter: blur(30px) !important;
-    border-radius: 30px !important;
-    border: 1px solid var(--game-theme-color, rgba(255,255,255,0.1)) !important;
-    box-shadow: 0 30px 60px rgba(0,0,0,0.8), 0 0 40px var(--game-theme-color, rgba(0,0,0,0.3)) !important;
+/* Centered Game Canvas & Boards */
+canvas {
+    max-width: 100% !important;
+    height: auto !important;
+    border-radius: 16px;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+    margin: 0 auto;
 }
 
-
+/* User-Friendly Mobile Touch Buttons */
+.touch-action-btn {
+    min-height: 56px !important;
+    font-family: 'Rajdhani', sans-serif !important;
+    letter-spacing: 1px !important;
+    user-select: none !important;
+    -webkit-user-select: none !important;
+    touch-action: manipulation !important;
+    display: inline-flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    gap: 8px !important;
+}
 
 /* ========================================================
    6 LUXURY THEMES ENGINE (3 Dark 🌙 + 3 Light ☀️)
@@ -619,37 +826,37 @@ body.arcade-premium-mode {
     --theme-glow: rgba(192, 132, 252, 0.3);
 }
 
-/* ☀️ LIGHT 1: Ivory + Champagne Gold */
-[data-theme="light-gold"], .theme-light-gold {
-    --bg-dark: #faf8f2;
-    --bg-card: #ffffff;
-    --border-glass: rgba(180, 83, 9, 0.25);
-    --text-primary: #1c1917;
-    --text-muted: #78716c;
-    --theme-color: #b45309;
-    --theme-glow: rgba(217, 119, 6, 0.25);
+/* ☀️ LIGHT 1: Peach + Coral + Cream 🍑 */
+[data-theme="light-peach"], .theme-light-peach, [data-theme="light-gold"], .theme-light-gold, [data-theme="light"] {
+    --bg-dark: #FFF7F0;
+    --bg-card: #FFFFFF;
+    --border-glass: rgba(232, 154, 122, 0.32);
+    --text-primary: #3B2924;
+    --text-muted: #6E5047;
+    --theme-color: #E89A7A;
+    --theme-glow: rgba(232, 154, 122, 0.3);
 }
 
-/* ☀️ LIGHT 2: Soft Mint + Emerald */
-[data-theme="light-emerald"], .theme-light-emerald, [data-theme="light"] {
-    --bg-dark: #f0fdf4;
-    --bg-card: #ffffff;
-    --border-glass: rgba(5, 150, 105, 0.25);
-    --text-primary: #062e1e;
-    --text-muted: #4b7a67;
-    --theme-color: #059669;
-    --theme-glow: rgba(5, 150, 105, 0.25);
+/* ☀️ LIGHT 2: Powder Blue + Soft Pink + White 🩵🌸 */
+[data-theme="light-blue"], .theme-light-blue, [data-theme="light-emerald"], .theme-light-emerald {
+    --bg-dark: #F4F9FC;
+    --bg-card: #FFFFFF;
+    --border-glass: rgba(127, 175, 196, 0.32);
+    --text-primary: #28343B;
+    --text-muted: #50616B;
+    --theme-color: #7FAFC4;
+    --theme-glow: rgba(127, 175, 196, 0.3);
 }
 
-/* ☀️ LIGHT 3: Lavender Mist + Deep Purple */
-[data-theme="light-purple"], .theme-light-purple {
-    --bg-dark: #faf5ff;
-    --bg-card: #ffffff;
-    --border-glass: rgba(126, 34, 206, 0.25);
-    --text-primary: #2e1065;
-    --text-muted: #6b5b95;
-    --theme-color: #7e22ce;
-    --theme-glow: rgba(126, 34, 206, 0.25);
+/* ☀️ LIGHT 3: Butter Yellow + Dusty Rose + Cream 🌼 */
+[data-theme="light-butter"], .theme-light-butter, [data-theme="light-purple"], .theme-light-purple {
+    --bg-dark: #FFFBEF;
+    --bg-card: #FFFFFF;
+    --border-glass: rgba(216, 181, 106, 0.32);
+    --text-primary: #39302D;
+    --text-muted: #665853;
+    --theme-color: #D8B56A;
+    --theme-glow: rgba(216, 181, 106, 0.3);
 }
 
 /* Dark Theme Body & Glass Overrides */
@@ -675,22 +882,25 @@ body.theme-purple, [data-theme="purple"] body {
 }
 
 /* Light Theme Body & Glass Overrides */
+body.theme-light-peach, [data-theme="light-peach"] body,
 body.theme-light-gold, [data-theme="light-gold"] body {
-    background-color: #faf8f2 !important;
+    background-color: #FFF7F0 !important;
     background-image: none !important;
-    color: #1c1917 !important;
+    color: #3B2924 !important;
 }
 
+body.theme-light-blue, [data-theme="light-blue"] body,
 body.theme-light-emerald, [data-theme="light-emerald"] body {
-    background-color: #f0fdf4 !important;
+    background-color: #F4F9FC !important;
     background-image: none !important;
-    color: #062e1e !important;
+    color: #28343B !important;
 }
 
+body.theme-light-butter, [data-theme="light-butter"] body,
 body.theme-light-purple, [data-theme="light-purple"] body {
-    background-color: #faf5ff !important;
+    background-color: #FFFBEF !important;
     background-image: none !important;
-    color: #2e1065 !important;
+    color: #39302D !important;
 }
 
 /* Glass Panels & Surfaces */
@@ -718,28 +928,34 @@ body.theme-light-purple, [data-theme="light-purple"] body {
     color: #f8fafc !important;
 }
 
+.theme-light-peach .glass-panel, .theme-light-peach .glass-panel-v2,
 .theme-light-gold .glass-panel, .theme-light-gold .glass-panel-v2,
+[data-theme="light-peach"] .glass-panel, [data-theme="light-peach"] .glass-panel-v2,
 [data-theme="light-gold"] .glass-panel, [data-theme="light-gold"] .glass-panel-v2 {
     background: #ffffff !important;
-    border: 1px solid rgba(180, 83, 9, 0.25) !important;
-    box-shadow: 0 10px 30px rgba(180, 83, 9, 0.1) !important;
-    color: #1c1917 !important;
+    border: 1px solid rgba(232, 154, 122, 0.32) !important;
+    box-shadow: 0 10px 30px rgba(59, 41, 36, 0.08) !important;
+    color: #3B2924 !important;
 }
 
+.theme-light-blue .glass-panel, .theme-light-blue .glass-panel-v2,
 .theme-light-emerald .glass-panel, .theme-light-emerald .glass-panel-v2,
+[data-theme="light-blue"] .glass-panel, [data-theme="light-blue"] .glass-panel-v2,
 [data-theme="light-emerald"] .glass-panel, [data-theme="light-emerald"] .glass-panel-v2 {
     background: #ffffff !important;
-    border: 1px solid rgba(5, 150, 105, 0.25) !important;
-    box-shadow: 0 10px 30px rgba(5, 150, 105, 0.1) !important;
-    color: #062e1e !important;
+    border: 1px solid rgba(127, 175, 196, 0.32) !important;
+    box-shadow: 0 10px 30px rgba(40, 52, 59, 0.08) !important;
+    color: #28343B !important;
 }
 
+.theme-light-butter .glass-panel, .theme-light-butter .glass-panel-v2,
 .theme-light-purple .glass-panel, .theme-light-purple .glass-panel-v2,
+[data-theme="light-butter"] .glass-panel, [data-theme="light-butter"] .glass-panel-v2,
 [data-theme="light-purple"] .glass-panel, [data-theme="light-purple"] .glass-panel-v2 {
     background: #ffffff !important;
-    border: 1px solid rgba(126, 34, 206, 0.25) !important;
-    box-shadow: 0 10px 30px rgba(126, 34, 206, 0.1) !important;
-    color: #2e1065 !important;
+    border: 1px solid rgba(216, 181, 106, 0.32) !important;
+    box-shadow: 0 10px 30px rgba(57, 48, 45, 0.08) !important;
+    color: #39302D !important;
 }
 
 /* Light Mode Arcade Header & Controls Overrides */
@@ -755,6 +971,20 @@ body.theme-light-purple, [data-theme="light-purple"] body {
 .light-mode .arcade-header-bar .btn,
 [data-theme^="light"] .arcade-header-bar .btn {
     color: var(--text-primary) !important;
+}
+
+#hubBtn {
+    backdrop-filter: blur(12px) !important;
+    -webkit-backdrop-filter: blur(12px) !important;
+    box-shadow: 0 8px 25px rgba(0, 0, 0, 0.5) !important;
+    transition: all 0.25s cubic-bezier(0.175, 0.885, 0.32, 1.275) !important;
+    font-family: 'Rajdhani', sans-serif !important;
+    letter-spacing: 0.5px;
+}
+
+#hubBtn:hover {
+    transform: translateX(-3px) scale(1.05) !important;
+    box-shadow: 0 12px 30px rgba(239, 68, 68, 0.4) !important;
 }
 
 [data-mode="light"] #hubBtn,
@@ -776,45 +1006,4 @@ body.theme-light-purple, [data-theme="light-purple"] body {
 .light-mode .text-white-50,
 [data-theme^="light"] .text-white-50 {
     color: var(--text-muted) !important;
-}
-
-/* ========================================================
-   GLOBAL USER-FRIENDLY FLOATING BUTTONS & CANVAS ALIGNMENT
-   ======================================================== */
-
-#hubBtn {
-    backdrop-filter: blur(12px) !important;
-    -webkit-backdrop-filter: blur(12px) !important;
-    box-shadow: 0 8px 25px rgba(0, 0, 0, 0.5) !important;
-    transition: all 0.25s cubic-bezier(0.175, 0.885, 0.32, 1.275) !important;
-    font-family: 'Rajdhani', sans-serif !important;
-    letter-spacing: 0.5px;
-}
-
-#hubBtn:hover {
-    transform: translateX(-3px) scale(1.05) !important;
-    box-shadow: 0 12px 30px rgba(239, 68, 68, 0.4) !important;
-}
-
-/* Centered Game Canvas & Boards */
-canvas {
-    max-width: 100% !important;
-    height: auto !important;
-    border-radius: 16px;
-    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
-    margin: 0 auto;
-}
-
-/* User-Friendly Mobile Touch Buttons */
-.touch-action-btn {
-    min-height: 56px !important;
-    font-family: 'Rajdhani', sans-serif !important;
-    letter-spacing: 1px !important;
-    user-select: none !important;
-    -webkit-user-select: none !important;
-    touch-action: manipulation !important;
-    display: inline-flex !important;
-    align-items: center !important;
-    justify-content: center !important;
-    gap: 8px !important;
 }

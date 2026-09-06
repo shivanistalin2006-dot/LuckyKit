@@ -337,12 +337,15 @@ body.theme-dark-purple .snake-page-body, [data-theme="dark-purple"] .snake-page-
 body.theme-purple .snake-page-body, [data-theme="purple"] .snake-page-body {
     background-color: #0a0614 !important;
 }
+body.theme-light-peach .snake-page-body, [data-theme="light-peach"] .snake-page-body,
 body.theme-light-gold .snake-page-body, [data-theme="light-gold"] .snake-page-body {
-    background-color: #faf8f2 !important;
+    background-color: #FFF7F0 !important;
 }
+body.theme-light-blue .snake-page-body, [data-theme="light-blue"] .snake-page-body,
 body.theme-light-emerald .snake-page-body, [data-theme="light-emerald"] .snake-page-body {
-    background-color: #f0fdf4 !important;
+    background-color: #F4F9FC !important;
 }
+body.theme-light-butter .snake-page-body, [data-theme="light-butter"] .snake-page-body,
 body.theme-light-purple .snake-page-body, [data-theme="light-purple"] .snake-page-body {
-    background-color: #faf5ff !important;
+    background-color: #FFFBEF !important;
 }

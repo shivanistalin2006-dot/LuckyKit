@@ -46,46 +46,55 @@ export const themes = {
     },
 
     // ==========================================
-    // ☀️ LIGHT THEMES
+    // ☀️ LIGHT THEMES — 3 UNIQUE PASTEL SETS
     // ==========================================
-    'light-gold': { 
-        id: 'light-gold',
+    'light-peach': { 
+        id: 'light-peach',
         mode: 'light',
-        name: 'Ivory + Champagne Gold', 
-        icon: '✨', 
-        color: '#b45309', 
-        accent: '#d97706',
-        bg: '#faf8f2',
-        glow: 'rgba(217, 119, 6, 0.25)',
-        badgeClass: 'border-warning text-warning',
-        preview: { bg: '#faf8f2', accent: '#d97706' },
-        description: 'Warm ivory cream with champagne gold'
+        name: 'Peach + Coral + Cream', 
+        icon: '🍑', 
+        color: '#E89A7A', 
+        accent: '#F4C6A6',
+        secondary: '#FFD9C7',
+        bg: '#FFF7F0',
+        textColor: '#3B2924',
+        card: '#FFFFFF',
+        glow: 'rgba(232, 154, 122, 0.35)',
+        badgeClass: 'border-danger text-dark',
+        preview: { bg: '#FFF7F0', accent: '#E89A7A' },
+        description: 'Warm, cute, premium — very welcoming homepage.'
     },
-    'light-emerald': { 
-        id: 'light-emerald',
+    'light-blue': { 
+        id: 'light-blue',
         mode: 'light',
-        name: 'Soft Mint + Emerald', 
-        icon: '🌱', 
-        color: '#059669', 
-        accent: '#10b981',
-        bg: '#f0fdf4',
-        glow: 'rgba(5, 150, 105, 0.25)',
-        badgeClass: 'border-success text-success',
-        preview: { bg: '#f0fdf4', accent: '#059669' },
-        description: 'Crisp soft mint with deep emerald green'
+        name: 'Powder Blue + Soft Pink', 
+        icon: '🩵', 
+        color: '#7FAFC4', 
+        accent: '#E8AFC0',
+        secondary: '#C9E2EE',
+        bg: '#F4F9FC',
+        textColor: '#28343B',
+        card: '#FFFFFF',
+        glow: 'rgba(127, 175, 196, 0.35)',
+        badgeClass: 'border-info text-dark',
+        preview: { bg: '#F4F9FC', accent: '#7FAFC4' },
+        description: 'Playful + youthful + clean. Games website-ku semma fit.'
     },
-    'light-purple': { 
-        id: 'light-purple',
+    'light-butter': { 
+        id: 'light-butter',
         mode: 'light',
-        name: 'Lavender Mist + Deep Purple', 
-        icon: '🌸', 
-        color: '#7e22ce', 
-        accent: '#9333ea',
-        bg: '#faf5ff',
-        glow: 'rgba(126, 34, 206, 0.25)',
-        badgeClass: 'border-primary text-primary',
-        preview: { bg: '#faf5ff', accent: '#7e22ce' },
-        description: 'Soft lilac mist with royal deep purple'
+        name: 'Butter Yellow + Dusty Rose', 
+        icon: '🌼', 
+        color: '#D8B56A', 
+        accent: '#D99AA8',
+        secondary: '#F1DCC0',
+        bg: '#FFFBEF',
+        textColor: '#39302D',
+        card: '#FFFFFF',
+        glow: 'rgba(216, 181, 106, 0.35)',
+        badgeClass: 'border-warning text-dark',
+        preview: { bg: '#FFFBEF', accent: '#D8B56A' },
+        description: 'Butter Yellow + Dusty Rose + Cream'
     }
 };
 
@@ -97,7 +106,10 @@ const normalizeThemeKey = (key) => {
     if (key === 'purple') return 'dark-purple';
     if (key === 'gold') return 'dark-gold';
     if (key === 'dark') return 'dark-emerald';
-    if (key === 'light') return 'light-emerald';
+    if (key === 'light') return 'light-peach';
+    if (key === 'light-gold') return 'light-peach';
+    if (key === 'light-emerald') return 'light-blue';
+    if (key === 'light-purple') return 'light-butter';
     return 'dark-emerald';
 };
 
@@ -133,6 +145,7 @@ class ThemeManager {
             // Clear old theme classes
             const allThemeClasses = [
                 'theme-dark-gold', 'theme-dark-emerald', 'theme-dark-purple',
+                'theme-light-peach', 'theme-light-blue', 'theme-light-butter',
                 'theme-light-gold', 'theme-light-emerald', 'theme-light-purple',
                 'theme-emerald', 'theme-purple', 'theme-gold', 'dark-theme', 'light-theme'
             ];
@@ -151,6 +164,9 @@ class ThemeManager {
             document.documentElement.style.setProperty('--theme-glow', theme.glow);
             document.documentElement.style.setProperty('--theme-neon', theme.color);
             document.documentElement.style.setProperty('--theme-bg', theme.bg);
+            if (theme.textColor) {
+                document.documentElement.style.setProperty('--theme-text', theme.textColor);
+            }
         }
 
         this.updateThemeButtonUI();
@@ -241,7 +257,7 @@ class ThemeManager {
             `;
         }).join('');
 
-        const lightOptions = ['light-gold', 'light-emerald', 'light-purple'].map(key => {
+        const lightOptions = ['light-peach', 'light-blue', 'light-butter'].map(key => {
             const t = themes[key];
             const isActive = this.currentTheme === key;
             return `
@@ -286,7 +302,7 @@ class ThemeManager {
                     <!-- Light Section -->
                     <div class="theme-mode-column light-column">
                         <div class="theme-column-title">
-                            <span class="badge bg-light text-dark border border-warning px-3 py-2 rounded-pill">☀️ Light Mode</span>
+                            <span class="badge bg-light text-dark border border-warning px-3 py-2 rounded-pill">☀️ Light Mode (Pastel Sets)</span>
                         </div>
                         <div class="theme-list">
                             ${lightOptions}

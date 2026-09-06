@@ -71,12 +71,15 @@ body.theme-dark-purple .escape-body, [data-theme="dark-purple"] .escape-body,
 body.theme-purple .escape-body, [data-theme="purple"] .escape-body {
     background-color: #0a0614 !important;
 }
+body.theme-light-peach .escape-body, [data-theme="light-peach"] .escape-body,
 body.theme-light-gold .escape-body, [data-theme="light-gold"] .escape-body {
-    background-color: #faf8f2 !important;
+    background-color: #FFF7F0 !important;
 }
+body.theme-light-blue .escape-body, [data-theme="light-blue"] .escape-body,
 body.theme-light-emerald .escape-body, [data-theme="light-emerald"] .escape-body {
-    background-color: #f0fdf4 !important;
+    background-color: #F4F9FC !important;
 }
+body.theme-light-butter .escape-body, [data-theme="light-butter"] .escape-body,
 body.theme-light-purple .escape-body, [data-theme="light-purple"] .escape-body {
-    background-color: #faf5ff !important;
+    background-color: #FFFBEF !important;
 }
