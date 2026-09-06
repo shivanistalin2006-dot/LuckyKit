@@ -668,7 +668,15 @@ body.v2-launcher {
 /* ========================================================
    ☀️ ULTRA-HIGH CONTRAST & LUXURY AESTHETICS FOR LIGHT MODE
    ======================================================== */
+/* Global Text & Subtitle Contrast */
+.text-muted-sub {
+    color: var(--v2-text-muted) !important;
+    transition: color 0.25s ease;
+}
+
 [data-mode="light"], .light-mode,
+[data-theme^="light"], .theme-light-peach, .theme-light-blue, .theme-light-butter,
+[data-theme="light-peach"], [data-theme="light-blue"], [data-theme="light-butter"],
 [data-theme="light-gold"], [data-theme="light-emerald"], [data-theme="light-purple"], [data-theme="light"] {
     color: var(--v2-text) !important;
 }
@@ -676,25 +684,36 @@ body.v2-launcher {
 /* Global Text Contrast Overrides in Light Mode */
 [data-mode="light"] .text-white,
 .light-mode .text-white,
-[data-theme^="light"] .text-white {
+[data-theme^="light"] .text-white,
+.theme-light-peach .text-white, .theme-light-blue .text-white, .theme-light-butter .text-white {
     color: var(--v2-text) !important;
 }
 
 [data-mode="light"] .text-white-50,
 .light-mode .text-white-50,
-[data-theme^="light"] .text-white-50 {
+[data-theme^="light"] .text-white-50,
+.theme-light-peach .text-white-50, .theme-light-blue .text-white-50, .theme-light-butter .text-white-50 {
+    color: var(--v2-text-muted) !important;
+}
+
+[data-mode="light"] .text-muted-sub,
+.light-mode .text-muted-sub,
+[data-theme^="light"] .text-muted-sub,
+.theme-light-peach .text-muted-sub, .theme-light-blue .text-muted-sub, .theme-light-butter .text-muted-sub {
     color: var(--v2-text-muted) !important;
 }
 
 [data-mode="light"] .text-light,
 .light-mode .text-light,
-[data-theme^="light"] .text-light {
+[data-theme^="light"] .text-light,
+.theme-light-peach .text-light, .theme-light-blue .text-light, .theme-light-butter .text-light {
     color: var(--v2-text) !important;
 }
 
 [data-mode="light"] .text-muted,
 .light-mode .text-muted,
-[data-theme^="light"] .text-muted {
+[data-theme^="light"] .text-muted,
+.theme-light-peach .text-muted, .theme-light-blue .text-muted, .theme-light-butter .text-muted {
     color: var(--v2-text-muted) !important;
 }
 
@@ -703,7 +722,10 @@ body.v2-launcher {
 .light-mode h1, .light-mode h2, .light-mode h3, 
 .light-mode h4, .light-mode h5, .light-mode h6,
 [data-theme^="light"] h1, [data-theme^="light"] h2, [data-theme^="light"] h3, 
-[data-theme^="light"] h4, [data-theme^="light"] h5, [data-theme^="light"] h6 {
+[data-theme^="light"] h4, [data-theme^="light"] h5, [data-theme^="light"] h6,
+.theme-light-peach h1, .theme-light-peach h2, .theme-light-peach h3, .theme-light-peach h4, .theme-light-peach h5, .theme-light-peach h6,
+.theme-light-blue h1, .theme-light-blue h2, .theme-light-blue h3, .theme-light-blue h4, .theme-light-blue h5, .theme-light-blue h6,
+.theme-light-butter h1, .theme-light-butter h2, .theme-light-butter h3, .theme-light-butter h4, .theme-light-butter h5, .theme-light-butter h6 {
     color: var(--v2-text) !important;
     text-shadow: none !important;
 }
