@@ -1,21 +1,20 @@
-@import url('https://fonts.googleapis.com/css2?family=Dancing+Script:wght@700&family=Caveat:wght@700&family=Kaushan+Script&family=Pacifico&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Outfit:wght@500;600;700;800;900&family=Space+Grotesk:wght@600;700&family=Rajdhani:wght@600;700;800&display=swap');
 
 /* ========================================================
    LUCKYKIT OS V2 - 6 LUXURY THEMES (3 DARK + 3 LIGHT)
    ======================================================== */
 
 :root {
-    --app-font-family: 'Dancing Script', 'Brush Script MT', 'Lucida Handwriting', 'Segoe Script', cursive, sans-serif;
+    --app-font-family: 'Outfit', 'Cambria Math', 'STIX Two Text', 'Space Grotesk', 'Rajdhani', -apple-system, sans-serif;
     --app-font-weight: 800;
-    --app-font-style: italic;
-    --app-text-stroke: 0.35px currentColor;
+    --app-font-style: normal;
 }
 
 *, *::before, *::after {
     font-family: var(--app-font-family);
-    font-style: var(--app-font-style);
+    font-style: normal;
     font-weight: var(--app-font-weight);
-    -webkit-text-stroke: var(--app-text-stroke);
+    letter-spacing: 0.3px;
 }
 
 /* --------------------------------------------------------
@@ -265,9 +264,8 @@ body.v2-launcher {
     background-color: var(--v2-bg);
     color: var(--v2-text);
     font-family: var(--app-font-family) !important;
-    font-weight: 800 !important;
-    font-style: italic !important;
-    -webkit-text-stroke: 0.35px currentColor;
+    font-weight: 700 !important;
+    font-style: normal !important;
     overflow-x: hidden;
     margin: 0;
     padding: 0;
@@ -280,14 +278,13 @@ p, span, a, button, input, select, textarea,
 .nav-item, .brand-text, .card-title, .card-category, .badge, .lead, .btn,
 .stat-value, .stat-label, .mission-card-v2, .profile-card-v2, #playerName {
     font-family: var(--app-font-family) !important;
-    font-weight: 800 !important;
-    font-style: italic !important;
-    -webkit-text-stroke: 0.35px currentColor;
+    font-weight: 700 !important;
+    font-style: normal !important;
 }
 
 h1, h2, h3, h4, h5, h6, .card-title, .brand-text, #playerName, .display-4 {
-    font-weight: 900 !important;
-    -webkit-text-stroke: 0.5px currentColor;
+    font-weight: 800 !important;
+    letter-spacing: 0.5px;
 }
 
 /* ========================================================

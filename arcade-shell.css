@@ -1,14 +1,13 @@
-@import url('https://fonts.googleapis.com/css2?family=Dancing+Script:wght@700&family=Caveat:wght@700&family=Kaushan+Script&family=Pacifico&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Outfit:wght@500;600;700;800;900&family=Space+Grotesk:wght@600;700&family=Rajdhani:wght@600;700;800&display=swap');
 
 /* ========================================================
    LUCKYKIT PREMIUM ARCADE - COHESIVE SYSTEM CSS (arcade-shell.css)
    ======================================================== */
 
 :root {
-    --app-font-family: 'Dancing Script', 'Brush Script MT', 'Lucida Handwriting', 'Segoe Script', cursive, sans-serif;
-    --app-font-weight: 800;
-    --app-font-style: italic;
-    --app-text-stroke: 0.35px currentColor;
+    --app-font-family: 'Outfit', 'Cambria Math', 'STIX Two Text', 'Space Grotesk', 'Rajdhani', -apple-system, sans-serif;
+    --app-font-weight: 700;
+    --app-font-style: normal;
 
     --bg-dark: #07050d;
     --bg-card: rgba(18, 14, 32, 0.65);
@@ -33,9 +32,9 @@
 
 *, *::before, *::after {
     font-family: var(--app-font-family);
-    font-style: var(--app-font-style);
+    font-style: normal;
     font-weight: var(--app-font-weight);
-    -webkit-text-stroke: var(--app-text-stroke);
+    letter-spacing: 0.3px;
 }
 
 /* Global Theme Utilities */
@@ -65,9 +64,8 @@ body.arcade-premium-mode {
     background-image: none !important;
     color: #f8fafc !important;
     font-family: var(--app-font-family) !important;
-    font-weight: 800 !important;
-    font-style: italic !important;
-    -webkit-text-stroke: 0.35px currentColor;
+    font-weight: 700 !important;
+    font-style: normal !important;
     min-height: 100vh;
     margin: 0;
     padding-top: 80px !important; /* Make room for the fixed top-bar */
@@ -797,7 +795,7 @@ canvas {
     min-height: 56px !important;
     font-family: var(--app-font-family) !important;
     font-weight: 700 !important;
-    font-style: italic !important;
+    font-style: normal !important;
     letter-spacing: 1px !important;
     user-select: none !important;
     -webkit-user-select: none !important;
@@ -999,7 +997,7 @@ body.theme-light-purple, [data-theme="light-purple"] body {
     transition: all 0.25s cubic-bezier(0.175, 0.885, 0.32, 1.275) !important;
     font-family: var(--app-font-family) !important;
     font-weight: 700 !important;
-    font-style: italic !important;
+    font-style: normal !important;
     letter-spacing: 0.5px;
 }
 

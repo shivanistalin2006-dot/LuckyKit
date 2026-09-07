@@ -1,11 +1,11 @@
 /* Nokia 3310 Classic Snake - Authentic Retro Stylesheet */
 
-@import url('https://fonts.googleapis.com/css2?family=VT323&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Outfit:wght@500;600;700;800;900&family=Space+Grotesk:wght@600;700&family=Rajdhani:wght@600;700;800&display=swap');
 
 .snake-page-body {
     background-color: #0a0c14 !important;
     background-image: none !important;
-    font-family: 'Dancing Script', 'Brush Script MT', 'Lucida Handwriting', 'Segoe Script', cursive, sans-serif;
+    font-family: 'Outfit', 'Cambria Math', 'STIX Two Text', 'Space Grotesk', 'Rajdhani', sans-serif;
     min-height: 100vh;
     overflow-x: hidden;
 }
@@ -50,7 +50,7 @@
 }
 
 .nokia-brand-logo {
-    font-family: 'Dancing Script', 'Brush Script MT', 'Lucida Handwriting', 'Segoe Script', cursive, sans-serif;
+    font-family: 'Outfit', 'Cambria Math', 'STIX Two Text', 'Space Grotesk', 'Rajdhani', sans-serif;
     font-size: 0.95rem;
     font-weight: 900;
     letter-spacing: 3px;
@@ -308,7 +308,7 @@
     font-size: 1.15rem;
     font-weight: bold;
     line-height: 1;
-    font-family: 'Dancing Script', 'Brush Script MT', 'Lucida Handwriting', 'Segoe Script', cursive, sans-serif;
+    font-family: 'Outfit', 'Cambria Math', 'STIX Two Text', 'Space Grotesk', 'Rajdhani', sans-serif;
 }
 
 .nokia-num-key .arrow-hint {
