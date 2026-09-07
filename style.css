@@ -6,8 +6,9 @@
 
 :root {
     --app-font-family: 'Dancing Script', 'Brush Script MT', 'Lucida Handwriting', 'Segoe Script', cursive, sans-serif;
-    --app-font-weight: 700;
+    --app-font-weight: 800;
     --app-font-style: italic;
+    --app-text-stroke: 0.35px currentColor;
 
     --bg-dark: #060b08;
     --bg-card: #0e1a14;
@@ -43,6 +44,8 @@
     box-sizing: border-box;
     font-family: var(--app-font-family) !important;
     font-style: italic !important;
+    font-weight: var(--app-font-weight) !important;
+    -webkit-text-stroke: var(--app-text-stroke);
 }
 
 html {
@@ -61,14 +64,21 @@ body {
     padding: 40px 20px;
     position: relative;
     font-family: var(--app-font-family) !important;
-    font-weight: 700 !important;
+    font-weight: 800 !important;
     font-style: italic !important;
+    -webkit-text-stroke: 0.35px currentColor;
 }
 
 h1, h2, h3, h4, h5, h6, p, span, a, button, input, select, textarea, .btn {
     font-family: var(--app-font-family) !important;
-    font-weight: 700 !important;
+    font-weight: 800 !important;
     font-style: italic !important;
+    -webkit-text-stroke: 0.35px currentColor;
+}
+
+h1, h2, h3, h4, h5, h6 {
+    font-weight: 900 !important;
+    -webkit-text-stroke: 0.5px currentColor;
 }
 
 ::selection {
