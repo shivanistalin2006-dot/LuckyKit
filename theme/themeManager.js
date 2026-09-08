@@ -46,22 +46,22 @@ export const themes = {
     },
 
     // ==========================================
-    // ☀️ LIGHT THEMES — 3 UNIQUE PASTEL SETS
+    // ☀️ LIGHT THEMES — 3 UNIQUE PASTEL SETS (HIGH CONTRAST & CRISP)
     // ==========================================
     'light-peach': { 
         id: 'light-peach',
         mode: 'light',
         name: 'Peach + Coral + Cream', 
         icon: '🍑', 
-        color: '#E89A7A', 
-        accent: '#F4C6A6',
-        secondary: '#FFD9C7',
-        bg: '#FFF7F0',
-        textColor: '#3B2924',
+        color: '#D95D39', 
+        accent: '#C0392B',
+        secondary: '#F5D0C5',
+        bg: '#FFF3EB',
+        textColor: '#1E130F',
         card: '#FFFFFF',
-        glow: 'rgba(232, 154, 122, 0.35)',
+        glow: 'rgba(217, 93, 57, 0.35)',
         badgeClass: 'border-danger text-dark',
-        preview: { bg: '#FFF7F0', accent: '#E89A7A' },
+        preview: { bg: '#FFF3EB', accent: '#D95D39' },
         description: 'Warm, cute, premium — very welcoming homepage.'
     },
     'light-blue': { 
@@ -69,15 +69,15 @@ export const themes = {
         mode: 'light',
         name: 'Powder Blue + Soft Pink', 
         icon: '🩵', 
-        color: '#7FAFC4', 
-        accent: '#E8AFC0',
-        secondary: '#C9E2EE',
-        bg: '#F4F9FC',
-        textColor: '#28343B',
+        color: '#0284C7', 
+        accent: '#DB2777',
+        secondary: '#BAE6FD',
+        bg: '#EDF5FA',
+        textColor: '#0F172A',
         card: '#FFFFFF',
-        glow: 'rgba(127, 175, 196, 0.35)',
-        badgeClass: 'border-info text-dark',
-        preview: { bg: '#F4F9FC', accent: '#7FAFC4' },
+        glow: 'rgba(2, 132, 199, 0.35)',
+        badgeClass: 'border-primary text-dark',
+        preview: { bg: '#EDF5FA', accent: '#0284C7' },
         description: 'Playful + youthful + clean. Games website-ku semma fit.'
     },
     'light-butter': { 
@@ -85,15 +85,15 @@ export const themes = {
         mode: 'light',
         name: 'Butter Yellow + Dusty Rose', 
         icon: '🌼', 
-        color: '#D8B56A', 
-        accent: '#D99AA8',
-        secondary: '#F1DCC0',
-        bg: '#FFFBEF',
-        textColor: '#39302D',
+        color: '#B45309', 
+        accent: '#BE185D',
+        secondary: '#FDE68A',
+        bg: '#FEF9E7',
+        textColor: '#1C1917',
         card: '#FFFFFF',
-        glow: 'rgba(216, 181, 106, 0.35)',
+        glow: 'rgba(180, 83, 9, 0.35)',
         badgeClass: 'border-warning text-dark',
-        preview: { bg: '#FFFBEF', accent: '#D8B56A' },
+        preview: { bg: '#FEF9E7', accent: '#B45309' },
         description: 'Butter Yellow + Dusty Rose + Cream'
     }
 };

@@ -777,14 +777,34 @@ footer p {
 
 
 /* ========================================================
-   GLOBAL TEXT VISIBILITY FIX
+   GLOBAL TEXT VISIBILITY & CONTRAST SCOPING
    ======================================================== */
-button, .btn {
-    color: #ffffff !important;
-    text-shadow: 0 1px 3px rgba(0,0,0,0.8) !important;
+[data-mode="dark"] button, [data-mode="dark"] .btn,
+.dark-mode button, .dark-mode .btn {
+    color: #ffffff;
 }
 
-label, p, span, h1, h2, h3, h4, h5, h6 {
-    color: #f3f4f6; /* Force high visibility */
+[data-mode="dark"] label, [data-mode="dark"] p, [data-mode="dark"] span, 
+[data-mode="dark"] h1, [data-mode="dark"] h2, [data-mode="dark"] h3, 
+[data-mode="dark"] h4, [data-mode="dark"] h5, [data-mode="dark"] h6,
+.dark-mode label, .dark-mode p, .dark-mode span, 
+.dark-mode h1, .dark-mode h2, .dark-mode h3, 
+.dark-mode h4, .dark-mode h5, .dark-mode h6 {
+    color: #f3f4f6;
 }
+
+[data-mode="light"] label, [data-mode="light"] p, [data-mode="light"] span, 
+[data-mode="light"] h1, [data-mode="light"] h2, [data-mode="light"] h3, 
+[data-mode="light"] h4, [data-mode="light"] h5, [data-mode="light"] h6,
+.light-mode label, .light-mode p, .light-mode span, 
+.light-mode h1, .light-mode h2, .light-mode h3, 
+.light-mode h4, .light-mode h5, .light-mode h6 {
+    color: #0f172a !important;
+}
+
+[data-mode="light"] .text-muted, [data-mode="light"] .text-muted-sub, [data-mode="light"] .text-white-50,
+.light-mode .text-muted, .light-mode .text-muted-sub, .light-mode .text-white-50 {
+    color: #475569 !important;
+}
+
 
