@@ -1,85 +1,319 @@
-/* Escape from Monster - Dynamic Runner Styles */
+/* Escape from Monster: Biolab 07 - Survival Horror Styles */
 
 .escape-body {
-    background-color: #0a0c14 !important;
+    background-color: #05070a !important;
     background-image: none !important;
-    font-family: 'Outfit', 'Cambria Math', 'STIX Two Text', 'Space Grotesk', 'Rajdhani', sans-serif;
+    font-family: 'Outfit', 'Space Grotesk', 'Rajdhani', sans-serif;
     min-height: 100vh;
-    overflow-x: hidden;
+    overflow: hidden;
+    margin: 0;
+    padding: 0;
+    user-select: none;
 }
 
-.escape-bg-glow {
-    display: none !important;
+.escape-top-bar {
+    background: rgba(10, 15, 25, 0.95);
+    border-bottom: 1px solid rgba(239, 68, 68, 0.25);
+    backdrop-filter: blur(12px);
+    z-index: 100;
 }
 
-.escape-panel {
-    background: rgba(15, 12, 25, 0.88) !important;
-    backdrop-filter: blur(16px);
-    border: 1px solid rgba(239, 68, 68, 0.25) !important;
-    box-shadow: 0 15px 40px rgba(0, 0, 0, 0.8), 0 0 25px rgba(220, 38, 38, 0.15) !important;
+.game-viewport-container {
+    width: 100vw;
+    height: calc(100vh - 54px);
+    background: #020408;
+    overflow: hidden;
+    position: relative;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+#escapeCanvas {
+    width: 100%;
+    height: 100%;
+    max-width: 100%;
+    max-height: 100%;
+    object-fit: contain;
+    background: #030508;
+    image-rendering: auto;
+    display: block;
+}
+
+/* HUD Overlay Styles */
+.pointer-events-none { pointer-events: none !important; }
+.pointer-events-auto { pointer-events: auto !important; }
+
+.hud-card {
+    background: rgba(10, 15, 25, 0.85);
+    backdrop-filter: blur(14px);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.7);
+}
+
+.objective-card {
+    border-left: 3px solid #ef4444;
+}
+
+.threat-card {
+    border-right: 3px solid #10b981;
+}
+
+.pulse-dot {
+    width: 8px;
+    height: 8px;
+    background: #ef4444;
+    border-radius: 50%;
+    display: inline-block;
+    animation: pulseDot 1.5s infinite;
+}
+
+@keyframes pulseDot {
+    0% { transform: scale(0.9); opacity: 0.6; }
+    50% { transform: scale(1.4); opacity: 1; filter: drop-shadow(0 0 6px #ef4444); }
+    100% { transform: scale(0.9); opacity: 0.6; }
+}
+
+.heartbeat-line {
+    width: 100%;
+    height: 3px;
+    background: linear-gradient(90deg, #10b981, #22c55e);
+    border-radius: 2px;
+    margin-top: 4px;
+    animation: heartBeatGlow 2s infinite ease-in-out;
+}
+
+@keyframes heartBeatGlow {
+    0%, 100% { opacity: 0.4; }
+    50% { opacity: 1; filter: drop-shadow(0 0 5px #10b981); }
+}
+
+/* Noise Meter */
+.noise-bar {
+    width: 4px;
+    height: 12px;
+    background: rgba(255, 255, 255, 0.2);
+    border-radius: 2px;
+    transition: background 0.15s ease, height 0.15s ease;
+}
+
+.noise-bar.active {
+    background: #ef4444;
+    height: 16px;
+    filter: drop-shadow(0 0 4px #ef4444);
+}
+
+/* Interaction Pill Prompt */
+.interaction-pill {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    padding: 8px 18px;
+    background: rgba(0, 0, 0, 0.85);
+    border: 1px solid #eab308;
+    border-radius: 30px;
+    color: #fef08a;
+    font-weight: 700;
+    box-shadow: 0 0 20px rgba(234, 179, 8, 0.4);
+    animation: floatPrompt 1.8s infinite ease-in-out;
+}
+
+.key-hint {
+    background: #eab308;
+    color: #000;
+    padding: 2px 8px;
+    border-radius: 6px;
+    font-weight: 900;
+}
+
+@keyframes floatPrompt {
+    0%, 100% { transform: translateY(0); }
+    50% { transform: translateY(-4px); }
+}
+
+/* Lore Toast */
+.lore-toast {
+    background: rgba(15, 23, 42, 0.95);
+    border: 1px solid #38bdf8;
+    padding: 12px 20px;
+    border-radius: 12px;
+    max-width: 450px;
+    margin: 10px auto;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.8);
+}
+
+.lore-title {
+    font-size: 0.75rem;
+    font-weight: 800;
+    color: #38bdf8;
+    letter-spacing: 1px;
+}
+
+.lore-desc {
+    font-size: 0.9rem;
+    color: #e2e8f0;
+    font-style: italic;
+    margin-top: 2px;
+}
+
+/* 4-Slot Inventory */
+.inv-slot {
+    width: 48px;
+    height: 48px;
+    border-radius: 10px;
+    background: rgba(0, 0, 0, 0.5);
+    border: 1px solid rgba(255, 255, 255, 0.15);
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.5rem;
+    transition: all 0.2s ease;
+    cursor: pointer;
+}
+
+.inv-slot.active {
+    border-color: #38bdf8;
+    box-shadow: 0 0 12px rgba(56, 189, 248, 0.4);
+}
+
+.slot-num {
+    position: absolute;
+    top: 2px;
+    left: 4px;
+    font-size: 0.65rem;
+    color: rgba(255, 255, 255, 0.4);
+    font-weight: 800;
+}
+
+/* Virtual Mobile Controls */
+.virtual-joystick-zone {
+    width: 120px;
+    height: 120px;
+    border-radius: 50%;
+    background: rgba(255, 255, 255, 0.08);
+    border: 2px dashed rgba(255, 255, 255, 0.2);
+    position: relative;
+    touch-action: none;
+}
+
+.joystick-knob {
+    width: 48px;
+    height: 48px;
+    border-radius: 50%;
+    background: rgba(239, 68, 68, 0.7);
+    border: 2px solid #fff;
+    position: absolute;
+    top: calc(50% - 24px);
+    left: calc(50% - 24px);
+    pointer-events: none;
+}
+
+.touch-circle-btn {
+    width: 54px;
+    height: 54px;
+    border-radius: 50%;
+    border: none;
+    font-size: 1.3rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    box-shadow: 0 4px 15px rgba(0,0,0,0.5);
+    touch-action: manipulation;
+}
+
+.touch-circle-btn:active {
+    transform: scale(0.9);
+}
+
+/* Story & Endings Overlays */
+.story-overlay, .ending-screen {
+    background: rgba(3, 5, 10, 0.96);
+    backdrop-filter: blur(20px);
+}
+
+.story-content-box, .ending-box {
+    background: rgba(15, 20, 30, 0.95);
+    border: 2px solid rgba(239, 68, 68, 0.3);
+    box-shadow: 0 20px 60px rgba(0, 0, 0, 0.9);
 }
 
 .title-glow {
-    text-shadow: 0 0 15px rgba(239, 68, 68, 0.6), 0 0 30px rgba(220, 38, 38, 0.3);
-}
-
-.danger-bar-wrapper {
-    background: rgba(0, 0, 0, 0.4);
-    padding: 4px 8px;
-    border-radius: 8px;
-    border: 1px solid rgba(255, 255, 255, 0.08);
-}
-
-.danger-progress {
-    border-radius: 6px;
-    overflow: hidden;
-    box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.8);
+    text-shadow: 0 0 20px rgba(239, 68, 68, 0.7);
 }
 
 .shadow-btn {
-    box-shadow: 0 4px 20px rgba(239, 68, 68, 0.4);
-    transition: all 0.2s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+    box-shadow: 0 6px 25px rgba(239, 68, 68, 0.5);
 }
 
-.shadow-btn:hover {
-    transform: translateY(-2px) scale(1.03);
-    box-shadow: 0 8px 25px rgba(239, 68, 68, 0.6);
+/* Jumpscare Screech */
+.jumpscare-screen {
+    background: #000;
 }
 
-.touch-action-btn {
-    user-select: none;
-    -webkit-user-select: none;
-    touch-action: manipulation;
-    transition: transform 0.1s ease, filter 0.1s ease;
+.monster-face {
+    font-size: 14rem;
+    animation: screechZoom 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275) infinite alternate;
 }
 
-.touch-action-btn:active {
-    transform: scale(0.94);
-    filter: brightness(1.2);
+@keyframes screechZoom {
+    0% { transform: scale(0.8) rotate(-5deg); filter: drop-shadow(0 0 30px red); }
+    100% { transform: scale(1.3) rotate(5deg); filter: drop-shadow(0 0 70px red); }
 }
 
-/* 6 Luxury Themes Overrides */
-body.theme-dark-emerald .escape-body, [data-theme="dark-emerald"] .escape-body,
-body.theme-emerald .escape-body, [data-theme="emerald"] .escape-body {
-    background-color: #060b08 !important;
+/* Keypad Puzzle Modal */
+.puzzle-modal {
+    position: absolute;
+    top: 0; left: 0; width: 100%; height: 100%;
+    background: rgba(0, 0, 0, 0.85);
+    backdrop-filter: blur(15px);
+    z-index: 120;
+    display: flex;
+    align-items: center;
+    justify-content: center;
 }
-body.theme-dark-gold .escape-body, [data-theme="dark-gold"] .escape-body,
-body.theme-gold .escape-body, [data-theme="gold"] .escape-body {
-    background-color: #0a0904 !important;
+
+.keypad-panel {
+    background: #0f172a;
+    border: 2px solid #eab308;
+    box-shadow: 0 0 40px rgba(234, 179, 8, 0.3);
+    width: 320px;
 }
-body.theme-dark-purple .escape-body, [data-theme="dark-purple"] .escape-body,
-body.theme-purple .escape-body, [data-theme="purple"] .escape-body {
-    background-color: #0a0614 !important;
+
+.keypad-screen {
+    background: #020617;
+    border: 1px solid #334155;
+    padding: 10px;
+    font-size: 1.8rem;
+    font-family: monospace;
+    font-weight: 900;
+    color: #22c55e;
+    letter-spacing: 6px;
+    border-radius: 8px;
 }
-body.theme-light-peach .escape-body, [data-theme="light-peach"] .escape-body,
-body.theme-light-gold .escape-body, [data-theme="light-gold"] .escape-body {
-    background-color: #FFF7F0 !important;
+
+.keypad-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 8px;
 }
-body.theme-light-blue .escape-body, [data-theme="light-blue"] .escape-body,
-body.theme-light-emerald .escape-body, [data-theme="light-emerald"] .escape-body {
-    background-color: #F4F9FC !important;
+
+.key-btn {
+    padding: 12px;
+    font-size: 1.2rem;
+    font-weight: 800;
+    background: #1e293b;
+    border: 1px solid #475569;
+    color: #fff;
+    border-radius: 8px;
+    transition: all 0.1s;
 }
-body.theme-light-butter .escape-body, [data-theme="light-butter"] .escape-body,
-body.theme-light-purple .escape-body, [data-theme="light-purple"] .escape-body {
-    background-color: #FFFBEF !important;
+
+.key-btn:active {
+    background: #eab308;
+    color: #000;
 }
+
+.key-clear { background: #dc2626; }
+.key-enter { background: #16a34a; }
+
