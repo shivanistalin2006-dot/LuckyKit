@@ -26,7 +26,10 @@
         <aside class="sidebar v2-sidebar">
             <div class="brand">
                 <span class="brand-icon glow-pulse">⚡</span>
-                <span class="brand-text">LUCKYKIT OS</span>
+                <div class="d-flex flex-column">
+                    <span class="brand-text">LUCKYKIT OS</span>
+                    <span class="brand-tagline text-warning small fw-bold">🍀 Based on your luck</span>
+                </div>
             </div>
             
             <nav class="d-flex flex-column gap-2 mb-4 mt-4">
@@ -47,7 +50,6 @@
                             <div class="fw-bold fs-5" id="playerName">Player 1</div>
                             <div class="d-flex gap-2 align-items-center mt-1">
                                 <span id="playerRankBadge" class="badge bg-bronze">BRONZE</span>
-                                <span id="playerPrestigeBadge" class="badge bg-danger d-none">★ 1</span>
                             </div>
                         </div>
                     </div>
@@ -88,10 +90,10 @@
             <!-- Top Hub Bar (Search & Instant Filter) -->
             <header class="hub-topbar">
                 <div class="d-flex align-items-center gap-3">
-                    <span class="fs-4 d-lg-none">⚡</span>
+                    <span class="fs-3 glow-pulse">🍀</span>
                     <div>
                         <h4 class="m-0 fw-bold">Arcade Headquarters</h4>
-                        <span class="text-muted-sub small">20 Ultra-Responsive Games Live</span>
+                        <span class="text-muted-sub small">✨ Based on your luck • 20+ Real-Time Games Live</span>
                     </div>
                 </div>
 
@@ -203,7 +205,7 @@
                 <div class="d-flex flex-wrap justify-content-between align-items-center mb-4 gap-3">
                     <div>
                         <h3 class="fw-bold mb-0">The Arcade Core</h3>
-                        <span class="small text-muted-sub" id="gameCountText">Showing 21 games</span>
+                        <span class="small text-muted-sub" id="gameCountText">Showing 21 games • Based on your luck 🍀</span>
                     </div>
                     
                     <div class="category-tabs-v2">
@@ -409,9 +411,19 @@
                 </div>
             </section>
 
-            <!-- Footer -->
-            <footer class="mt-4 py-3 text-center text-muted-sub border-top border-secondary small">
-                LuckyKit OS • Ultra-Responsive Cyber Arcade • Play, Compete & Prestige
+            <!-- Attractive Custom Footer -->
+            <footer class="arcade-footer mt-5 py-4 text-center border-top border-secondary position-relative">
+                <div class="footer-creators-badge mb-2">
+                    <span class="badge bg-dark border border-warning px-3 py-2 text-warning rounded-pill shadow-sm">
+                        ✨ LuckyKit Arcade • Based on your luck 🍀
+                    </span>
+                </div>
+                <div class="footer-creators fw-bold fs-5 mb-1">
+                    Made with <span class="heart-pulse text-danger">💖</span> by <span class="creator-name text-info">Shivu</span> & <span class="creator-name text-warning">Vaishu</span>
+                </div>
+                <div class="footer-tagline text-muted-sub small">
+                    Play, Compete & Enjoy • Crafted with Passion
+                </div>
             </footer>
         </main>
     </div>

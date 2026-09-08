@@ -149,10 +149,14 @@ export class V2Dashboard {
         this.playerRankBadge.textContent = state.rank.toUpperCase();
         this.playerRankBadge.className = `badge bg-${state.rank.toLowerCase()}`;
         
-        // Prestige Badge
-        if (state.prestige > 0) {
-            this.playerPrestigeBadge.classList.remove('d-none');
-            this.playerPrestigeBadge.textContent = `★ ${state.prestige}`;
+        // Prestige Badge (if present)
+        if (this.playerPrestigeBadge) {
+            if (state.prestige > 0) {
+                this.playerPrestigeBadge.classList.remove('d-none');
+                this.playerPrestigeBadge.textContent = `★ ${state.prestige}`;
+            } else {
+                this.playerPrestigeBadge.classList.add('d-none');
+            }
         }
         
         // Missions

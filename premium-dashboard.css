@@ -1307,3 +1307,69 @@ h1, h2, h3, h4, h5, h6, .card-title, .brand-text, #playerName, .display-4 {
     padding-top: 16px;
     margin-top: 20px;
 }
+
+/* ========================================================
+   ATTRACTIVE BRAND TAGLINE & CREATORS FOOTER (Shivu & Vaishu)
+   ======================================================== */
+.brand-tagline {
+    font-size: 0.8rem;
+    font-weight: 700;
+    letter-spacing: 0.5px;
+    margin-top: 2px;
+    text-shadow: 0 0 10px rgba(234, 179, 8, 0.4);
+}
+
+.arcade-footer {
+    background: rgba(0, 0, 0, 0.2);
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+    border-radius: 20px;
+    padding: 24px 20px;
+    border: 1px solid var(--v2-border) !important;
+    box-shadow: 0 10px 25px var(--v2-shadow);
+}
+
+[data-mode="light"] .arcade-footer,
+.light-mode .arcade-footer,
+[data-theme^="light"] .arcade-footer {
+    background: #ffffff !important;
+    border: 1.5px solid var(--v2-border) !important;
+}
+
+.footer-creators-badge .badge {
+    box-shadow: 0 0 12px var(--v2-glow, rgba(234, 179, 8, 0.3));
+    font-weight: 700;
+    letter-spacing: 0.5px;
+}
+
+.footer-creators {
+    font-size: 1.15rem;
+    letter-spacing: 0.5px;
+}
+
+.creator-name {
+    padding: 2px 8px;
+    border-radius: 8px;
+    background: rgba(255, 255, 255, 0.08);
+    border: 1px solid var(--v2-border);
+    font-weight: 800;
+    transition: all 0.2s ease;
+}
+
+[data-mode="light"] .creator-name,
+.light-mode .creator-name,
+[data-theme^="light"] .creator-name {
+    background: var(--v2-secondary, #f1f5f9) !important;
+    color: var(--v2-text) !important;
+    border-color: var(--v2-border) !important;
+}
+
+.heart-pulse {
+    display: inline-block;
+    animation: pulseHeart 1.2s infinite ease-in-out;
+}
+
+@keyframes pulseHeart {
+    0%, 100% { transform: scale(1); }
+    50% { transform: scale(1.3); filter: drop-shadow(0 0 8px #ef4444); }
+}
