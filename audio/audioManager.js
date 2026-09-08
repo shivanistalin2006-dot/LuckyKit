@@ -1,16 +1,27 @@
 import { eventBus } from '../core/eventBus.js';
+import { storage } from '../core/storage.js';
 
 export class AudioManager {
     constructor() {
         this.audioCtx = null;
+        this.masterGain = null;
         this.isPlayingBgMusic = false;
-        this.isMuted = false;
+        
+        // Load initial mute state from storage / localStorage
+        try {
+            const stored = localStorage.getItem('luckykit_muted');
+            this.isMuted = stored === 'true' || !!storage.getState()?.muted;
+        } catch(e) {
+            this.isMuted = false;
+        }
 
         this.bindEvents();
         
         const initAudioTriggers = () => {
             this.getAudioContext();
-            this.startBgMusic();
+            if (!this.isMuted) {
+                this.startBgMusic();
+            }
             document.removeEventListener("click", initAudioTriggers);
             document.removeEventListener("keydown", initAudioTriggers);
         };
@@ -34,12 +45,14 @@ export class AudioManager {
         eventBus.on('THEME_CHANGED', () => this.playThemeSwitch());
         
         document.addEventListener('click', (e) => {
+            if (this.isMuted) return;
             if (e.target.tagName === 'BUTTON' || e.target.closest('button') || e.target.closest('.premium-card') || e.target.closest('.v2-btn')) {
                 this.playClick();
             }
         });
         
         document.addEventListener('mouseover', (e) => {
+            if (this.isMuted) return;
             if (e.target.closest('.glow-hover') || e.target.closest('.v2-card')) {
                 this.playHover();
             }
@@ -47,12 +60,27 @@ export class AudioManager {
     }
 
     setMuted(muted) {
-        this.isMuted = muted;
+        this.isMuted = !!muted;
+        
+        try {
+            localStorage.setItem('luckykit_muted', this.isMuted ? 'true' : 'false');
+            storage.updateState(s => s.muted = this.isMuted);
+        } catch(e) {}
+
+        if (this.audioCtx && this.masterGain) {
+            try {
+                this.masterGain.gain.setValueAtTime(this.isMuted ? 0 : 1, this.audioCtx.currentTime);
+            } catch(e) {}
+        }
+
         if (this.isMuted) {
             this.stopBgMusic();
         } else {
             this.startBgMusic();
         }
+
+        eventBus.emit('muteToggled', this.isMuted);
+        eventBus.emit('MUTE_CHANGED', { muted: this.isMuted });
     }
 
     toggleMute() {
@@ -62,18 +90,31 @@ export class AudioManager {
 
     getAudioContext() {
         if (!this.audioCtx) {
-            this.audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+            const AudioContextClass = window.AudioContext || window.webkitAudioContext;
+            if (AudioContextClass) {
+                this.audioCtx = new AudioContextClass();
+                this.masterGain = this.audioCtx.createGain();
+                this.masterGain.gain.setValueAtTime(this.isMuted ? 0 : 1, this.audioCtx.currentTime);
+                this.masterGain.connect(this.audioCtx.destination);
+            }
         }
-        if (this.audioCtx.state === "suspended") {
-            this.audioCtx.resume();
+        if (this.audioCtx && this.audioCtx.state === "suspended") {
+            this.audioCtx.resume().catch(() => {});
         }
         return this.audioCtx;
+    }
+
+    getMasterDestination() {
+        this.getAudioContext();
+        return this.masterGain || this.audioCtx?.destination;
     }
 
     playHover() {
         if (this.isMuted) return;
         try {
             const ctx = this.getAudioContext();
+            if (!ctx) return;
+            const dest = this.getMasterDestination();
             const osc = ctx.createOscillator();
             const gain = ctx.createGain();
             osc.type = "sine";
@@ -82,7 +123,7 @@ export class AudioManager {
             gain.gain.setValueAtTime(0.02, ctx.currentTime);
             gain.gain.exponentialRampToValueAtTime(0.001, ctx.currentTime + 0.05);
             osc.connect(gain);
-            gain.connect(ctx.destination);
+            gain.connect(dest);
             osc.start();
             osc.stop(ctx.currentTime + 0.05);
         } catch (e) {}
@@ -92,6 +133,8 @@ export class AudioManager {
         if (this.isMuted) return;
         try {
             const ctx = this.getAudioContext();
+            if (!ctx) return;
+            const dest = this.getMasterDestination();
             const osc = ctx.createOscillator();
             const gain = ctx.createGain();
             osc.type = "square";
@@ -100,7 +143,7 @@ export class AudioManager {
             gain.gain.setValueAtTime(0.1, ctx.currentTime);
             gain.gain.exponentialRampToValueAtTime(0.01, ctx.currentTime + 0.1);
             osc.connect(gain);
-            gain.connect(ctx.destination);
+            gain.connect(dest);
             osc.start();
             osc.stop(ctx.currentTime + 0.1);
         } catch (e) {}
@@ -110,6 +153,8 @@ export class AudioManager {
         if (this.isMuted) return;
         try {
             const ctx = this.getAudioContext();
+            if (!ctx) return;
+            const dest = this.getMasterDestination();
             const osc = ctx.createOscillator();
             const gain = ctx.createGain();
             osc.type = "sine";
@@ -118,7 +163,7 @@ export class AudioManager {
             gain.gain.setValueAtTime(0.15, ctx.currentTime);
             gain.gain.exponentialRampToValueAtTime(0.01, ctx.currentTime + 0.15);
             osc.connect(gain);
-            gain.connect(ctx.destination);
+            gain.connect(dest);
             osc.start();
             osc.stop(ctx.currentTime + 0.15);
         } catch (e) {}
@@ -128,6 +173,8 @@ export class AudioManager {
         if (this.isMuted) return;
         try {
             const ctx = this.getAudioContext();
+            if (!ctx) return;
+            const dest = this.getMasterDestination();
             const now = ctx.currentTime;
             const osc = ctx.createOscillator();
             const gain = ctx.createGain();
@@ -137,7 +184,7 @@ export class AudioManager {
             gain.gain.setValueAtTime(0.08, now);
             gain.gain.exponentialRampToValueAtTime(0.001, now + 0.12);
             osc.connect(gain);
-            gain.connect(ctx.destination);
+            gain.connect(dest);
             osc.start(now);
             osc.stop(now + 0.12);
         } catch (e) {}
@@ -147,6 +194,7 @@ export class AudioManager {
         if (this.isMuted) return;
         try {
             const ctx = this.getAudioContext();
+            const dest = this.getMasterDestination();
             const now = ctx.currentTime;
             
             // Major chord progression (C Major -> F Major -> G Major -> C Major)
@@ -168,7 +216,7 @@ export class AudioManager {
                     gain.gain.setValueAtTime(0.1, now + delay);
                     gain.gain.exponentialRampToValueAtTime(0.005, now + delay + dur);
                     osc.connect(gain);
-                    gain.connect(ctx.destination);
+                    gain.connect(dest);
                     osc.start(now + delay);
                     osc.stop(now + delay + dur);
                 });
@@ -180,6 +228,7 @@ export class AudioManager {
         if (this.isMuted) return;
         try {
             const ctx = this.getAudioContext();
+            const dest = this.getMasterDestination();
             const now = ctx.currentTime;
             const osc = ctx.createOscillator();
             const gain = ctx.createGain();
@@ -189,7 +238,7 @@ export class AudioManager {
             gain.gain.setValueAtTime(0.15, now);
             gain.gain.exponentialRampToValueAtTime(0.01, now + 0.8);
             osc.connect(gain);
-            gain.connect(ctx.destination);
+            gain.connect(dest);
             osc.start();
             osc.stop(now + 0.8);
         } catch (e) {}
@@ -203,6 +252,7 @@ export class AudioManager {
         if (this.isMuted) return;
         try {
             const ctx = this.getAudioContext();
+            const dest = this.getMasterDestination();
             const now = ctx.currentTime;
             const sweep = ctx.createOscillator();
             const sweepGain = ctx.createGain();
@@ -212,7 +262,7 @@ export class AudioManager {
             sweepGain.gain.setValueAtTime(0.1, now);
             sweepGain.gain.exponentialRampToValueAtTime(0.01, now + 0.5);
             sweep.connect(sweepGain);
-            sweepGain.connect(ctx.destination);
+            sweepGain.connect(dest);
             sweep.start();
             sweep.stop(now + 0.5);
         } catch (e) {}
@@ -222,6 +272,7 @@ export class AudioManager {
         if (this.isMuted) return;
         try {
             const ctx = this.getAudioContext();
+            const dest = this.getMasterDestination();
             const osc = ctx.createOscillator();
             const gain = ctx.createGain();
             osc.type = type;
@@ -229,7 +280,7 @@ export class AudioManager {
             gain.gain.setValueAtTime(vol, ctx.currentTime);
             gain.gain.exponentialRampToValueAtTime(0.01, ctx.currentTime + duration);
             osc.connect(gain);
-            gain.connect(ctx.destination);
+            gain.connect(dest);
             osc.start();
             osc.stop(ctx.currentTime + duration);
         } catch (e) {}
@@ -239,6 +290,7 @@ export class AudioManager {
         if (this.isMuted) return;
         try {
             const ctx = this.getAudioContext();
+            const dest = this.getMasterDestination();
             const now = ctx.currentTime;
             const playNote = (freq, delay, dur) => {
                 const osc = ctx.createOscillator();
@@ -248,7 +300,7 @@ export class AudioManager {
                 gain.gain.setValueAtTime(0.15, now + delay);
                 gain.gain.exponentialRampToValueAtTime(0.01, now + delay + dur);
                 osc.connect(gain);
-                gain.connect(ctx.destination);
+                gain.connect(dest);
                 osc.start(now + delay);
                 osc.stop(now + delay + dur);
             };
@@ -262,6 +314,7 @@ export class AudioManager {
         if (this.isMuted) return;
         try {
             const ctx = this.getAudioContext();
+            const dest = this.getMasterDestination();
             const now = ctx.currentTime;
             const osc = ctx.createOscillator();
             const gain = ctx.createGain();
@@ -280,7 +333,7 @@ export class AudioManager {
             
             osc.connect(filter);
             filter.connect(gain);
-            gain.connect(ctx.destination);
+            gain.connect(dest);
             osc.start(now);
             osc.stop(now + 1.0);
             
@@ -292,6 +345,7 @@ export class AudioManager {
         if (this.isMuted) return;
         try {
             const ctx = this.getAudioContext();
+            const dest = this.getMasterDestination();
             const now = ctx.currentTime;
             const osc = ctx.createOscillator();
             const gain = ctx.createGain();
@@ -301,7 +355,7 @@ export class AudioManager {
             gain.gain.setValueAtTime(0.1, now);
             gain.gain.exponentialRampToValueAtTime(0.01, now + 0.2);
             osc.connect(gain);
-            gain.connect(ctx.destination);
+            gain.connect(dest);
             osc.start(now);
             osc.stop(now + 0.2);
         } catch (e) {}
@@ -309,16 +363,14 @@ export class AudioManager {
 
     startBgMusic() {
         if (this.isPlayingBgMusic) return;
+        if (this.isMuted) return;
         
         const playLoop = () => {
-            if (!this.isPlayingBgMusic) return;
-            if (this.isMuted) {
-                setTimeout(playLoop, 1000);
-                return;
-            }
+            if (!this.isPlayingBgMusic || this.isMuted) return;
 
             try {
                 const ctx = this.getAudioContext();
+                const dest = this.getMasterDestination();
                 const now = ctx.currentTime;
                 // Deeper, ambient cyberpunk synth drone
                 const freq1 = 65.41; // C2
@@ -344,15 +396,15 @@ export class AudioManager {
                     
                     osc.connect(filter);
                     filter.connect(gain);
-                    gain.connect(ctx.destination);
+                    gain.connect(dest);
                     
                     osc.start(now);
                     osc.stop(now + dur);
                 });
 
-                setTimeout(playLoop, dur * 1000);
+                this.bgMusicTimeout = setTimeout(playLoop, dur * 1000);
             } catch(e) {
-                setTimeout(playLoop, 2000);
+                this.bgMusicTimeout = setTimeout(playLoop, 2000);
             }
         };
 
@@ -362,6 +414,10 @@ export class AudioManager {
 
     stopBgMusic() {
         this.isPlayingBgMusic = false;
+        if (this.bgMusicTimeout) {
+            clearTimeout(this.bgMusicTimeout);
+            this.bgMusicTimeout = null;
+        }
     }
 }
 

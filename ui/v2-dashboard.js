@@ -45,12 +45,16 @@ export class V2Dashboard {
         // 2. Audio Toggle Button
         const muteToggleBtn = document.getElementById('muteToggleBtn');
         if (muteToggleBtn) {
-            muteToggleBtn.addEventListener('click', () => {
-                const isMuted = audioManager.toggleMute();
-                muteToggleBtn.innerHTML = isMuted ? "🔇 <span class='d-none d-sm-inline'>Muted</span>" : "🔊 <span class='d-none d-sm-inline'>Audio</span>";
-                muteToggleBtn.className = isMuted 
+            const updateBtn = (muted) => {
+                muteToggleBtn.innerHTML = muted ? "🔇 <span class='d-none d-sm-inline'>Muted</span>" : "🔊 <span class='d-none d-sm-inline'>Audio</span>";
+                muteToggleBtn.className = muted 
                     ? "btn btn-sm btn-outline-secondary flex-fill glow-hover" 
                     : "btn btn-sm btn-outline-info flex-fill glow-hover";
+            };
+            updateBtn(audioManager.isMuted);
+            muteToggleBtn.addEventListener('click', () => {
+                const isMuted = audioManager.toggleMute();
+                updateBtn(isMuted);
             });
         }
 

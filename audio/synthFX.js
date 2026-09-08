@@ -5,7 +5,11 @@
 class SynthFX {
     constructor() {
         this.ctx = null;
-        this.isMuted = false;
+        try {
+            this.isMuted = localStorage.getItem('luckykit_muted') === 'true';
+        } catch(e) {
+            this.isMuted = false;
+        }
     }
 
     getContext() {

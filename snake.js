@@ -8,7 +8,11 @@ import { storage } from './core/storage.js';
 class NokiaAudio {
     constructor() {
         this.ctx = null;
-        this.muted = localStorage.getItem('luckykit_snake_muted') === 'true';
+        try {
+            this.muted = localStorage.getItem('luckykit_muted') === 'true' || localStorage.getItem('luckykit_snake_muted') === 'true';
+        } catch(e) {
+            this.muted = false;
+        }
     }
 
     init() {
