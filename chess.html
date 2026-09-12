@@ -12,37 +12,17 @@
     <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@500;600;700;800;900&family=Space+Grotesk:wght@600;700&family=Rajdhani:wght@600;700;800&family=STIX+Two+Text:wght@600;700&display=swap" rel="stylesheet">
 
     <script type="module" src="core/app.js?v=2.4"></script>
-    <script type="module" src="chess.js?v=2.9"></script>
+    <script type="module" src="chess.js?v=2.5"></script>
     <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@500;600;700;800;900&family=Space+Grotesk:wght@600;700&family=Rajdhani:wght@600;700;800&family=STIX+Two+Text:wght@600;700&display=swap" rel="stylesheet">
 </head>
 <body class="bg-dark text-white premium-bg-chess">
 
     <!-- HUB Back Button -->
-    <div class="position-fixed top-0 start-0 p-3" style="z-index: 9999;">
-        <button id="hubBtn" class="btn btn-sm btn-dark border border-secondary text-white fw-bold px-3 py-2 rounded-pill shadow-lg glow-hover"
-            onclick="window.location.href='index.html'"
-            style="backdrop-filter: blur(10px); background: rgba(15, 15, 25, 0.85) !important;">
-            ⬅ HUB
-        </button>
-    </div>
-
-    <div class="bg-overlay"></div>
-    <div class="particle-container" id="particles"></div>
-
-    <div class="container py-4 position-relative" style="z-index: 10;">
-
-        <!-- Header -->
-        <header class="d-flex justify-content-between align-items-center mb-4 p-3 rounded glass-panel">
-            <div class="d-flex align-items-center gap-3">
-                <span class="fs-1" aria-hidden="true">♔</span>
-                <div>
-                    <h1 class="m-0 fw-bold text-theme">Grandmaster's Gambit</h1>
-                    <span class="text-white-50">Tactical AI Chess</span>
-                </div>
-            </div>
+    
             <div class="d-flex gap-2">
                 <button class="btn btn-theme fw-bold px-3" id="startBtn">▶ START MATCH</button>
                 <button class="btn btn-outline-light fw-bold" id="restartBtn">RESTART</button>
+                <a href="index.html" class="btn btn-theme fw-bold px-3 py-2 rounded-pill shadow-sm text-decoration-none">🏠 HOME</a>
             </div>
         </header>
 

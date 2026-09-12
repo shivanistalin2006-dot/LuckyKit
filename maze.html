@@ -12,7 +12,7 @@
     <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@500;600;700;800;900&family=Space+Grotesk:wght@600;700&family=Rajdhani:wght@600;700;800&family=STIX+Two+Text:wght@600;700&display=swap" rel="stylesheet">
     
     <script type="module" src="core/app.js?v=2.4"></script>
-            <script src="maze.js?v=2.5" defer></script>
+            <script type="module" src="maze.js?v=2.5"></script>
     <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@500;600;700;800;900&family=Space+Grotesk:wght@600;700&family=Rajdhani:wght@600;700;800&family=STIX+Two+Text:wght@600;700&display=swap" rel="stylesheet">
 </head>
 <body class="bg-dark text-white premium-bg-maze">
@@ -36,7 +36,11 @@
                 
                 
             </div>
-        </header>
+        
+            <div class="d-flex gap-2 align-items-center">
+                <button class="btn btn-outline-light fw-bold px-3 py-2 rounded-pill" id="restartBtn">🔄 RESTART</button>
+                <a href="index.html" class="btn btn-theme fw-bold px-3 py-2 rounded-pill shadow-sm text-decoration-none">🏠 HOME</a>
+            </div></header>
 
         <!-- Game Interface -->
         <div class="row g-4 justify-content-center">

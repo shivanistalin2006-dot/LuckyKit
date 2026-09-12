@@ -12,14 +12,7 @@
 </head>
 <body class="bg-dark text-white">
 
-    <!-- Floating HUB Button -->
-    <div class="position-fixed top-0 start-0 p-3" style="z-index: 9999;">
-        <button id="hubBtn" class="btn btn-sm btn-dark border border-warning text-warning fw-bold px-3 py-2 rounded-pill shadow-lg"
-            onclick="window.location.href='index.html'"
-            style="backdrop-filter: blur(10px); background: rgba(25, 20, 10, 0.85) !important;">
-            ⬅ HUB
-        </button>
-    </div>
+    
     <div class="container py-4 main-wrapper d-flex flex-column align-items-center">
         <!-- Header HUD -->
         <div class="game-header text-center mb-3">
@@ -42,6 +35,7 @@
             <button class="btn btn-outline-warning fw-bold px-3 py-2 text-uppercase shadow-btn" id="restartBtn">
                 🔄 Reset
             </button>
+            <a href="index.html" class="btn btn-warning fw-bold px-3 py-2 text-uppercase shadow-btn text-decoration-none">🏠 Home</a>
         </div>
 
         <!-- 2048 Game Board -->
@@ -69,6 +63,6 @@
         </div>
     </div>
 
-    <script src="2048.js?v=2.5"></script>
+    <script type="module" src="2048.js?v=2.5"></script>
 </body>
 </html>

@@ -11,19 +11,12 @@
     <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@500;600;700;800;900&family=Space+Grotesk:wght@600;700&family=Rajdhani:wght@600;700;800&family=STIX+Two+Text:wght@600;700&display=swap" rel="stylesheet">
     
     <script type="module" src="core/app.js?v=2.4"></script>
-        <script type="module" src="react.js?v=2.5" defer></script>
+        <script type="module" src="react.js?v=2.5"></script>
     <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@500;600;700;800;900&family=Space+Grotesk:wght@600;700&family=Rajdhani:wght@600;700;800&family=STIX+Two+Text:wght@600;700&display=swap" rel="stylesheet">
 </head>
 <body class="bg-dark text-white premium-bg-react">
 
-    <!-- Floating HUB Button -->
-    <div class="position-fixed top-0 start-0 p-3" style="z-index: 9999;">
-        <button id="hubBtn" class="btn btn-sm btn-dark border border-warning text-warning fw-bold px-3 py-2 rounded-pill shadow-lg"
-            onclick="window.location.href='index.html'"
-            style="backdrop-filter: blur(10px); background: rgba(25, 20, 10, 0.85) !important;">
-            ⬅ HUB
-        </button>
-    </div>
+    
 
     <div class="bg-overlay"></div>
     <div class="particle-container" id="particles"></div>
@@ -41,7 +34,8 @@
             <div class="d-flex gap-2">
                 <button class="btn btn-theme fw-bold px-3" id="startBtn">▶ START TEST</button>
                 <button class="btn btn-outline-light fw-bold" id="restartBtn">RESTART</button>
-            </div>
+            
+                <a href="index.html" class="btn btn-theme fw-bold px-3 py-2 rounded-pill shadow-sm text-decoration-none">🏠 HOME</a></div>
         </header>
 
         <div class="row g-4 flex-grow-1 justify-content-center">
