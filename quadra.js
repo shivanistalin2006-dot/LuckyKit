@@ -9,33 +9,35 @@ const BLOCK_SIZE = 30;
 
 const COLORS = [
     null,
-    '#00ffff', // I - Cyan
-    '#0000ff', // J - Blue
-    '#ffa500', // L - Orange
-    '#ffff00', // O - Yellow
-    '#00ff00', // S - Green
-    '#800080', // T - Purple
-    '#ff0000'  // Z - Red
+    '#00f0ff', // I - Cyan
+    '#0044ff', // J - Blue
+    '#ff8800', // L - Orange
+    '#ffd700', // O - Yellow
+    '#00e676', // S - Green
+    '#b388ff', // T - Purple
+    '#ff1744'  // Z - Red
 ];
 
 const SHAPES = [
     [],
     [[0,0,0,0], [1,1,1,1], [0,0,0,0], [0,0,0,0]], // I
-    [[2,0,0], [2,2,2], [0,0,0]], // J
-    [[0,0,3], [3,3,3], [0,0,0]], // L
-    [[4,4], [4,4]], // O
-    [[0,5,5], [5,5,0], [0,0,0]], // S
-    [[0,6,0], [6,6,6], [0,0,0]], // T
-    [[7,7,0], [0,7,7], [0,0,0]]  // Z
+    [[2,0,0], [2,2,2], [0,0,0]],                   // J
+    [[0,0,3], [3,3,3], [0,0,0]],                   // L
+    [[4,4], [4,4]],                                 // O
+    [[0,5,5], [5,5,0], [0,0,0]],                   // S
+    [[0,6,0], [6,6,6], [0,0,0]],                   // T
+    [[7,7,0], [0,7,7], [0,0,0]]                    // Z
 ];
 
 class QuadraLink extends BaseGame {
     constructor() {
         super("quadra");
         this.canvas = document.getElementById('tetrisCanvas');
-        this.ctx = this.canvas.getContext('2d');
+        this.ctx = this.canvas ? this.canvas.getContext('2d') : null;
         
         this.linesDisplay = document.getElementById('linesDisplay');
+        this.scoreDisplay = document.getElementById('scoreDisplay');
+        this.levelDisplay = document.getElementById('levelDisplay');
         this.statusText = document.getElementById('statusText');
         this.startBtn = document.getElementById('startBtn');
         
@@ -47,7 +49,9 @@ class QuadraLink extends BaseGame {
         this.lines = 0;
         
         this.bindControls();
-        gameManager.registerGame(this);
+        if (gameManager?.registerGame) {
+            gameManager.registerGame(this);
+        }
     }
 
     createMatrix(w, h) {
@@ -60,19 +64,46 @@ class QuadraLink extends BaseGame {
 
     bindControls() {
         if (this.startBtn) {
-            this.startBtn.addEventListener('click', () => this.start());
+            this.startBtn.addEventListener('click', () => {
+                this.start();
+            });
         }
-        document.getElementById('restartBtn')?.addEventListener('click', () => this.start());
+        
+        const restartBtn = document.getElementById('restartBtn');
+        if (restartBtn) {
+            restartBtn.addEventListener('click', () => {
+                this.start();
+            });
+        }
 
-        // Keyboard
+        // Keyboard controls
         document.addEventListener('keydown', (e) => {
             if (this.isPaused || !this.isRunning) return;
             switch(e.key) {
-                case 'ArrowLeft': this.move(-1); break;
-                case 'ArrowRight': this.move(1); break;
-                case 'ArrowDown': this.drop(); break;
-                case 'ArrowUp': this.rotate(); break;
-                case ' ': this.hardDrop(); break;
+                case 'ArrowLeft':
+                case 'KeyA':
+                    e.preventDefault();
+                    this.move(-1);
+                    break;
+                case 'ArrowRight':
+                case 'KeyD':
+                    e.preventDefault();
+                    this.move(1);
+                    break;
+                case 'ArrowDown':
+                case 'KeyS':
+                    e.preventDefault();
+                    this.drop();
+                    break;
+                case 'ArrowUp':
+                case 'KeyW':
+                    e.preventDefault();
+                    this.rotate();
+                    break;
+                case ' ':
+                    e.preventDefault();
+                    this.hardDrop();
+                    break;
             }
         });
 
@@ -112,20 +143,25 @@ class QuadraLink extends BaseGame {
     }
 
     drawMatrix(matrix, offset, isGhost = false) {
+        if (!this.ctx) return;
         matrix.forEach((row, y) => {
             row.forEach((value, x) => {
                 if (value !== 0) {
-                    this.ctx.fillStyle = isGhost ? 'rgba(255,255,255,0.2)' : COLORS[value];
+                    this.ctx.fillStyle = isGhost ? 'rgba(255,255,255,0.18)' : COLORS[value];
                     this.ctx.fillRect((x + offset.x) * BLOCK_SIZE, (y + offset.y) * BLOCK_SIZE, BLOCK_SIZE, BLOCK_SIZE);
                     
                     if (!isGhost) {
-                        this.ctx.strokeStyle = 'rgba(0,0,0,0.5)';
+                        this.ctx.strokeStyle = 'rgba(0,0,0,0.6)';
                         this.ctx.lineWidth = 2;
                         this.ctx.strokeRect((x + offset.x) * BLOCK_SIZE, (y + offset.y) * BLOCK_SIZE, BLOCK_SIZE, BLOCK_SIZE);
                         
-                        // Inner highlight
-                        this.ctx.fillStyle = 'rgba(255,255,255,0.3)';
-                        this.ctx.fillRect((x + offset.x) * BLOCK_SIZE + 2, (y + offset.y) * BLOCK_SIZE + 2, BLOCK_SIZE - 4, 4);
+                        // Inner top-left highlight
+                        this.ctx.fillStyle = 'rgba(255,255,255,0.35)';
+                        this.ctx.fillRect((x + offset.x) * BLOCK_SIZE + 2, (y + offset.y) * BLOCK_SIZE + 2, BLOCK_SIZE - 4, 3);
+                    } else {
+                        this.ctx.strokeStyle = 'rgba(255,255,255,0.4)';
+                        this.ctx.lineWidth = 1;
+                        this.ctx.strokeRect((x + offset.x) * BLOCK_SIZE, (y + offset.y) * BLOCK_SIZE, BLOCK_SIZE, BLOCK_SIZE);
                     }
                 }
             });
@@ -146,27 +182,34 @@ class QuadraLink extends BaseGame {
     }
 
     render() {
-        this.ctx.fillStyle = 'rgba(0, 0, 0, 0.8)';
+        if (!this.ctx || !this.canvas) return;
+
+        this.ctx.fillStyle = 'rgba(10, 15, 20, 0.95)';
         this.ctx.fillRect(0, 0, this.canvas.width, this.canvas.height);
         
         // Grid lines
-        this.ctx.strokeStyle = '#333';
+        this.ctx.strokeStyle = 'rgba(255, 255, 255, 0.04)';
         this.ctx.lineWidth = 1;
-        for(let i=0; i<=COLS; i++) {
+        for (let i = 0; i <= COLS; i++) {
             this.ctx.beginPath();
-            this.ctx.moveTo(i*BLOCK_SIZE, 0);
-            this.ctx.lineTo(i*BLOCK_SIZE, this.canvas.height);
+            this.ctx.moveTo(i * BLOCK_SIZE, 0);
+            this.ctx.lineTo(i * BLOCK_SIZE, this.canvas.height);
             this.ctx.stroke();
         }
-        for(let i=0; i<=ROWS; i++) {
+        for (let i = 0; i <= ROWS; i++) {
             this.ctx.beginPath();
-            this.ctx.moveTo(0, i*BLOCK_SIZE);
-            this.ctx.lineTo(this.canvas.width, i*BLOCK_SIZE);
+            this.ctx.moveTo(0, i * BLOCK_SIZE);
+            this.ctx.lineTo(this.canvas.width, i * BLOCK_SIZE);
             this.ctx.stroke();
         }
 
+        // Settled grid
         this.drawMatrix(this.grid, { x: 0, y: 0 });
+
+        // Ghost prediction
         this.drawGhost();
+
+        // Falling piece
         if (this.piece) {
             this.drawMatrix(this.piece.matrix, this.piece.pos);
         }
@@ -206,6 +249,7 @@ class QuadraLink extends BaseGame {
     }
 
     rotate() {
+        if (!this.piece) return;
         const pos = this.piece.pos.x;
         let offset = 1;
         this.rotateMatrix(this.piece.matrix);
@@ -213,47 +257,50 @@ class QuadraLink extends BaseGame {
             this.piece.pos.x += offset;
             offset = -(offset + (offset > 0 ? 1 : -1));
             if (offset > this.piece.matrix[0].length) {
-                this.rotateMatrix(this.piece.matrix); // Rotate back 3 times to undo
+                this.rotateMatrix(this.piece.matrix);
                 this.rotateMatrix(this.piece.matrix);
                 this.rotateMatrix(this.piece.matrix);
                 this.piece.pos.x = pos;
                 return;
             }
         }
-        if (audioManager) audioManager.playClick();
+        if (audioManager?.playClick) audioManager.playClick();
         this.render();
     }
 
     move(dir) {
+        if (!this.piece) return;
         this.piece.pos.x += dir;
         if (this.collide(this.grid, this.piece)) {
             this.piece.pos.x -= dir;
         } else {
-            if (audioManager) audioManager.playClick();
+            if (audioManager?.playClick) audioManager.playClick();
             this.render();
         }
     }
 
     drop() {
+        if (!this.piece) return;
         this.piece.pos.y++;
         if (this.collide(this.grid, this.piece)) {
             this.piece.pos.y--;
             this.merge(this.grid, this.piece);
-            this.spawnPiece();
             this.clearLines();
+            this.spawnPiece();
         }
         this.dropCounter = 0;
         this.render();
     }
 
     hardDrop() {
+        if (!this.piece) return;
         while (!this.collide(this.grid, this.piece)) {
             this.piece.pos.y++;
         }
         this.piece.pos.y--;
         this.merge(this.grid, this.piece);
-        this.spawnPiece();
         this.clearLines();
+        this.spawnPiece();
         this.dropCounter = 0;
         this.render();
     }
@@ -275,67 +322,72 @@ class QuadraLink extends BaseGame {
         if (linesCleared > 0) {
             this.lines += linesCleared;
             if (this.linesDisplay) this.linesDisplay.innerText = this.lines;
-            this.addScore(linesCleared * 100 * linesCleared);
+            const pointsEarned = linesCleared * 100 * linesCleared;
+            this.addScore(pointsEarned);
             
             // Speed up
             this.dropInterval = Math.max(120, 650 - (this.lines * 20));
             
-            if (audioManager) audioManager.playLevelUp();
-            if (animationManager) {
+            if (audioManager?.playLevelUp) audioManager.playLevelUp();
+            if (animationManager && this.canvas) {
                 const rect = this.canvas.getBoundingClientRect();
-                animationManager.spawnConfetti(rect.left + rect.width/2, rect.top + rect.height, 50);
+                animationManager.spawnConfetti(rect.left + rect.width / 2, rect.top + rect.height / 2, 40);
             }
         } else {
-            if (audioManager) audioManager.playTone(200, 'square', 0.05); // Thud
+            if (audioManager?.playTone) audioManager.playTone(200, 'square', 0.05); // Thud
         }
     }
 
-    update(time = 0) {
-        const deltaTime = time - this.lastTime;
-        this.lastTime = time;
+    onScoreUpdate(score, highScore) {
+        if (this.scoreDisplay) this.scoreDisplay.innerText = score;
+        if (this.levelDisplay) this.levelDisplay.innerText = Math.floor(this.lines / 5) + 1;
+    }
+
+    update() {
+        const now = performance.now();
+        const deltaTime = this.lastTime ? (now - this.lastTime) : 16;
+        this.lastTime = now;
         this.dropCounter += deltaTime;
         
         if (this.dropCounter > this.dropInterval) {
             this.drop();
         }
-        
-        this.render();
     }
 
     resetGame() {
         this.grid = this.createMatrix(COLS, ROWS);
         this.score = 0;
         this.lines = 0;
+        this.dropCounter = 0;
+        this.lastTime = performance.now();
+        this.dropInterval = 650;
         if (this.linesDisplay) this.linesDisplay.innerText = "0";
-        this.dropInterval = 1000;
+        if (this.scoreDisplay) this.scoreDisplay.innerText = "0";
+        if (this.levelDisplay) this.levelDisplay.innerText = "1";
         this.spawnPiece();
     }
 
     onStart() {
         this.resetGame();
-        this.statusText.innerText = "Playing...";
+        if (this.statusText) this.statusText.innerText = "Playing... Use Arrow Keys or Space to drop!";
         if (this.startBtn) this.startBtn.classList.add('d-none');
     }
 
     endGame() {
-        this.statusText.innerText = "Game Over!";
+        if (this.statusText) this.statusText.innerText = "Game Over! Press Play Again to retry.";
         if (this.startBtn) {
             this.startBtn.classList.remove('d-none');
-            this.startBtn.innerText = "PLAY AGAIN";
+            this.startBtn.innerText = "🔄 PLAY AGAIN";
         }
         this.gameOver(false);
     }
 }
 
-if (document.readyState === 'loading') {
-    document.addEventListener("DOMContentLoaded", () => {
-    const game = new QuadraLink();
-    game.render(); // Initial draw
+document.addEventListener("DOMContentLoaded", () => {
+    try {
+        const game = new QuadraLink();
+        game.render(); // Initial board draw
+    } catch(e) {
+        console.error("Failed to initialize QuadraLink:", e);
+    }
 });
-} else {
-    const _init = () => {
-    const game = new QuadraLink();
-    game.render(); // Initial draw
-};
-    _init();
-}
